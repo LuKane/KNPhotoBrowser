@@ -1,11 +1,7 @@
 # KNPhotoBrower
 高仿 微博 图片浏览器
 
-![PhotoBrower3.png](http://upload-images.jianshu.io/upload_images/1693073-b03e0b05e4baad0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![PhotoBrower4.png](http://upload-images.jianshu.io/upload_images/1693073-86fea2f51217d247.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![PhotoBrower5.png](http://upload-images.jianshu.io/upload_images/1693073-5b73a03369952a73.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![PhotoBrower1.png](http://upload-images.jianshu.io/upload_images/1693073-d5762ff579135049.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![PhotoBrower2.png](http://upload-images.jianshu.io/upload_images/1693073-f5ee8bb099ee195f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower.gif)
 
 ##一.功能描述及要点
 * 1.加载网络九宫格图片
