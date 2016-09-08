@@ -47,6 +47,39 @@ photoBrower.sourceView = _view; // 所有图片的 父控件
  */
 @property (nonatomic, assign) BOOL isNeedPageControl;
 ```
+### 5.关于弹出框的内容,可在KNPhotoBrower.m 的operationBtnIBAction 方法中增减
+```
+#pragma mark - 右上角 按钮的点击
+- (void)operationBtnIBAction{
+    __weak typeof(self) weakSelf = self;
+    
+    KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
+        
+        // 让代理知道 是哪个按钮被点击了
+        if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
+            [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+        }
+        
+        switch (buttonIndex) {
+            case 0:{
+                SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                if(![mgr diskImageExistsForURL:[NSURL URLWithString:_imageArr[_currentIndex]]]){
+                    [[KNToast shareToast] initWithText:@"图片需要下载完成"];
+                    return ;
+                }else{
+                    UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:_imageArr[_currentIndex]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                    });
+                }
+            }
+            default:
+                break;
+        }
+    }];
+    [actionSheet show];
+}
+```
 
 ## 补充
 * 1.目前适合 九宫格样式
