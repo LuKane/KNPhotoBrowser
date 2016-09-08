@@ -33,6 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"KNPhotoBrower演示";
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     

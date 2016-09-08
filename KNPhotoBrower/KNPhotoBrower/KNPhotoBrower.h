@@ -6,6 +6,13 @@
 //  Copyright © 2016年 LuKane. All rights reserved.
 //
 
+/**
+ *  如果 bug ,希望各位在 github 上通过'邮箱' 或者直接 issue 指出, 谢谢
+ *  github地址 :https://github.com/LuKane/KNPhotoBrower
+ *  目前 KNPhotoBrower 支持 九宫格图片样式, 后期会提供 collectionView , ScrollView 样式
+ */
+
+
 #import <UIKit/UIKit.h>
 
 @protocol KNPhotoBrowerDelegate <NSObject>
