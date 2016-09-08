@@ -18,11 +18,19 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *urlArray;
+@property (nonatomic, strong) NSMutableArray *actionSheetArray; // 右上角弹出框的 选项 -->代理回调
 @property (nonatomic, strong) KNPhotoBrower *photoBrower;
 
 @end
 
 @implementation ViewController
+
+- (NSMutableArray *)actionSheetArray{
+    if (!_actionSheetArray) {
+        _actionSheetArray = [NSMutableArray array];
+    }
+    return _actionSheetArray;
+}
 
 - (NSMutableArray *)urlArray{
     if (!_urlArray) {
@@ -60,12 +68,21 @@
     }
     
     CGFloat viewWidth = self.view.frame.size.width;
+    
+// 背景View =======================
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(10, 100, viewWidth - 20, viewWidth - 20)];
     view.backgroundColor = [UIColor orangeColor];
     _view = view;
-    
     [self.view addSubview:view];
     
+// ActionSheet 右上角按钮的 选项, 如果有下载图片, 则按照 KNPhotoBrower.m文件中 operationBtnIBAction 中所写的注释去做
+    self.actionSheetArray = [NSMutableArray array];
+    [self.actionSheetArray addObject:@"第一个"];
+    [self.actionSheetArray addObject:@"第二个"];
+    [self.actionSheetArray addObject:@"第三个"];
+    [self.actionSheetArray addObject:@"第四个"];
+    
+// 布局 九宫格
     for (NSInteger i = 0 ;i < urlArr.count; i ++) {
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.userInteractionEnabled = YES;
@@ -89,6 +106,10 @@
     photoBrower.imageArr = [_urlArray copy];
     photoBrower.currentIndex = tap.view.tag;
     photoBrower.sourceView = _view; // 所有图片的 父控件
+    
+// 如果设置了 photoBrower中的 actionSheetArr 属性. 那么 isNeedRightTopBtn 就应该是默认 YES, 如果设置成NO, 这个actionSheetArr 属性就没有意义了
+//    photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];
+    
     [photoBrower present];
     
     _photoBrower = photoBrower;

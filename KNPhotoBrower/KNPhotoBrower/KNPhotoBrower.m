@@ -43,6 +43,8 @@ static NSString *ID = @"KNCollectionView";
     [self setBackgroundColor:[UIColor blackColor]];
     [self setAlpha:PhotoBrowerBackgroundAlpha];
     
+    self.actionSheetArr = [NSMutableArray array];
+    
     _isNeedPageNumView = YES;
     _isNeedRightTopBtn = YES;
     _isNeedPageControl = NO;
@@ -132,31 +134,46 @@ static NSString *ID = @"KNCollectionView";
 - (void)operationBtnIBAction{
     __weak typeof(self) weakSelf = self;
     
-    KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
+    if(_actionSheetArr.count != 0){ // 如果是自定义的 选项
         
-        // 让代理知道 是哪个按钮被点击了
-        if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
-            [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
-        }
-        
-        switch (buttonIndex) {
-            case 0:{
-                SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                if(![mgr diskImageExistsForURL:[NSURL URLWithString:_imageArr[_currentIndex]]]){
-                    [[KNToast shareToast] initWithText:@"图片需要下载完成"];
-                    return ;
-                }else{
-                    UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:_imageArr[_currentIndex]];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                    });
-                }
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[_actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
+            
+            // 让代理知道 是哪个按钮被点击了
+            if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
+                [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
-            default:
-                break;
-        }
-    }];
-    [actionSheet show];
+            
+#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现... 目前不支持删除功能
+            
+        }];
+        [actionSheet show];
+    }else{
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
+            
+            // 让代理知道 是哪个按钮被点击了
+            if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
+                [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+            }
+            
+            switch (buttonIndex) {
+                case 0:{
+                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                    if(![mgr diskImageExistsForURL:[NSURL URLWithString:_imageArr[_currentIndex]]]){
+                        [[KNToast shareToast] initWithText:@"图片需要下载完成"];
+                        return ;
+                    }else{
+                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:_imageArr[_currentIndex]];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                        });
+                    }
+                }
+                default:
+                    break;
+            }
+        }];
+        [actionSheet show];
+    }
 }
 
 #pragma mark - 将相片存入相册, 只回调这个方法

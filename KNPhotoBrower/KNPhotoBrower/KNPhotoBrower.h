@@ -43,6 +43,11 @@
  */
 @property (nonatomic, strong) NSArray *imageArr;
 /**
+ *  存放 ActionSheet 弹出框的内容 :NSString类型
+ */
+@property (nonatomic, strong) NSMutableArray *actionSheetArr;
+
+/**
  *  是否需要右上角的按钮. Default is YES;
  */
 @property (nonatomic, assign) BOOL isNeedRightTopBtn;
