@@ -34,7 +34,7 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 ```
 ### 3.提供 消失方法
 ```
-[_photoBrower dissmiss];
+[_photoBrower dismiss];
 ```
 
 ### 4.设置 参数
