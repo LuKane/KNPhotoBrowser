@@ -8,7 +8,10 @@
 
 #import "KNPhotoBrower.h"
 #import "KNPhotoBrowerCell.h"
+
 #import "UIImageView+WebCache.h"
+#import "SDWebImagePrefetcher.h"
+
 #import "KNPhotoBrowerNumView.h"
 #import "KNToast.h"
 
@@ -85,12 +88,12 @@ static NSString *ID = @"KNCollectionView";
 - (void)initializePageView{
     KNPhotoBrowerNumView *numView = [[KNPhotoBrowerNumView alloc] init];
     [numView setFrame:(CGRect){{0,25},{ScreenWidth,25}}];
-    [numView setCurrentNum:(_currentIndex + 1) totalNum:_imageArr.count];
+    [numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     _page = [numView currentNum];
     [numView setHidden:!_isNeedPageNumView];
     
 #warning 无论 _isNeedPageNumView 如何设置, 只要imageArr 的个数 == 1, 则隐藏
-    if(_imageArr.count == 1){
+    if(_itemsArr.count == 1){
         [numView setHidden:YES];
     }
     
@@ -102,12 +105,12 @@ static NSString *ID = @"KNCollectionView";
 - (void)initializePageControl{
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     [pageControl setCurrentPage:_currentIndex];
-    [pageControl setNumberOfPages:_imageArr.count];
+    [pageControl setNumberOfPages:_itemsArr.count];
     [pageControl setFrame:(CGRect){{0,ScreenHeight - 50},{ScreenWidth,30}}];
     [pageControl setHidden:!_isNeedPageControl];
     
 #warning 无论 _isNeedPageControl 如何设置, 只要imageArr 的个数 == 1, 则隐藏
-    if(_imageArr.count == 1){
+    if(_itemsArr.count == 1){
         [pageControl setHidden:YES];
     }
     
@@ -158,11 +161,11 @@ static NSString *ID = @"KNCollectionView";
             switch (buttonIndex) {
                 case 0:{
                     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                    if(![mgr diskImageExistsForURL:[NSURL URLWithString:_imageArr[_currentIndex]]]){
+                    if(![mgr diskImageExistsForURL:[NSURL URLWithString:_itemsArr[_currentIndex]]]){
                         [[KNToast shareToast] initWithText:@"图片需要下载完成"];
                         return ;
                     }else{
-                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:_imageArr[_currentIndex]];
+                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:_itemsArr[_currentIndex]];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                         });
@@ -193,12 +196,16 @@ static NSString *ID = @"KNCollectionView";
 
 #pragma mark - UICollectionViewDataSource & UICollectionViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return _imageArr.count;
+    return _itemsArr.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
     __weak typeof(self) weakSelf = self;
     KNPhotoBrowerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
-    NSString *url = _imageArr[indexPath.row];
+    
+    KNPhotoItems *items = _itemsArr[indexPath.row];
+    NSString *url = items.url;
+    
     UIImageView *tempView = [weakSelf tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
     [cell sd_ImageWithUrl:url placeHolder:tempView.image];
@@ -210,6 +217,7 @@ static NSString *ID = @"KNCollectionView";
     _collectionViewCell = cell;
     cell.backgroundColor = [UIColor clearColor];
     return cell;
+    
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     _currentIndex = scrollView.contentOffset.x / (ScreenWidth + PhotoBrowerMargin);
@@ -220,7 +228,7 @@ static NSString *ID = @"KNCollectionView";
     
     if(_page != page){
         _page = page;
-        if(_page + 1 <= _imageArr.count){
+        if(_page + 1 <= _itemsArr.count){
             [_numView setCurrentNum:_page + 1];
             [_pageControl setCurrentPage:_page];
         }
@@ -241,6 +249,8 @@ static NSString *ID = @"KNCollectionView";
         return;
     }
     
+//    [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:[NSArray array]];
+    
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [self setFrame:window.bounds];
     [window addSubview:self];
@@ -258,8 +268,12 @@ static NSString *ID = @"KNCollectionView";
     
     UIImageView *tempView = [[UIImageView alloc] init];
     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-    if([mgr diskImageExistsForURL:[NSURL URLWithString:_imageArr[_currentIndex]]]){
-        tempView.image = [[mgr imageCache] imageFromDiskCacheForKey:_imageArr[_currentIndex]];
+    
+    
+    KNPhotoItems *items = _itemsArr[_currentIndex];
+    
+    if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
+        tempView.image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
     }else{
         tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
     }
@@ -273,36 +287,53 @@ static NSString *ID = @"KNCollectionView";
     [_pageControl    setHidden:YES];
     [_numView        setHidden:YES];
     
-    UIView *sourceView = _sourceView.subviews[_currentIndex];
-    CGRect rect = [_sourceView convertRect:[sourceView frame] toView:self];
+    UIView *sourceView = items.sourceView;
+    CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
     
-    CGFloat width  = tempView.image.size.width;
-    CGFloat height = tempView.image.size.height;
-    
-    CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
-    
-    [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
-    [tempView setCenter:[self center]];
-    [self addSubview:tempView];
-    
-    [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [tempView setFrame:rect];
-        [self setBackgroundColor:[UIColor clearColor]];
-    } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-    }];
+    if(rect.origin.y > ScreenHeight ||
+       rect.origin.y <= - rect.size.height ||
+        rect.origin.x > ScreenWidth ||
+       rect.origin.x <= -rect.size.width
+       ){
+        [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [tempView removeFromSuperview];
+            [self setBackgroundColor:[UIColor clearColor]];
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }];
+        
+        return;
+    }else{
+        CGFloat width  = tempView.image.size.width;
+        CGFloat height = tempView.image.size.height;
+        
+        CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
+        
+        [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
+        [tempView setCenter:[self center]];
+        [self addSubview:tempView];
+        
+        [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [tempView setFrame:rect];
+            [self setBackgroundColor:[UIColor clearColor]];
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }];
+    }
 }
 
 #pragma mark - 展现的时候 动画
 - (void)photoBrowerWillShowWithAnimated{
+    
     // 1.判断用户 点击了的控件是 控制器中的第几个图片. 在这里设置 collectionView的偏移量
     [_collectionView setContentOffset:(CGPoint){_currentIndex * (self.width + PhotoBrowerMargin),0} animated:NO];
     _contentOffsetX = _collectionView.contentOffset.x;
-    // 2. 可能考虑到 self.sourceView上面放着的是: 'button' ,所以这里用 UIView去接收
-    UIView *sourceView = _sourceView.subviews[_currentIndex];
     
+    // 2. 可能考虑到 self.sourceView上面放着的是: 'button' ,所以这里用 UIView去接收
+    KNPhotoItems *items = _itemsArr[_currentIndex];
     // 将 sourView的frame 转到 self上, 获取到 frame
-    CGRect rect = [_sourceView convertRect:[sourceView frame] toView:self];
+    UIView *sourceView = items.sourceView;
+    CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
     
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
     
@@ -333,13 +364,15 @@ static NSString *ID = @"KNCollectionView";
 - (UIImageView *)tempViewFromSourceViewWithCurrentIndex:(NSInteger)currentIndex{
     // 生成临时的一个 imageView 去做 动画
     UIImageView *tempView = [[UIImageView alloc] init];
-    if([_sourceView.subviews[currentIndex] isKindOfClass:[UIImageView class]]){
-        UIImageView *imgV = (UIImageView *)_sourceView.subviews[currentIndex];
+    KNPhotoItems *items = _itemsArr[currentIndex];
+
+    if([items.sourceView isKindOfClass:[UIImageView class]]){
+        UIImageView *imgV = (UIImageView *)items.sourceView;
         [tempView setImage:[imgV image]];
     }
-    
-    if([_sourceView.subviews[currentIndex] isKindOfClass:[UIButton class]]){
-        UIButton *btn = (UIButton *)_sourceView.subviews[currentIndex];
+
+    if([items.sourceView isKindOfClass:[UIButton class]]){
+        UIButton *btn = (UIButton *)items.sourceView;
         [tempView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
     }
     
@@ -351,7 +384,7 @@ static NSString *ID = @"KNCollectionView";
 
 // 判断 imageUrl数组是否为空
 - (BOOL)imageArrayIsEmpty{
-    if(_imageArr == nil || [_imageArr isKindOfClass:[NSNull class]] || _imageArr.count == 0){
+    if(_itemsArr == nil || [_itemsArr isKindOfClass:[NSNull class]] || _itemsArr.count == 0){
         return YES;
     }else{
         return NO;
@@ -365,5 +398,11 @@ static NSString *ID = @"KNCollectionView";
         [self photoBrowerWillShowWithAnimated];
     }
 }
+
+@end
+
+@implementation KNPhotoItems
+
+
 
 @end

@@ -14,10 +14,9 @@
 
 @interface ViewController ()<KNPhotoBrowerDelegate>{
     BOOL     _ApplicationStatusIsHidden;
-    UIView  *_view;
 }
 
-@property (nonatomic, strong) NSMutableArray *urlArray;
+@property (nonatomic, strong) NSMutableArray *itemsArray;
 @property (nonatomic, strong) NSMutableArray *actionSheetArray; // 右上角弹出框的 选项 -->代理回调
 @property (nonatomic, strong) KNPhotoBrower *photoBrower;
 
@@ -25,18 +24,18 @@
 
 @implementation ViewController
 
+- (NSMutableArray *)itemsArray{
+    if (!_itemsArray) {
+        _itemsArray = [NSMutableArray array];
+    }
+    return _itemsArray;
+}
+
 - (NSMutableArray *)actionSheetArray{
     if (!_actionSheetArray) {
         _actionSheetArray = [NSMutableArray array];
     }
     return _actionSheetArray;
-}
-
-- (NSMutableArray *)urlArray{
-    if (!_urlArray) {
-        _urlArray = [NSMutableArray array];
-    }
-    return _urlArray;
 }
 
 - (void)viewDidLoad {
@@ -61,18 +60,10 @@
                         @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr57tn9j20gy0obn0f.jpg"
                         ];
     
-    for (NSInteger i = 0; i < urlArr.count; i++) {
-        NSString *url = urlArr[i];
-        url =  [url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
-        [self.urlArray addObject:url];
-    }
-    
     CGFloat viewWidth = self.view.frame.size.width;
-    
 // 背景View =======================
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(10, 100, viewWidth - 20, viewWidth - 20)];
     view.backgroundColor = [UIColor orangeColor];
-    _view = view;
     [self.view addSubview:view];
     
 // ActionSheet 右上角按钮的 选项, 如果有下载图片, 则按照 KNPhotoBrower.m文件中 operationBtnIBAction 中所写的注释去做
@@ -82,12 +73,23 @@
     [self.actionSheetArray addObject:@"第三个"];
     [self.actionSheetArray addObject:@"第四个"];
     
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.frame = CGRectMake(0, -100, 50, 50);
+    [imageView sd_setImageWithURL:[NSURL URLWithString:@"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg"]];
+    imageView.userInteractionEnabled = YES;
+    [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click:)]];
+    imageView.tag = 0;
+    KNPhotoItems *items = [[KNPhotoItems alloc] init];
+    items.url = @"http://ww3.sinaimg.cn/bmiddle/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg";
+    items.sourceView = imageView;
+    [self.itemsArray addObject:items];
+    
 // 布局 九宫格
     for (NSInteger i = 0 ;i < urlArr.count; i ++) {
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.userInteractionEnabled = YES;
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click:)]];
-        imageView.tag = i;
+        imageView.tag = i + 1;
         [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
         imageView.backgroundColor = [UIColor grayColor];
         CGFloat width = (view.frame.size.width - 40) / 3;
@@ -96,6 +98,12 @@
         CGFloat x = 10 + col * (10 + width);
         CGFloat y = 10 + row * (10 + width);
         imageView.frame = CGRectMake(x, y, width, width);
+        
+        KNPhotoItems *items = [[KNPhotoItems alloc] init];
+        items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+        items.sourceView = imageView;
+        [self.itemsArray addObject:items];
+        
         [view addSubview:imageView];
     }
 }
@@ -103,9 +111,8 @@
 /****************************** == KNPhotoBrower 的 展现 == ********************************/
 - (void)click:(UITapGestureRecognizer *)tap{
     KNPhotoBrower *photoBrower = [[KNPhotoBrower alloc] init];
-    photoBrower.imageArr = [_urlArray copy];
+    photoBrower.itemsArr = [_itemsArray copy];
     photoBrower.currentIndex = tap.view.tag;
-    photoBrower.sourceView = _view; // 所有图片的 父控件
     
 // 如果设置了 photoBrower中的 actionSheetArr 属性. 那么 isNeedRightTopBtn 就应该是默认 YES, 如果设置成NO, 这个actionSheetArr 属性就没有意义了
 //    photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];

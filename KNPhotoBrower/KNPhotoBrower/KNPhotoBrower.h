@@ -15,6 +15,13 @@
 
 #import <UIKit/UIKit.h>
 
+@interface KNPhotoItems : NSObject
+
+@property (nonatomic, copy  ) NSString *url;
+@property (nonatomic, strong) UIView *sourceView;
+
+@end
+
 @protocol KNPhotoBrowerDelegate <NSObject>
 
 @optional
@@ -31,22 +38,17 @@
 
 @interface KNPhotoBrower : UIView
 /**
- *  展示图的父控件
- */
-@property (nonatomic, strong) UIView *sourceView;
-/**
  *  当前图片的下标
  */
 @property (nonatomic, assign) NSInteger currentIndex;
 /**
- *  存放图片的数组 :url
+ *  存放图片的模型 :url && UIView
  */
-@property (nonatomic, strong) NSArray *imageArr;
+@property (nonatomic, strong) NSArray *itemsArr;
 /**
  *  存放 ActionSheet 弹出框的内容 :NSString类型
  */
 @property (nonatomic, strong) NSMutableArray *actionSheetArr;
-
 /**
  *  是否需要右上角的按钮. Default is YES;
  */
