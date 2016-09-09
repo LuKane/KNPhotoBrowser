@@ -4,17 +4,21 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower.gif)
 
 ##一.功能描述及要点
-* 1.加载网络九宫格图片
+* 1.加载网络九宫格图片,collectionView,scrollView
 * 2.SDWebImage下载图片,KNProgressHUD显示加载进度
 * 3.高仿微博,显示动画,KNToast提示
 
 ##二.方法调用
 ### 1.创建KNPhotoBrower,并传入相应的参数
 ```
+// 每一个图片控件对象, 对一一对应 KNPhotoItems ,再将多个KNPhotoItems 对象放入数组
+KNPhotoItems *items = [[KNPhotoItems alloc] init];
+items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+items.sourceView = imageView;
+
 KNPhotoBrower *photoBrower = [[KNPhotoBrower alloc] init];
-photoBrower.imageArr = [_urlArray copy]; // 图片URL的数组
+photoBrower.itemsArr = [_itemsArray copy];// KNPhotoItems对象的数组
 photoBrower.currentIndex = tap.view.tag;// 当前点击的哪个图片
-photoBrower.sourceView = _view; // 所有图片的 父控件
 photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 ActionSheet的选项
 [photoBrower present];// 显示
 ```
@@ -102,6 +106,5 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 ```
 
 ## 补充
-* 1.目前适合 九宫格样式
+* 1.目前适合 九宫格样式,collectionView,scrollView
 * 2.如果有bug, 请在Github上通过 '邮箱' 或者 直接issue ,我会尽快修改
-* 3.后期会提供适合 'collectionView' , 'scrollView' 等相应功能
