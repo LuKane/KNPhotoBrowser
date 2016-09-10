@@ -86,11 +86,12 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
             switch (buttonIndex) {
                 case 0:{
                     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                    if(![mgr diskImageExistsForURL:[NSURL URLWithString:_imageArr[_currentIndex]]]){
+                    KNPhotoItems *items = _itemsArr[_currentIndex];
+                    if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
                         [[KNToast shareToast] initWithText:@"图片需要下载完成"];
                         return ;
                     }else{
-                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:_imageArr[_currentIndex]];
+                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                         });
