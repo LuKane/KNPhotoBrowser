@@ -53,6 +53,7 @@ static NSString *ID = @"KNCollectionView";
     _isNeedPageControl = NO;
 }
 
+#pragma mark - 当 App 进入后台, 让collectionView 刷新, 图片重新设置大小
 - (void)appWillEnterBackGround{
     [_collectionView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -85,6 +86,7 @@ static NSString *ID = @"KNCollectionView";
     
     [collectionView setShowsHorizontalScrollIndicator:NO];
     [collectionView setShowsVerticalScrollIndicator:NO];
+    [collectionView setDecelerationRate:0];
     [collectionView registerClass:[KNPhotoBrowerCell class] forCellWithReuseIdentifier:ID];
     _collectionView = collectionView;
     
