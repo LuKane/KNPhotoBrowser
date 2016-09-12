@@ -47,10 +47,17 @@ static NSString *ID = @"KNCollectionView";
     [self setAlpha:PhotoBrowerBackgroundAlpha];
     
     self.actionSheetArr = [NSMutableArray array];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackGround) name:UIApplicationWillResignActiveNotification object:nil];
     _isNeedPageNumView = YES;
     _isNeedRightTopBtn = YES;
     _isNeedPageControl = NO;
+}
+
+- (void)appWillEnterBackGround{
+    [_collectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_collectionViewCell.photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
+    });
 }
 
 #pragma mark - 初始化 CollectionView
@@ -398,6 +405,10 @@ static NSString *ID = @"KNCollectionView";
     if(!_isFirstShow){
         [self photoBrowerWillShowWithAnimated];
     }
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
