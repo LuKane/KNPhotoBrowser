@@ -15,7 +15,7 @@
 #endif
 
 #define PhotoBrowerBackgroundAlpha 1.f
-#define PhotoBrowerBrowerTime      0.2f
+#define PhotoBrowerBrowerTime      .3f
 #define PhotoBrowerMargin          20.f
 
 #define PhotoSaveImageSuccessMessage  @"^_^ 保存成功!!"

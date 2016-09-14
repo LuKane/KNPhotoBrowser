@@ -16,6 +16,7 @@
 #import "KNToast.h"
 
 #import "KNActionSheet.h"
+#import <ImageIO/ImageIO.h>
 
 @interface KNPhotoBrower()<UICollectionViewDataSource,UICollectionViewDelegate>{
     KNPhotoBrowerCell     *_collectionViewCell;
@@ -280,14 +281,19 @@ static NSString *ID = @"KNCollectionView";
     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
     
     
-    KNPhotoItems *items = _itemsArr[_currentIndex];
+    KNPhotoItems *items = _itemsArr[_currentIndex]; // 13611286610
     
     if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
-        tempView.image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
+        if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
+            NSData *data = UIImageJPEGRepresentation([[mgr imageCache] imageFromDiskCacheForKey:items.url], 1.f);
+            tempView.image = [self imageFromGifFirstImage:data]; // 获取图片的第一帧
+        }else{ // 普通图片
+            tempView.image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
+        }
     }else{
         tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
     }
-    
+
     if(!tempView.image){
         tempView.image = [UIImage imageNamed:@"KNPhotoBrower.bundle/defaultPlaceHolder"];
     }
@@ -368,6 +374,20 @@ static NSString *ID = @"KNCollectionView";
         [tempView removeFromSuperview];
         [_collectionView setHidden:NO];
     }];
+}
+
+- (UIImage *)imageFromGifFirstImage:(NSData *)data{
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+    size_t count = CGImageSourceGetCount(source);
+    if(count <= 1){
+        CFRelease(source);
+        return [[UIImage alloc] initWithData:data];
+    }else{
+        CGImageRef image = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+        CGImageRelease(image);
+        CFRelease(source);
+        return [UIImage imageWithCGImage:image];
+    }
 }
 
 #pragma mark 私有方法 : 将子控件上的控件 转成 ImageView

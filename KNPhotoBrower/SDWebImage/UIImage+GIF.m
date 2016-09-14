@@ -35,7 +35,7 @@
             if (!image) {
                 continue;
             }
-
+            
             duration += [self sd_frameDurationAtIndex:i source:source];
 
             [images addObject:[UIImage imageWithCGImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];
