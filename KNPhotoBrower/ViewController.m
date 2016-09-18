@@ -163,6 +163,24 @@
     NSLog(@"operation:%zd",index);
 }
 
+/**
+ *  删除当前图片
+ *
+ *  @param index 相对 下标
+ */
+- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index{
+    NSLog(@"delete-Relative:%zd",index);
+}
+
+/**
+ *  删除当前图片
+ *
+ *  @param index 绝对 下标
+ */
+- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index{
+    NSLog(@"delete-Absolute:%zd",index);
+}
+
 /* PhotoBrower 保存图片是否成功 */
 - (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success{
     NSLog(@"saveImage:%zd",success);

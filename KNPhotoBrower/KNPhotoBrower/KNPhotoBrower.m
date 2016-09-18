@@ -27,6 +27,7 @@
     BOOL                   _isFirstShow;// 是否是第一次 展示
     CGFloat                _contentOffsetX; // 偏移量
     NSInteger              _page; // 页数
+    NSArray               *_tempArr; // 给 '绝对数据源'
 }
 
 @end
@@ -140,19 +141,19 @@ static NSString *ID = @"KNCollectionView";
     
     if(_actionSheetArr.count != 0){ // 如果是自定义的 选项
         
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[_actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[weakSelf.actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
             
             // 让代理知道 是哪个按钮被点击了
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
             
-#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现... 目前不支持删除功能
+#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
             
         }];
         [actionSheet show];
     }else{
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:@"删除" otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
             
             // 让代理知道 是哪个按钮被点击了
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
@@ -160,9 +161,27 @@ static NSString *ID = @"KNCollectionView";
             }
             
             switch (buttonIndex) {
-                case 0:{
-                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                case 0:{ // 删除图片
+#pragma mark - 删除图片 
+                    // 0: 删除后 回调返回 相对 下标
+                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:)]){
+                        [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:weakSelf.currentIndex];
+                    }
+                    
                     KNPhotoItems *items = _itemsArr[_currentIndex];
+                    NSInteger index = [_tempArr indexOfObject:items];
+                    // 1: 删除后 回调返回 绝对 下标
+                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:)]){
+                        [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:index];
+                    }
+                    
+                    [weakSelf deleteImageIBAction];
+                }
+                    break;
+                case 1:{ // 下载图片
+#pragma mark - 下载图片
+                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                    KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                     if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
                         [[KNToast shareToast] initWithText:@"图片需要下载完成"];
                         return ;
@@ -173,11 +192,32 @@ static NSString *ID = @"KNCollectionView";
                         });
                     }
                 }
+                /**
+                 *  剩下的需要自己去实现
+                 */
                 default:
                     break;
             }
         }];
         [actionSheet show];
+    }
+}
+
+- (void)deleteImageIBAction{
+    NSMutableArray *tempArr = [NSMutableArray arrayWithArray:_itemsArr];
+    [tempArr removeObjectAtIndex:_currentIndex];
+    _itemsArr = [tempArr copy];
+    [_collectionView reloadData];
+    
+    if(_itemsArr.count == 0){
+        [_numView setCurrentNum:_currentIndex totalNum:_itemsArr.count];
+        [_collectionView setHidden:YES];
+        [_operationBtn   setHidden:YES];
+        [_pageControl    setHidden:YES];
+        [_numView        setHidden:YES];
+        [self removeFromSuperview];
+    }else{
+        [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
 }
 
@@ -295,6 +335,9 @@ static NSString *ID = @"KNCollectionView";
     [_pageControl    setHidden:YES];
     [_numView        setHidden:YES];
     
+    _tempArr = nil;
+    _itemsArr = nil;
+    
     UIView *sourceView = items.sourceView;
     CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
     
@@ -332,6 +375,8 @@ static NSString *ID = @"KNCollectionView";
 
 #pragma mark - 展现的时候 动画
 - (void)photoBrowerWillShowWithAnimated{
+    // 0.初始化绝对数据源
+    _tempArr = [NSArray arrayWithArray:_itemsArr];
     
     // 1.判断用户 点击了的控件是 控制器中的第几个图片. 在这里设置 collectionView的偏移量
     [_collectionView setContentOffset:(CGPoint){_currentIndex * (self.width + PhotoBrowerMargin),0} animated:NO];

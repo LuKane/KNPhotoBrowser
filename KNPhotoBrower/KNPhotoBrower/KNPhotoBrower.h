@@ -9,7 +9,7 @@
 /**
  *  如果 bug ,希望各位在 github 上通过'邮箱' 或者直接 issue 指出, 谢谢
  *  github地址 :https://github.com/LuKane/KNPhotoBrower
- *  目前 KNPhotoBrower 九宫格图片样式 , collectionView , ScrollView 样式
+ *  目前 KNPhotoBrower 九宫格图片样式 , collectionView , ScrollView 样式 . 支持 删除功能 -- >KNPhotoBrower.m中的operationBtnIBAction方法中查看
  */
 
 
@@ -33,6 +33,11 @@
 
 /* PhotoBrower 保存图片是否成功 */
 - (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
+
+/* PhotoBrower 删除图片成功后返回-- > 相对 Index */
+- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
+/* PhotoBrower 删除图片成功后返回-- > 绝对 Index */
+- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
 
 @end
 
