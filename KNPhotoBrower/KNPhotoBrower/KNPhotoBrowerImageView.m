@@ -134,6 +134,7 @@
         
         if (image) { // 如果缓存中有图片, 则直接赋值
             _imageView.image = image;
+            [weakSelf layoutSubviews];
         }else{// 缓存中没有图片, 则下载
             // 加载圈 开始 出现
             KNProgressHUD *progressHUD = [KNProgressHUD showHUDAddTo:self animated:YES];
