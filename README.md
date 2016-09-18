@@ -76,7 +76,7 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
             
-#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
+#warning 如果传入的 ActionSheetArr 有下载图片,删除图片 这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
             
         }];
         [actionSheet show];
@@ -121,7 +121,7 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
                     }
                 }
                 /**
-                 *  剩下的需要自己去实现
+                 *  剩下的需要自己去实现,获取通过代理方法去实现
                  */
                 default:
                     break;
