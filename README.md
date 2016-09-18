@@ -7,6 +7,7 @@
 * 1.加载网络九宫格图片,collectionView,scrollView
 * 2.SDWebImage下载图片,KNProgressHUD显示加载进度
 * 3.高仿微博,显示动画,KNToast提示
+* 4.支持删除功能,并提供 删除的 相对下标 和 绝对下标
 
 ##二.方法调用
 ### 1.创建KNPhotoBrower,并传入相应的参数
@@ -30,6 +31,10 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 - (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index;
 /* PhotoBrower 保存图片是否成功 */
 - (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
+/* PhotoBrower 删除图片成功后返回-- > 相对 Index */
+- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
+/* PhotoBrower 删除图片成功后返回-- > 绝对 Index */
+- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
 
 ```
 ### 3.提供 消失方法
@@ -64,19 +69,19 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
     
     if(_actionSheetArr.count != 0){ // 如果是自定义的 选项
         
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[_actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[weakSelf.actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
             
             // 让代理知道 是哪个按钮被点击了
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
             
-#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现... 目前不支持删除功能
+#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
             
         }];
         [actionSheet show];
     }else{
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:@"删除" otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
             
             // 让代理知道 是哪个按钮被点击了
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
@@ -84,9 +89,27 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
             }
             
             switch (buttonIndex) {
-                case 0:{
-                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                case 0:{ // 删除图片
+#pragma mark - 删除图片 
+                    // 0: 删除后 回调返回 相对 下标
+                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:)]){
+                        [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:weakSelf.currentIndex];
+                    }
+                    
                     KNPhotoItems *items = _itemsArr[_currentIndex];
+                    NSInteger index = [_tempArr indexOfObject:items];
+                    // 1: 删除后 回调返回 绝对 下标
+                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:)]){
+                        [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:index];
+                    }
+                    
+                    [weakSelf deleteImageIBAction];
+                }
+                    break;
+                case 1:{ // 下载图片
+#pragma mark - 下载图片
+                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                    KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                     if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
                         [[KNToast shareToast] initWithText:@"图片需要下载完成"];
                         return ;
@@ -97,6 +120,9 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
                         });
                     }
                 }
+                /**
+                 *  剩下的需要自己去实现
+                 */
                 default:
                     break;
             }
@@ -109,3 +135,4 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 ## 补充
 * 1.目前适合 九宫格样式,collectionView,scrollView
 * 2.如果有bug, 请在Github上通过 '邮箱' 或者 直接issue ,我会尽快修改
+* 3.新增 图片删除功能... 在接下来会提供 9宫格,scrollView,CollectionView的Demo
