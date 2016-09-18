@@ -48,18 +48,9 @@ static NSString *ID = @"KNCollectionView";
     [self setAlpha:PhotoBrowerBackgroundAlpha];
     
     self.actionSheetArr = [NSMutableArray array];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackGround) name:UIApplicationWillResignActiveNotification object:nil];
     _isNeedPageNumView = YES;
     _isNeedRightTopBtn = YES;
     _isNeedPageControl = NO;
-}
-
-#pragma mark - 当 App 进入后台, 让collectionView 刷新, 图片重新设置大小
-- (void)appWillEnterBackGround{
-    [_collectionView reloadData];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_collectionViewCell.photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
-    });
 }
 
 #pragma mark - 初始化 CollectionView
@@ -220,6 +211,7 @@ static NSString *ID = @"KNCollectionView";
     UIImageView *tempView = [weakSelf tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
     [cell sd_ImageWithUrl:url placeHolder:tempView.image];
+    [cell.photoBrowerImageView.scrollView setZoomScale:1.0f animated:NO];
     
     cell.singleTap = ^(){
         [weakSelf dismiss];
@@ -376,6 +368,7 @@ static NSString *ID = @"KNCollectionView";
     }];
 }
 
+#pragma mark - 获取到 GIF图片的第一帧
 - (UIImage *)imageFromGifFirstImage:(NSData *)data{
     CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
     size_t count = CGImageSourceGetCount(source);
@@ -430,13 +423,11 @@ static NSString *ID = @"KNCollectionView";
 }
 
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 @end
 
 @implementation KNPhotoItems
-
-
 
 @end
