@@ -38,10 +38,9 @@
 }
 
 - (void)sd_ImageWithUrl:(NSString *)url placeHolder:(UIImage *)placeHolder{
-    [_photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
-    
+//    [_photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
     [_photoBrowerImageView sd_ImageWithUrl:[NSURL URLWithString:url] placeHolder:placeHolder];
-    [_photoBrowerImageView reloadFrames];
+//    [_photoBrowerImageView reloadFrames];
 }
 
 - (void)dealloc{
