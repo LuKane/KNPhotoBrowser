@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		7901C8491D7D5FAD0069A459 /* KNPhotoBrower.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7901C8481D7D5FAD0069A459 /* KNPhotoBrower.bundle */; };
+		793E30131D8F934600BCFF5B /* KNWaterflowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E30121D8F934600BCFF5B /* KNWaterflowLayout.m */; };
+		793E30161D8FA19600BCFF5B /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E30151D8FA19600BCFF5B /* CollectionViewCell.m */; };
+		793E301B1D8FA2DE00BCFF5B /* CollectionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E301A1D8FA2DE00BCFF5B /* CollectionViewModel.m */; };
 		7947CCD91D65D18E00A8EC69 /* KNPhotoBrower.m in Sources */ = {isa = PBXBuildFile; fileRef = 7947CCD81D65D18E00A8EC69 /* KNPhotoBrower.m */; };
 		7947CCDC1D65D60D00A8EC69 /* KNPhotoBrowerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7947CCDB1D65D60D00A8EC69 /* KNPhotoBrowerCell.m */; };
 		7963EE481D63F03300D0AE3D /* UIView+PBExtesion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7963EE471D63F03300D0AE3D /* UIView+PBExtesion.m */; };
 		7963EE4B1D63F0B400D0AE3D /* KNPhotoBrowerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7963EE4A1D63F0B400D0AE3D /* KNPhotoBrowerImageView.m */; };
 		79A6B54A1D62B7A800E83E10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A6B5491D62B7A800E83E10 /* main.m */; };
 		79A6B54D1D62B7A800E83E10 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A6B54C1D62B7A800E83E10 /* AppDelegate.m */; };
-		79A6B5501D62B7A800E83E10 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A6B54F1D62B7A800E83E10 /* ViewController.m */; };
 		79A6B5531D62B7A800E83E10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79A6B5511D62B7A800E83E10 /* Main.storyboard */; };
 		79A6B5551D62B7A800E83E10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79A6B5541D62B7A800E83E10 /* Assets.xcassets */; };
 		79A6B5581D62B7A800E83E10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79A6B5561D62B7A800E83E10 /* LaunchScreen.storyboard */; };
@@ -41,6 +43,13 @@
 		79C340C51D7D5A28003B81D6 /* KNActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C340C31D7D5A28003B81D6 /* KNActionSheet.m */; };
 		79C340C81D7D5A5C003B81D6 /* KNProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C340C71D7D5A5C003B81D6 /* KNProgressHUD.m */; };
 		79CFDFF31D7E95D5000A08A2 /* KNToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CFDFF21D7E95D5000A08A2 /* KNToast.m */; };
+		79EBE22A1D8E7EB400B75418 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE2281D8E7EB400B75418 /* ViewController.m */; };
+		79EBE22D1D8E7EDC00B75418 /* NineSquareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE22C1D8E7EDC00B75418 /* NineSquareController.m */; };
+		79EBE2301D8E7EEB00B75418 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE22F1D8E7EEB00B75418 /* ScrollViewController.m */; };
+		79EBE2331D8E7F0800B75418 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE2321D8E7F0800B75418 /* CollectionViewController.m */; };
+		79EBE2361D8E811700B75418 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE2351D8E811700B75418 /* BaseViewController.m */; };
+		79EBE2391D8E871300B75418 /* NineSquareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE2381D8E871300B75418 /* NineSquareCell.m */; };
+		79EBE23C1D8E872200B75418 /* NineSquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79EBE23B1D8E872200B75418 /* NineSquareModel.m */; };
 		79F4A90A1D793A4700EE0CD9 /* KNPhotoBrowerNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F4A9091D793A4700EE0CD9 /* KNPhotoBrowerNumView.m */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +72,12 @@
 
 /* Begin PBXFileReference section */
 		7901C8481D7D5FAD0069A459 /* KNPhotoBrower.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KNPhotoBrower.bundle; sourceTree = "<group>"; };
+		793E30111D8F934600BCFF5B /* KNWaterflowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNWaterflowLayout.h; sourceTree = "<group>"; };
+		793E30121D8F934600BCFF5B /* KNWaterflowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNWaterflowLayout.m; sourceTree = "<group>"; };
+		793E30141D8FA19600BCFF5B /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		793E30151D8FA19600BCFF5B /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		793E30191D8FA2DE00BCFF5B /* CollectionViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewModel.h; sourceTree = "<group>"; };
+		793E301A1D8FA2DE00BCFF5B /* CollectionViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewModel.m; sourceTree = "<group>"; };
 		7947CCD71D65D18E00A8EC69 /* KNPhotoBrower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrower.h; sourceTree = "<group>"; };
 		7947CCD81D65D18E00A8EC69 /* KNPhotoBrower.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrower.m; sourceTree = "<group>"; };
 		7947CCDA1D65D60D00A8EC69 /* KNPhotoBrowerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowerCell.h; sourceTree = "<group>"; };
@@ -75,8 +90,6 @@
 		79A6B5491D62B7A800E83E10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		79A6B54B1D62B7A800E83E10 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		79A6B54C1D62B7A800E83E10 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		79A6B54E1D62B7A800E83E10 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		79A6B54F1D62B7A800E83E10 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		79A6B5521D62B7A800E83E10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		79A6B5541D62B7A800E83E10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79A6B5571D62B7A800E83E10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -131,6 +144,20 @@
 		79C340C71D7D5A5C003B81D6 /* KNProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNProgressHUD.m; sourceTree = "<group>"; };
 		79CFDFF11D7E95D5000A08A2 /* KNToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNToast.h; sourceTree = "<group>"; };
 		79CFDFF21D7E95D5000A08A2 /* KNToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNToast.m; sourceTree = "<group>"; };
+		79EBE2271D8E7EB400B75418 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		79EBE2281D8E7EB400B75418 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		79EBE22B1D8E7EDC00B75418 /* NineSquareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NineSquareController.h; sourceTree = "<group>"; };
+		79EBE22C1D8E7EDC00B75418 /* NineSquareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NineSquareController.m; sourceTree = "<group>"; };
+		79EBE22E1D8E7EEB00B75418 /* ScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
+		79EBE22F1D8E7EEB00B75418 /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
+		79EBE2311D8E7F0800B75418 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		79EBE2321D8E7F0800B75418 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
+		79EBE2341D8E811700B75418 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		79EBE2351D8E811700B75418 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		79EBE2371D8E871300B75418 /* NineSquareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NineSquareCell.h; sourceTree = "<group>"; };
+		79EBE2381D8E871300B75418 /* NineSquareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NineSquareCell.m; sourceTree = "<group>"; };
+		79EBE23A1D8E872200B75418 /* NineSquareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NineSquareModel.h; sourceTree = "<group>"; };
+		79EBE23B1D8E872200B75418 /* NineSquareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NineSquareModel.m; sourceTree = "<group>"; };
 		79F4A9081D793A4700EE0CD9 /* KNPhotoBrowerNumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowerNumView.h; sourceTree = "<group>"; };
 		79F4A9091D793A4700EE0CD9 /* KNPhotoBrowerNumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowerNumView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -185,10 +212,14 @@
 			children = (
 				79A6B54B1D62B7A800E83E10 /* AppDelegate.h */,
 				79A6B54C1D62B7A800E83E10 /* AppDelegate.m */,
+				79EBE2341D8E811700B75418 /* BaseViewController.h */,
+				79EBE2351D8E811700B75418 /* BaseViewController.m */,
 				79C0197D1D78503B0004BD22 /* FirstViewController.h */,
 				79C0197E1D78503B0004BD22 /* FirstViewController.m */,
-				79A6B54E1D62B7A800E83E10 /* ViewController.h */,
-				79A6B54F1D62B7A800E83E10 /* ViewController.m */,
+				79EBE2261D8E7EB400B75418 /* Normal */,
+				79EBE2251D8E7EB400B75418 /* NineSquare */,
+				79EBE2291D8E7EB400B75418 /* ScrollView */,
+				79EBE2241D8E7EB400B75418 /* CollectionView */,
 				79A6B5AE1D62B88A00E83E10 /* KNPhotoBrower */,
 				79A6B57B1D62B80000E83E10 /* SDWebImage */,
 				79A6B5511D62B7A800E83E10 /* Main.storyboard */,
@@ -299,6 +330,52 @@
 				79C340C31D7D5A28003B81D6 /* KNActionSheet.m */,
 			);
 			path = KNActionSheet;
+			sourceTree = "<group>";
+		};
+		79EBE2241D8E7EB400B75418 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				79EBE2311D8E7F0800B75418 /* CollectionViewController.h */,
+				79EBE2321D8E7F0800B75418 /* CollectionViewController.m */,
+				793E30141D8FA19600BCFF5B /* CollectionViewCell.h */,
+				793E30151D8FA19600BCFF5B /* CollectionViewCell.m */,
+				793E30191D8FA2DE00BCFF5B /* CollectionViewModel.h */,
+				793E301A1D8FA2DE00BCFF5B /* CollectionViewModel.m */,
+				793E30111D8F934600BCFF5B /* KNWaterflowLayout.h */,
+				793E30121D8F934600BCFF5B /* KNWaterflowLayout.m */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		79EBE2251D8E7EB400B75418 /* NineSquare */ = {
+			isa = PBXGroup;
+			children = (
+				79EBE22B1D8E7EDC00B75418 /* NineSquareController.h */,
+				79EBE22C1D8E7EDC00B75418 /* NineSquareController.m */,
+				79EBE2371D8E871300B75418 /* NineSquareCell.h */,
+				79EBE2381D8E871300B75418 /* NineSquareCell.m */,
+				79EBE23A1D8E872200B75418 /* NineSquareModel.h */,
+				79EBE23B1D8E872200B75418 /* NineSquareModel.m */,
+			);
+			path = NineSquare;
+			sourceTree = "<group>";
+		};
+		79EBE2261D8E7EB400B75418 /* Normal */ = {
+			isa = PBXGroup;
+			children = (
+				79EBE2271D8E7EB400B75418 /* ViewController.h */,
+				79EBE2281D8E7EB400B75418 /* ViewController.m */,
+			);
+			path = Normal;
+			sourceTree = "<group>";
+		};
+		79EBE2291D8E7EB400B75418 /* ScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				79EBE22E1D8E7EEB00B75418 /* ScrollViewController.h */,
+				79EBE22F1D8E7EEB00B75418 /* ScrollViewController.m */,
+			);
+			path = ScrollView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,20 +510,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				793E30131D8F934600BCFF5B /* KNWaterflowLayout.m in Sources */,
 				79F4A90A1D793A4700EE0CD9 /* KNPhotoBrowerNumView.m in Sources */,
+				79EBE22A1D8E7EB400B75418 /* ViewController.m in Sources */,
+				79EBE23C1D8E872200B75418 /* NineSquareModel.m in Sources */,
 				79A6B5AA1D62B80000E83E10 /* UIImageView+HighlightedWebCache.m in Sources */,
+				79EBE2331D8E7F0800B75418 /* CollectionViewController.m in Sources */,
 				79A6B59E1D62B80000E83E10 /* NSData+ImageContentType.m in Sources */,
 				79A6B5A41D62B80000E83E10 /* SDWebImageManager.m in Sources */,
 				79A6B5A21D62B80000E83E10 /* SDWebImageDownloader.m in Sources */,
 				79A6B5A91D62B80000E83E10 /* UIImage+WebP.m in Sources */,
 				79A6B5AC1D62B80000E83E10 /* UIView+WebCacheOperation.m in Sources */,
+				79EBE2361D8E811700B75418 /* BaseViewController.m in Sources */,
 				79A6B59F1D62B80000E83E10 /* SDImageCache.m in Sources */,
 				79C0197F1D78503B0004BD22 /* FirstViewController.m in Sources */,
-				79A6B5501D62B7A800E83E10 /* ViewController.m in Sources */,
 				79A6B59D1D62B80000E83E10 /* MKAnnotationView+WebCache.m in Sources */,
+				79EBE2391D8E871300B75418 /* NineSquareCell.m in Sources */,
 				79A6B5A11D62B80000E83E10 /* SDWebImageDecoder.m in Sources */,
 				79C340C81D7D5A5C003B81D6 /* KNProgressHUD.m in Sources */,
 				79A6B5A81D62B80000E83E10 /* UIImage+MultiFormat.m in Sources */,
+				79EBE22D1D8E7EDC00B75418 /* NineSquareController.m in Sources */,
+				79EBE2301D8E7EEB00B75418 /* ScrollViewController.m in Sources */,
+				793E301B1D8FA2DE00BCFF5B /* CollectionViewModel.m in Sources */,
 				79A6B5A31D62B80000E83E10 /* SDWebImageDownloaderOperation.m in Sources */,
 				79A6B54D1D62B7A800E83E10 /* AppDelegate.m in Sources */,
 				7947CCD91D65D18E00A8EC69 /* KNPhotoBrower.m in Sources */,
@@ -456,6 +541,7 @@
 				7963EE481D63F03300D0AE3D /* UIView+PBExtesion.m in Sources */,
 				79A6B5AB1D62B80000E83E10 /* UIImageView+WebCache.m in Sources */,
 				79C340C51D7D5A28003B81D6 /* KNActionSheet.m in Sources */,
+				793E30161D8FA19600BCFF5B /* CollectionViewCell.m in Sources */,
 				79A6B5A01D62B80000E83E10 /* SDWebImageCompat.m in Sources */,
 				79CFDFF31D7E95D5000A08A2 /* KNToast.m in Sources */,
 				79A6B5A71D62B80000E83E10 /* UIImage+GIF.m in Sources */,
@@ -600,10 +686,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = KNPhotoBrower/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukha.KNPhotoBrower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -612,10 +699,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = KNPhotoBrower/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukha.KNPhotoBrower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

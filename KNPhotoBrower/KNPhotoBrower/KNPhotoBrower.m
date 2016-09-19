@@ -417,15 +417,18 @@ static NSString *ID = @"KNCollectionView";
 - (UIImage *)imageFromGifFirstImage:(NSData *)data{
     CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
     size_t count = CGImageSourceGetCount(source);
+    
+    UIImage *sourceImage;
     if(count <= 1){
         CFRelease(source);
-        return [[UIImage alloc] initWithData:data];
+        sourceImage = [[UIImage alloc] initWithData:data];
     }else{
         CGImageRef image = CGImageSourceCreateImageAtIndex(source, 0, NULL);
-        CGImageRelease(image);
+        sourceImage = [UIImage imageWithCGImage:image];
         CFRelease(source);
-        return [UIImage imageWithCGImage:image];
+        CGImageRelease(image);
     }
+    return sourceImage;
 }
 
 #pragma mark 私有方法 : 将子控件上的控件 转成 ImageView

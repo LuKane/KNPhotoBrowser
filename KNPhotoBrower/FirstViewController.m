@@ -7,40 +7,81 @@
 //
 
 #import "FirstViewController.h"
-#import "ViewController.h"
 
-@interface FirstViewController (){
+#import "ViewController.h"
+#import "NineSquareController.h"
+#import "ScrollViewController.h"
+#import "CollectionViewController.h"
+
+@interface FirstViewController ()<UITableViewDataSource,UITableViewDelegate>{
     BOOL     _isHidden;
     UIView  *_view;
 }
 
-@property (nonatomic, strong) NSMutableArray *urlArray;
+@property (nonatomic, strong) NSMutableArray *dataArr;
 
 @end
 
 @implementation FirstViewController
 
+- (NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray array];
+        [_dataArr addObject:@"ViewController"];
+        [_dataArr addObject:@"NineSquareController"];
+        [_dataArr addObject:@"ScrollViewController"];
+        [_dataArr addObject:@"CollectionViewController"];
+    }
+    return _dataArr;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @" KNPhotoBrower 演示";
     
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, 100, 50);
-    btn.center = self.view.center;
-    [btn setTitle:@"跳转" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    
-    [btn addTarget:self action:@selector(Click) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:btn];
+    [self setupTableView];
 }
 
-- (void)Click{
-    ViewController  *vc = [[ViewController alloc] init];
+- (void)setupTableView{
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [tableView setDelegate:self];
+    [tableView setDataSource:self];
+    [self.view addSubview:tableView];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return self.dataArr.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *const ID = @"KNPhotoBrowerID";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if(!cell){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = self.dataArr[indexPath.section];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Class class = NSClassFromString(self.dataArr[indexPath.section]);
+    UIViewController *vc = [[class alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-
-
 
 @end

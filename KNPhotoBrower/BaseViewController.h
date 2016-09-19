@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  BaseViewController.h
 //  KNPhotoBrower
 //
-//  Created by LuKane on 16/8/16.
+//  Created by LuKane on 16/9/18.
 //  Copyright © 2016年 LuKane. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface BaseViewController : UIViewController
 
 @end
-

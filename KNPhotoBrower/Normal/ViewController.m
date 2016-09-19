@@ -47,10 +47,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"KNPhotoBrower演示";
+    self.title = @"Normal";
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    // 清缓存, 方便调试
     [[SDWebImageManager sharedManager].imageCache clearDisk];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -72,8 +73,6 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(10, 100, viewWidth - 20, viewWidth - 20)];
     view.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:view];
-    
-    
     
 // ActionSheet 右上角按钮的 选项, 如果有下载图片, 则按照 KNPhotoBrower.m文件中 operationBtnIBAction 中所写的注释去做
     self.actionSheetArray = [NSMutableArray array];

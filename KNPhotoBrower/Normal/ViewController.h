@@ -1,13 +1,15 @@
 //
-//  FirstViewController.h
+//  ViewController.h
 //  KNPhotoBrower
 //
-//  Created by LuKane on 16/9/1.
+//  Created by LuKane on 16/8/16.
 //  Copyright © 2016年 LuKane. All rights reserved.
 //
 
 #import "BaseViewController.h"
 
-@interface FirstViewController : BaseViewController
+@interface ViewController : BaseViewController
+
 
 @end
+

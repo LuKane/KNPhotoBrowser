@@ -2,12 +2,16 @@
 高仿 微博 图片浏览器
 
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower.gif)
+![image](https://github.com/LuKane/KNImageResource/blob/master/tableView.gif?raw=true)
+![image](https://github.com/LuKane/KNImageResource/blob/master/scrollView.gif?raw=true)
+![image](https://github.com/LuKane/KNImageResource/blob/master/collectionView.gif?raw=true)
 
 ##一.功能描述及要点
-* 1.加载网络九宫格图片,collectionView,scrollView
+* 1.加载网络九宫格图片,tableView,scrollView,collectionView
 * 2.SDWebImage下载图片,KNProgressHUD显示加载进度
 * 3.高仿微博,显示动画,KNToast提示
 * 4.支持删除功能,并提供 删除的 相对下标 和 绝对下标
+* 5.已提供详细Demo,方便开发者阅读
 
 ##二.方法调用
 ### 1.创建KNPhotoBrower,并传入相应的参数
@@ -133,6 +137,7 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 ```
 
 ## 补充
-* 1.目前适合 九宫格样式,collectionView,scrollView
+* 1.适合 九宫格样式,tableView,scrollView,collectionView
 * 2.如果有bug, 请在Github上通过 '邮箱' 或者 直接issue ,我会尽快修改
-* 3.新增 图片删除功能... 在接下来会提供 9宫格,scrollView,CollectionView的Demo
+* 3.图片删除功能,提供相对和绝对下标方便开发者调用
+* 4.只支持iPhone端

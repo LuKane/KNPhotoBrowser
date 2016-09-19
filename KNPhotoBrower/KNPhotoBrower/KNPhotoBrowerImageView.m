@@ -20,7 +20,6 @@
 
 @end
 
-
 @implementation KNPhotoBrowerImageView
 
 - (UIImageView *)imageView{
