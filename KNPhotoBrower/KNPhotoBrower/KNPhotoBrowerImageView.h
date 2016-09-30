@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "KNPch.h"
 
-typedef void(^SingleTapBlock)(UITapGestureRecognizer *tap);
+typedef void(^SingleTapBlock)();
+typedef void(^LongPressBlock)();
 
 @interface KNPhotoBrowerImageView : UIView
 
@@ -17,6 +18,7 @@ typedef void(^SingleTapBlock)(UITapGestureRecognizer *tap);
 @property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, copy  ) SingleTapBlock singleTapBlock;
+@property (nonatomic, copy  ) LongPressBlock longPressBlock;
 
 - (void)sd_ImageWithUrl:(NSURL *)url placeHolder:(UIImage *)placeHolder;
 

@@ -73,8 +73,9 @@
 
 - (void)initDefaultData{
     // 1.生产 两种 手势
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidTap:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidTap)];
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidDoubleTap:)];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDidPress:)];
     
     // 2.设置 手势的要求
     [tap setNumberOfTapsRequired:1];
@@ -88,12 +89,21 @@
     // 4.添加 手势
     [self addGestureRecognizer:tap];
     [self addGestureRecognizer:doubleTap];
+    [self addGestureRecognizer:longPress];
 }
 
 #pragma mark - 单击
-- (void)scrollViewDidTap:(UITapGestureRecognizer *)tap{
+- (void)scrollViewDidTap{
     if(_singleTapBlock){
-        _singleTapBlock(tap);
+        _singleTapBlock();
+    }
+}
+
+- (void)longPressDidPress:(UILongPressGestureRecognizer *)longPress{
+    if(longPress.state == UIGestureRecognizerStateBegan){
+        if(_longPressBlock){
+            _longPressBlock();
+        }
     }
 }
 
