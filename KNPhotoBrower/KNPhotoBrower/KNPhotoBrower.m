@@ -257,6 +257,10 @@ static NSString *ID = @"KNCollectionView";
         [weakSelf dismiss];
     };
     
+    cell.longPress = ^(){
+        [weakSelf operationBtnIBAction];
+    };
+    
     _collectionViewCell = cell;
     cell.backgroundColor = [UIColor clearColor];
     return cell;
@@ -364,7 +368,7 @@ static NSString *ID = @"KNCollectionView";
         [tempView setCenter:[self center]];
         [self addSubview:tempView];
         
-        [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [tempView setFrame:rect];
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
