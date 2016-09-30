@@ -28,11 +28,18 @@
 - (void)setupImageView{
     __weak typeof(self) weakSelf = self;
     KNPhotoBrowerImageView *photoBrowerView = [[KNPhotoBrowerImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    photoBrowerView.singleTapBlock = ^(UITapGestureRecognizer *tap){
+    photoBrowerView.singleTapBlock = ^(){
         if(weakSelf.singleTap){
             weakSelf.singleTap();
         }
     };
+    
+    photoBrowerView.longPressBlock = ^(){
+        if(weakSelf.longPress){
+            weakSelf.longPress();
+        }
+    };
+    
     _photoBrowerImageView = photoBrowerView;
     [self.contentView addSubview:photoBrowerView];
 }
