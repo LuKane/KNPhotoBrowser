@@ -21,5 +21,6 @@
 #define PhotoSaveImageSuccessMessage  @"^_^ 保存成功!!"
 #define PhotoSaveImageFailureMessage @"/(ㄒoㄒ)/~~ 保存失败!!"
 #define PhotoSaveImageMessageTime    2
+#define PhotoSaveImageFailureReason  @"图片需要下载完成"
 
 #import "UIView+PBExtesion.h"
