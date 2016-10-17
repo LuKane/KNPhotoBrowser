@@ -10,6 +10,7 @@
 #import "KNWaterflowLayout.h"
 #import "CollectionViewCell.h"
 #import "CollectionViewModel.h"
+#import "UIImageView+WebCache.h"
 
 #import "KNPhotoBrower.h"
 
@@ -22,7 +23,10 @@
 
 @property (nonatomic, strong) NSMutableArray *itemsArr;
 @property (nonatomic, strong) NSMutableArray *tempArr;
-@property (nonatomic, strong) KNPhotoBrower *photoBrower;
+
+
+// 存放所有的 图片的信息
+@property (nonatomic, strong) NSMutableArray *collectionPrepareArr;
 
 @end
 
@@ -32,33 +36,109 @@ NSString *const ID = @"collectionViewID";
 
 - (instancetype)init{
     if (self = [super init]) {
-        {
-            CollectionViewModel *model = [[CollectionViewModel alloc] init];
-            model.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
-            model.width = @"120";
-            model.height = @"68";
-            [self.dataArr addObject:model];
-        }
+        
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
             model.url = @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif";
             model.width = @"120";
             model.height = @"90";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
+        
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
-            model.url = @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg";
-            model.width = @"19";
-            model.height = @"116";
+            model.url = @"http://ww4.sinaimg.cn/thumbnail/6b18d922gw1f8rm409u4aj20c807ndgo.jpg";
+            model.width = @"120";
+            model.height = @"75";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww1.sinaimg.cn/thumbnail/61e895aejw1f8qneo6kp4j20be073q3j.jpg";
+            model.width = @"120";
+            model.height = @"75";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww3.sinaimg.cn/thumbnail/9bbc284bgw1f8obkrf21lj20zk0npgml.jpg";
+            model.width = @"120";
+            model.height = @"80";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww2.sinaimg.cn/thumbnail/9bbc284bgw1f8obkogngmj21400qowk4.jpg";
+            model.width = @"120";
+            model.height = @"80";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww2.sinaimg.cn/thumbnail/9bbc284bgw1f8objqn22wj20zk0npta5.jpg";
+            model.width = @"120";
+            model.height = @"80";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww4.sinaimg.cn/thumbnail/9bbc284bgw1f8obkcrzmhj20zk0npjtk.jpg";
+            model.width = @"120";
+            model.height = @"80";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
             model.url = @"http://ww4.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1d0vyj20pf0gytcj.jpg";
             model.width = @"120";
             model.height = @"80";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
@@ -66,6 +146,11 @@ NSString *const ID = @"collectionViewID";
             model.width = @"83";
             model.height = @"119";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
@@ -73,6 +158,11 @@ NSString *const ID = @"collectionViewID";
             model.width = @"84";
             model.height = @"120";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
@@ -80,6 +170,11 @@ NSString *const ID = @"collectionViewID";
             model.width = @"83";
             model.height = @"119";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
@@ -87,6 +182,11 @@ NSString *const ID = @"collectionViewID";
             model.width = @"83";
             model.height = @"119";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
@@ -94,6 +194,11 @@ NSString *const ID = @"collectionViewID";
             model.width = @"83";
             model.height = @"119";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
         {
             CollectionViewModel *model = [[CollectionViewModel alloc] init];
@@ -101,6 +206,103 @@ NSString *const ID = @"collectionViewID";
             model.width = @"119";
             model.height = @"119";
             [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww2.sinaimg.cn/thumbnail/6e53d84fgw1f8qnu7wagej20hs0bedhi.jpg";
+            model.width = @"120";
+            model.height = @"77";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww4.sinaimg.cn/thumbnail/6e53d84fgw1f8qnu8p7qsj20hs0iu0zg.jpg";
+            model.width = @"113";
+            model.height = @"120";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww3.sinaimg.cn/thumbnail/6e53d84fgw1f8qnu8srr4j20h80h8q7q.jpg";
+            model.width = @"120";
+            model.height = @"120";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww1.sinaimg.cn/thumbnail/93f8d29djw1f8qojtchvxj20f00mijte.jpg";
+            model.width = @"120";
+            model.height = @"180";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww3.sinaimg.cn/thumbnail/9bbc284bgw1f8objo0bmoj21400qown2.jpg";
+            model.width = @"120";
+            model.height = @"80";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww3.sinaimg.cn/thumbnail/9bbc284bgw1f8obk34d21j20zk0npjsb.jpg";
+            model.width = @"120";
+            model.height = @"80";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
+        }
+        //
+        
+        {
+            CollectionViewModel *model = [[CollectionViewModel alloc] init];
+            model.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
+            model.width = @"120";
+            model.height = @"68";
+            [self.dataArr addObject:model];
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.url = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            items.sourceView = nil;
+            [self.collectionPrepareArr addObject:items];
         }
     }
     return self;
@@ -127,10 +329,26 @@ NSString *const ID = @"collectionViewID";
     return _dataArr;
 }
 
+- (NSMutableArray *)collectionPrepareArr{
+    if (!_collectionPrepareArr) {
+        _collectionPrepareArr = [NSMutableArray array];
+    }
+    return _collectionPrepareArr;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"CollectionView";
     [self setupCollectionView];
+    
+    // 清缓存, 方便调试
+    [[SDWebImageManager sharedManager].imageCache clearDisk];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    // 清缓存, 方便调试
+    [[SDWebImageManager sharedManager].imageCache clearDisk];
 }
 
 - (void)setupCollectionView{
@@ -199,10 +417,18 @@ NSString *const ID = @"collectionViewID";
     [photoBrower setDelegate:self];
     [photoBrower setItemsArr:[self.itemsArr copy]];
     [photoBrower setCurrentIndex:tap.view.tag];
+    
+    /****************  为了 循环利用 而做出的 新的属性  *****************/
+    
+    [photoBrower setDataSourceUrlArr:[self.collectionPrepareArr copy]];
+    photoBrower.sourceViewForCellReusable = _collectionView;
+    
+    /****************  为了 循环利用 而做出的 新的属性  *****************/
+    
+    
     [photoBrower present];
     
     // 这里是 设置 状态栏的 隐藏 ---> 可不写
-    _photoBrower = photoBrower;
     _ApplicationStatusIsHidden = YES;
     [self setNeedsStatusBarAppearanceUpdate];
 }

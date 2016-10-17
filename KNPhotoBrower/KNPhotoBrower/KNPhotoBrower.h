@@ -67,6 +67,17 @@
  */
 @property (nonatomic, assign) BOOL isNeedPageControl;
 
+/**
+ *  为 collectionView 循环利用所 提供的 父控件
+ */
+@property (nonatomic, weak  ) UIView *sourceViewForCellReusable;
+
+/**
+ *  为 collectionView 没有 展现出来的 image 做准备(Demo中会写出 如何使用) --> 类似 自己朋友圈中的图片浏览
+ *  所有url的数组 --> 为 collectionView 所做的全部 url 数组 (如果这个参数设置有数据, 那么就当 collectionView 处理)
+ */
+@property (nonatomic, strong) NSArray *dataSourceUrlArr;
+
 @property (nonatomic, weak  ) id<KNPhotoBrowerDelegate> delegate;
 
 /**
