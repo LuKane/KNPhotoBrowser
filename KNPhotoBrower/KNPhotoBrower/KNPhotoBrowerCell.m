@@ -48,7 +48,7 @@
     [_photoBrowerImageView sd_ImageWithUrl:[NSURL URLWithString:url] placeHolder:placeHolder];
 }
 
-- (void)dealloc{
+- (void)prepareForReuse{
     [_photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
 }
 

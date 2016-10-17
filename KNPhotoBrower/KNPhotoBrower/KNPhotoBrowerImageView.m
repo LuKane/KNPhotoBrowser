@@ -143,7 +143,9 @@
         
         if (image) { // 如果缓存中有图片, 则直接赋值
             _imageView.image = image;
+            
             [weakSelf layoutSubviews];
+            
         }else{// 缓存中没有图片, 则下载
             // 加载圈 开始 出现
             KNProgressHUD *progressHUD = [KNProgressHUD showHUDAddTo:self animated:YES];
@@ -204,7 +206,7 @@
         }
         
         // 设置 imageView 的 frame
-        _imageView.frame = imageFrame;
+        [_imageView setFrame:(CGRect){CGPointZero,imageFrame.size}];
         
         // scrollView 的滚动区域
         _scrollView.contentSize = _imageView.frame.size;
