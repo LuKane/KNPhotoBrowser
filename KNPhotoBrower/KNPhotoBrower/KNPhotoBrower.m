@@ -183,7 +183,7 @@ static NSString *ID = @"KNCollectionView";
                     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
                     KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                     if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
-                        [[KNToast shareToast] initWithText:@"图片需要下载完成"];
+                        [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
                         return ;
                     }else{
                         UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
@@ -250,8 +250,7 @@ static NSString *ID = @"KNCollectionView";
     
     UIImageView *tempView = [weakSelf tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
-    [cell sd_ImageWithUrl:url placeHolder:tempView.image];
-    [cell.photoBrowerImageView.scrollView setZoomScale:1.0f animated:NO];
+    [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:nil];
     
     cell.singleTap = ^(){
         [weakSelf dismiss];
@@ -292,11 +291,16 @@ static NSString *ID = @"KNCollectionView";
 
 #pragma mark - 展现
 - (void)present{
-    if([self imageArrayIsEmpty]){
+    if([self imageArrayIsEmpty:_itemsArr]){
         return;
     }
     
-//    [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:[NSArray array]];
+    if(![self imageArrayIsEmpty:_dataSourceUrlArr]){
+        NSArray *arr = [_dataSourceUrlArr subarrayWithRange:NSMakeRange(_itemsArr.count, _dataSourceUrlArr.count -_itemsArr.count)];
+        NSMutableArray *Arrs = [NSMutableArray arrayWithArray:_itemsArr];
+        [Arrs addObjectsFromArray:arr];
+        _itemsArr = [Arrs copy];
+    }
     
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [self setFrame:window.bounds];
@@ -342,7 +346,13 @@ static NSString *ID = @"KNCollectionView";
     _tempArr = nil;
     _itemsArr = nil;
     
-    UIView *sourceView = items.sourceView;
+    UIView *sourceView;
+    if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
+        sourceView = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
+    }else{
+        sourceView = items.sourceView;
+    }
+    
     CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
     
     if(rect.origin.y > ScreenHeight ||
@@ -389,7 +399,14 @@ static NSString *ID = @"KNCollectionView";
     // 2. 可能考虑到 self.sourceView上面放着的是: 'button' ,所以这里用 UIView去接收
     KNPhotoItems *items = _itemsArr[_currentIndex];
     // 将 sourView的frame 转到 self上, 获取到 frame
-    UIView *sourceView = items.sourceView;
+    
+    UIView *sourceView;
+    if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
+        sourceView = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
+    }else{
+        sourceView = items.sourceView;
+    }
+    
     CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
     
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
@@ -451,15 +468,26 @@ static NSString *ID = @"KNCollectionView";
         [tempView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
     }
     
-    if(!tempView.image){
-        [tempView setImage:[UIImage imageNamed:@"KNPhotoBrower.bundle/defaultPlaceHolder"]];
+    if([self imageArrayIsEmpty:_dataSourceUrlArr]){
+        if(!tempView.image){
+            [tempView setImage:[UIImage imageNamed:@"KNPhotoBrower.bundle/defaultPlaceHolder"]];
+        }
+    }else{
+        if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
+            UICollectionViewCell *cell = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]];
+            tempView.image = [(UIImageView *)cell.contentView.subviews[0] image];
+        }
+        if(!tempView.image){
+            tempView.image = nil;
+        }
     }
+    
     return tempView;
 }
 
 // 判断 imageUrl数组是否为空
-- (BOOL)imageArrayIsEmpty{
-    if(_itemsArr == nil || [_itemsArr isKindOfClass:[NSNull class]] || _itemsArr.count == 0){
+- (BOOL)imageArrayIsEmpty:(NSArray *)array{
+    if(array == nil || [array isKindOfClass:[NSNull class]] || array.count == 0){
         return YES;
     }else{
         return NO;
