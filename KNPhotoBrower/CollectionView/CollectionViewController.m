@@ -421,7 +421,7 @@ NSString *const ID = @"collectionViewID";
     /****************  为了 循环利用 而做出的 新的属性  *****************/
     
     [photoBrower setDataSourceUrlArr:[self.collectionPrepareArr copy]];
-    photoBrower.sourceViewForCellReusable = _collectionView;
+    [photoBrower setSourceViewForCellReusable:_collectionView];
     
     /****************  为了 循环利用 而做出的 新的属性  *****************/
     
