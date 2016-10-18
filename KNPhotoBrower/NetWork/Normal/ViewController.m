@@ -47,7 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Normal";
+    self.title = @"Normal(网络)";
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     

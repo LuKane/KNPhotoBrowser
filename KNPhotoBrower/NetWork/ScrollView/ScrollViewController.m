@@ -54,7 +54,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"ScrollView";
+    self.title = @"ScrollView(网络)";
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self setupScrollView];

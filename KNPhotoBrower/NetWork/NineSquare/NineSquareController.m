@@ -155,7 +155,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"九宫格";
+    self.title = @"九宫格(网络)";
     [self setupTableView];
 }
 
