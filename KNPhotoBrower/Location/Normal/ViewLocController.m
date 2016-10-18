@@ -76,8 +76,6 @@
     photoBrower.itemsArr = [_itemsArray copy];
     photoBrower.currentIndex = tap.view.tag;
     
-//    photoBrower.isLocationImage = YES; // ⭐️
-    
     [photoBrower present];
 }
 
