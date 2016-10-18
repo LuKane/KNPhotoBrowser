@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KNPhotoBrowerImageView.h"
 
 typedef void(^SingleTap)();
 typedef void(^LongPress)();
@@ -18,7 +17,5 @@ typedef void(^LongPress)();
 
 @property (nonatomic, copy  ) SingleTap singleTap;
 @property (nonatomic, copy  ) LongPress longPress;
-
-@property (nonatomic, strong) KNPhotoBrowerImageView *photoBrowerImageView;
 
 @end
