@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface CollectionViewModel : NSObject
 
 @property (nonatomic, copy  ) NSString *url;// 图片url
 @property (nonatomic, copy  ) NSString *width; // 宽度
 @property (nonatomic, copy  ) NSString *height;// 高度
+
+@property (nonatomic, strong) UIImage *img;
 
 @end
