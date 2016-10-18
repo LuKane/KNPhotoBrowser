@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KNPch.h"
+
 
 typedef void(^SingleTapBlock)();
 typedef void(^LongPressBlock)();

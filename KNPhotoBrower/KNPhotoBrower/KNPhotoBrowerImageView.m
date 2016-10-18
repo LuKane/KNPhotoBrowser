@@ -9,6 +9,7 @@
 #import "KNPhotoBrowerImageView.h"
 #import "UIImageView+WebCache.h"
 #import "KNProgressHUD.h"
+#import "KNPch.h"
 
 @interface KNPhotoBrowerImageView()<UIScrollViewDelegate>{
     KNProgressHUD *_progressHUD;
@@ -131,9 +132,14 @@
     _url         = url;
     _placeHolder = placeHolder;
     
+    if(!url){
+        [_imageView setImage:placeHolder];
+        [self layoutSubviews];
+        return;
+    }
+    
     __weak typeof(self) weakSelf = self;
     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-    
     // 尝试 从缓存里 拿出 图片
     [[mgr imageCache] queryDiskCacheForKey:[url absoluteString] done:^(UIImage *image, SDImageCacheType cacheType) {
         
