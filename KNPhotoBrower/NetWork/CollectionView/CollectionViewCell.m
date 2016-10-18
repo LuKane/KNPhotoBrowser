@@ -35,11 +35,6 @@
     return self;
 }
 
-- (void)setModel:(CollectionViewModel *)model{
-    _model = model;
-    [self.iconView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:nil];
-}
-
 - (void)updateConstraints {
     if (_didUpdateConstraints == false) {
         NSLayoutConstraint *iconViewT = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0];

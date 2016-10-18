@@ -7,11 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@class CollectionViewModel;
 
 @interface CollectionViewCell : UICollectionViewCell
-
-@property (nonatomic, strong) CollectionViewModel *model;
 
 @property (nonatomic, strong) UIImageView *iconView;
 
