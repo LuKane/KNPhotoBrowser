@@ -338,7 +338,7 @@ NSString *const ID = @"collectionViewID";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"CollectionView";
+    self.title = @"CollectionView(网络)";
     [self setupCollectionView];
     
     // 清缓存, 方便调试
@@ -380,7 +380,7 @@ NSString *const ID = @"collectionViewID";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
     CollectionViewModel *model = self.dataArr[indexPath.row];
-    cell.model = model;
+    [cell.iconView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:nil];
     
     // 设置 tag 值
     cell.iconView.tag = indexPath.row;
@@ -391,23 +391,12 @@ NSString *const ID = @"collectionViewID";
     // 将 url 替换成 高清url
     NSString *bmiddleUrl = [model.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
     
-    // 如果 itemsArr 没有数据, 则添加第一个数据
-    if(self.itemsArr.count == 0){
-        KNPhotoItems *items = [[KNPhotoItems alloc] init];
-        items.url = bmiddleUrl;
-        items.sourceView = cell.iconView;
-        [self.tempArr addObject:bmiddleUrl]; // 临时数组 也添加, 方便重复数据的剔除
+    KNPhotoItems *items = [[KNPhotoItems alloc] init];
+    items.url = bmiddleUrl;
+    items.sourceView = cell.iconView;
+    if(![self.tempArr containsObject:bmiddleUrl]){ // 如果临时数组中没有 这个 高清url,则增加
         [self.itemsArr addObject:items];
-    }else{
-        
-        KNPhotoItems *items = [[KNPhotoItems alloc] init];
-        items.url = bmiddleUrl;
-        items.sourceView = cell.iconView;
-        
-        if(![self.tempArr containsObject:bmiddleUrl]){ // 如果临时数组中没有 这个 高清url,则增加
-            [self.itemsArr addObject:items];
-            [self.tempArr addObject:bmiddleUrl];
-        }
+        [self.tempArr addObject:bmiddleUrl];
     }
     return cell;
 }
