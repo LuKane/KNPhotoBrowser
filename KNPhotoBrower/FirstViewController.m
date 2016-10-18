@@ -13,6 +13,11 @@
 #import "ScrollViewController.h"
 #import "CollectionViewController.h"
 
+#import "ViewLocController.h"
+#import "NineSquareLocController.h"
+#import "ScrollViewLocController.h"
+#import "CollectionViewLocController.h"
+
 @interface FirstViewController ()<UITableViewDataSource,UITableViewDelegate>{
     BOOL     _isHidden;
     UIView  *_view;
@@ -31,6 +36,11 @@
         [_dataArr addObject:@"NineSquareController"];
         [_dataArr addObject:@"ScrollViewController"];
         [_dataArr addObject:@"CollectionViewController"];
+        
+        [_dataArr addObject:@"ViewLocController"];
+        [_dataArr addObject:@"NineSquareLocController"];
+        [_dataArr addObject:@"ScrollViewLocController"];
+        [_dataArr addObject:@"CollectionViewLocController"];
     }
     return _dataArr;
 }
