@@ -374,8 +374,6 @@ NSString *const ID1 = @"collectionLocViewID";
     // 添加 相片的点击事件
     [cell.iconView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewIBAction:)]];
     
-    // 将 url 替换成 高清url
-    
     KNPhotoItems *items = [[KNPhotoItems alloc] init];
     items.sourceView = cell.iconView;
     
