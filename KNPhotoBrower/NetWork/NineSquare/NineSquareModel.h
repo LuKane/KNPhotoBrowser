@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface NineSquareUrlModel : NSObject
 
+// 为 网络图片
 @property (nonatomic, copy  ) NSString *url;
+
+// 为 本地图片
+@property (nonatomic, strong) UIImage *img;
 
 @end
 
