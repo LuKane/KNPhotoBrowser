@@ -14,6 +14,7 @@
 
 #import "KNPhotoBrowerNumView.h"
 #import "KNToast.h"
+#import "KNPch.h"
 
 #import "KNActionSheet.h"
 #import <ImageIO/ImageIO.h>
@@ -180,15 +181,22 @@ static NSString *ID = @"KNCollectionView";
                     break;
                 case 1:{ // 下载图片
 #pragma mark - 下载图片
-                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
                     KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
-                    if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
-                        [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
-                        return ;
-                    }else{
-                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
+                    if(items.url){ // 如果是网络图片
+                        SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                        if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
+                            [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
+                            return ;
+                        }else{
+                            UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                            });
+                        }
+                    }else{ // 如果是本地图片
+                        UIImageView *imageView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                            UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                         });
                     }
                 }
@@ -263,7 +271,6 @@ static NSString *ID = @"KNCollectionView";
     _collectionViewCell = cell;
     cell.backgroundColor = [UIColor clearColor];
     return cell;
-    
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     _currentIndex = scrollView.contentOffset.x / (ScreenWidth + PhotoBrowerMargin);
@@ -320,8 +327,7 @@ static NSString *ID = @"KNCollectionView";
     UIImageView *tempView = [[UIImageView alloc] init];
     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
     
-    
-    KNPhotoItems *items = _itemsArr[_currentIndex]; // 13611286610
+    KNPhotoItems *items = _itemsArr[_currentIndex];
     
     if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
         if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
@@ -331,7 +337,12 @@ static NSString *ID = @"KNCollectionView";
             tempView.image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
         }
     }else{
-        tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
+        UIImage *image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
+        if(image){
+            [tempView setImage:image];
+        }else{
+            [tempView setImage:items.sourceImage];
+        }
     }
 
     if(!tempView.image){
@@ -477,8 +488,13 @@ static NSString *ID = @"KNCollectionView";
             UICollectionViewCell *cell = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]];
             tempView.image = [(UIImageView *)cell.contentView.subviews[0] image];
         }
+        
         if(!tempView.image){
-            tempView.image = nil;
+            if(items.sourceImage && !items.url){
+                tempView.image = items.sourceImage;
+            }else{
+                tempView.image = nil;
+            }
         }
     }
     
