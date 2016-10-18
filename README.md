@@ -12,6 +12,7 @@
 * 3.高仿微博,显示动画,KNToast提示
 * 4.支持删除功能,并提供 删除的 相对下标 和 绝对下标
 * 5.已提供详细Demo,方便开发者阅读
+* 6.新增 本地图片的加载
 
 ##二.方法调用
 ### 1.创建KNPhotoBrower,并传入相应的参数
@@ -33,7 +34,26 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 /****************  为了 循环利用 而做出的 新的属性 (collectionView中才会用到)  *****************/
 [photoBrower present];// 显示
 ```
-### 2.提供代理方法 --> KNPhotoBrowerDelegate
+
+### 2.本地图片的加载 需注意 (由于是本地图片,所以 sourceView上的图片一开始就能加载出来,所以不需要传入 )
+#### 2.1 如果不需要循环利用
+```
+KNPhotoItems *items = [[KNPhotoItems alloc] init];
+items.sourceView = imageView;
+// 而 items.url 则不设置任何值
+``` 
+#### 2.2 如果需要循环利用 -->例如collectionView
+```
+1.已经加载的Cell :
+KNPhotoItems *items = [[KNPhotoItems alloc] init];
+items.sourceView = cell.iconView;
+
+2.没有加载出来的Cell:
+KNPhotoItems *items = [[KNPhotoItems alloc] init];
+items.sourceImage = [UIImage imageNamed:@"19.jpg"];
+items.sourceView = nil;
+```
+### 3.提供代理方法 --> KNPhotoBrowerDelegate
 ```
 /* PhotoBrower 即将消失 */
 - (void)photoBrowerWillDismiss;
@@ -147,3 +167,4 @@ photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 Action
 * 2.如果有bug, 请在Github上通过 '邮箱' 或者 直接issue ,我会尽快修改
 * 3.图片删除功能,提供相对和绝对下标方便开发者调用
 * 4.只支持iPhone端
+* 5.适应于 本地图片和网络图片的加载
