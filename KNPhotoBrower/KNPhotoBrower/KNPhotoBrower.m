@@ -312,8 +312,6 @@ static NSString *ID = @"KNCollectionView";
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [self setFrame:window.bounds];
     [window addSubview:self];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 #pragma mark - 消失
