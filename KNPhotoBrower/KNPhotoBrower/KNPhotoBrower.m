@@ -140,6 +140,8 @@ static NSString *ID = @"KNCollectionView";
 - (void)operationBtnIBAction{
     __weak typeof(self) weakSelf = self;
     
+    if(!_isNeedRightTopBtn) return;
+    
     if(_actionSheetArr.count != 0){ // 如果是自定义的 选项
         
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[weakSelf.actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
@@ -316,7 +318,6 @@ static NSString *ID = @"KNCollectionView";
 
 #pragma mark - 消失
 - (void)dismiss{
-    
     // 让 代理 知道 PhotoBrower 即将 消失
     if([self.delegate respondsToSelector:@selector(photoBrowerWillDismiss)]){
         [self.delegate photoBrowerWillDismiss];
