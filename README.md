@@ -27,6 +27,7 @@ photoBrower.itemsArr = [_itemsArray copy];// KNPhotoItems对象的数组
 photoBrower.currentIndex = tap.view.tag;// 当前点击的哪个图片
 photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];//设置 ActionSheet的选项
 [photoBrower setIsNeedRightTopBtn:NO]; // 如果不想要 图片的长按手势 和 右上角 操作按钮, 则设置 为NO
+
 // 2016.10.17日 bug修改 --> 当collectionViewCell被循环利用时,会产生 图片错位. 解决方案 :增加两个属性, 保证collectionViewCell循环利用后,一样可以用
 /****************  为了 循环利用 而做出的 新的属性 (collectionView中才会用到)  *****************/
 [photoBrower setDataSourceUrlArr:[self.collectionPrepareArr copy]];
