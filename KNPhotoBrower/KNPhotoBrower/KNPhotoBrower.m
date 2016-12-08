@@ -95,7 +95,7 @@ static NSString *ID = @"KNCollectionView";
     _page = [numView currentNum];
     [numView setHidden:!_isNeedPageNumView];
     
-#warning 无论 _isNeedPageNumView 如何设置, 只要imageArr 的个数 == 1, 则隐藏
+//  无论 _isNeedPageNumView 如何设置, 只要imageArr 的个数 == 1, 则隐藏
     if(_itemsArr.count == 1){
         [numView setHidden:YES];
     }
@@ -112,7 +112,7 @@ static NSString *ID = @"KNCollectionView";
     [pageControl setFrame:(CGRect){{0,ScreenHeight - 50},{ScreenWidth,30}}];
     [pageControl setHidden:!_isNeedPageControl];
     
-#warning 无论 _isNeedPageControl 如何设置, 只要imageArr 的个数 == 1, 则隐藏
+// 无论 _isNeedPageControl 如何设置, 只要imageArr 的个数 == 1, 则隐藏
     if(_itemsArr.count == 1){
         [pageControl setHidden:YES];
     }
@@ -143,21 +143,18 @@ static NSString *ID = @"KNCollectionView";
     if(!_isNeedRightTopBtn) return;
     
     if(_actionSheetArr.count != 0){ // 如果是自定义的 选项
-        
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:nil otherBtnTitlesArr:[weakSelf.actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
-            
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:[weakSelf.actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
             // 让代理知道 是哪个按钮被点击了
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
             
-#warning 如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
+//  如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
             
         }];
         [actionSheet show];
     }else{
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelBtnTitle:nil destructiveButtonTitle:@"删除" otherBtnTitlesArr:@[@"保存图片",@"转发微博",@"赞"] actionBlock:^(NSInteger buttonIndex) {
-            
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存图片",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
             // 让代理知道 是哪个按钮被点击了
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
