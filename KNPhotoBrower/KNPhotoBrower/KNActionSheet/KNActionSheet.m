@@ -7,6 +7,7 @@
 //
 
 #import "KNActionSheet.h"
+#import "KNActionSheetView.h"
 
 #ifndef ScreenWidth
     #define ScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -16,7 +17,12 @@
     #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #endif
 
-@interface KNActionSheet()
+#define kActionCoverBackGroundColor [UIColor colorWithRed:30/255.f green:30/255.f blue:30/255.f alpha:1.f]
+#define kActionBgViewBackGroundColor [UIColor colorWithRed:220/255.f green:220/255.f blue:220/255.f alpha:1.f]
+#define kActionDuration 0.3
+#define kActionItemHeight 49
+
+@interface KNActionSheet()<KNActionSheetViewDelegate>
 
 @property (nonatomic, copy) ActionBlock ActionBlock;
 
@@ -30,6 +36,8 @@
     
     UIView   *_bgView; // 存放子控件的View
     UIView   *_coverView; // 背景遮盖
+    
+    NSInteger _destructiveIndex;
 }
 
 static id ActionSheet;
@@ -43,24 +51,6 @@ static id ActionSheet;
     return ActionSheet;
 }
 
-- (instancetype)initWithCancelBtnTitle:(NSString *)cancelBtnTitle destructiveButtonTitle:(NSString *)destructiveBtnTitle otherBtnTitlesArr:(NSArray *)otherBtnTitlesArr actionBlock:(ActionBlock)ActionBlock{
-    if(self = [super init]){
-        _cancelBtnTitle = cancelBtnTitle;
-        _destructiveBtnTitle = destructiveBtnTitle;
-        
-        NSMutableArray *titleArr = [NSMutableArray array];
-        if(_destructiveBtnTitle.length){
-            [titleArr addObject:_destructiveBtnTitle];
-        }
-        
-        [titleArr addObjectsFromArray:otherBtnTitlesArr];
-        _otherBtnTitlesArr = [NSArray arrayWithArray:titleArr];
-        _ActionBlock = ActionBlock;
-        
-        [self setupSubViews];
-    }
-    return self;
-}
 
 #pragma mark - 初始化 子控件
 - (void)setupSubViews{
@@ -70,64 +60,54 @@ static id ActionSheet;
     
     UIView *coverView = [[UIView alloc] initWithFrame:[self bounds]];
     _coverView = coverView;
-    [coverView setBackgroundColor:[UIColor colorWithRed:30/255.f green:30/255.f blue:30/255.f alpha:1.f]];
+    [coverView setBackgroundColor:kActionCoverBackGroundColor];
     [coverView setAlpha:0.f];
     [coverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)]];
     [self addSubview:coverView];
     
     UIView *bgView = [[UIView alloc] init];
-    [bgView setBackgroundColor:[UIColor colorWithRed:220/255.f green:220/255.f blue:220/255.f alpha:1.f]];
+    [bgView setBackgroundColor:kActionBgViewBackGroundColor];
     _bgView = bgView;
     [self addSubview:bgView];
     
-    for (NSInteger i = 0; i < _otherBtnTitlesArr.count; i++) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.tag = i;
-        [button setTitle:_otherBtnTitlesArr[i] forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor whiteColor];
-        button.titleLabel.font = [UIFont systemFontOfSize:18.0f];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    for (NSInteger i = 0; i < _otherBtnTitlesArr.count; i++) {   
+        KNActionSheetView *sheetView = [[KNActionSheetView alloc] init];
+        [sheetView setTag:i];
+        [sheetView setDelegate:self];
         
-        if (i==0 && _destructiveBtnTitle.length) {
-            [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        CGFloat buttonY = kActionItemHeight * i;
+        [sheetView setFrame:(CGRect){{0,buttonY},{ScreenWidth,kActionItemHeight}}];
+        
+        if (i == _destructiveIndex && _destructiveBtnTitle.length){
+            [sheetView setIsDestructive:YES];
         }
         
-        UIImage *image = [UIImage imageNamed:@"KNActionSheet.bundle/actionSheetHighLighted.png"];
-        [button setBackgroundImage:image forState:UIControlStateHighlighted];
+        [sheetView setTitle:_otherBtnTitlesArr[i]];
+        [_bgView addSubview:sheetView];
         
-        [button addTarget:self action:@selector(buttonIndexClick:) forControlEvents:UIControlEventTouchUpInside];
-        CGFloat buttonY = 49 * i;
-        button.frame = CGRectMake(0, buttonY, ScreenWidth, 49);
-        [_bgView addSubview:button];
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
-        line.backgroundColor = [UIColor colorWithRed:220/255.f green:220/255.f blue:220/255.f alpha:1.f];
+        CALayer *line = [CALayer layer];
+        [line setBackgroundColor: [kActionBgViewBackGroundColor CGColor]];
         line.frame = CGRectMake(0, buttonY, ScreenWidth, 0.5);
-        
-        [_bgView addSubview:line];
+        [_bgView.layer addSublayer:line];
     }
+
+    CGFloat height = kActionItemHeight * (_otherBtnTitlesArr.count + 1) + 5;
+    KNActionSheetView *cancelView = [[KNActionSheetView alloc] init];
+    [cancelView setDelegate:self];
+    [cancelView setTag:_otherBtnTitlesArr.count];
     
-    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancelButton.tag = _otherBtnTitlesArr.count;
-    [cancelButton setTitle:_cancelBtnTitle?_cancelBtnTitle:@"取消" forState:UIControlStateNormal];
-    cancelButton.backgroundColor = [UIColor whiteColor];
-    cancelButton.titleLabel.font = [UIFont systemFontOfSize:18.f];
-    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    UIImage *image = [UIImage imageNamed:@"KNActionSheet.bundle/actionSheetHighLighted.png"];
-    [cancelButton setBackgroundImage:image forState:UIControlStateHighlighted];
-    [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    CGFloat buttonY = 49 * (_otherBtnTitlesArr.count) + 5;
-    cancelButton.frame = CGRectMake(0, buttonY, ScreenWidth, 49);
-    [_bgView addSubview:cancelButton];
+    CGFloat buttonY = kActionItemHeight * (_otherBtnTitlesArr.count) + 5;
+    [cancelView setFrame:(CGRect){{0,buttonY},{ScreenWidth,kActionItemHeight}}];
     
-    CGFloat height = 49 * (_otherBtnTitlesArr.count + 1) + 5;
+    [cancelView setTitle:_cancelBtnTitle?_cancelBtnTitle:@"取消"];
+    [_bgView addSubview:cancelView];
+    
     _bgView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, height);
-    
 }
 
-- (void)buttonIndexClick:(UIButton *)sender{
+- (void)actionSheetViewIBAction:(NSInteger)index{
     if(_ActionBlock){
-        _ActionBlock(sender.tag);
+        _ActionBlock(index);
     }
     [self dismiss];
 }
@@ -141,8 +121,8 @@ static id ActionSheet;
     
     [self setHidden:NO];
     
-    [UIView animateWithDuration:0.3f animations:^{
-        [_coverView setAlpha:0.3f];
+    [UIView animateWithDuration:kActionDuration animations:^{
+        [_coverView setAlpha:0.3];
         [_bgView setTransform:CGAffineTransformMakeTranslation(0, -_bgView.frame.size.height)];
     } completion:^(BOOL finished) {
         
@@ -150,7 +130,7 @@ static id ActionSheet;
 }
 
 - (void)dismiss{
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:kActionDuration animations:^{
         [_coverView setAlpha:0];
         [_bgView setTransform:CGAffineTransformIdentity];
     } completion:^(BOOL finished) {
@@ -159,5 +139,76 @@ static id ActionSheet;
     }];
 }
 
+/**
+ 弹出层
+ 
+ @param cancelTitle 取消功能的文字
+ @param otherTitleArr 其他功能的文字 数组
+ @param ActionBlock 回调
+ @return 弹出层本身
+ */
+- (instancetype)initWithCancelTitle:(NSString *)cancelTitle
+                      otherTitleArr:(NSArray  *)otherTitleArr
+                        actionBlock:(ActionBlock)ActionBlock{
+    return [self initWithCancelTitle:cancelTitle
+                    destructiveTitle:nil
+                       otherTitleArr:[otherTitleArr copy]
+                         actionBlock:ActionBlock];
+}
+
+/**
+ 弹出层 + 销毁
+ 
+ @param cancelTitle 取消功能的文字
+ @param destructiveTitle 标红 的文字
+ @param otherTitleArr 其他功能的文字 数组
+ @param ActionBlock 回调
+ @return 弹出层本身
+ */
+- (instancetype)initWithCancelTitle:(NSString *)cancelTitle
+                   destructiveTitle:(NSString *)destructiveTitle
+                      otherTitleArr:(NSArray  *)otherTitleArr
+                        actionBlock:(ActionBlock)ActionBlock{
+    return [self initWithCancelTitle:cancelTitle
+                    destructiveTitle:destructiveTitle
+                    destructiveIndex:0
+                       otherTitleArr:[otherTitleArr copy]
+                         actionBlock:ActionBlock];
+}
+
+/**
+ 弹出层 + 销毁 + 销毁下标
+ 
+ @param cancelTitle 取消功能的文字
+ @param destructiveTitle 标红 的文字
+ @param destructiveIndex 标红 的文字 的下标
+ @param otherTitleArr 其他功能的文字 数组
+ @param ActionBlock 回调
+ @return 弹出层本身
+ */
+- (instancetype)initWithCancelTitle:(NSString *)cancelTitle
+                   destructiveTitle:(NSString *)destructiveTitle
+                   destructiveIndex:(NSInteger )destructiveIndex
+                      otherTitleArr:(NSArray  *)otherTitleArr
+                        actionBlock:(ActionBlock)ActionBlock{
+    
+    if(self = [super init]){
+        _cancelBtnTitle = cancelTitle;
+        _destructiveBtnTitle = destructiveTitle;
+        
+        NSMutableArray *titleArr = [NSMutableArray arrayWithArray:otherTitleArr];
+        
+        if(destructiveTitle.length){
+            _destructiveIndex = destructiveIndex;
+            [titleArr insertObject:destructiveTitle atIndex:destructiveIndex];
+        }
+        
+        _otherBtnTitlesArr = [NSArray arrayWithArray:titleArr];
+        _ActionBlock = ActionBlock;
+        
+        [self setupSubViews];
+    }
+    return self;
+}
 
 @end
