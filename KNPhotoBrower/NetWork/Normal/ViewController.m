@@ -125,8 +125,11 @@
 // 如果设置了 photoBrower中的 actionSheetArr 属性. 那么 isNeedRightTopBtn 就应该是默认 YES, 如果设置成NO, 这个actionSheetArr 属性就没有意义了
 //    photoBrower.actionSheetArr = [self.actionSheetArray mutableCopy];
     
-    [photoBrower present];
     
+    [photoBrower setIsNeedRightTopBtn:NO]; // 是否需要 右上角 操作功能按钮
+    [photoBrower setIsNeedPictureLongPress:NO]; // 是否 需要 长按图片 弹出框功能 .默认:需要
+    
+    [photoBrower present];
     _photoBrower = photoBrower;
     
     // 设置代理方法 --->可不写
