@@ -67,6 +67,12 @@
  *  是否需要右上角的按钮. Default is YES;
  */
 @property (nonatomic, assign) BOOL isNeedRightTopBtn;
+
+/*
+ * 是否需要 图片长按手势,Default is YES
+ */
+@property (nonatomic, assign) BOOL isNeedPictureLongPress;
+
 /**
  *  是否需要 顶部 1 / 9 控件 ,Default is YES
  */

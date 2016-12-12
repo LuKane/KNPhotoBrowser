@@ -50,9 +50,10 @@ static NSString *ID = @"KNCollectionView";
     [self setAlpha:PhotoBrowerBackgroundAlpha];
     
     self.actionSheetArr = [NSMutableArray array];
-    _isNeedPageNumView = YES;
-    _isNeedRightTopBtn = YES;
-    _isNeedPageControl = NO;
+    _isNeedPageNumView      = YES;
+    _isNeedRightTopBtn      = YES;
+    _isNeedPictureLongPress = YES;
+    _isNeedPageControl      = NO;
 }
 
 #pragma mark - 初始化 CollectionView
@@ -140,7 +141,7 @@ static NSString *ID = @"KNCollectionView";
 - (void)operationBtnIBAction{
     __weak typeof(self) weakSelf = self;
     
-    if(!_isNeedRightTopBtn) return;
+    if(!_isNeedPictureLongPress) return;
     
     if(_actionSheetArr.count != 0){ // 如果是自定义的 选项
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:[weakSelf.actionSheetArr copy] actionBlock:^(NSInteger buttonIndex) {
