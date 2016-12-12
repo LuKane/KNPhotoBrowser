@@ -265,13 +265,20 @@ static NSString *ID = @"KNCollectionView";
     };
     
     cell.longPress = ^(){
-        [weakSelf operationBtnIBAction];
+        [weakSelf longPressIBAction];
     };
     
     _collectionViewCell = cell;
     cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
+
+
+- (void)longPressIBAction{
+    if(!_isNeedPictureLongPress) return;
+    [self operationBtnIBAction];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     _currentIndex = scrollView.contentOffset.x / (ScreenWidth + PhotoBrowerMargin);
     
