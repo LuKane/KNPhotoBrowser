@@ -53,6 +53,8 @@ typedef void(^ActionBlock)(NSInteger buttonIndex);
                    destructiveIndex:(NSInteger )destructiveIndex
                       otherTitleArr:(NSArray  *)otherTitleArr
                         actionBlock:(ActionBlock)ActionBlock;
+@property (nonatomic,assign) BOOL isShow;
+
 
 - (void)show;
 - (void)dismiss;
