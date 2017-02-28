@@ -54,7 +54,10 @@ static id ActionSheet;
 
 #pragma mark - 初始化 子控件
 - (void)setupSubViews{
-    if(self.isShow) return;
+    
+    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
     
     [self setFrame:[[UIScreen mainScreen] bounds]];
     [self setBackgroundColor:[UIColor clearColor]];
@@ -115,8 +118,6 @@ static id ActionSheet;
 }
 
 - (void)show{
-    
-    _isShow = YES;
     [_coverView setAlpha:0];
     [_bgView setTransform:CGAffineTransformIdentity];
     
@@ -134,8 +135,6 @@ static id ActionSheet;
 }
 
 - (void)dismiss{
-    
-    _isShow = NO;
     [UIView animateWithDuration:kActionDuration animations:^{
         [_coverView setAlpha:0];
         [_bgView setTransform:CGAffineTransformIdentity];
