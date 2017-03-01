@@ -332,6 +332,7 @@ static NSString *ID = @"KNCollectionView";
     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
+    tempView.contentMode = items.sourceView.contentMode;
     
     if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
         if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
