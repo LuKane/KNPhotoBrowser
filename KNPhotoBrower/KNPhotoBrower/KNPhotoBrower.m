@@ -343,7 +343,7 @@ static NSString *ID = @"KNCollectionView";
         }
     }else{
         UIImage *image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
-        if(image){
+        if(image){ 
             [tempView setImage:image];
         }else{
             [tempView setImage:items.sourceImage];
