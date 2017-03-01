@@ -376,9 +376,10 @@ static NSString *ID = @"KNCollectionView";
        rect.origin.x <= -rect.size.width
        ){
         [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [tempView removeFromSuperview];
+            [tempView setAlpha:0.f];
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
+            [tempView removeFromSuperview];
             [self removeFromSuperview];
         }];
         
@@ -397,7 +398,11 @@ static NSString *ID = @"KNCollectionView";
             [tempView setFrame:rect];
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
-            [self removeFromSuperview];
+            [UIView animateWithDuration:0.15 animations:^{
+                [tempView setAlpha:0.f];
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
         }];
     }
 }
@@ -444,7 +449,12 @@ static NSString *ID = @"KNCollectionView";
         [tempView setBounds:(CGRect){CGPointZero,tempRectSize}];
     } completion:^(BOOL finished) {
         _isFirstShow = YES;
-        [tempView removeFromSuperview];
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            [tempView setAlpha:0.f];
+        } completion:^(BOOL finished) {
+            [tempView removeFromSuperview];
+        }];
         [_collectionView setHidden:NO];
     }];
 }
