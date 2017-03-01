@@ -53,6 +53,7 @@
         UIImageView *imageView = [[UIImageView alloc] init];
         [imageView setUserInteractionEnabled:YES];
         [imageView setBackgroundColor:[UIColor grayColor]];
+        [imageView setContentMode:UIViewContentModeTop | UIViewContentModeLeft | UIViewContentModeRight];
         [imageView setTag:i];
         [self.imageArray addObject:imageView];
         [self.contentView addSubview:imageView];
