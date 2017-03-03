@@ -381,10 +381,12 @@ static NSString *ID = @"KNCollectionView";
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
             [tempView removeFromSuperview];
-            [self removeFromSuperview];
+            [UIView animateWithDuration:0.15 animations:^{
+                [tempView setAlpha:0.f];
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
         }];
-        
-        return;
     }else{
         CGFloat width  = tempView.image.size.width;
         CGFloat height = tempView.image.size.height;
