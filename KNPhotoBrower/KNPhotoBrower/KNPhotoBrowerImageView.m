@@ -128,7 +128,6 @@
 }
 
 - (void)sd_ImageWithUrl:(NSURL *)url placeHolder:(UIImage *)placeHolder{
-    
     _url         = url;
     _placeHolder = placeHolder;
     
@@ -231,7 +230,7 @@
         maxScale = maxScale > 2?maxScale:2;
         
         // 设置 scrollView的 最大 和 最小 缩放比率
-        _scrollView.minimumZoomScale = 0.6;
+        _scrollView.minimumZoomScale = 1.f;
         _scrollView.maximumZoomScale = maxScale;
         
         // 设置 scrollView的 原始缩放大小

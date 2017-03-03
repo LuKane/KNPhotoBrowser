@@ -333,7 +333,6 @@ static NSString *ID = @"KNCollectionView";
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
     tempView.contentMode = items.sourceView.contentMode;
-    tempView.clipsToBounds = YES;
     if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
         if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
             NSData *data = UIImageJPEGRepresentation([[mgr imageCache] imageFromDiskCacheForKey:items.url], 1.f);
@@ -343,7 +342,7 @@ static NSString *ID = @"KNCollectionView";
         }
     }else{
         UIImage *image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
-        if(image){
+        if(image){ 
             [tempView setImage:image];
         }else{
             [tempView setImage:items.sourceImage];
@@ -377,9 +376,10 @@ static NSString *ID = @"KNCollectionView";
        rect.origin.x <= -rect.size.width
        ){
         [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [tempView removeFromSuperview];
+            [tempView setAlpha:0.f];
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
+            [tempView removeFromSuperview];
             [self removeFromSuperview];
         }];
         
@@ -398,7 +398,11 @@ static NSString *ID = @"KNCollectionView";
             [tempView setFrame:rect];
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
-            [self removeFromSuperview];
+            [UIView animateWithDuration:0.15 animations:^{
+                [tempView setAlpha:0.f];
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
         }];
     }
 }
@@ -445,7 +449,12 @@ static NSString *ID = @"KNCollectionView";
         [tempView setBounds:(CGRect){CGPointZero,tempRectSize}];
     } completion:^(BOOL finished) {
         _isFirstShow = YES;
-        [tempView removeFromSuperview];
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            [tempView setAlpha:0.f];
+        } completion:^(BOOL finished) {
+            [tempView removeFromSuperview];
+        }];
         [_collectionView setHidden:NO];
     }];
 }

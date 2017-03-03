@@ -595,7 +595,7 @@
 				TargetAttributes = {
 					79A6B5441D62B7A800E83E10 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = K9ZKH8PE66;
+						DevelopmentTeam = 9RJ6UKU39R;
 					};
 					79A6B55D1D62B7A800E83E10 = {
 						CreatedOnToolsVersion = 7.2;
@@ -862,11 +862,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = K9ZKH8PE66;
+				DEVELOPMENT_TEAM = 9RJ6UKU39R;
 				INFOPLIST_FILE = KNPhotoBrower/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lukha.KNPhotoBrower;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vi163.KNScannerView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -876,11 +876,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = K9ZKH8PE66;
+				DEVELOPMENT_TEAM = 9RJ6UKU39R;
 				INFOPLIST_FILE = KNPhotoBrower/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lukha.KNPhotoBrower;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vi163.KNScannerView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
