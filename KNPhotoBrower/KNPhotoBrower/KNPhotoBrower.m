@@ -333,7 +333,6 @@ static NSString *ID = @"KNCollectionView";
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
     tempView.contentMode = items.sourceView.contentMode;
-    
     if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
         if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
             NSData *data = UIImageJPEGRepresentation([[mgr imageCache] imageFromDiskCacheForKey:items.url], 1.f);
