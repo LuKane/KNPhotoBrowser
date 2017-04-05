@@ -351,7 +351,7 @@ static NSString *ID = @"KNCollectionView";
     }
 
     if(!tempView.image){
-        tempView.image = [UIImage imageNamed:@"KNPhotoBrower.bundle/defaultPlaceHolder"];
+        [tempView setImage:[self createImageWithUIColor:PhotoShowPlaceHolderImageColor]];
     }
     
     [_collectionView setHidden:YES];
@@ -498,7 +498,7 @@ static NSString *ID = @"KNCollectionView";
     
     if([self imageArrayIsEmpty:_dataSourceUrlArr]){
         if(!tempView.image){
-            [tempView setImage:[UIImage imageNamed:@"KNPhotoBrower.bundle/defaultPlaceHolder"]];
+            [tempView setImage:[self createImageWithUIColor:PhotoShowPlaceHolderImageColor]];
         }
     }else{
         if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
@@ -525,6 +525,17 @@ static NSString *ID = @"KNCollectionView";
     }else{
         return NO;
     }
+}
+
+- (UIImage *)createImageWithUIColor:(UIColor *)imageColor{
+    CGRect rect = CGRectMake(0, 0, 1.f, 1.f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [imageColor CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 - (void)layoutSubviews{
