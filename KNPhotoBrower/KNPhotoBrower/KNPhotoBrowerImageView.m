@@ -148,9 +148,7 @@
         
         if (image) { // 如果缓存中有图片, 则直接赋值
             _imageView.image = image;
-            
             [weakSelf layoutSubviews];
-            
         }else{// 缓存中没有图片, 则下载
             // 加载圈 开始 出现
             KNProgressHUD *progressHUD = [KNProgressHUD showHUDAddTo:self animated:YES];
@@ -226,11 +224,11 @@
         
         // 取出 最大的 比率
         maxScale = widthRadit > maxScale?widthRadit:maxScale;
-        // 如果 最大比率 >= 2 倍 , 则取 最大比率 ,否则去 2 倍
-        maxScale = maxScale > 2?maxScale:2;
+        // 如果 最大比率 >= PhotoBrowerImageMaxScale 倍 , 则取 最大比率 ,否则去 PhotoBrowerImageMaxScale 倍
+        maxScale = maxScale > PhotoBrowerImageMaxScale?maxScale:PhotoBrowerImageMaxScale;
         
         // 设置 scrollView的 最大 和 最小 缩放比率
-        _scrollView.minimumZoomScale = 1.f;
+        _scrollView.minimumZoomScale = PhotoBrowerImageMinScale;
         _scrollView.maximumZoomScale = maxScale;
         
         // 设置 scrollView的 原始缩放大小
