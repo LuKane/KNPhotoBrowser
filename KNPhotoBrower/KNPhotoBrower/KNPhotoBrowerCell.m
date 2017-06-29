@@ -7,10 +7,10 @@
 //
 
 #import "KNPhotoBrowerCell.h"
-#import "KNPhotoBrowerImageView.h"
+
 
 @implementation KNPhotoBrowerCell{
-    KNPhotoBrowerImageView *_photoBrowerImageView;
+    
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
