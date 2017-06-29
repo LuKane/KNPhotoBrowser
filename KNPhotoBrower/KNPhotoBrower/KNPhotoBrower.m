@@ -257,7 +257,6 @@ static NSString *ID = @"KNCollectionView";
     NSString *url = items.url;
     
     UIImageView *tempView = [weakSelf tempViewFromSourceViewWithCurrentIndex:indexPath.row];
-    
     [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:nil];
     
     cell.singleTap = ^(){
@@ -272,7 +271,10 @@ static NSString *ID = @"KNCollectionView";
     cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
-
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    KNPhotoBrowerCell *browerCell = (KNPhotoBrowerCell *)cell;
+    [browerCell.photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
+}
 
 - (void)longPressIBAction{
     if(!_isNeedPictureLongPress) return;
