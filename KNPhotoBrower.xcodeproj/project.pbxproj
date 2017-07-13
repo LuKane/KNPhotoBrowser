@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022F71B01F1769160003E1EB /* LocationLong.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 022F71AF1F1769160003E1EB /* LocationLong.JPG */; };
 		7901C8491D7D5FAD0069A459 /* KNPhotoBrower.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7901C8481D7D5FAD0069A459 /* KNPhotoBrower.bundle */; };
 		7947CCD91D65D18E00A8EC69 /* KNPhotoBrower.m in Sources */ = {isa = PBXBuildFile; fileRef = 7947CCD81D65D18E00A8EC69 /* KNPhotoBrower.m */; };
 		7947CCDC1D65D60D00A8EC69 /* KNPhotoBrowerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7947CCDB1D65D60D00A8EC69 /* KNPhotoBrowerCell.m */; };
@@ -97,6 +98,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		022F71AF1F1769160003E1EB /* LocationLong.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LocationLong.JPG; sourceTree = "<group>"; };
 		7901C8481D7D5FAD0069A459 /* KNPhotoBrower.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KNPhotoBrower.bundle; sourceTree = "<group>"; };
 		7947CCD71D65D18E00A8EC69 /* KNPhotoBrower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrower.h; sourceTree = "<group>"; };
 		7947CCD81D65D18E00A8EC69 /* KNPhotoBrower.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrower.m; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 			isa = PBXGroup;
 			children = (
 				79E96B021DB5CCAD00274716 /* 1.jpg */,
+				022F71AF1F1769160003E1EB /* LocationLong.JPG */,
 				79E96B031DB5CCAD00274716 /* 10.jpg */,
 				79E96B041DB5CCAD00274716 /* 11.jpg */,
 				79E96B051DB5CCAD00274716 /* 12.jpg */,
@@ -656,6 +659,7 @@
 				79E96B291DB5CCAD00274716 /* 5.jpg in Resources */,
 				79E96B1E1DB5CCAD00274716 /* 15.jpg in Resources */,
 				79E96B221DB5CCAD00274716 /* 19.jpg in Resources */,
+				022F71B01F1769160003E1EB /* LocationLong.JPG in Resources */,
 				79E96B241DB5CCAD00274716 /* 20.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
