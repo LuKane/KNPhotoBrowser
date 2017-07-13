@@ -18,6 +18,7 @@
 
 #import "KNActionSheet.h"
 #import <ImageIO/ImageIO.h>
+#import <objc/runtime.h>
 
 @interface KNPhotoBrower()<UICollectionViewDataSource,UICollectionViewDelegate>{
     KNPhotoBrowerCell     *_collectionViewCell;
@@ -26,7 +27,6 @@
     UIButton              *_operationBtn;// 操作按钮
     UIPageControl         *_pageControl;// UIPageControl
     BOOL                   _isFirstShow;// 是否是第一次 展示
-    CGFloat                _contentOffsetX; // 偏移量
     NSInteger              _page; // 页数
     NSArray               *_tempArr; // 给 '绝对数据源'
 }
@@ -335,6 +335,8 @@ static NSString *ID = @"KNCollectionView";
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
     tempView.contentMode = items.sourceView.contentMode;
+    tempView.layer.cornerRadius = 0.001;
+    tempView.clipsToBounds = YES;
     
     if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
         if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
@@ -371,6 +373,9 @@ static NSString *ID = @"KNCollectionView";
         sourceView = items.sourceView;
     }
     
+    // 原始控件的 图片
+    NSArray *sourceArr = [self removeSourceViewImage:sourceView];
+    
     CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
     
     if(rect.origin.y > ScreenHeight ||
@@ -403,6 +408,22 @@ static NSString *ID = @"KNCollectionView";
             [tempView setFrame:rect];
             [self setBackgroundColor:[UIColor clearColor]];
         } completion:^(BOOL finished) {
+            
+            if(![self imageArrayIsEmpty:sourceArr]){
+                if([sourceArr lastObject]){
+                    if([sourceView isKindOfClass:[UIButton class]]){
+                        NSString *isCurrentBack = objc_getAssociatedObject(self, &KNBtnCurrentImageKey);
+                        if(isCurrentBack){
+                            [(UIButton *)sourceView setBackgroundImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                        }else{
+                            [(UIButton *)sourceView setImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                        }
+                    }else{
+                        [(UIImageView *)[sourceArr firstObject] setImage:[sourceArr lastObject]];
+                    }
+                }
+            }
+            
             [UIView animateWithDuration:0.15 animations:^{
                 [tempView setAlpha:0.f];
             } completion:^(BOOL finished) {
@@ -419,7 +440,6 @@ static NSString *ID = @"KNCollectionView";
     
     // 1.判断用户 点击了的控件是 控制器中的第几个图片. 在这里设置 collectionView的偏移量
     [_collectionView setContentOffset:(CGPoint){_currentIndex * (self.width + PhotoBrowerMargin),0} animated:NO];
-    _contentOffsetX = _collectionView.contentOffset.x;
     
     // 2. 可能考虑到 self.sourceView上面放着的是: 'button' ,所以这里用 UIView去接收
     KNPhotoItems *items = _itemsArr[_currentIndex];
@@ -438,6 +458,8 @@ static NSString *ID = @"KNCollectionView";
     
     [tempView setFrame:rect];
     [tempView setContentMode:sourceView.contentMode];
+    tempView.layer.cornerRadius = 0.001;
+    tempView.clipsToBounds = YES;
     [self addSubview:tempView];
     
     CGSize tempRectSize;
@@ -454,14 +476,47 @@ static NSString *ID = @"KNCollectionView";
         [tempView setBounds:(CGRect){CGPointZero,tempRectSize}];
     } completion:^(BOOL finished) {
         _isFirstShow = YES;
+        [_collectionView setHidden:NO];
         
         [UIView animateWithDuration:0.15 animations:^{
             [tempView setAlpha:0.f];
         } completion:^(BOOL finished) {
             [tempView removeFromSuperview];
         }];
-        [_collectionView setHidden:NO];
     }];
+}
+
+#pragma mark - 将原始控件上面 这张图片返回 ,再做移除
+- (NSArray *)removeSourceViewImage:(UIView *)sourceView{
+    
+    if([sourceView isKindOfClass:[UIImageView class]]){
+        UIImageView *imageView = (UIImageView *)sourceView;
+        UIImage *image = [imageView image];
+        [imageView setImage:nil];
+        return @[(UIImageView *)sourceView,image];
+    }
+    
+    if([sourceView isKindOfClass:[UIButton class]]){
+        UIButton *btn = (UIButton *)sourceView;
+        
+        UIImage *image = [btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage];
+        [btn setBackgroundImage:nil forState:UIControlStateNormal];
+        [btn setImage:nil forState:UIControlStateNormal];
+        return @[(UIButton *)sourceView,image];
+    }
+    
+    if([self imageArrayIsEmpty:_dataSourceUrlArr]){
+        return nil;
+    }else{
+        if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
+            UICollectionViewCell *cell = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+            UIImage *image = [(UIImageView *)cell.contentView.subviews[0] image];
+            [(UIImageView *)cell.contentView.subviews[0] setImage:nil];
+            return @[(UIImageView *)cell.contentView.subviews[0],image];;
+        }
+    }
+    
+    return nil;
 }
 
 #pragma mark - 获取到 GIF图片的第一帧
@@ -482,6 +537,7 @@ static NSString *ID = @"KNCollectionView";
     return sourceImage;
 }
 
+static char KNBtnCurrentImageKey;
 #pragma mark 私有方法 : 将子控件上的控件 转成 ImageView
 - (UIImageView *)tempViewFromSourceViewWithCurrentIndex:(NSInteger)currentIndex{
     // 生成临时的一个 imageView 去做 动画
@@ -496,6 +552,12 @@ static NSString *ID = @"KNCollectionView";
     if([items.sourceView isKindOfClass:[UIButton class]]){
         UIButton *btn = (UIButton *)items.sourceView;
         [tempView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
+        
+        if([btn currentBackgroundImage]){
+            objc_setAssociatedObject(self, &KNBtnCurrentImageKey, @"1", OBJC_ASSOCIATION_COPY_NONATOMIC);
+        }else{
+            objc_setAssociatedObject(self, &KNBtnCurrentImageKey, @"0", OBJC_ASSOCIATION_COPY_NONATOMIC);
+        }
     }
     
     if([self imageArrayIsEmpty:_dataSourceUrlArr]){
