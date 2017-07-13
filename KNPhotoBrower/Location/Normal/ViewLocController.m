@@ -41,7 +41,7 @@
     [imageArr addObject:[UIImage imageNamed:@"2.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"3.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"4.jpg"]];
-    [imageArr addObject:[UIImage imageNamed:@"5.jpg"]];
+    [imageArr addObject:[UIImage imageNamed:@"LocationLong.JPG"]];
     [imageArr addObject:[UIImage imageNamed:@"6.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"7.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"8.jpg"]];
@@ -53,8 +53,11 @@
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click:)]];
         imageView.tag = i;
         imageView.image = imageArr[i];
-        
         imageView.backgroundColor = [UIColor grayColor];
+        
+        imageView.clipsToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        
         
         CGFloat width = (view.frame.size.width - 40) / 3;
         NSInteger row = i / 3;

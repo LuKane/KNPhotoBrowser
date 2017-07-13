@@ -97,6 +97,7 @@
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.userInteractionEnabled = YES;
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click:)]];
+        
         imageView.tag = i + 1;
         [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
         imageView.backgroundColor = [UIColor grayColor];
