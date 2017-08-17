@@ -6,10 +6,18 @@
  * file that was distributed with this source code.
  */
 
-#import <Foundation/Foundation.h>
+#import "SDWebImageCompat.h"
 
-@protocol SDWebImageOperation <NSObject>
+#if SD_MAC
 
-- (void)cancel;
+#import <Cocoa/Cocoa.h>
+
+@interface NSImage (WebCache)
+
+- (CGImageRef)CGImage;
+- (NSArray<NSImage *> *)images;
+- (BOOL)isGIF;
 
 @end
+
+#endif

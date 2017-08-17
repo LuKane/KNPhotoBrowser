@@ -1,25 +1,28 @@
-//
-//  UIImage+WebP.h
-//  SDWebImage
-//
-//  Created by Olivier Poitrey on 07/06/13.
-//  Copyright (c) 2013 Dailymotion. All rights reserved.
-//
+/*
+ * This file is part of the SDWebImage package.
+ * (c) Olivier Poitrey <rs@dailymotion.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 #ifdef SD_WEBP
 
-#import <UIKit/UIKit.h>
-
-// Fix for issue #416 Undefined symbols for architecture armv7 since WebP introduction when deploying to device
-void WebPInitPremultiplyNEON(void);
-
-void WebPInitUpsamplersNEON(void);
-
-void VP8DspInitNEON(void);
+#import "SDWebImageCompat.h"
 
 @interface UIImage (WebP)
 
-+ (UIImage *)sd_imageWithWebPData:(NSData *)data;
+/**
+ * Get the current WebP image loop count, the default value is 0.
+ * For static WebP image, the value is 0.
+ * For animated WebP image, 0 means repeat the animation indefinitely.
+ * Note that because of the limitations of categories this property can get out of sync
+ * if you create another instance with CGImage or other methods.
+ * @return WebP image loop count
+ */
+- (NSInteger)sd_webpLoopCount;
+
++ (nullable UIImage *)sd_imageWithWebPData:(nullable NSData *)data;
 
 @end
 
