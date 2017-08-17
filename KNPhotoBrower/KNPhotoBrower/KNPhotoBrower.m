@@ -96,7 +96,7 @@ static NSString *ID = @"KNCollectionView";
     _page = [numView currentNum];
     [numView setHidden:!_isNeedPageNumView];
     
-//  无论 _isNeedPageNumView 如何设置, 只要imageArr 的个数 == 1, 则隐藏
+    //  无论 _isNeedPageNumView 如何设置, 只要imageArr 的个数 == 1, 则隐藏
     if(_itemsArr.count == 1){
         [numView setHidden:YES];
     }
@@ -113,7 +113,7 @@ static NSString *ID = @"KNCollectionView";
     [pageControl setFrame:(CGRect){{0,ScreenHeight - 50},{ScreenWidth,30}}];
     [pageControl setHidden:!_isNeedPageControl];
     
-// 无论 _isNeedPageControl 如何设置, 只要imageArr 的个数 == 1, 则隐藏
+    // 无论 _isNeedPageControl 如何设置, 只要imageArr 的个数 == 1, 则隐藏
     if(_itemsArr.count == 1){
         [pageControl setHidden:YES];
     }
@@ -150,7 +150,7 @@ static NSString *ID = @"KNCollectionView";
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
             
-//  如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
+            //  如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
             
         }];
         [actionSheet show];
@@ -163,7 +163,7 @@ static NSString *ID = @"KNCollectionView";
             
             switch (buttonIndex) {
                 case 0:{ // 删除图片
-#pragma mark - 删除图片 
+#pragma mark - 删除图片
                     // 0: 删除后 回调返回 相对 下标
                     if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:)]){
                         [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:weakSelf.currentIndex];
@@ -184,15 +184,18 @@ static NSString *ID = @"KNCollectionView";
                     KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                     if(items.url){ // 如果是网络图片
                         SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                        if(![mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
-                            [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
-                            return ;
-                        }else{
-                            UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                            });
-                        }
+                        
+                        [mgr diskImageExistsForURL:[NSURL URLWithString:items.url] completion:^(BOOL isInCache) {
+                            if(!isInCache){
+                                [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
+                                return ;
+                            }else{
+                                UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                                });
+                            }
+                        }];
                     }else{ // 如果是本地图片
                         UIImageView *imageView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -200,9 +203,9 @@ static NSString *ID = @"KNCollectionView";
                         });
                     }
                 }
-                /**
-                 *  剩下的需要自己去实现
-                 */
+                    /**
+                     *  剩下的需要自己去实现
+                     */
                 default:
                     break;
             }
@@ -338,99 +341,102 @@ static NSString *ID = @"KNCollectionView";
     tempView.layer.cornerRadius = 0.001;
     tempView.clipsToBounds = YES;
     
-    if([mgr diskImageExistsForURL:[NSURL URLWithString:items.url]]){
-        if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
-            NSData *data = UIImageJPEGRepresentation([[mgr imageCache] imageFromDiskCacheForKey:items.url], 1.f);
-            tempView.image = [self imageFromGifFirstImage:data]; // 获取图片的第一帧
-        }else{ // 普通图片
-            tempView.image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
-        }
-    }else{
-        UIImage *image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
-        if(image){ 
-            [tempView setImage:image];
+    [mgr diskImageExistsForURL:[NSURL URLWithString:items.url] completion:^(BOOL isInCache) {
+        if(isInCache){
+            if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif 图片
+                NSData *data = UIImageJPEGRepresentation([[mgr imageCache] imageFromDiskCacheForKey:items.url], 1.f);
+                tempView.image = [self imageFromGifFirstImage:data]; // 获取图片的第一帧
+            }else{ // 普通图片
+                tempView.image = [[mgr imageCache] imageFromCacheForKey:items.url];
+            }
         }else{
-            [tempView setImage:items.sourceImage];
+            UIImage *image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
+            if(image){
+                [tempView setImage:image];
+            }else{
+                [tempView setImage:items.sourceImage];
+            }
         }
-    }
-
-    if(!tempView.image){
-        [tempView setImage:[self createImageWithUIColor:PhotoShowPlaceHolderImageColor]];
-    }
-    
-    [_collectionView setHidden:YES];
-    [_operationBtn   setHidden:YES];
-    [_pageControl    setHidden:YES];
-    [_numView        setHidden:YES];
-    
-    _tempArr = nil;
-    _itemsArr = nil;
-    
-    UIView *sourceView;
-    if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
-        sourceView = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
-    }else{
-        sourceView = items.sourceView;
-    }
-    
-    // 原始控件的 图片
-    NSArray *sourceArr = [self removeSourceViewImage:sourceView];
-    
-    CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
-    
-    if(rect.origin.y > ScreenHeight ||
-       rect.origin.y <= - rect.size.height ||
-        rect.origin.x > ScreenWidth ||
-       rect.origin.x <= -rect.size.width
-       ){
-        [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [tempView setAlpha:0.f];
-            [self setBackgroundColor:[UIColor clearColor]];
-        } completion:^(BOOL finished) {
-            [tempView removeFromSuperview];
-            [UIView animateWithDuration:0.15 animations:^{
+        if(!tempView.image){
+            [tempView setImage:[self createImageWithUIColor:PhotoShowPlaceHolderImageColor]];
+        }
+        
+        [_collectionView setHidden:YES];
+        [_operationBtn   setHidden:YES];
+        [_pageControl    setHidden:YES];
+        [_numView        setHidden:YES];
+        
+        _tempArr = nil;
+        _itemsArr = nil;
+        
+        UIView *sourceView;
+        if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
+            sourceView = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
+        }else{
+            sourceView = items.sourceView;
+        }
+        
+        // 原始控件的 图片
+        NSArray *sourceArr = [self removeSourceViewImage:sourceView];
+        
+        CGRect rect = [sourceView convertRect:[sourceView bounds] toView:self];
+        
+        if(rect.origin.y > ScreenHeight ||
+           rect.origin.y <= - rect.size.height ||
+           rect.origin.x > ScreenWidth ||
+           rect.origin.x <= -rect.size.width
+           ){
+            [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [tempView setAlpha:0.f];
+                [self setBackgroundColor:[UIColor clearColor]];
             } completion:^(BOOL finished) {
-                [self removeFromSuperview];
+                [tempView removeFromSuperview];
+                [UIView animateWithDuration:0.15 animations:^{
+                    [tempView setAlpha:0.f];
+                } completion:^(BOOL finished) {
+                    [self removeFromSuperview];
+                }];
             }];
-        }];
-    }else{
-        CGFloat width  = tempView.image.size.width;
-        CGFloat height = tempView.image.size.height;
-        
-        CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
-        
-        [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
-        [tempView setCenter:[self center]];
-        [self addSubview:tempView];
-        
-        [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [tempView setFrame:rect];
-            [self setBackgroundColor:[UIColor clearColor]];
-        } completion:^(BOOL finished) {
             
-            if(![self imageArrayIsEmpty:sourceArr]){
-                if([sourceArr lastObject]){
-                    if([sourceView isKindOfClass:[UIButton class]]){
-                        NSString *isCurrentBack = objc_getAssociatedObject(self, &KNBtnCurrentImageKey);
-                        if(isCurrentBack){
-                            [(UIButton *)sourceView setBackgroundImage:[sourceArr lastObject] forState:UIControlStateNormal];
+        }else{
+            
+            CGFloat width  = tempView.image.size.width;
+            CGFloat height = tempView.image.size.height;
+            
+            CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
+            
+            [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
+            [tempView setCenter:[self center]];
+            [self addSubview:tempView];
+            
+            [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [tempView setFrame:rect];
+                [self setBackgroundColor:[UIColor clearColor]];
+            } completion:^(BOOL finished) {
+                
+                if(![self imageArrayIsEmpty:sourceArr]){
+                    if([sourceArr lastObject]){
+                        if([sourceView isKindOfClass:[UIButton class]]){
+                            NSString *isCurrentBack = objc_getAssociatedObject(self, &KNBtnCurrentImageKey);
+                            if(isCurrentBack){
+                                [(UIButton *)sourceView setBackgroundImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                            }else{
+                                [(UIButton *)sourceView setImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                            }
                         }else{
-                            [(UIButton *)sourceView setImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                            [(UIImageView *)[sourceArr firstObject] setImage:[sourceArr lastObject]];
                         }
-                    }else{
-                        [(UIImageView *)[sourceArr firstObject] setImage:[sourceArr lastObject]];
                     }
                 }
-            }
-            
-            [UIView animateWithDuration:0.15 animations:^{
-                [tempView setAlpha:0.f];
-            } completion:^(BOOL finished) {
-                [self removeFromSuperview];
+                
+                [UIView animateWithDuration:0.15 animations:^{
+                    [tempView setAlpha:0.f];
+                } completion:^(BOOL finished) {
+                    [self removeFromSuperview];
+                }];
             }];
-        }];
-    }
+        }
+    }];
 }
 
 #pragma mark - 展现的时候 动画
@@ -543,12 +549,12 @@ static char KNBtnCurrentImageKey;
     // 生成临时的一个 imageView 去做 动画
     UIImageView *tempView = [[UIImageView alloc] init];
     KNPhotoItems *items = _itemsArr[currentIndex];
-
+    
     if([items.sourceView isKindOfClass:[UIImageView class]]){
         UIImageView *imgV = (UIImageView *)items.sourceView;
         [tempView setImage:[imgV image]];
     }
-
+    
     if([items.sourceView isKindOfClass:[UIButton class]]){
         UIButton *btn = (UIButton *)items.sourceView;
         [tempView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];

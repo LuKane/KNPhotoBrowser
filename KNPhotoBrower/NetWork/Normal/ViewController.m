@@ -52,7 +52,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     // 清缓存, 方便调试
-    [[SDWebImageManager sharedManager].imageCache clearDisk];
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     

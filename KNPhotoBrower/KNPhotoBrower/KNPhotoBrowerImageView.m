@@ -140,8 +140,9 @@
     __weak typeof(self) weakSelf = self;
     SDWebImageManager *mgr = [SDWebImageManager sharedManager];
     // 尝试 从缓存里 拿出 图片
-    [[mgr imageCache] queryDiskCacheForKey:[url absoluteString] done:^(UIImage *image, SDImageCacheType cacheType) {
-        
+    
+    
+    [[mgr imageCache] queryCacheOperationForKey:[url absoluteString] done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
         if(_progressHUD){// 如果加载圈存在,则消失
             [_progressHUD removeFromSuperview];
         }
@@ -151,22 +152,29 @@
             [weakSelf layoutSubviews];
         }else{// 缓存中没有图片, 则下载
             // 加载圈 开始 出现
-            KNProgressHUD *progressHUD = [KNProgressHUD showHUDAddTo:self animated:YES];
+            KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{0,0},{44,44}}];
+            [self addSubview:progressHUD];
+            [progressHUD setCenter:self.center];
+
             _progressHUD = progressHUD;
             
             // SDWebImage 下载图片
-            [_imageView sd_setImageWithPreviousCachedImageWithURL:url placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            [_imageView sd_setImageWithPreviousCachedImageWithURL:url placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                 CGFloat progress = ((CGFloat)receivedSize / expectedSize);
-                progressHUD.progress = progress; // 设置 进度
+                NSLog(@"progress:%f",progress);
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _progressHUD.progress = progress; // 设置 进度
+                });
                 if(progress == 1){ // 如果进度 == 1 , 则消失
-                    if(!progressHUD){
-                        [progressHUD dismiss];
+                    if(!_progressHUD){
+                        [_progressHUD removeFromSuperview];
                     }
                 }
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 [_scrollView setZoomScale:1.f animated:YES];
                 if(error){
-                    [_progressHUD dismiss];
+                    [_progressHUD removeFromSuperview];
                     [weakSelf.reloadLabel setHidden:NO];
                 }else{
                     [weakSelf layoutSubviews];

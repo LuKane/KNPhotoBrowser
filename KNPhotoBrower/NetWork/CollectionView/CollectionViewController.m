@@ -342,13 +342,13 @@ NSString *const ID = @"collectionViewID";
     [self setupCollectionView];
     
     // 清缓存, 方便调试
-    [[SDWebImageManager sharedManager].imageCache clearDisk];
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     // 清缓存, 方便调试
-    [[SDWebImageManager sharedManager].imageCache clearDisk];
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
 }
 
 - (void)setupCollectionView{
