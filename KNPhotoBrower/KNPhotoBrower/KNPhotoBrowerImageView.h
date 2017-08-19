@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "FLAnimatedImage.h"
 
 typedef void(^SingleTapBlock)();
 typedef void(^LongPressBlock)();
@@ -15,7 +15,7 @@ typedef void(^LongPressBlock)();
 @interface KNPhotoBrowerImageView : UIView
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) FLAnimatedImageView *imageView;
 
 @property (nonatomic, copy  ) SingleTapBlock singleTapBlock;
 @property (nonatomic, copy  ) LongPressBlock longPressBlock;

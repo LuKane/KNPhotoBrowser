@@ -17,15 +17,13 @@
     UIImage       *_placeHolder;
 }
 
-@property (nonatomic, strong ) UILabel *reloadLabel; // 重新加载 Label
-
 @end
 
 @implementation KNPhotoBrowerImageView
 
-- (UIImageView *)imageView{
+- (FLAnimatedImageView *)imageView{
     if (!_imageView) {
-        _imageView = [[UIImageView alloc] init];
+        _imageView = [[FLAnimatedImageView alloc] init];
         [_imageView setUserInteractionEnabled:YES];
         [_imageView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     }
@@ -41,26 +39,6 @@
         [_scrollView setClipsToBounds:YES];
     }
     return _scrollView;
-}
-
-- (UILabel *)reloadLabel{
-    if (!_reloadLabel) {
-        _reloadLabel = [[UILabel alloc] init];
-        [_reloadLabel setBackgroundColor:[UIColor blackColor]];
-        [_reloadLabel.layer setCornerRadius:5];
-        [_reloadLabel setClipsToBounds:YES];
-        [_reloadLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
-        [_reloadLabel setTextColor:[UIColor whiteColor]];
-        [_reloadLabel setTextAlignment:NSTextAlignmentCenter];
-        [_reloadLabel setBounds:(CGRect){CGPointZero,{100,35}}];
-        [_reloadLabel setText:@"重新加载"];
-        [_reloadLabel setCenter:(CGPoint){ScreenWidth * 0.5,ScreenHeight * 0.5}];
-        [_reloadLabel setHidden:YES];
-        [_reloadLabel setUserInteractionEnabled:YES];
-        [_reloadLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadImageIBAction)]];
-        [self addSubview:_reloadLabel];
-    }
-    return _reloadLabel;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -138,54 +116,30 @@
     }
     
     __weak typeof(self) weakSelf = self;
-    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-    // 尝试 从缓存里 拿出 图片
+    // 缓存中没有图片, 则下载
+    // 加载圈 开始 出现
+    KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{0,0},{44,44}}];
+    [self addSubview:progressHUD];
+    [progressHUD setCenter:self.center];
     
-    
-    [[mgr imageCache] queryCacheOperationForKey:[url absoluteString] done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
-        if(_progressHUD){// 如果加载圈存在,则消失
-            [_progressHUD removeFromSuperview];
-        }
-        
-        if (image) { // 如果缓存中有图片, 则直接赋值
-            _imageView.image = image;
+    // SDWebImage 下载图片
+    [_imageView sd_setImageWithURL:url placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        CGFloat progress = ((CGFloat)receivedSize / expectedSize);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            progressHUD.progress = progress; // 设置 进度
+        });
+    } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        [_scrollView setZoomScale:1.f animated:YES];
+        if(error){
+            [progressHUD setProgress:1.f];
+        }else{
+            [progressHUD setProgress:1.f];
             [weakSelf layoutSubviews];
-        }else{// 缓存中没有图片, 则下载
-            // 加载圈 开始 出现
-            KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{0,0},{44,44}}];
-            [self addSubview:progressHUD];
-            [progressHUD setCenter:self.center];
-
-            _progressHUD = progressHUD;
-            
-            // SDWebImage 下载图片
-            [_imageView sd_setImageWithPreviousCachedImageWithURL:url placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-                CGFloat progress = ((CGFloat)receivedSize / expectedSize);
-                NSLog(@"progress:%f",progress);
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    _progressHUD.progress = progress; // 设置 进度
-                });
-                if(progress == 1){ // 如果进度 == 1 , 则消失
-                    if(!_progressHUD){
-                        [_progressHUD removeFromSuperview];
-                    }
-                }
-            } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                [_scrollView setZoomScale:1.f animated:YES];
-                if(error){
-                    [_progressHUD removeFromSuperview];
-                    [weakSelf.reloadLabel setHidden:NO];
-                }else{
-                    [weakSelf layoutSubviews];
-                }
-            }];
         }
     }];
 }
 
 - (void)reloadImageIBAction{
-    [_reloadLabel setHidden:YES];
     [self sd_ImageWithUrl:_url placeHolder:_placeHolder];
 }
 
