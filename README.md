@@ -6,9 +6,13 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/collectionView.gif?raw=true)
 
+##更新内容
+* 1.此次更新主要是为了适配 SDWebImage 4.0 , 而SDWebImage4.0和之前的版本最大的区别:将主线程对图片的增删改查,都改到异步线程中进行操作.
+* 2.修改 加载圈的样式, 高仿了微信的加载圈
+
 ##一.功能描述及要点
 * 1.加载网络九宫格图片,tableView,scrollView,collectionView
-* 2.SDWebImage下载图片,KNProgressHUD显示加载进度
+* 2.适配 SDWebImage 4.0,并下载图片,KNProgressHUD显示加载进度
 * 3.高仿微博,显示动画,KNToast提示
 * 4.支持删除功能,并提供 删除的 相对下标 和 绝对下标
 * 5.已提供详细Demo,方便开发者阅读
@@ -95,7 +99,7 @@ items.sourceView = nil;
  */
 @property (nonatomic, strong) NSMutableArray *actionSheetArr;
 ```
-### 5.关于弹出框的内容,可在KNPhotoBrower.m 的operationBtnIBAction 方法中增减
+### 5.关于弹出框的内容,可在KNPhotoBrower.m 的operationBtnIBAction 方法中增减 (注意:代码中会存在强引用,所以切记将 weakSelf写入,不然当浏览器消失的时候,会存在强引用,不走 dealloc 方法)
 ```
 #pragma mark - 右上角 按钮的点击
 - (void)operationBtnIBAction{
