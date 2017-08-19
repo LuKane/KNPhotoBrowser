@@ -6,11 +6,11 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/collectionView.gif?raw=true)
 
-##更新内容
+## 更新内容
 * 1.此次更新主要是为了适配 SDWebImage 4.0 , 而SDWebImage4.0和之前的版本最大的区别:将主线程对图片的增删改查,都改到异步线程中进行操作.
 * 2.修改 加载圈的样式, 高仿了微信的加载圈
 
-##一.功能描述及要点
+## 一.功能描述及要点
 * 1.加载网络九宫格图片,tableView,scrollView,collectionView
 * 2.适配 SDWebImage 4.0,并下载图片,KNProgressHUD显示加载进度
 * 3.高仿微博,显示动画,KNToast提示
