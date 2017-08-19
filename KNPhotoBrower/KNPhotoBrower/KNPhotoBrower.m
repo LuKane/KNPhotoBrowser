@@ -10,7 +10,6 @@
 #import "KNPhotoBrowerCell.h"
 
 #import "UIImageView+WebCache.h"
-#import "SDWebImagePrefetcher.h"
 
 #import "KNPhotoBrowerNumView.h"
 #import "KNToast.h"
@@ -192,14 +191,14 @@ static NSString *ID = @"KNCollectionView";
                             }else{
                                 UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                                    UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                                 });
                             }
                         }];
                     }else{ // 如果是本地图片
-                        UIImageView *imageView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
+                        UIImageView *imageView = [weakSelf tempViewFromSourceViewWithCurrentIndex:_currentIndex];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                            UIImageWriteToSavedPhotosAlbum(imageView.image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                         });
                     }
                 }
