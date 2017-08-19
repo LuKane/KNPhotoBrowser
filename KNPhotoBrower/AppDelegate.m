@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "FirstViewController.h"
+#import "UIImageView+WebCache.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +23,9 @@
     
     FirstViewController *firstVc = [[FirstViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:firstVc];
+    
+    
+    [[SDWebImageManager sharedManager].imageCache clearDiskOnCompletion:nil];
     
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
