@@ -1,6 +1,6 @@
 # KNPhotoBrower
 高仿 微博 图片浏览器
-
+⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower.gif)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/tableView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/scrollView.gif?raw=true)
