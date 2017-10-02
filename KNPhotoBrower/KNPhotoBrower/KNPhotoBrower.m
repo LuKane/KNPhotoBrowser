@@ -14,10 +14,13 @@
 #import "KNPhotoBrowerNumView.h"
 #import "KNToast.h"
 #import "KNPch.h"
+#import "UIImage+GIF.h"
 
 #import "KNActionSheet.h"
 #import <ImageIO/ImageIO.h>
 #import <objc/runtime.h>
+#import <MobileCoreServices/UTCoreTypes.h>
+#import <AssetsLibrary/ALAsset.h>
 
 @interface KNPhotoBrower()<UICollectionViewDataSource,UICollectionViewDelegate>{
     KNPhotoBrowerCell     *_collectionViewCell;
@@ -150,7 +153,6 @@ static NSString *ID = @"KNCollectionView";
             }
             
             //  如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
-            
         }];
         [actionSheet show];
     }else{
@@ -189,10 +191,18 @@ static NSString *ID = @"KNCollectionView";
                                 [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
                                 return ;
                             }else{
-                                UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                                });
+                                
+                                __weak typeof(weakSelf) weakS = weakSelf;
+                                [[mgr imageCache] queryCacheOperationForKey:items.url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+                                    if([image isGIF]){
+                                        [weakS savePhotoToLocation:data]; // 将 gif 图片存入本地
+                                    }else{
+                                        UIImage *image = [[mgr imageCache] imageFromDiskCacheForKey:items.url];
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                                        });
+                                    }
+                                }];
                             }
                         }];
                     }else{ // 如果是本地图片
@@ -211,6 +221,19 @@ static NSString *ID = @"KNCollectionView";
         }];
         [actionSheet show];
     }
+}
+
+/* 将动图 存入 本地 : gif*/
+- (void)savePhotoToLocation:(NSData *)photoData{
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    NSDictionary *metadata = @{@"UTI":(__bridge NSString *)kUTTypeGIF};
+    [library writeImageDataToSavedPhotosAlbum:photoData metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
+        if(!error){
+            [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
+        }else{
+            [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+        }
+    }] ;
 }
 
 - (void)deleteImageIBAction{
@@ -259,7 +282,17 @@ static NSString *ID = @"KNCollectionView";
     NSString *url = items.url;
     
     UIImageView *tempView = [weakSelf tempViewFromSourceViewWithCurrentIndex:indexPath.row];
-    [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:nil];
+    
+    if(!url && tempView.image){
+//        NSData *data = [NSData dataWithData:UIImagePNGRepresentation(tempView.image)];
+//        CGDataProviderRef provider = CGImageGetDataProvider(tempView.image.CGImage);
+//        NSData* data = (id)CFBridgingRelease(CGDataProviderCopyData(provider));
+//        FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:data];
+//        cell.photoBrowerImageView.imageView.animatedImage = animatedImg;
+        [cell.photoBrowerImageView.imageView setImage:tempView.image];
+    }else{
+        [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:nil];
+    }
     
     cell.singleTap = ^(){
         [weakSelf dismiss];
