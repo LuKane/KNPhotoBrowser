@@ -498,7 +498,7 @@ static NSString *ID = @"KNCollectionView";
     [tempView setContentMode:sourceView.contentMode];
     tempView.layer.cornerRadius = 0.001;
     tempView.clipsToBounds = YES;
-    [self addSubview:tempView];
+    [self insertSubview:tempView atIndex:0];
     
     CGSize tempRectSize;
     
