@@ -530,7 +530,6 @@ static NSString *ID = @"KNCollectionView";
     if([sourceView isKindOfClass:[UIImageView class]]){
         UIImageView *imageView = (UIImageView *)sourceView;
         UIImage *image = [imageView image];
-        [imageView setImage:nil];
         return @[(UIImageView *)sourceView,image];
     }
     
@@ -538,8 +537,6 @@ static NSString *ID = @"KNCollectionView";
         UIButton *btn = (UIButton *)sourceView;
         
         UIImage *image = [btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage];
-        [btn setBackgroundImage:nil forState:UIControlStateNormal];
-        [btn setImage:nil forState:UIControlStateNormal];
         return @[(UIButton *)sourceView,image];
     }
     
