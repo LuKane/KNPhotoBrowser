@@ -12,6 +12,7 @@
 #import "KNPch.h"
 
 @interface KNPhotoBrowerImageView()<UIScrollViewDelegate>{
+    KNProgressHUD *_progressHUD;
     NSURL         *_url;
     UIImage       *_placeHolder;
 }
