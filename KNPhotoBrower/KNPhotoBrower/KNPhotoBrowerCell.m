@@ -8,10 +8,7 @@
 
 #import "KNPhotoBrowerCell.h"
 
-
-@implementation KNPhotoBrowerCell{
-    
-}
+@implementation KNPhotoBrowerCell
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
     if (self = [super initWithCoder:aDecoder]) {

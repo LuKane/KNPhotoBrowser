@@ -418,6 +418,23 @@ static NSString *ID = @"KNCollectionView";
            rect.origin.x > ScreenWidth ||
            rect.origin.x <= -rect.size.width
            ){
+            
+            if(![self imageArrayIsEmpty:sourceArr]){
+                if([sourceArr lastObject]){
+                    if([sourceView isKindOfClass:[UIButton class]]){
+                        NSString *isCurrentBack = objc_getAssociatedObject(self, &KNBtnCurrentImageKey);
+                        if([isCurrentBack isEqualToString:@"1"]){
+                            [(UIButton *)sourceView setBackgroundImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                        }else{
+                            [(UIButton *)sourceView setImage:[sourceArr lastObject] forState:UIControlStateNormal];
+                        }
+                    }else{
+                        [(UIImageView *)[sourceArr firstObject] setImage:[sourceArr lastObject]];
+                    }
+                }
+            }
+            
+            
             [UIView animateWithDuration:PhotoBrowerBrowerTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [tempView setAlpha:0.f];
                 [self setBackgroundColor:[UIColor clearColor]];
@@ -429,7 +446,6 @@ static NSString *ID = @"KNCollectionView";
                     [self removeFromSuperview];
                 }];
             }];
-            
         }else{
             
             CGFloat width  = tempView.image.size.width;
@@ -450,7 +466,7 @@ static NSString *ID = @"KNCollectionView";
                     if([sourceArr lastObject]){
                         if([sourceView isKindOfClass:[UIButton class]]){
                             NSString *isCurrentBack = objc_getAssociatedObject(self, &KNBtnCurrentImageKey);
-                            if(isCurrentBack){
+                            if([isCurrentBack isEqualToString:@"1"]){
                                 [(UIButton *)sourceView setBackgroundImage:[sourceArr lastObject] forState:UIControlStateNormal];
                             }else{
                                 [(UIButton *)sourceView setImage:[sourceArr lastObject] forState:UIControlStateNormal];
@@ -530,13 +546,15 @@ static NSString *ID = @"KNCollectionView";
     if([sourceView isKindOfClass:[UIImageView class]]){
         UIImageView *imageView = (UIImageView *)sourceView;
         UIImage *image = [imageView image];
+        [imageView setImage:nil];
         return @[(UIImageView *)sourceView,image];
     }
     
     if([sourceView isKindOfClass:[UIButton class]]){
         UIButton *btn = (UIButton *)sourceView;
-        
         UIImage *image = [btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage];
+        [btn setBackgroundImage:nil forState:btn.state];
+        [btn setImage:nil forState:btn.state];
         return @[(UIButton *)sourceView,image];
     }
     
@@ -545,9 +563,13 @@ static NSString *ID = @"KNCollectionView";
     }else{
         if([_sourceViewForCellReusable isKindOfClass:[UICollectionView class]]){
             UICollectionViewCell *cell = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-            UIImage *image = [(UIImageView *)cell.contentView.subviews[0] image];
-            [(UIImageView *)cell.contentView.subviews[0] setImage:nil];
-            return @[(UIImageView *)cell.contentView.subviews[0],image];;
+            if(cell){
+                UIImage *image = [(UIImageView *)cell.contentView.subviews[0] image];
+                [(UIImageView *)cell.contentView.subviews[0] setImage:nil];
+                return @[(UIImageView *)cell.contentView.subviews[0],image];;
+            }else{
+                return nil;
+            }
         }
     }
     
