@@ -105,6 +105,9 @@
 }
 
 - (void)sd_ImageWithUrl:(NSURL *)url placeHolder:(UIImage *)placeHolder{
+    if(_progressHUD){
+        [_progressHUD setProgress:1.f];
+    }
     _url         = url;
     _placeHolder = placeHolder;
     
