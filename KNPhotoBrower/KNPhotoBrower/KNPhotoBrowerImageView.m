@@ -12,7 +12,6 @@
 #import "KNPch.h"
 
 @interface KNPhotoBrowerImageView()<UIScrollViewDelegate>{
-    KNProgressHUD *_progressHUD;
     NSURL         *_url;
     UIImage       *_placeHolder;
 }
@@ -115,26 +114,35 @@
         return;
     }
     
-    __weak typeof(self) weakSelf = self;
     // 缓存中没有图片, 则下载
-    // 加载圈 开始 出现
     KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{0,0},{44,44}}];
     [self addSubview:progressHUD];
     [progressHUD setCenter:self.center];
+    
+    __weak typeof(self) weakSelf = self;
+    UIImage *image = [[SDImageCache sharedImageCache] imageFromCacheForKey:[url absoluteString]];
+    if(image){
+        [progressHUD removeFromSuperview];
+    }
     
     // SDWebImage 下载图片
     [_imageView sd_setImageWithURL:url placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         CGFloat progress = ((CGFloat)receivedSize / expectedSize);
         dispatch_async(dispatch_get_main_queue(), ^{
-            progressHUD.progress = progress; // 设置 进度
+            if(progressHUD){
+                progressHUD.progress = progress; // 设置 进度
+            }
         });
     } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         [_scrollView setZoomScale:1.f animated:YES];
-        if(error){
+        if(!error){
+            if(progressHUD){
+                [progressHUD setProgress:1.f];
+                [weakSelf layoutSubviews];
+            }
+        }
+        if(progressHUD){
             [progressHUD setProgress:1.f];
-        }else{
-            [progressHUD setProgress:1.f];
-            [weakSelf layoutSubviews];
         }
     }];
 }
