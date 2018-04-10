@@ -10,12 +10,15 @@
 #import "UIImageView+WebCache.h"
 #import "KNProgressHUD.h"
 #import "KNPch.h"
+#import "UIImage+GIF.h"
 
 @interface KNPhotoBrowerImageView()<UIScrollViewDelegate>{
     KNProgressHUD *_progressHUD;
     NSURL         *_url;
     UIImage       *_placeHolder;
 }
+
+@property (nonatomic, strong) FLAnimatedImageView *imageView;
 
 @end
 
@@ -113,7 +116,12 @@
     _placeHolder = placeHolder;
     
     if(!url){
-        [_imageView setImage:placeHolder];
+        if([placeHolder isGIF]){
+            FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:UIImagePNGRepresentation(placeHolder)];
+            _imageView.animatedImage = animatedImg;
+        }else{
+            [_imageView setImage:placeHolder];
+        }
         [self layoutSubviews];
         return;
     }

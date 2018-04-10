@@ -10,8 +10,6 @@
 #import "KNPhotoBrower.h"
 #import "FLAnimatedImage.h"
 
-#import "UIImage+SDGIF.h"
-
 @interface ViewLocController ()
 
 @property (nonatomic, strong) NSMutableArray *itemsArray;
@@ -40,8 +38,8 @@
     
     
     NSMutableArray *imageArr = [NSMutableArray array];
-    [imageArr addObject:[UIImage sd_animatedGIFNamed:@"gif1.gif"]];
-    [imageArr addObject:[UIImage sd_animatedGIFNamed:@"gif2.gif"]];
+    [imageArr addObject:[UIImage imageNamed:@"8.jpg"]];
+    [imageArr addObject:[UIImage imageNamed:@"9.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"3.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"4.jpg"]];
     [imageArr addObject:[UIImage imageNamed:@"LocationLong.JPG"]];

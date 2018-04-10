@@ -15,7 +15,6 @@ typedef void(^LongPressBlock)();
 @interface KNPhotoBrowerImageView : UIView
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) FLAnimatedImageView *imageView;
 
 @property (nonatomic, copy  ) SingleTapBlock singleTapBlock;
 @property (nonatomic, copy  ) LongPressBlock longPressBlock;

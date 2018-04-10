@@ -10,7 +10,6 @@
 		022F71B01F1769160003E1EB /* LocationLong.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 022F71AF1F1769160003E1EB /* LocationLong.JPG */; };
 		0255842A1F47DA3100A80977 /* gif1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 025584281F47DA3100A80977 /* gif1.gif */; };
 		0255842B1F47DA3100A80977 /* gif2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 025584291F47DA3100A80977 /* gif2.gif */; };
-		025584341F496C4F00A80977 /* UIImage+SDGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 025584331F496C4F00A80977 /* UIImage+SDGIF.m */; };
 		028068281F457AF800DFE108 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 028067FF1F457AF800DFE108 /* MKAnnotationView+WebCache.m */; };
 		028068291F457AF800DFE108 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 028068011F457AF800DFE108 /* NSData+ImageContentType.m */; };
 		0280682A1F457AF800DFE108 /* NSImage+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 028068031F457AF800DFE108 /* NSImage+WebCache.m */; };
@@ -110,8 +109,6 @@
 		022F71AF1F1769160003E1EB /* LocationLong.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LocationLong.JPG; sourceTree = "<group>"; };
 		025584281F47DA3100A80977 /* gif1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif1.gif; sourceTree = "<group>"; };
 		025584291F47DA3100A80977 /* gif2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif2.gif; sourceTree = "<group>"; };
-		025584321F496C4F00A80977 /* UIImage+SDGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SDGIF.h"; sourceTree = "<group>"; };
-		025584331F496C4F00A80977 /* UIImage+SDGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SDGIF.m"; sourceTree = "<group>"; };
 		028067FE1F457AF800DFE108 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		028067FF1F457AF800DFE108 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		028068001F457AF800DFE108 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -496,8 +493,6 @@
 		79E96AED1DB5CA4700274716 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				025584321F496C4F00A80977 /* UIImage+SDGIF.h */,
-				025584331F496C4F00A80977 /* UIImage+SDGIF.m */,
 				79E96AF01DB5CA4700274716 /* Normal-loc */,
 				79E96AEF1DB5CA4700274716 /* NineSquare-loc */,
 				79E96AF11DB5CA4700274716 /* ScrollView-loc */,
@@ -647,7 +642,7 @@
 				TargetAttributes = {
 					79A6B5441D62B7A800E83E10 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 9RJ6UKU39R;
+						DevelopmentTeam = K9ZKH8PE66;
 					};
 					79A6B55D1D62B7A800E83E10 = {
 						CreatedOnToolsVersion = 7.2;
@@ -742,7 +737,6 @@
 				79E96AF71DB5CB4D00274716 /* ViewLocController.m in Sources */,
 				79F4A90A1D793A4700EE0CD9 /* KNPhotoBrowerNumView.m in Sources */,
 				79E96AEC1DB5C97E00274716 /* ScrollViewController.m in Sources */,
-				025584341F496C4F00A80977 /* UIImage+SDGIF.m in Sources */,
 				79E96B001DB5CB8700274716 /* CollectionViewLocController.m in Sources */,
 				028068381F457AF800DFE108 /* UIImageView+WebCache.m in Sources */,
 				79EBE2361D8E811700B75418 /* BaseViewController.m in Sources */,
@@ -924,11 +918,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9RJ6UKU39R;
+				DEVELOPMENT_TEAM = K9ZKH8PE66;
 				INFOPLIST_FILE = KNPhotoBrower/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vi163.KNScannerView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vi163.KNPhotoBrower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -938,11 +932,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9RJ6UKU39R;
+				DEVELOPMENT_TEAM = K9ZKH8PE66;
 				INFOPLIST_FILE = KNPhotoBrower/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vi163.KNScannerView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vi163.KNPhotoBrower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -283,16 +283,7 @@ static NSString *ID = @"KNCollectionView";
     
     UIImageView *tempView = [weakSelf tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
-    if(!url && tempView.image){
-//        NSData *data = [NSData dataWithData:UIImagePNGRepresentation(tempView.image)];
-//        CGDataProviderRef provider = CGImageGetDataProvider(tempView.image.CGImage);
-//        NSData* data = (id)CFBridgingRelease(CGDataProviderCopyData(provider));
-//        FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:data];
-//        cell.photoBrowerImageView.imageView.animatedImage = animatedImg;
-        [cell.photoBrowerImageView.imageView setImage:tempView.image];
-    }else{
-        [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:nil];
-    }
+    [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:nil];
     
     cell.singleTap = ^(){
         [weakSelf dismiss];
@@ -306,9 +297,9 @@ static NSString *ID = @"KNCollectionView";
     cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
+
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    KNPhotoBrowerCell *browerCell = (KNPhotoBrowerCell *)cell;
-    [browerCell.photoBrowerImageView.scrollView setZoomScale:1.f animated:NO];
+    [cell prepareForReuse];
 }
 
 - (void)longPressIBAction{
