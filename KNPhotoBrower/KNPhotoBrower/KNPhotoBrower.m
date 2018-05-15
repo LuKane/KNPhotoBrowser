@@ -325,6 +325,7 @@ static NSString *ID = @"KNCollectionView";
 
 #pragma mark - 移到父控件上
 - (void)willMoveToSuperview:(UIView *)newSuperview{
+    if(!newSuperview) return;
     [self initializeCollectionView];
     [self initializePageView];
     [self initializePageControl];
@@ -659,7 +660,7 @@ static char KNBtnCurrentImageKey;
 }
 
 - (void)dealloc{
-    
+    NSLog(@"PhotoBrower dealloc");
 }
 
 @end

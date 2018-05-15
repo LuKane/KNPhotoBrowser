@@ -20,7 +20,7 @@
 
 @property (nonatomic, strong) NSMutableArray *itemsArray;
 @property (nonatomic, strong) NSMutableArray *actionSheetArray; // 右上角弹出框的 选项 -->代理回调
-@property (nonatomic, strong) KNPhotoBrower *photoBrower;
+@property (nonatomic, weak) KNPhotoBrower *photoBrower; // 这里要用 weak, 防止 强引用
 
 @end
 
