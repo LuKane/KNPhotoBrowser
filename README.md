@@ -180,5 +180,5 @@ items.sourceView = nil;
 * 1.适合 九宫格样式,tableView,scrollView,collectionView
 * 2.如果有bug, 请在Github上通过 '邮箱' 或者 直接issue ,我会尽快修改
 * 3.图片删除功能,提供相对和绝对下标方便开发者调用
-* 4.只支持iPhone端
+* 4.支持iPhone、iPad端
 * 5.适应于 本地图片和网络图片的加载
