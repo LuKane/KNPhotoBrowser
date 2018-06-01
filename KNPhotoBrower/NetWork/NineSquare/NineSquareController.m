@@ -32,7 +32,7 @@
         
         {
             NineSquareUrlModel *urlModel = [[NineSquareUrlModel alloc] init];
-            urlModel.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
+            urlModel.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             NineSquareModel *model = [[NineSquareModel alloc] init];
             model.title = @"一条数据";
             model.urlArr = [NSMutableArray array];
@@ -42,7 +42,7 @@
         
         {
             NineSquareUrlModel *urlModel = [[NineSquareUrlModel alloc] init];
-            urlModel.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
+            urlModel.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             NineSquareUrlModel *urlModel2 = [[NineSquareUrlModel alloc] init];
             urlModel2.url = @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif";
             NineSquareUrlModel *urlModel3 = [[NineSquareUrlModel alloc] init];
@@ -61,13 +61,13 @@
         
         {
             NineSquareUrlModel *urlModel = [[NineSquareUrlModel alloc] init];
-            urlModel.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
+            urlModel.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             NineSquareUrlModel *urlModel2 = [[NineSquareUrlModel alloc] init];
             urlModel2.url = @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif";
             NineSquareUrlModel *urlModel3 = [[NineSquareUrlModel alloc] init];
             urlModel3.url = @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg";
             NineSquareUrlModel *urlModel4 = [[NineSquareUrlModel alloc] init];
-            urlModel4.url = @"http://ww4.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1d0vyj20pf0gytcj.jpg";
+            urlModel4.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdgoa9xxj218g0rsaon.jpg";
             NineSquareUrlModel *urlModel5 = [[NineSquareUrlModel alloc] init];
             urlModel5.url = @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg";
             
@@ -84,13 +84,13 @@
         
         {
             NineSquareUrlModel *urlModel = [[NineSquareUrlModel alloc] init];
-            urlModel.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
+            urlModel.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             NineSquareUrlModel *urlModel2 = [[NineSquareUrlModel alloc] init];
             urlModel2.url = @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif";
             NineSquareUrlModel *urlModel3 = [[NineSquareUrlModel alloc] init];
             urlModel3.url = @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg";
             NineSquareUrlModel *urlModel4 = [[NineSquareUrlModel alloc] init];
-            urlModel4.url = @"http://ww4.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1d0vyj20pf0gytcj.jpg";
+            urlModel4.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdgoa9xxj218g0rsaon.jpg";
             NineSquareUrlModel *urlModel5 = [[NineSquareUrlModel alloc] init];
             urlModel5.url = @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg";
             NineSquareUrlModel *urlModel6 = [[NineSquareUrlModel alloc] init];
@@ -115,13 +115,13 @@
         
         {
             NineSquareUrlModel *urlModel = [[NineSquareUrlModel alloc] init];
-            urlModel.url = @"http://ww4.sinaimg.cn/thumbnail/7f8c1087gw1e9g06pc68ug20ag05y4qq.gif";
+            urlModel.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             NineSquareUrlModel *urlModel2 = [[NineSquareUrlModel alloc] init];
             urlModel2.url = @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif";
             NineSquareUrlModel *urlModel3 = [[NineSquareUrlModel alloc] init];
             urlModel3.url = @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg";
             NineSquareUrlModel *urlModel4 = [[NineSquareUrlModel alloc] init];
-            urlModel4.url = @"http://ww4.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1d0vyj20pf0gytcj.jpg";
+            urlModel4.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdgoa9xxj218g0rsaon.jpg";
             NineSquareUrlModel *urlModel5 = [[NineSquareUrlModel alloc] init];
             urlModel5.url = @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg";
             NineSquareUrlModel *urlModel6 = [[NineSquareUrlModel alloc] init];
@@ -129,7 +129,7 @@
             NineSquareUrlModel *urlModel7 = [[NineSquareUrlModel alloc] init];
             urlModel7.url = @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr3xvtlj20gy0obadv.jpg";
             NineSquareUrlModel *urlModel8 = [[NineSquareUrlModel alloc] init];
-            urlModel8.url = @"http://ww4.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr4nndfj20gy0o9q6i.jpg";
+            urlModel8.url = @"https://wx2.sinaimg.cn/mw690/9bbc284bgy1frtdht9q6mj21hc0u0hdt.jpg";
             NineSquareUrlModel *urlModel9 = [[NineSquareUrlModel alloc] init];
             urlModel9.url = @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr57tn9j20gy0obn0f.jpg";
             
