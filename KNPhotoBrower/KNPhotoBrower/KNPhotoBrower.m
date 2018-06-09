@@ -93,7 +93,11 @@ static NSString *ID = @"KNCollectionView";
 #pragma mark - 初始化 pageView
 - (void)initializePageView{
     KNPhotoBrowerNumView *numView = [[KNPhotoBrowerNumView alloc] init];
-    [numView setFrame:(CGRect){{0,25},{ScreenWidth,25}}];
+    CGFloat y = 25;
+    if(iPhoneX){
+        y = 45;
+    }
+    [numView setFrame:(CGRect){{0,y},{ScreenWidth,25}}];
     [numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     _page = [numView currentNum];
     [numView setHidden:!_isNeedPageNumView];
@@ -132,7 +136,13 @@ static NSString *ID = @"KNCollectionView";
     [operationBtn setBackgroundColor:[UIColor blackColor]];
     [operationBtn setAlpha:0.4];
     [operationBtn setBackgroundImage:[UIImage imageNamed:@"KNPhotoBrower.bundle/more_tap@2x.png"] forState:UIControlStateNormal];
-    [operationBtn setFrame:(CGRect){{ScreenWidth - 35 - 15,25},{35,20}}];
+    
+    CGFloat y = 25;
+    if(iPhoneX){
+        y = 45;
+    }
+    
+    [operationBtn setFrame:(CGRect){{ScreenWidth - 35 - 15,y},{35,20}}];
     [operationBtn addTarget:self action:@selector(operationBtnIBAction) forControlEvents:UIControlEventTouchUpInside];
     [operationBtn setHidden:!_isNeedRightTopBtn];
     _operationBtn = operationBtn;

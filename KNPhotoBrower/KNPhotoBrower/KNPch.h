@@ -28,5 +28,6 @@
 #define PhotoSaveImageMessageTime    2
 #define PhotoSaveImageFailureReason  @"图片需要下载完成"
 #define PhotoShowPlaceHolderImageColor [UIColor blackColor]
+#define iPhoneX (([[UIScreen mainScreen] bounds].size.height- 812)?(NO):(YES))
 
 #import "UIView+PBExtesion.h"
