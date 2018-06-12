@@ -30,6 +30,7 @@
 #define PhotoSaveImageMessageTime    2
 #define PhotoSaveImageFailureReason  @"图片需要下载完成"
 #define PhotoShowPlaceHolderImageColor [UIColor blackColor]
+#define iPhoneX (([[UIScreen mainScreen] bounds].size.height- 812)?(NO):(YES))
 
 // 是否是 左旋转
 #define PhotoOrientationLandscapeIsLeft [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft
