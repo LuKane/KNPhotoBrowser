@@ -13,7 +13,6 @@
 #import "UIImage+GIF.h"
 
 @interface KNPhotoBrowerImageView()<UIScrollViewDelegate>{
-    KNProgressHUD *_progressHUD;
     NSURL         *_url;
     UIImage       *_placeHolder;
 }
@@ -108,10 +107,9 @@
     }
 }
 
-- (void)sd_ImageWithUrl:(NSURL *)url placeHolder:(UIImage *)placeHolder{
-    if(_progressHUD){
-        [_progressHUD setProgress:1.f];
-    }
+- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder{
+    [progressHUD setHidden:true];
+    
     _url         = url;
     _placeHolder = placeHolder;
     
@@ -125,16 +123,11 @@
         [self layoutSubviews];
         return;
     }
-    
-    // 缓存中没有图片, 则下载
-    KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{0,0},{44,44}}];
-    [self addSubview:progressHUD];
-    [progressHUD setCenter:self.center];
-    
+    [progressHUD setHidden:false];
     __weak typeof(self) weakSelf = self;
     UIImage *image = [[SDImageCache sharedImageCache] imageFromCacheForKey:[url absoluteString]];
     if(image){
-        [progressHUD removeFromSuperview];
+        [progressHUD setHidden:true];
     }
     
     // SDWebImage 下载图片
@@ -148,19 +141,13 @@
     } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         [_scrollView setZoomScale:1.f animated:YES];
         if(!error){
-            if(progressHUD){
-                [progressHUD setProgress:1.f];
-                [weakSelf layoutSubviews];
-            }
-        }
-        if(progressHUD){
             [progressHUD setProgress:1.f];
+            [weakSelf layoutSubviews];
         }
     }];
-}
-
-- (void)reloadImageIBAction{
-    [self sd_ImageWithUrl:_url placeHolder:_placeHolder];
+    
+    [self layoutSubviews];
+    
 }
 
 - (void)layoutSubviews{
@@ -175,7 +162,6 @@
         
         CGSize imageSize = _imageView.image.size;
         CGRect imageFrame = CGRectMake(0, 0, imageSize.width, imageSize.height);
-        
         if (frame.size.width <= frame.size.height) { // 如果ScrollView的 宽 <= 高
             // 将图片的 宽 设置成 ScrollView的宽  ,高度 等比率 缩放
             CGFloat ratio = frame.size.width / imageFrame.size.width;
@@ -198,7 +184,6 @@
         
         // 将 scrollView.contentSize 赋值为 图片的大小. 再获取 图片的中心点
         _imageView.center = [self centerOfScrollViewContent:_scrollView];
-        
         // 获取 ScrollView 高 和 图片 高 的 比率
         CGFloat maxScale = frame.size.height / imageFrame.size.height;
         // 获取 宽度的比率

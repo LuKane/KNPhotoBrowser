@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FLAnimatedImage.h"
+@class KNProgressHUD;
 
 typedef void(^SingleTapBlock)();
 typedef void(^LongPressBlock)();
@@ -15,12 +16,13 @@ typedef void(^LongPressBlock)();
 @interface KNPhotoBrowerImageView : UIView
 
 @property (nonatomic, strong) UIScrollView *scrollView;
+//@property (nonatomic, strong) KNProgressHUD *progressHUD;
 
 @property (nonatomic, copy  ) SingleTapBlock singleTapBlock;
 @property (nonatomic, copy  ) LongPressBlock longPressBlock;
 
-- (void)sd_ImageWithUrl:(NSURL *)url placeHolder:(UIImage *)placeHolder;
+- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder;
 
-- (void)reloadFrames;
+- (void)layoutProgressHud;
 
 @end

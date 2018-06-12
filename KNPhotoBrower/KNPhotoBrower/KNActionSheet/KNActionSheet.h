@@ -54,6 +54,10 @@ typedef void(^ActionBlock)(NSInteger buttonIndex);
                       otherTitleArr:(NSArray  *)otherTitleArr
                         actionBlock:(ActionBlock)ActionBlock;
 
+/**
+ 是否需要屏幕旋转  , 默认 NO
+ */
+@property (nonatomic,assign) BOOL  isNeedDeviceOrientation;
 
 - (void)show;
 - (void)dismiss;
