@@ -53,11 +53,12 @@ static NSString *ID = @"KNCollectionView";
     [self setBackgroundColor:[UIColor blackColor]];
     [self setAlpha:PhotoBrowerBackgroundAlpha];
     
-    self.actionSheetArr     = [NSMutableArray array];
-    _isNeedPageNumView      = YES;
-    _isNeedRightTopBtn      = YES;
-    _isNeedPictureLongPress = YES;
-    _isNeedPageControl      = NO;
+    self.actionSheetArr         = [NSMutableArray array];
+    _isNeedPageNumView          = YES;
+    _isNeedRightTopBtn          = YES;
+    _isNeedPictureLongPress     = YES;
+    _isNeedPageControl          = NO;
+    _isNeedDeviceOrientation    = NO;
     
     // 监听屏幕旋转
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidOrientation) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -65,6 +66,7 @@ static NSString *ID = @"KNCollectionView";
 
 #pragma mark - 当屏幕发生旋转
 - (void)deviceDidOrientation{
+    if(_isNeedDeviceOrientation == false) return;
     NSInteger page = _page;
     
     if (PhotoOrientationLandscapeIsPortrait || PhotoOrientationLandscapeIsPortraitUpsideDown){
@@ -300,6 +302,7 @@ static NSString *ID = @"KNCollectionView";
             }
             //  如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
         }];
+        actionSheet.isNeedDeviceOrientation = _isNeedDeviceOrientation;
         [actionSheet show];
     }else{
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存图片",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
@@ -370,6 +373,7 @@ static NSString *ID = @"KNCollectionView";
                     break;
             }
         }];
+        actionSheet.isNeedDeviceOrientation = _isNeedDeviceOrientation;
         [actionSheet show];
     }
 }

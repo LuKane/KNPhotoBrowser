@@ -28,19 +28,9 @@
     #define PhotoOrientationLandscapeIsLeft [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft
 #endif
 
-// 是否是 竖直(正)
-#ifndef PhotoOrientationLandscapeIsPortrait
-    #define PhotoOrientationLandscapeIsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
-#endif
-
 // 是否是 右旋转
 #ifndef PhotoOrientationLandscapeIsRight
     #define PhotoOrientationLandscapeIsRight [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight
-#endif
-
-// 是否是 竖直(反)
-#ifndef PhotoOrientationLandscapeIsPortraitUpsideDown
-    #define PhotoOrientationLandscapeIsPortraitUpsideDown [UIDevice currentDevice].orientation == UIDeviceOrientationPortraitUpsideDown
 #endif
 
 @interface KNActionSheet()<KNActionSheetViewDelegate>{
@@ -198,48 +188,66 @@ static id ActionSheet;
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    if(PhotoOrientationLandscapeIsRight || PhotoOrientationLandscapeIsLeft){
-        
-        if(PhotoOrientationLandscapeIsLeft){
-            self.transform = CGAffineTransformMakeRotation( M_PI * 0.5);
-        }else{
-            self.transform = CGAffineTransformMakeRotation(-M_PI * 0.5);
-        }
-        
-        self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        _coverView.frame = self.bounds;
-        _bgView.frame = CGRectMake(0, ScreenWidth, ScreenHeight, _bgView.frame.size.height);
-        
-        
-        CGFloat buttonY = kActionItemHeight * (_otherBtnTitlesArr.count) + 5;
-        [_cancelView setFrame:(CGRect){{0,buttonY},{ScreenHeight,kActionItemHeight}}];
-        
-        for (NSInteger i = 0; i < self.btnArr.count; i++) {
-            CGFloat buttonY = kActionItemHeight * i;
-            KNActionSheetView *sheetView = self.btnArr[i];
-            sheetView.frame = CGRectMake(0, buttonY, ScreenHeight, kActionItemHeight);
-        }
-        
-        for (NSInteger i = 0; i < self.lineArr.count; i++) {
-            CGFloat buttonY = kActionItemHeight * i;
-            CALayer *line = self.lineArr[i];
-            line.frame = CGRectMake(0, buttonY, ScreenHeight, 0.5);
-        }
-        
-        [UIView animateWithDuration:kActionDuration animations:^{
-            _bgView.frame = CGRectMake(0,ScreenWidth - _bgView.frame.size.height, _bgView.frame.size.width, _bgView.frame.size.height);
-        }];
-        
+    if(_isNeedDeviceOrientation == false){
+        [self relayoutSubViewPortrait];
     }else{
-        self.transform = CGAffineTransformIdentity;
-        self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        _coverView.frame = self.bounds;
-        _bgView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, _bgView.frame.size.height);
-        
-        [UIView animateWithDuration:kActionDuration animations:^{
-            _bgView.frame = CGRectMake(0, ScreenHeight - _bgView.frame.size.height, _bgView.frame.size.width, _bgView.frame.size.height);
-        }];
+        if(PhotoOrientationLandscapeIsRight || PhotoOrientationLandscapeIsLeft){
+            [self reLayoutSubViewLeftOrRight];
+        }else{
+            [self relayoutSubViewPortrait];
+        }
     }
+}
+
+
+/**
+ 处理 竖直屏幕的控件
+ */
+- (void)relayoutSubViewPortrait{
+    self.transform = CGAffineTransformIdentity;
+    self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    _coverView.frame = self.bounds;
+    _bgView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, _bgView.frame.size.height);
+    
+    [UIView animateWithDuration:kActionDuration animations:^{
+        _bgView.frame = CGRectMake(0, ScreenHeight - _bgView.frame.size.height, _bgView.frame.size.width, _bgView.frame.size.height);
+    }];
+}
+
+
+/**
+ 处理 水平屏幕的控件
+ */
+- (void)reLayoutSubViewLeftOrRight{
+    if(PhotoOrientationLandscapeIsLeft){
+        self.transform = CGAffineTransformMakeRotation( M_PI * 0.5);
+    }else{
+        self.transform = CGAffineTransformMakeRotation(-M_PI * 0.5);
+    }
+    
+    self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    _coverView.frame = self.bounds;
+    _bgView.frame = CGRectMake(0, ScreenWidth, ScreenHeight, _bgView.frame.size.height);
+    
+    
+    CGFloat buttonY = kActionItemHeight * (_otherBtnTitlesArr.count) + 5;
+    [_cancelView setFrame:(CGRect){{0,buttonY},{ScreenHeight,kActionItemHeight}}];
+    
+    for (NSInteger i = 0; i < self.btnArr.count; i++) {
+        CGFloat buttonY = kActionItemHeight * i;
+        KNActionSheetView *sheetView = self.btnArr[i];
+        sheetView.frame = CGRectMake(0, buttonY, ScreenHeight, kActionItemHeight);
+    }
+    
+    for (NSInteger i = 0; i < self.lineArr.count; i++) {
+        CGFloat buttonY = kActionItemHeight * i;
+        CALayer *line = self.lineArr[i];
+        line.frame = CGRectMake(0, buttonY, ScreenHeight, 0.5);
+    }
+    
+    [UIView animateWithDuration:kActionDuration animations:^{
+        _bgView.frame = CGRectMake(0,ScreenWidth - _bgView.frame.size.height, _bgView.frame.size.width, _bgView.frame.size.height);
+    }];
 }
 
 /**
