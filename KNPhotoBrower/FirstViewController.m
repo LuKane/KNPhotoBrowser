@@ -17,6 +17,7 @@
 #import "NineSquareLocController.h"
 #import "ScrollViewLocController.h"
 #import "CollectionViewLocController.h"
+#import "SDImageCache.h"
 
 @interface FirstViewController ()<UITableViewDataSource,UITableViewDelegate>{
     BOOL     _isHidden;
@@ -50,6 +51,14 @@
     self.title = @" KNPhotoBrower 演示";
     
     [self setupTableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[SDImageCache sharedImageCache] clearMemory];
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+        NSLog(@"imageCache is cleared");
+    }];
 }
 
 - (void)setupTableView{

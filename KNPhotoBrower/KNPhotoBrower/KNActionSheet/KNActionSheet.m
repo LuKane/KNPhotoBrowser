@@ -22,9 +22,36 @@
 #define kActionDuration 0.3
 #define kActionItemHeight 49
 
-@interface KNActionSheet()<KNActionSheetViewDelegate>
+
+// 是否是 左旋转
+#ifndef PhotoOrientationLandscapeIsLeft
+    #define PhotoOrientationLandscapeIsLeft [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft
+#endif
+
+// 是否是 竖直(正)
+#ifndef PhotoOrientationLandscapeIsPortrait
+    #define PhotoOrientationLandscapeIsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
+#endif
+
+// 是否是 右旋转
+#ifndef PhotoOrientationLandscapeIsRight
+    #define PhotoOrientationLandscapeIsRight [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight
+#endif
+
+// 是否是 竖直(反)
+#ifndef PhotoOrientationLandscapeIsPortraitUpsideDown
+    #define PhotoOrientationLandscapeIsPortraitUpsideDown [UIDevice currentDevice].orientation == UIDeviceOrientationPortraitUpsideDown
+#endif
+
+@interface KNActionSheet()<KNActionSheetViewDelegate>{
+    KNActionSheetView *_cancelView;
+}
 
 @property (nonatomic, copy) ActionBlock ActionBlock;
+
+@property (nonatomic,strong) UIWindow *window;
+@property (nonatomic,strong) NSMutableArray *lineArr;
+@property (nonatomic,strong) NSMutableArray *btnArr;
 
 @end
 
@@ -36,7 +63,6 @@
     
     UIView   *_bgView; // 存放子控件的View
     UIView   *_coverView; // 背景遮盖
-    
     NSInteger _destructiveIndex;
 }
 
@@ -51,13 +77,38 @@ static id ActionSheet;
     return ActionSheet;
 }
 
+- (NSMutableArray *)btnArr{
+    if (!_btnArr) {
+        _btnArr = [NSMutableArray array];
+    }
+    return _btnArr;
+}
+
+- (NSMutableArray *)lineArr{
+    if (!_lineArr) {
+        _lineArr = [NSMutableArray array];
+    }
+    return _lineArr;
+}
+
+- (UIWindow *)window{
+    if (!_window) {
+        _window = [UIApplication sharedApplication].keyWindow;
+    }
+    return _window;
+}
 
 #pragma mark - 初始化 子控件
 - (void)setupSubViews{
     
+    // 监听屏幕旋转
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidOrientation) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
     [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj removeFromSuperview];
     }];
+    [self.btnArr removeAllObjects];
+    [self.lineArr removeAllObjects];
     
     [self setFrame:[[UIScreen mainScreen] bounds]];
     [self setBackgroundColor:[UIColor clearColor]];
@@ -75,7 +126,7 @@ static id ActionSheet;
     _bgView = bgView;
     [self addSubview:bgView];
     
-    for (NSInteger i = 0; i < _otherBtnTitlesArr.count; i++) {   
+    for (NSInteger i = 0; i < _otherBtnTitlesArr.count; i++) {
         KNActionSheetView *sheetView = [[KNActionSheetView alloc] init];
         [sheetView setTag:i];
         [sheetView setDelegate:self];
@@ -88,14 +139,16 @@ static id ActionSheet;
         }
         
         [sheetView setTitle:_otherBtnTitlesArr[i]];
+        [self.btnArr addObject:sheetView];
         [_bgView addSubview:sheetView];
         
         CALayer *line = [CALayer layer];
-        [line setBackgroundColor: [kActionBgViewBackGroundColor CGColor]];
+        [line setBackgroundColor:[kActionBgViewBackGroundColor CGColor]];
         line.frame = CGRectMake(0, buttonY, ScreenWidth, 0.5);
         [_bgView.layer addSublayer:line];
+        [self.lineArr addObject:line];
     }
-
+    
     CGFloat height = kActionItemHeight * (_otherBtnTitlesArr.count + 1) + 5;
     KNActionSheetView *cancelView = [[KNActionSheetView alloc] init];
     [cancelView setDelegate:self];
@@ -103,11 +156,11 @@ static id ActionSheet;
     
     CGFloat buttonY = kActionItemHeight * (_otherBtnTitlesArr.count) + 5;
     [cancelView setFrame:(CGRect){{0,buttonY},{ScreenWidth,kActionItemHeight}}];
-    
     [cancelView setTitle:_cancelBtnTitle?_cancelBtnTitle:@"取消"];
+    _cancelView = cancelView;
     [_bgView addSubview:cancelView];
     
-    _bgView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, height);
+    _bgView.frame = CGRectMake(0, ScreenHeight - height, ScreenWidth, height);
 }
 
 - (void)actionSheetViewIBAction:(NSInteger)index{
@@ -118,30 +171,75 @@ static id ActionSheet;
 }
 
 - (void)show{
+    
     [_coverView setAlpha:0];
     [_bgView setTransform:CGAffineTransformIdentity];
     
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:self];
-    
+    [self.window addSubview:self];
+    [_coverView setAlpha:0.3];
     [self setHidden:NO];
-    
-    [UIView animateWithDuration:kActionDuration animations:^{
-        [_coverView setAlpha:0.3];
-        [_bgView setTransform:CGAffineTransformMakeTranslation(0, -_bgView.frame.size.height)];
-    } completion:^(BOOL finished) {
-        
-    }];
+}
+
+- (void)deviceDidOrientation{
+    [self dismiss];
 }
 
 - (void)dismiss{
     [UIView animateWithDuration:kActionDuration animations:^{
         [_coverView setAlpha:0];
-        [_bgView setTransform:CGAffineTransformIdentity];
+        _bgView.frame = CGRectMake(0, ScreenHeight, _bgView.frame.size.width, _bgView.frame.size.height);
     } completion:^(BOOL finished) {
         [self setHidden:YES];
         [self removeFromSuperview];
     }];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    if(PhotoOrientationLandscapeIsRight || PhotoOrientationLandscapeIsLeft){
+        
+        if(PhotoOrientationLandscapeIsLeft){
+            self.transform = CGAffineTransformMakeRotation( M_PI * 0.5);
+        }else{
+            self.transform = CGAffineTransformMakeRotation(-M_PI * 0.5);
+        }
+        
+        self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        _coverView.frame = self.bounds;
+        _bgView.frame = CGRectMake(0, ScreenWidth, ScreenHeight, _bgView.frame.size.height);
+        
+        
+        CGFloat buttonY = kActionItemHeight * (_otherBtnTitlesArr.count) + 5;
+        [_cancelView setFrame:(CGRect){{0,buttonY},{ScreenHeight,kActionItemHeight}}];
+        
+        for (NSInteger i = 0; i < self.btnArr.count; i++) {
+            CGFloat buttonY = kActionItemHeight * i;
+            KNActionSheetView *sheetView = self.btnArr[i];
+            sheetView.frame = CGRectMake(0, buttonY, ScreenHeight, kActionItemHeight);
+        }
+        
+        for (NSInteger i = 0; i < self.lineArr.count; i++) {
+            CGFloat buttonY = kActionItemHeight * i;
+            CALayer *line = self.lineArr[i];
+            line.frame = CGRectMake(0, buttonY, ScreenHeight, 0.5);
+        }
+        
+        [UIView animateWithDuration:kActionDuration animations:^{
+            _bgView.frame = CGRectMake(0,ScreenWidth - _bgView.frame.size.height, _bgView.frame.size.width, _bgView.frame.size.height);
+        }];
+        
+    }else{
+        self.transform = CGAffineTransformIdentity;
+        self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        _coverView.frame = self.bounds;
+        _bgView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, _bgView.frame.size.height);
+        
+        [UIView animateWithDuration:kActionDuration animations:^{
+            _bgView.frame = CGRectMake(0, ScreenHeight - _bgView.frame.size.height, _bgView.frame.size.width, _bgView.frame.size.height);
+        }];
+    }
 }
 
 /**
@@ -217,3 +315,4 @@ static id ActionSheet;
 }
 
 @end
+

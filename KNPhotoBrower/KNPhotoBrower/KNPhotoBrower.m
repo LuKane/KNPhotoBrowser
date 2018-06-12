@@ -21,9 +21,11 @@
 #import <objc/runtime.h>
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
+#import <Photos/Photos.h>
 
 @interface KNPhotoBrower()<UICollectionViewDataSource,UICollectionViewDelegate>{
     KNPhotoBrowerCell     *_collectionViewCell;
+    UICollectionViewFlowLayout *_layout;
     KNPhotoBrowerNumView  *_numView;
     UICollectionView      *_collectionView;
     UIButton              *_operationBtn;// 操作按钮
@@ -51,11 +53,155 @@ static NSString *ID = @"KNCollectionView";
     [self setBackgroundColor:[UIColor blackColor]];
     [self setAlpha:PhotoBrowerBackgroundAlpha];
     
-    self.actionSheetArr = [NSMutableArray array];
+    self.actionSheetArr     = [NSMutableArray array];
     _isNeedPageNumView      = YES;
     _isNeedRightTopBtn      = YES;
     _isNeedPictureLongPress = YES;
     _isNeedPageControl      = NO;
+    
+    // 监听屏幕旋转
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidOrientation) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+#pragma mark - 当屏幕发生旋转
+- (void)deviceDidOrientation{
+    NSInteger page = _page;
+    
+    if (PhotoOrientationLandscapeIsPortrait || PhotoOrientationLandscapeIsPortraitUpsideDown){
+        [self reloadPortraitFrame:page];
+    }else if (PhotoOrientationLandscapeIsLeft){
+        [self reloadLandscapeIsLeftFrame:page];
+    }else if (PhotoOrientationLandscapeIsRight){
+        [self reloadLandscapeIsRightFrame:page];
+    }
+}
+
+/**
+ 当屏幕旋转到  正上 或  正下
+
+ @param page 当前图片的下标
+ */
+- (void)reloadPortraitFrame:(NSInteger)page{
+    
+    // _collectionView 的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _collectionView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        [_collectionViewCell setNeedsLayout];
+        [_collectionView setFrame:(CGRect){{0,0},{ScreenWidth + PhotoBrowerMargin,ScreenHeight}}];
+        _collectionView.center = CGPointMake((ScreenWidth + 20) * 0.5, ScreenHeight * 0.5);
+        _layout.itemSize = CGSizeMake(ScreenWidth + PhotoBrowerMargin, ScreenHeight);
+        [_layout invalidateLayout];
+        [_collectionView reloadData];
+        [_collectionView setContentOffset:(CGPoint){page * (ScreenWidth + PhotoBrowerMargin),0} animated:NO];
+    }];
+    
+    // 顶部数字View的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _numView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        _numView.frame = (CGRect){{0,iPhoneX?45:25},{ScreenWidth,25}};
+    }];
+    
+    // PageControl 的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _pageControl.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        _pageControl.frame = (CGRect){{0,ScreenHeight - 50},{ScreenWidth,30}};
+    }];
+    
+    // 右上角操作按钮的处理
+    [UIView animateWithDuration:PhotoBrowerBrowerTime animations:^{
+        _operationBtn.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        _operationBtn.frame = (CGRect){{ScreenWidth - 35 - 15,iPhoneX?45:25},{35,20}};
+    }];
+}
+
+/**
+ 当屏幕旋转到 左边时
+
+ @param page 当前图片的下标
+ */
+- (void)reloadLandscapeIsLeftFrame:(NSInteger)page{
+    
+    // _collectionView 的处理
+    [_collectionView setFrame:(CGRect){{0,0},{ScreenHeight + PhotoBrowerMargin,ScreenWidth}}];
+    _collectionView.center = CGPointMake(ScreenWidth * 0.5, ScreenHeight * 0.5);
+    _layout.itemSize = CGSizeMake(ScreenHeight + PhotoBrowerMargin, ScreenWidth);
+    [_layout invalidateLayout];
+    [_collectionView reloadData];
+    [_collectionView setContentOffset:(CGPoint){page * (ScreenHeight + PhotoBrowerMargin),0} animated:NO];
+    
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _collectionView.transform = CGAffineTransformMakeRotation( M_PI * 0.5);
+    } completion:^(BOOL finished) {
+        [_collectionViewCell setNeedsLayout];
+    }];
+    
+    // 顶部数字View的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _numView.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
+        _numView.frame = CGRectMake(0, 0, 25 ,ScreenHeight);
+        _numView.center = CGPointMake(ScreenWidth - 12.5, ScreenHeight * 0.5);
+    }];
+
+    // PageControl 的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _pageControl.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
+        _pageControl.frame = CGRectMake(0, 0, 30 ,ScreenHeight);
+        _pageControl.center = CGPointMake(25, ScreenHeight * 0.5);
+    }];
+    
+    // 右上角操作按钮的处理
+    [UIView animateWithDuration:PhotoBrowerBrowerTime animations:^{
+        _operationBtn.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
+        _operationBtn.frame = CGRectMake(0, 0, 20, 35);
+        _operationBtn.center = CGPointMake(ScreenWidth - (10 + iPhoneX?45:25), ScreenHeight - 35 * 0.5 - 15);
+    }];
+}
+
+/**
+ 当屏幕旋转到右边时
+
+ @param page 当前图片的下标
+ */
+- (void)reloadLandscapeIsRightFrame:(NSInteger)page{
+    
+    // _collectionView 的处理
+    [_collectionView setFrame:(CGRect){{0,0},{ScreenHeight + PhotoBrowerMargin,ScreenWidth}}];
+    _collectionView.center = CGPointMake(ScreenWidth * 0.5, ScreenHeight * 0.5);
+    _layout.itemSize = CGSizeMake(ScreenHeight + PhotoBrowerMargin, ScreenWidth);
+    [_layout invalidateLayout];
+    [_collectionView reloadData];
+    [_collectionView setContentOffset:(CGPoint){page * (ScreenHeight + PhotoBrowerMargin),0} animated:NO];
+    
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _collectionView.transform = CGAffineTransformMakeRotation(- M_PI * 0.5);
+    } completion:^(BOOL finished) {
+        [_collectionViewCell setNeedsLayout];
+    }];
+    
+    // 顶部数字View的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _numView.transform = CGAffineTransformMakeRotation(- M_PI * 0.5);
+        _numView.frame = CGRectMake(0, 0, 25 ,ScreenHeight);
+        _numView.center = CGPointMake(12.5, ScreenHeight * 0.5);
+    }];
+    
+    // PageControl 的处理
+    [UIView animateWithDuration:PhotoBrowerTransformTime animations:^{
+        _pageControl.transform = CGAffineTransformMakeRotation(- M_PI * 0.5);
+        _pageControl.frame = CGRectMake(0, 0, 30 ,ScreenHeight);
+        _pageControl.center = CGPointMake(ScreenWidth - 25, ScreenHeight * 0.5);
+    }];
+    
+    // 右上角操作按钮的处理
+    [UIView animateWithDuration:PhotoBrowerBrowerTime animations:^{
+        _operationBtn.transform = CGAffineTransformMakeRotation(- M_PI * 0.5);
+        _operationBtn.frame = CGRectMake(0, 0, 20, 35);
+        _operationBtn.center = CGPointMake(10 + iPhoneX?45:25,  35 * 0.5 + 15);
+    }];
 }
 
 #pragma mark - 初始化 CollectionView
@@ -70,6 +216,7 @@ static NSString *ID = @"KNCollectionView";
     [layout setMinimumInteritemSpacing:0];
     [layout setMinimumLineSpacing:0];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    _layout = layout;
     
     // 2.create collectionView
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:bounds collectionViewLayout:layout];
@@ -93,7 +240,11 @@ static NSString *ID = @"KNCollectionView";
 #pragma mark - 初始化 pageView
 - (void)initializePageView{
     KNPhotoBrowerNumView *numView = [[KNPhotoBrowerNumView alloc] init];
-    [numView setFrame:(CGRect){{0,25},{ScreenWidth,25}}];
+    CGFloat y = 25;
+    if (iPhoneX) {
+        y = 45;
+    }
+    [numView setFrame:(CGRect){{0,y},{ScreenWidth,25}}];
     [numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     _page = [numView currentNum];
     [numView setHidden:!_isNeedPageNumView];
@@ -132,7 +283,7 @@ static NSString *ID = @"KNCollectionView";
     [operationBtn setBackgroundColor:[UIColor blackColor]];
     [operationBtn setAlpha:0.4];
     [operationBtn setBackgroundImage:[UIImage imageNamed:@"KNPhotoBrower.bundle/more_tap@2x.png"] forState:UIControlStateNormal];
-    [operationBtn setFrame:(CGRect){{ScreenWidth - 35 - 15,25},{35,20}}];
+    [operationBtn setFrame:(CGRect){{ScreenWidth - 35 - 15,iPhoneX?45:25},{35,20}}];
     [operationBtn addTarget:self action:@selector(operationBtnIBAction) forControlEvents:UIControlEventTouchUpInside];
     [operationBtn setHidden:!_isNeedRightTopBtn];
     _operationBtn = operationBtn;
@@ -151,7 +302,6 @@ static NSString *ID = @"KNCollectionView";
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
             }
-            
             //  如果传入的 ActionSheetArr 有下载图片这一选项. 则在这里调用和下面一样的方法 switch.....,如果没有下载图片,则通过代理方法去实现...
         }];
         [actionSheet show];
@@ -181,7 +331,8 @@ static NSString *ID = @"KNCollectionView";
                 }
                     break;
                 case 1:{ // 下载图片
-#pragma mark - 下载图片
+#pragma mark - 下载图片 : 如果没有权限 :  弹出框 , dismiss
+                    
                     KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                     if(items.url){ // 如果是网络图片
                         SDWebImageManager *mgr = [SDWebImageManager sharedManager];
@@ -211,6 +362,10 @@ static NSString *ID = @"KNCollectionView";
                             UIImageWriteToSavedPhotosAlbum(imageView.image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                         });
                     }
+                    if([weakSelf isAuthPhoto] == false){
+                        [weakSelf dismiss];
+                        return ;
+                    }
                 }
                     /**
                      *  剩下的需要自己去实现
@@ -234,6 +389,25 @@ static NSString *ID = @"KNCollectionView";
             [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
         }
     }] ;
+}
+
+/**
+ 是否有相册权限
+
+ @return 是否有
+ */
+- (BOOL)isAuthPhoto{
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusRestricted) { // 此应用程序没有被授权访问的照片数据。可能是家长控制权限。
+        return false;
+    } else if (status == PHAuthorizationStatusDenied) { // 用户拒绝访问相册
+        return false;
+    } else if (status == PHAuthorizationStatusAuthorized) { // 用户允许访问相册
+        return true;
+    } else if (status == PHAuthorizationStatusNotDetermined) { // 用户还没有做出选择
+        return false;
+    }
+    return false;
 }
 
 - (void)deleteImageIBAction{
@@ -302,15 +476,28 @@ static NSString *ID = @"KNCollectionView";
     [cell prepareForReuse];
 }
 
+/**
+ 长按 按钮的点击
+ */
 - (void)longPressIBAction{
     if(!_isNeedPictureLongPress) return;
     [self operationBtnIBAction];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    _currentIndex = scrollView.contentOffset.x / (ScreenWidth + PhotoBrowerMargin);
-    
     CGFloat scrollViewW = scrollView.frame.size.width;
+    
+    if(_isFirstShow == false){
+        _currentIndex = scrollView.contentOffset.x / (ScreenWidth + PhotoBrowerMargin);
+    }else{
+        if(PhotoOrientationLandscapeIsPortrait || PhotoOrientationLandscapeIsPortraitUpsideDown){
+            _currentIndex = scrollView.contentOffset.x / (ScreenWidth + PhotoBrowerMargin);
+        }else{
+            _currentIndex = scrollView.contentOffset.x / (ScreenHeight + PhotoBrowerMargin);
+            scrollViewW = ScreenHeight;
+        }
+    }
+    
     CGFloat x = scrollView.contentOffset.x;
     NSInteger page = (x + scrollViewW / 2) / scrollViewW;
     
@@ -347,6 +534,7 @@ static NSString *ID = @"KNCollectionView";
     
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [self setFrame:window.bounds];
+    self.center = window.center;
     [window addSubview:self];
 }
 
@@ -526,9 +714,12 @@ static NSString *ID = @"KNCollectionView";
         
         [UIView animateWithDuration:0.15 animations:^{
             [tempView setAlpha:0.f];
+            
         } completion:^(BOOL finished) {
             [tempView removeFromSuperview];
         }];
+        _page = _currentIndex;
+        [self deviceDidOrientation];
     }];
 }
 
@@ -660,6 +851,7 @@ static char KNBtnCurrentImageKey;
 }
 
 - (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     NSLog(@"PhotoBrower dealloc");
 }
 

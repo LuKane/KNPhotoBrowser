@@ -17,6 +17,8 @@
 #define PhotoBrowerBackgroundAlpha 1.f
 #define PhotoBrowerBrowerTime      .3f
 #define PhotoBrowerMargin          20.f
+#define PhotoBrowerTransformTime 0.2
+#define iPhoneX (([[UIScreen mainScreen] bounds].size.height- 812)?(NO):(YES))
 
 // 图片的最大放大倍数
 #define PhotoBrowerImageMaxScale   2.f
@@ -28,5 +30,14 @@
 #define PhotoSaveImageMessageTime    2
 #define PhotoSaveImageFailureReason  @"图片需要下载完成"
 #define PhotoShowPlaceHolderImageColor [UIColor blackColor]
+
+// 是否是 左旋转
+#define PhotoOrientationLandscapeIsLeft [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft
+// 是否是 竖直(正)
+#define PhotoOrientationLandscapeIsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
+// 是否是 右旋转
+#define PhotoOrientationLandscapeIsRight [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight
+// 是否是 竖直(反)
+#define PhotoOrientationLandscapeIsPortraitUpsideDown [UIDevice currentDevice].orientation == UIDeviceOrientationPortraitUpsideDown
 
 #import "UIView+PBExtesion.h"
