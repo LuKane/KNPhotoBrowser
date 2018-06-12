@@ -93,6 +93,11 @@
  */
 @property (nonatomic, strong) NSArray *dataSourceUrlArr;
 
+/**
+ 是否需要 屏幕旋转 , Default NO
+ */
+@property (nonatomic,assign) BOOL  isNeedDeviceOrientation;
+
 @property (nonatomic, weak  ) id<KNPhotoBrowerDelegate> delegate;
 
 /**

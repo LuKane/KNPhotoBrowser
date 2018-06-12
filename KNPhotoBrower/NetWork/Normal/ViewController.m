@@ -131,7 +131,7 @@
     [photoBrower setIsNeedRightTopBtn:NO]; // 是否需要 右上角 操作功能按钮
     [photoBrower setIsNeedPictureLongPress:NO]; // 是否 需要 长按图片 弹出框功能 .默认:需要
     [photoBrower setIsNeedPageControl:YES];
-    
+    [photoBrower setIsNeedDeviceOrientation:true];
     [photoBrower present];
     _photoBrower = photoBrower;
     

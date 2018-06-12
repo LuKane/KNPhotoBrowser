@@ -199,7 +199,6 @@ static id ActionSheet;
     }
 }
 
-
 /**
  处理 竖直屏幕的控件
  */

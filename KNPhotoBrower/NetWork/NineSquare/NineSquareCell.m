@@ -119,6 +119,8 @@
     KNPhotoBrower *photoBrower = [[KNPhotoBrower alloc] init];
     photoBrower.itemsArr = [self.itemsArr copy];
     photoBrower.currentIndex = tap.view.tag;
+    [photoBrower setIsNeedDeviceOrientation:true];
+    
     [photoBrower present];
     
     [photoBrower setDelegate:self];

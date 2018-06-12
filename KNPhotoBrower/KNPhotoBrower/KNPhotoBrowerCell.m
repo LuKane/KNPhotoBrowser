@@ -45,7 +45,7 @@
     
     _photoBrowerImageView = photoBrowerView;
     [self.contentView addSubview:photoBrowerView];
-
+    
     KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     progressHUD.center = CGPointMake(self.contentView.center.x - 10, self.contentView.center.y);
     _progressHUD = progressHUD;
@@ -65,6 +65,8 @@
     
     if(PhotoOrientationLandscapeIsPortrait || PhotoOrientationLandscapeIsPortraitUpsideDown){
         _photoBrowerImageView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    }else if(PhotoOrientationFaceUp || PhotoOrientationFaceDown || PhotoOrientationUnknown){
+        
     }else{
         _photoBrowerImageView.frame = CGRectMake(0, 0, ScreenHeight, ScreenWidth);
         _photoBrowerImageView.center = self.contentView.center;

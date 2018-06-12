@@ -40,5 +40,11 @@
 #define PhotoOrientationLandscapeIsRight [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight
 // 是否是 竖直(反)
 #define PhotoOrientationLandscapeIsPortraitUpsideDown [UIDevice currentDevice].orientation == UIDeviceOrientationPortraitUpsideDown
+// 面部朝上
+#define PhotoOrientationFaceUp [UIDevice currentDevice].orientation == UIDeviceOrientationFaceUp
+// 面部朝下
+#define PhotoOrientationFaceDown [UIDevice currentDevice].orientation == UIDeviceOrientationFaceDown
+// 无法识别方向
+#define PhotoOrientationUnknown [UIDevice currentDevice].orientation == UIDeviceOrientationUnknown
 
 #import "UIView+PBExtesion.h"

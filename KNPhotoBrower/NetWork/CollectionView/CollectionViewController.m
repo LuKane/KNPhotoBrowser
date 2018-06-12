@@ -423,7 +423,7 @@ NSString *const ID = @"collectionViewID";
     [photoBrower setSourceViewForCellReusable:_collectionView];
     
     /****************  为了 循环利用 而做出的 新的属性  *****************/
-    
+    [photoBrower setIsNeedDeviceOrientation:true];
     
     [photoBrower present];
     
