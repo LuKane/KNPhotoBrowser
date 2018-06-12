@@ -13,7 +13,7 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
 
 ## 更新内容
-* 1.增加 横竖屏处理
+* 1.增加 横竖屏处理 photoBrower.isNeedDeviceOrientation = true; // 默认为 false, 不旋转
 * 2.适配iPhoneX
 * 3.下一个版本 即将更新 : 改成高仿 微信朋友圈的样式,更好的提供屏幕旋转和加载样式, 下一版时间可能较长
 
