@@ -237,7 +237,6 @@ static NSString *ID = @"KNCollectionView";
     }];
 }
 
-
 /**
  当屏幕 旋转180
  
@@ -774,6 +773,9 @@ static NSString *ID = @"KNCollectionView";
     if([sourceView isKindOfClass:[UIImageView class]]){
         UIImageView *imageView = (UIImageView *)sourceView;
         UIImage *image = [imageView image];
+        if(!image){
+            image = [self createImageWithUIColor:PhotoShowPlaceHolderImageColor];
+        }
         [imageView setImage:nil];
         return @[(UIImageView *)sourceView,image];
     }
@@ -781,6 +783,9 @@ static NSString *ID = @"KNCollectionView";
     if([sourceView isKindOfClass:[UIButton class]]){
         UIButton *btn = (UIButton *)sourceView;
         UIImage *image = [btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage];
+        if(!image){
+            image = [self createImageWithUIColor:PhotoShowPlaceHolderImageColor];
+        }
         [btn setBackgroundImage:nil forState:btn.state];
         [btn setImage:nil forState:btn.state];
         return @[(UIButton *)sourceView,image];
@@ -793,6 +798,9 @@ static NSString *ID = @"KNCollectionView";
             UICollectionViewCell *cell = [(UICollectionView *)_sourceViewForCellReusable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
             if(cell){
                 UIImage *image = [(UIImageView *)cell.contentView.subviews[0] image];
+                if(!image){
+                    image = [self createImageWithUIColor:PhotoShowPlaceHolderImageColor];
+                }
                 [(UIImageView *)cell.contentView.subviews[0] setImage:nil];
                 return @[(UIImageView *)cell.contentView.subviews[0],image];;
             }else{

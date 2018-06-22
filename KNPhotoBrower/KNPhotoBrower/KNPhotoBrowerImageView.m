@@ -143,6 +143,8 @@
         if(!error){
             [progressHUD setProgress:1.f];
             [weakSelf layoutSubviews];
+        }else{
+            [progressHUD setHidden:true];
         }
     }];
     
