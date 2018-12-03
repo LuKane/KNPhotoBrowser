@@ -98,9 +98,9 @@ static id toast;
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:_toastView];
     
-    [[NSOperationQueue mainQueue]  addOperationWithBlock:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self performSelector:@selector(dismiss) withObject:nil afterDelay:duration];
-    }];
+    });   
 }
 
 - (void)dismiss{
