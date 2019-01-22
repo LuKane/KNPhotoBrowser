@@ -2,8 +2,8 @@
 //  main.m
 //  KNPhotoBrower
 //
-//  Created by LuKane on 16/8/16.
-//  Copyright © 2016年 LuKane. All rights reserved.
+//  Created by LuKane on 2019/1/14.
+//  Copyright © 2019 LuKane. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
