@@ -1,6 +1,6 @@
 ![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
 # KNPhotoBrower
-[中文](https://github.com/LuKane/KNPhotoBrower/blob/master/README_Chinese.md) | [英文](https://github.com/LuKane/KNPhotoBrower/blob/master/README.md)
+[中文](https://github.com/LuKane/KNPhotoBrower/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrower/blob/master/README.md)
 
 ##### most like photoBrower of `Wechat(TX)` and `Weibo(Sina)` in China
 ##### if you get any function to add, just contact me by E-mail. Welcome to Star 
