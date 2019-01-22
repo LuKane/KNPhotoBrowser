@@ -2,7 +2,7 @@
 
 # KNPhotoBrower 
 
-[中文](http://example.com/) | [英文](http://example.com/)
+[中文](https://github.com/LuKane/KNPhotoBrower/blob/master/README_Chinese.md) | [英文](https://github.com/LuKane/KNPhotoBrower/blob/master/README.md)
 
 ##### 微信 && 微博 图片浏览器
 
