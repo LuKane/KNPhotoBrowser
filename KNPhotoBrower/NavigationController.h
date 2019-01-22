@@ -1,8 +1,8 @@
 //
-//  BaseViewController.h
+//  NavigationController.h
 //  KNPhotoBrower
 //
-//  Created by LuKane on 2018/12/14.
+//  Created by LuKane on 2018/12/19.
 //  Copyright © 2018 LuKane. All rights reserved.
 //
 
@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BaseViewController : UIViewController
-
-
+@interface NavigationController : UINavigationController
 
 @end
 

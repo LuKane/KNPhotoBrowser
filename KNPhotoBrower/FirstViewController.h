@@ -2,12 +2,16 @@
 //  FirstViewController.h
 //  KNPhotoBrower
 //
-//  Created by LuKane on 16/9/1.
-//  Copyright © 2016年 LuKane. All rights reserved.
+//  Created by LuKane on 2018/12/14.
+//  Copyright © 2018 LuKane. All rights reserved.
 //
 
 #import "BaseViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface FirstViewController : BaseViewController
 
 @end
+
+NS_ASSUME_NONNULL_END

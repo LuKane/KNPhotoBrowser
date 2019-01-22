@@ -2,8 +2,8 @@
 //  BaseViewController.m
 //  KNPhotoBrower
 //
-//  Created by LuKane on 16/9/18.
-//  Copyright © 2016年 LuKane. All rights reserved.
+//  Created by LuKane on 2018/12/14.
+//  Copyright © 2018 LuKane. All rights reserved.
 //
 
 #import "BaseViewController.h"
@@ -17,11 +17,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
     
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationController.navigationBar.translucent = NO;
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
     UIBarButtonItem *backIetm = [[UIBarButtonItem alloc] init];
-    backIetm.title =@"返回";
+    backIetm.title = @"返回";
     self.navigationItem.backBarButtonItem = backIetm;
+}
+
+- (BOOL)shouldAutorotate{
+    return true;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end
