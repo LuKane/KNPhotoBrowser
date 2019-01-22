@@ -15,7 +15,7 @@
 ## 更新内容 
 * 1.图片浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`
 * 2.适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
-* 3.完美适配 屏幕旋转, 解决 微信图片浏览器的回显问题
+* 3.完美适配 屏幕旋转, 解决 微信图片浏览器的回显bug ,也解决了 微博在iPhoneX 旋转后的bug
 
 
 ## 一.功能描述及要点
