@@ -10,28 +10,29 @@
 
 typedef void(^ActionBlock)(NSInteger buttonIndex);
 
+
 @interface KNActionSheet : UIView
 
 /**
- 弹出层
+ alert
 
- @param cancelTitle 取消功能的文字
- @param otherTitleArr 其他功能的文字 数组
- @param ActionBlock 回调
- @return 弹出层本身
+ @param cancelTitle title of cancel
+ @param otherTitleArr other title array
+ @param ActionBlock call back
+ @return alert
  */
 - (instancetype)initWithCancelTitle:(NSString *)cancelTitle
                       otherTitleArr:(NSArray  *)otherTitleArr
                         actionBlock:(ActionBlock)ActionBlock;
 
 /**
- 弹出层 + 销毁
+ alert  + destruction
 
- @param cancelTitle 取消功能的文字
- @param destructiveTitle 标红 的文字
- @param otherTitleArr 其他功能的文字 数组
- @param ActionBlock 回调
- @return 弹出层本身
+ @param cancelTitle title of cancel
+ @param destructiveTitle destructive title
+ @param otherTitleArr other title array
+ @param ActionBlock call back
+ @return alert
  */
 - (instancetype)initWithCancelTitle:(NSString *)cancelTitle
                    destructiveTitle:(NSString *)destructiveTitle
@@ -39,14 +40,14 @@ typedef void(^ActionBlock)(NSInteger buttonIndex);
                         actionBlock:(ActionBlock)ActionBlock;
 
 /**
- 弹出层 + 销毁 + 销毁下标
+ alert + destructive + index of destructive
 
- @param cancelTitle 取消功能的文字
- @param destructiveTitle 标红 的文字
- @param destructiveIndex 标红 的文字 的下标
- @param otherTitleArr 其他功能的文字 数组
- @param ActionBlock 回调
- @return 弹出层本身
+ @param cancelTitle title of cancel
+ @param destructiveTitle destructive title
+ @param destructiveIndex destructive index
+ @param otherTitleArr other title array
+ @param ActionBlock call back
+ @return alert
  */
 - (instancetype)initWithCancelTitle:(NSString *)cancelTitle
                    destructiveTitle:(NSString *)destructiveTitle
@@ -54,10 +55,6 @@ typedef void(^ActionBlock)(NSInteger buttonIndex);
                       otherTitleArr:(NSArray  *)otherTitleArr
                         actionBlock:(ActionBlock)ActionBlock;
 
-/**
- 是否需要屏幕旋转  , 默认 NO
- */
-@property (nonatomic,assign) BOOL  isNeedDeviceOrientation;
 
 - (void)show;
 - (void)dismiss;

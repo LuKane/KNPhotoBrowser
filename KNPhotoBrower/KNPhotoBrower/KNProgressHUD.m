@@ -16,11 +16,8 @@
     CGFloat       _bordLineWidth;
 }
 
-/* 周边圆圈 */
 @property (nonatomic, strong) CAShapeLayer *sectorLayer;
-/* 加载圈 */
 @property (nonatomic, strong) CAShapeLayer *loadingLayer;
-/* 扇形圈 */
 @property (nonatomic, strong) CAShapeLayer *sharpLayer;
 
 @end
@@ -40,7 +37,7 @@
     [self setupSharpLayer:rect];
 }
 
-// 周边圆圈
+// layer of sector
 - (void)setupSectorLayer{
     self.sectorLayer= [CAShapeLayer layer];
     [self.sectorLayer setFillColor:[UIColor clearColor].CGColor];
@@ -50,7 +47,8 @@
     [self.sectorLayer setHidden:YES];
     [self.layer addSublayer:self.sectorLayer];
 }
-// 加载圈
+
+// loading
 - (void)setupLoadingLayer{
     self.loadingLayer = [CAShapeLayer layer];
     [self.loadingLayer setFrame:[self bounds]];
@@ -77,7 +75,8 @@
     [self.loadingLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     [self.layer addSublayer:self.loadingLayer];
 }
-// 扇形圈
+
+// sector
 - (void)setupSharpLayer:(CGRect)rect{
     CGFloat minSide = MIN(CGRectGetWidth(rect), CGRectGetHeight(rect));
     CGFloat radius  = minSide/2 - 3;
@@ -96,7 +95,8 @@
     [self.sharpLayer setPath:[[UIBezierPath bezierPathWithRoundedRect:pathRect cornerRadius:radius] CGPath]];
     [self.layer addSublayer:self.sharpLayer];
 }
-// 设置进度
+
+// progress
 - (void)setProgress:(CGFloat)progress{
     progress = MAX(0.0f, progress);
     progress = MIN(1.0f, progress);

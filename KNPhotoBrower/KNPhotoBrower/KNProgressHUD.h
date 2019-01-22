@@ -11,22 +11,22 @@
 @interface KNProgressHUD : UIView
 
 /**
- *  加载圈的 整体 颜色
+ * load main color
  */
 @property (nonatomic, strong) UIColor *HUDColor;
 
 /**
- *  扇形颜色 ,默认为 白色
+ * color of sector , Default is White
  */
 @property (nonatomic, strong) UIColor *sectorColor;
 
 /**
- *  边框颜色 , 默认为 白色
+ * color of section's layer, Default is white
  */
 @property (nonatomic, strong) UIColor *sectorBoldColor;
 
 /**
- *  进度 , 范围 :0.f ~ 1.f
+ * progress, range is from 0 to 1
  */
 @property (nonatomic, assign) CGFloat progress;
 

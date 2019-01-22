@@ -7,20 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FLAnimatedImage.h"
+
 @class KNProgressHUD;
 
-typedef void(^SingleTapBlock)();
-typedef void(^LongPressBlock)();
+typedef void(^PhotoBrowerSingleTap)(void);
+typedef void(^PhotoBrowerLongPressTap)(void);
+
 
 @interface KNPhotoBrowerImageView : UIView
 
+// all base control that can scroll
 @property (nonatomic, strong) UIScrollView *scrollView;
-
-@property (nonatomic, copy  ) SingleTapBlock singleTapBlock;
-@property (nonatomic, copy  ) LongPressBlock longPressBlock;
+// single tap
+@property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;
+// longPress tap
+@property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
 
 - (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder;
-
 
 @end

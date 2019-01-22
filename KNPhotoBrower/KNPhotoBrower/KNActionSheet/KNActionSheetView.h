@@ -19,12 +19,12 @@
 @property (nonatomic, weak) id<KNActionSheetViewDelegate> delegate;
 
 /*
- * 文字
+ * title
  */
 @property (nonatomic, copy) NSString *title;
 
 /*
- * 是否是 销毁
+ * is destruct
  */
 @property (nonatomic, assign) BOOL isDestructive;
 

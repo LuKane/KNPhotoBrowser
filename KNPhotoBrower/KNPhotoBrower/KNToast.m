@@ -9,11 +9,11 @@
 #import "KNToast.h"
 
 #ifndef ScreenWidth
-    #define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #endif
 
 #ifndef ScreenHeight
-    #define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #endif
 
 #define ToastMargin 20
@@ -37,31 +37,27 @@ static id toast;
     });
     return toast;
 }
-
 - (void)initWithText:(NSString *)text{
     [self initWithText:text duration:0];
 }
-
 - (void)initWithText:(NSString *)text offSetY:(CGFloat)offsetY{
     [self initWithText:text duration:0 offSetY:offsetY];
 }
-
 - (void)initWithText:(NSString *)text duration:(NSInteger)duration{
     [self initWithText:text duration:duration offSetY:0];
 }
-
 - (void)initWithText:(NSString *)text duration:(NSInteger)duration offSetY:(CGFloat)offsetY{
     if(_isShow) return;
     
     if(text == nil || text == NULL || [text isKindOfClass:[NSNull class]] || [[text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length]==0){
         return;
     }
-
+    
     if(duration < 1.f) duration = 1.f;
     
     _isShow = YES;
     
-/****************************** == MsgLabel  == ********************************/
+    /****************************** == MsgLabel  == ********************************/
     _msgLabel = [[UILabel alloc] init];
     [_msgLabel setTextAlignment:NSTextAlignmentCenter];
     [_msgLabel setText:text];
@@ -69,7 +65,7 @@ static id toast;
     [_msgLabel setTextColor:[UIColor whiteColor]];
     [_msgLabel setFont:[UIFont systemFontOfSize:16]];
     
-/****************************** == ToastView == ********************************/
+    /****************************** == ToastView == ********************************/
     _toastView = [[UIView alloc] init];
     [_toastView setBackgroundColor:[UIColor blackColor]];
     [_toastView.layer setCornerRadius:5.f];
@@ -77,7 +73,7 @@ static id toast;
     [_toastView setAlpha:0.9f];
     [_toastView addSubview:_msgLabel];
     
-/****************************** == Arrt == ********************************/
+    /****************************** == Arrt == ********************************/
     
     NSDictionary *attrs = @{NSFontAttributeName:[_msgLabel font]};
     CGSize size = [text boundingRectWithSize:CGSizeMake(ScreenWidth - ToastMargin,ScreenHeight - ToastMargin) options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
@@ -100,7 +96,7 @@ static id toast;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self performSelector:@selector(dismiss) withObject:nil afterDelay:duration];
-    });   
+    });
 }
 
 - (void)dismiss{
