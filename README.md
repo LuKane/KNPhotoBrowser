@@ -1,7 +1,10 @@
 ![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
 
 # KNPhotoBrower 
-微信 && 微博 图片浏览器
+
+[中文](http://example.com/) | [英文](http://example.com/)
+
+##### 微信 && 微博 图片浏览器
 
 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower.gif?raw=true)
@@ -48,7 +51,7 @@ photoBrower.currentIndex = tap.view.tag;
 ```
 /* PhotoBrower 即将消失 */
 - (void)photoBrowerWillDismiss;
-/* PhotoBrower 右上角按钮的点击 */
+/* PhotoBrower 右上角按钮, 弹出框的点击 */
 - (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index;
 /* PhotoBrower 保存图片是否成功 */
 - (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
@@ -68,48 +71,48 @@ photoBrower.currentIndex = tap.view.tag;
 ### 4.API
 ```
 /**
- current select index
- */
+current select index
+*/
 @property (nonatomic,assign) NSInteger  currentIndex;
 
 /**
- contain KNPhotoItems : url && UIView
- */
+contain KNPhotoItems : url && UIView
+*/
 @property (nonatomic,strong) NSArray<KNPhotoItems *> *itemsArr;
 
 /**
- contain ActionSheet alert contents ,which is belong NSString type
- */
+contain ActionSheet alert contents ,which is belong NSString type
+*/
 @property (nonatomic,strong) NSArray<NSString *> *actionSheetArr;
 
 /**
- is or not need pageNumView , Default is false
- */
+is or not need pageNumView , Default is false
+*/
 @property (nonatomic,assign) BOOL  isNeedPageNumView;
 
 /**
- is or not need pageControl , Default is false
- */
+is or not need pageControl , Default is false
+*/
 @property (nonatomic,assign) BOOL  isNeedPageControl;
 
 /**
- is or not need RightTopBtn , Default is false
- */
+is or not need RightTopBtn , Default is false
+*/
 @property (nonatomic,assign) BOOL  isNeedRightTopBtn;
 
 /**
- is or not need PictureLongPress , Default is false
- */
+is or not need PictureLongPress , Default is false
+*/
 @property (nonatomic, assign) BOOL isNeedPictureLongPress;
 
 /**
- PhotoBrower show
- */
+PhotoBrower show
+*/
 - (void)present;
 
 /**
- PhotoBrower dismiss
- */
+PhotoBrower dismiss
+*/
 - (void)dismiss;
 ```
 
@@ -119,9 +122,9 @@ photoBrower.currentIndex = tap.view.tag;
 
 __weak typeof(self) weakSelf = self;
 KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
-    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
-        [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
-    }
+if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
+[weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+}
 }];
 [actionSheet show];
 
@@ -131,4 +134,4 @@ KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil othe
 * 1.目前适配 九宫格, 其他类型,这边会陆续增加
 * 2.如果bug, 希望大家给个issue,一起努力改好
 * 3.完美适配 `iPhone` `iPad` 
-* 4.完美适配 横竖屏:模仿微信和微博
+* 4.完美适配 `横竖屏` : 模仿微信和微博
