@@ -1,35 +1,34 @@
 ![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
-
-# KNPhotoBrower 
-
+# KNPhotoBrower
 [中文](http://example.com/) | [英文](http://example.com/)
 
-##### 微信 && 微博 图片浏览器
-
-⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/collectionView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
-
-## 更新内容 
-* 1.图片浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`
-* 2.适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
-* 3.完美适配 屏幕旋转, 解决 微信图片浏览器的回显问题
+##### most like photoBrower of `Wechat(TX)` and `Weibo(Sina)` in China
+##### if you get any function to add, just contact me by E-mail. Welcome to Star 
 
 
-## 一.功能描述及要点
-* 1.依赖 `SDWebImage(4.0)` 以及 `FLAnimatedImage`
-* 2.加载九宫格图片
-* 3.高仿 微信和微博 图片浏览效果,显示和回显动画
-* 4.提供删除图片和下载图片等功能
-* 5.其他类型Demo,会尽快增添进去
 
-## 二.方法调用
 
-### 1.创建KNPhotoBrower,并传入相应的参数
+
+## Update content
+* 1.photoBrower has been recoded , turn the `UIView` to the 'UIViewController'
+* 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
+* 3.perfect adapt the rotate of the Screen
+
+
+
+## 1.Function describe and Point
+* 1.Depend `SDWebImage(4.0)` and `FLAnimatedImage`
+* 2.load nine picture type in one super View as an example
+* 3.most like photoBrower of Wechat and Weibo in China
+* 4.provide function which can delete and download image
+* 5.the other type's Demo will be upload soon
+
+
+## 2.How to use
+
+### 1.init KNPhotoBrower, set params
 ```
-// 1.每个控件都弄成一个对象, 放入一个数组中
+// 1.make every control as an object, put it into an array
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 items.sourceView = imageView;
@@ -37,7 +36,7 @@ items.sourceView = imageView;
 ```
 
 ```
-// 直接跳入 图片浏览器 --> 详情请看Demo
+// jump to the photobrower --> you can see in the Demo 
 KNPhotoBrower *photoBrower = [[KNPhotoBrower alloc] init];
 photoBrower.itemsArr = [self.itemsArr copy];
 photoBrower.isNeedPageControl = true;
@@ -47,26 +46,26 @@ photoBrower.isNeedPictureLongPress = true;
 photoBrower.currentIndex = tap.view.tag;
 [photoBrower present];
 ```
-### 2.提供代理方法 --> KNPhotoBrowerDelegate
+
+### 2.provice Delegate --> KNPhotoBrowerDelegate
 ```
-/* PhotoBrower 即将消失 */
+/* PhotoBrower will dismiss */
 - (void)photoBrowerWillDismiss;
-/* PhotoBrower 右上角按钮, 弹出框的点击 */
+/* PhotoBrower right top btn show and ActionSheet will click with Index */
 - (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index;
-/* PhotoBrower 保存图片是否成功 */
+/* PhotoBrower save pic is success or not */
 - (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
-/* PhotoBrower 删除图片成功后返回-- > 相对 Index */
+/* PhotoBrower delete image --> relative index */
 - (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
-/* PhotoBrower 删除图片成功后返回-- > 绝对 Index */
+/* PhotoBrower delete image --> absolute Index */
 - (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
-
 ```
 
-### 3.提供 消失方法
+### 3.provice function of dismiss
 ```
+// maybe you never use it
 [_photoBrower dismiss];
 ```
-
 
 ### 4.API
 ```
@@ -116,10 +115,9 @@ PhotoBrower dismiss
 - (void)dismiss;
 ```
 
-### 5.注意点 : 强引用会导致PhotoBrower 在dismiss时 无法销毁
+### 5.Most important point : strong link will lead to the photobrower never destroy when it dismiss
 ```
-[强烈要求将以下代码写到代理方法中去]关于弹出框的内容,可在KNPhotoBrower.m 的operationBtnIBAction 方法中增减 (注意:代码中会存在强引用,所以切记将 weakSelf写入,不然当浏览器消失的时候,会存在强引用,不走 dealloc 方法)
-
+// about ActionSheet, if you use it with much code, just let the `self` become `weakSelf` 
 __weak typeof(self) weakSelf = self;
 KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
 if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
@@ -130,8 +128,8 @@ if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActi
 
 ```
 
-## 补充
-* 1.目前适配 九宫格, 其他类型,这边会陆续增加
-* 2.如果bug, 希望大家给个issue,一起努力改好
-* 3.完美适配 `iPhone` `iPad` 
-* 4.完美适配 `横竖屏` : 模仿微信和微博
+## By the way
+* 1.Currently, It just be used in nine picure type, the other type will be add soon
+* 2.if you find any bug, just contact me, it will be perfect by each other
+* 3.perfect adapt `iPhone` `iPad`
+* 4.perfect adapt the `rotate of the Screen` like `Wechat` and `Weibo`
