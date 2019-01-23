@@ -47,7 +47,7 @@ photoBrower.currentIndex = tap.view.tag;
 [photoBrower present];
 ```
 
-### 2.provice Delegate --> KNPhotoBrowerDelegate
+### 2.provide Delegate --> KNPhotoBrowerDelegate
 ```
 /* PhotoBrower will dismiss */
 - (void)photoBrowerWillDismiss;
@@ -61,7 +61,7 @@ photoBrower.currentIndex = tap.view.tag;
 - (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
 ```
 
-### 3.provice function of dismiss
+### 3.provide function of dismiss
 ```
 // maybe you never use it
 [_photoBrower dismiss];
