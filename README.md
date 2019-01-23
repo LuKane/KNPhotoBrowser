@@ -10,7 +10,7 @@
 
 
 ## Update content
-* 1.photoBrower has been recoded , turn the `UIView` to the 'UIViewController'
+* 1.photoBrower has been recoded , turn the `UIView` to the `UIViewController`
 * 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.perfect adapt the rotate of the Screen
 
