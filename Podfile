@@ -1,5 +1,5 @@
 platform :ios, '8.0'
-target 'KNPhotoBrower' do
+target 'KNPhotoBrowser' do
 pod 'SDWebImage'
 pod 'SDWebImage/GIF'
 

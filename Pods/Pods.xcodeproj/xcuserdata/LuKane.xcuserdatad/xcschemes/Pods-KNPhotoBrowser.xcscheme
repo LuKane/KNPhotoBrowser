@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "30739081801E17ED5A6D194F5FE850DF"
-               BlueprintName = "SDWebImage"
+               BlueprintIdentifier = "6354B0DE9C64F69990F5E4730965E3E1"
+               BlueprintName = "Pods-KNPhotoBrowser"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libSDWebImage.a">
+               BuildableName = "libPods-KNPhotoBrowser.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
