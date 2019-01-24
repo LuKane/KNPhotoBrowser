@@ -90,7 +90,6 @@
     cell.textLabel.text = arr[indexPath.row];
     return cell;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:true];
     
@@ -100,7 +99,6 @@
     UIViewController *vc = [[class alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     self.tableView.frame = self.view.bounds;

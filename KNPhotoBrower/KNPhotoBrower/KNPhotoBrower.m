@@ -578,7 +578,6 @@
     }
 }
 
-
 /**
  judge is have auth of Album --> for example
 
@@ -617,7 +616,6 @@
     }
 }
 
-
 /**
  save image to the location --> for example
 
@@ -638,7 +636,6 @@
         [weakSelf.delegate photoBrowerWriteToSavedPhotosAlbumStatus:error?NO:YES];
     }
 }
-
 
 /**
  save gif image to location --> for example
@@ -710,7 +707,6 @@
     UIGraphicsEndImageContext();
     return image;
 }
-
 
 /**
  get the first image of GIF
