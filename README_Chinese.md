@@ -1,8 +1,8 @@
 ![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
 
-# KNPhotoBrower 
+# KNPhotoBrowser 
 
-[中文](https://github.com/LuKane/KNPhotoBrower/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrower/blob/master/README.md)
+[中文](https://github.com/LuKane/KNPhotoBrowser/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrowser/blob/master/README.md)
 
 ##### 微信 && 微博 图片浏览器
 
@@ -27,7 +27,7 @@
 
 ## 二.方法调用
 
-### 1.创建KNPhotoBrower,并传入相应的参数
+### 1.创建KNPhotoBrowser,并传入相应的参数
 ```
 // 1.每个控件都弄成一个对象, 放入一个数组中
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
@@ -38,33 +38,33 @@ items.sourceView = imageView;
 
 ```
 // 直接跳入 图片浏览器 --> 详情请看Demo
-KNPhotoBrower *photoBrower = [[KNPhotoBrower alloc] init];
-photoBrower.itemsArr = [self.itemsArr copy];
-photoBrower.isNeedPageControl = true;
-photoBrower.isNeedPageNumView = true;
-photoBrower.isNeedRightTopBtn = true;
-photoBrower.isNeedPictureLongPress = true;
-photoBrower.currentIndex = tap.view.tag;
-[photoBrower present];
+KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
+photoBrowser.itemsArr = [self.itemsArr copy];
+photoBrowser.isNeedPageControl = true;
+photoBrowser.isNeedPageNumView = true;
+photoBrowser.isNeedRightTopBtn = true;
+photoBrowser.isNeedPictureLongPress = true;
+photoBrowser.currentIndex = tap.view.tag;
+[photoBrowser present];
 ```
-### 2.提供代理方法 --> KNPhotoBrowerDelegate
+### 2.提供代理方法 --> KNPhotoBrowserDelegate
 ```
-/* PhotoBrower 即将消失 */
-- (void)photoBrowerWillDismiss;
-/* PhotoBrower 右上角按钮, 弹出框的点击 */
-- (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index;
-/* PhotoBrower 保存图片是否成功 */
-- (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
-/* PhotoBrower 删除图片成功后返回-- > 相对 Index */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
-/* PhotoBrower 删除图片成功后返回-- > 绝对 Index */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
+/* PhotoBrowser 即将消失 */
+- (void)photoBrowserWillDismiss;
+/* PhotoBrowser 右上角按钮, 弹出框的点击 */
+- (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index;
+/* PhotoBrowser 保存图片是否成功 */
+- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
+/* PhotoBrowser 删除图片成功后返回-- > 相对 Index */
+- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
+/* PhotoBrowser 删除图片成功后返回-- > 绝对 Index */
+- (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
 
 ```
 
 ### 3.提供 消失方法
 ```
-[_photoBrower dismiss];
+[_photoBrowser dismiss];
 ```
 
 
@@ -106,24 +106,24 @@ photoBrower.currentIndex = tap.view.tag;
 @property (nonatomic, assign) BOOL isNeedPictureLongPress;
 
 /**
- PhotoBrower show
+ PhotoBrowser show
  */
 - (void)present;
 
 /**
- PhotoBrower dismiss
+ PhotoBrowser dismiss
  */
 - (void)dismiss;
 ```
 
-### 5.注意点 : 强引用会导致PhotoBrower 在dismiss时 无法销毁
+### 5.注意点 : 强引用会导致PhotoBrowser 在dismiss时 无法销毁
 ```
-[强烈要求将以下代码写到代理方法中去]关于弹出框的内容,可在KNPhotoBrower.m 的operationBtnIBAction 方法中增减 (注意:代码中会存在强引用,所以切记将 weakSelf写入,不然当浏览器消失的时候,会存在强引用,不走 dealloc 方法)
+[强烈要求将以下代码写到代理方法中去]关于弹出框的内容,可在KNPhotoBrowser.m 的operationBtnIBAction 方法中增减 (注意:代码中会存在强引用,所以切记将 weakSelf写入,不然当浏览器消失的时候,会存在强引用,不走 dealloc 方法)
 
 __weak typeof(self) weakSelf = self;
 KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
-    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
-        [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
+        [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
     }
 }];
 [actionSheet show];

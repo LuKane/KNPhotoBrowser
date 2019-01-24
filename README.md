@@ -1,8 +1,8 @@
 ![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
-# KNPhotoBrower
-[中文](https://github.com/LuKane/KNPhotoBrower/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrower/blob/master/README.md)
+# KNPhotoBrowser
+[中文](https://github.com/LuKane/KNPhotoBrowser/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrowser/blob/master/README.md)
 
-##### most like photoBrower of `Wechat(TX)` and `Weibo(Sina)` in China
+##### most like photoBrowser of `Wechat(TX)` and `Weibo(Sina)` in China
 ##### if you get any function to add, just contact me by E-mail. Welcome to Star 
 
 
@@ -13,7 +13,7 @@
 
 
 ## Update content
-* 1.photoBrower has been recoded , turn the `UIView` to the `UIViewController`
+* 1.photoBrowser has been recoded , turn the `UIView` to the `UIViewController`
 * 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.perfect adapt the rotate of the Screen
 
@@ -22,14 +22,14 @@
 ## 1.Function describe and Point
 * 1.Depend `SDWebImage(4.0)` and `FLAnimatedImage`
 * 2.load nine picture type in one super View as an example
-* 3.most like photoBrower of Wechat and Weibo in China
+* 3.most like photoBrowser of Wechat and Weibo in China
 * 4.provide function which can delete and download image
 * 5.the other type's Demo will be upload soon
 
 
 ## 2.How to use
 
-### 1.init KNPhotoBrower, set params
+### 1.init KNPhotoBrowser, set params
 ```
 // 1.make every control as an object, put it into an array
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
@@ -39,35 +39,35 @@ items.sourceView = imageView;
 ```
 
 ```
-// jump to the photobrower --> you can see in the Demo 
-KNPhotoBrower *photoBrower = [[KNPhotoBrower alloc] init];
-photoBrower.itemsArr = [self.itemsArr copy];
-photoBrower.isNeedPageControl = true;
-photoBrower.isNeedPageNumView = true;
-photoBrower.isNeedRightTopBtn = true;
-photoBrower.isNeedPictureLongPress = true;
-photoBrower.currentIndex = tap.view.tag;
-[photoBrower present];
+// jump to the photobrowser --> you can see in the Demo 
+KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
+photoBrowser.itemsArr = [self.itemsArr copy];
+photoBrowser.isNeedPageControl = true;
+photoBrowser.isNeedPageNumView = true;
+photoBrowser.isNeedRightTopBtn = true;
+photoBrowser.isNeedPictureLongPress = true;
+photoBrowser.currentIndex = tap.view.tag;
+[photoBrowser present];
 ```
 
-### 2.provide Delegate --> KNPhotoBrowerDelegate
+### 2.provide Delegate --> KNPhotoBrowserDelegate
 ```
-/* PhotoBrower will dismiss */
-- (void)photoBrowerWillDismiss;
-/* PhotoBrower right top btn show and ActionSheet will click with Index */
-- (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index;
-/* PhotoBrower save pic is success or not */
-- (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
-/* PhotoBrower delete image --> relative index */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
-/* PhotoBrower delete image --> absolute Index */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
+/* PhotoBrowser will dismiss */
+- (void)photoBrowserWillDismiss;
+/* PhotoBrowser right top btn show and ActionSheet will click with Index */
+- (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index;
+/* PhotoBrowser save pic is success or not */
+- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
+/* PhotoBrowser delete image --> relative index */
+- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
+/* PhotoBrowser delete image --> absolute Index */
+- (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
 ```
 
 ### 3.provide function of dismiss
 ```
 // maybe you never use it
-[_photoBrower dismiss];
+[_photoBrowser dismiss];
 ```
 
 ### 4.API
@@ -108,23 +108,23 @@ is or not need PictureLongPress , Default is false
 @property (nonatomic, assign) BOOL isNeedPictureLongPress;
 
 /**
-PhotoBrower show
+PhotoBrowser show
 */
 - (void)present;
 
 /**
-PhotoBrower dismiss
+PhotoBrowser dismiss
 */
 - (void)dismiss;
 ```
 
-### 5.Most important point : strong link will lead to the photobrower never destroy when it dismiss
+### 5.Most important point : strong link will lead to the photobrowser never destroy when it dismiss
 ```
 // about ActionSheet, if you use it with much code, just let the `self` become `weakSelf` 
 __weak typeof(self) weakSelf = self;
 KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
-if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
-[weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
+[weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
 }
 }];
 [actionSheet show];
