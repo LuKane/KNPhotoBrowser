@@ -37,7 +37,6 @@
 		79CD4E8521EC93A500517A34 /* KNPhotoBrower.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CD4E8421EC93A500517A34 /* KNPhotoBrower.m */; };
 		79D0326E21F958EF00BBACD8 /* NineSquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D0326B21F958EF00BBACD8 /* NineSquareModel.m */; };
 		79D0326F21F958EF00BBACD8 /* NineSquareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D0326C21F958EF00BBACD8 /* NineSquareCell.m */; };
-		E15E7DC5486FD228284DC188 /* libPods-KNPhotoBrower.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53B1967292988F51F3C30B06 /* libPods-KNPhotoBrower.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +58,6 @@
 
 /* Begin PBXFileReference section */
 		15ACDD03C788A8D83E8B79FD /* Pods-KNPhotoBrower.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrower.release.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrower/Pods-KNPhotoBrower.release.xcconfig"; sourceTree = "<group>"; };
-		53B1967292988F51F3C30B06 /* libPods-KNPhotoBrower.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KNPhotoBrower.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75C8E1A286EB17379E64F7DA /* Pods-KNPhotoBrower.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrower.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrower/Pods-KNPhotoBrower.debug.xcconfig"; sourceTree = "<group>"; };
 		790871D321F4D14200A77DFB /* KNPhotoBrower.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KNPhotoBrower.bundle; sourceTree = "<group>"; };
 		7946697E21ED814D004EF7D6 /* KNPhotoBrowerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowerImageView.m; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E15E7DC5486FD228284DC188 /* libPods-KNPhotoBrower.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,9 +172,8 @@
 				79CD4E2621EC8AF900517A34 /* KNPhotoBrower */,
 				79CD4E3F21EC8AFA00517A34 /* KNPhotoBrowerTests */,
 				79CD4E4A21EC8AFB00517A34 /* KNPhotoBrowerUITests */,
-				79CD4E2521EC8AF900517A34 /* Products */,
 				2B45FBE3E89149043CAFB227 /* Pods */,
-				E12E6B0771045D035D61D57E /* Frameworks */,
+				79CD4E2521EC8AF900517A34 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -339,14 +335,6 @@
 				79CD4E8121EC921800517A34 /* CollectionViewLocController.m */,
 			);
 			path = CollectionViewLocController;
-			sourceTree = "<group>";
-		};
-		E12E6B0771045D035D61D57E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				53B1967292988F51F3C30B06 /* libPods-KNPhotoBrower.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
