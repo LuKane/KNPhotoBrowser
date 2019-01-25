@@ -28,14 +28,15 @@
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource>{
     UICollectionViewFlowLayout *_layout;
     UICollectionView           *_collectionView;
-    KNPhotoBrowserNumView       *_numView;
+    KNPhotoBrowserNumView      *_numView;
     UIPageControl              *_pageControl;
     UIButton                   *_operationBtn;
-    KNPhotoBrowserImageView     *_imageView;
+    KNPhotoBrowserImageView    *_imageView;
     KNProgressHUD              *_progressHUD;
+    NSArray                    *_tempArr; // absolute data source
+    
     CGFloat                     _offsetPageIndex; // record location index, for screen rotate
     NSInteger                   _page; // current page
-    NSArray                    *_tempArr; // absolute data source
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
@@ -50,16 +51,18 @@
 - (instancetype)init{
     if (self = [super init]) {
         self.actionSheetArr = [NSArray array];
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
     }
     return self;
 }
 
 - (BOOL)prefersStatusBarHidden{
-    if (_ApplicationStatusIsHidden) {
-        return true;
-    }
-    return _statusBarHidden;
+    return false;
+//    if (_ApplicationStatusIsHidden) {
+//        return true;
+//    }
+//    return _statusBarHidden;
 }
 
 - (void)loadView{
@@ -191,6 +194,20 @@
     cell.longPressTap = ^{
         [weakSelf longPressIBAction];
     };
+//    cell.panMove = ^(CGFloat scale) {
+//        CGFloat alpha = scale * scale;
+//
+//        NSLog(@"%f---%f",scale,alpha);
+//
+//        self->_collectionView.alpha = alpha;
+//    };
+//    cell.panRelease = ^(BOOL isDown) {
+//        if(isDown){
+//            [weakSelf dismiss];
+//        }else{
+//            self->_collectionView.alpha = 1.0;
+//        }
+//    };
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -219,8 +236,8 @@
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     [window.rootViewController presentViewController:self animated:false completion:^{
-        self->_ApplicationStatusIsHidden = true;
-        [self setNeedsStatusBarAppearanceUpdate];
+//        self->_ApplicationStatusIsHidden = true;
+//        [self setNeedsStatusBarAppearanceUpdate];
     }];
 }
 /**
@@ -298,15 +315,15 @@
 
 #pragma mark - PhotoBrower will dismiss
 - (void)dismiss{
-    _ApplicationStatusIsHidden = false;
-    [self setNeedsStatusBarAppearanceUpdate];
+    
+//    _ApplicationStatusIsHidden = false;
+//    [self setNeedsStatusBarAppearanceUpdate];
     
     if([_delegate respondsToSelector:@selector(photoBrowerWillDismiss)]){
         [_delegate photoBrowerWillDismiss];
     }
     
     UIImageView *tempView = [[UIImageView alloc] init];
-    
     KNPhotoItems *items = _itemsArr[_currentIndex];
     if(items.sourceImage){ // locate image by sourceImage of items
         tempView.image = items.sourceImage;
@@ -352,42 +369,42 @@
             self->_collectionView.alpha = 0.f;
         } completion:^(BOOL finished) {
             [self->_collectionView setHidden:true];
-            [self dismissViewControllerAnimated:false completion:nil];
+            [self dismissViewControllerAnimated:true completion:nil];
         }];
         return;
     }
     
-    [_collectionView setHidden:true];
     UIView *sourceView = items.sourceView;
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:tempView];
+    [self.view addSubview:tempView];
+    
+    CGRect rect = [sourceView convertRect:[sourceView bounds] toView:window];
     
     BOOL isPortrait = IsPortrait;
-    [self dismissViewControllerAnimated:false completion:nil];
-    
-    CGRect rect = [sourceView convertRect:[sourceView bounds] toView:[UIApplication sharedApplication].keyWindow];
+    [_collectionView setHidden:true];
     
     if(rect.origin.y > ScreenHeight ||
        rect.origin.y <= - rect.size.height ||
        rect.origin.x > ScreenWidth ||
        rect.origin.x <= - rect.size.width ||
        isPortrait == false ){
-        
+        [self dismissViewControllerAnimated:true completion:nil];
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [tempView setAlpha:0.f];
         } completion:^(BOOL finished) {
             [tempView removeFromSuperview];
         }];
     }else{
+        
         CGFloat width  = tempView.image.size.width;
         CGFloat height = tempView.image.size.height;
-        
         CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
         
         [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
         [tempView setCenter:[self.view center]];
         [window addSubview:tempView];
         
+        [self dismissViewControllerAnimated:false completion:nil];
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [tempView setFrame:rect];
             [self.view setBackgroundColor:[UIColor clearColor]];
@@ -580,7 +597,7 @@
 
 /**
  judge is have auth of Album --> for example
-
+ 
  @param authorBlock block
  */
 - (void)deviceAlbumAuth:(void (^)(BOOL isAuthor))authorBlock{
@@ -618,7 +635,7 @@
 
 /**
  save image to the location --> for example
-
+ 
  @param image image
  @param error error
  @param contextInfo context
@@ -639,7 +656,7 @@
 
 /**
  save gif image to location --> for example
-
+ 
  @param photoData data
  */
 - (void)savePhotoToLocation:(NSData *)photoData{
@@ -676,8 +693,7 @@
             [_delegate photoBrowerWillDismiss];
         }
         
-        [self dismissViewControllerAnimated:false completion:nil];
-        
+        [self dismissViewControllerAnimated:true completion:nil];
     }else{
         [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
@@ -693,7 +709,7 @@
 
 /**
  create one image by Color
-
+ 
  @param imageColor color
  @return image is created by color
  */
@@ -710,7 +726,7 @@
 
 /**
  get the first image of GIF
-
+ 
  @param data data
  @return image
  */
@@ -735,7 +751,7 @@ static char KNBtnCurrentImageKey;
 
 /**
  get the image of current sourceView
-
+ 
  @param currentIndex index
  @return imageView with image
  */
