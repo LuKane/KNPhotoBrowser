@@ -16,6 +16,8 @@
 @property (nonatomic,strong) NSMutableArray *itemsArr;
 @property (nonatomic,strong) NSMutableArray *actionSheetArr;
 
+@property (nonatomic,assign) BOOL  statusBarHidden;
+
 @end
 
 @implementation ViewController
@@ -40,7 +42,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = @"Normal(网络)";
+    
+    NSLog(@"%@",NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]));
     
     [self setupTopImgView];
     [self setupNineSquareView];
@@ -127,7 +132,9 @@
     photoBrower.isNeedRightTopBtn = true;
     photoBrower.isNeedPictureLongPress = true;
     photoBrower.currentIndex = tap.view.tag;
+    photoBrower.delegate = self;
     [photoBrower present];
 }
+
 
 @end

@@ -40,6 +40,7 @@
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
+    BOOL                        _hasBeenOrientation;
 }
 
 @property (nonatomic,weak  ) KNActionSheet *actionSheet;
@@ -58,11 +59,7 @@
 }
 
 - (BOOL)prefersStatusBarHidden{
-    return false;
-//    if (_ApplicationStatusIsHidden) {
-//        return true;
-//    }
-//    return _statusBarHidden;
+    return _statusBarHidden;
 }
 
 - (void)loadView{
@@ -125,7 +122,7 @@
     KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{([UIScreen mainScreen].bounds.size.width - 40) * 0.5,([UIScreen mainScreen].bounds.size.height - 40) * 0.5},{40,40}}];
     [progressHUD setHidden:true];
     [self.view addSubview:progressHUD];
-    
+
     _imageView = imageView;
     _progressHUD = progressHUD;
 }
@@ -233,13 +230,13 @@
 
 #pragma mark - PhotoBrower will present
 - (void)present{
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    [window.rootViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window.rootViewController presentViewController:self animated:false completion:^{
 //        self->_ApplicationStatusIsHidden = true;
 //        [self setNeedsStatusBarAppearanceUpdate];
     }];
 }
+
 /**
  PhotoBrower first show
  */
@@ -315,16 +312,13 @@
 
 #pragma mark - PhotoBrower will dismiss
 - (void)dismiss{
-    
-//    _ApplicationStatusIsHidden = false;
-//    [self setNeedsStatusBarAppearanceUpdate];
-    
     if([_delegate respondsToSelector:@selector(photoBrowerWillDismiss)]){
         [_delegate photoBrowerWillDismiss];
     }
     
     UIImageView *tempView = [[UIImageView alloc] init];
-    KNPhotoItems *items = _itemsArr[_currentIndex];
+    
+    KNPhotoItems *items = self->_itemsArr[self->_currentIndex];
     if(items.sourceImage){ // locate image by sourceImage of items
         tempView.image = items.sourceImage;
     }else{ // net image or locate image without sourceImage of items
@@ -346,10 +340,11 @@
                 [self photoBrowerWillDismissWithAnimated:tempView items:items];
             }];
         }else{
-            tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:_currentIndex] image];
+            tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:self->_currentIndex] image];
             [self photoBrowerWillDismissWithAnimated:tempView items:items];
         }
     }
+    
 }
 /**
  PhotoBrower dismiss with animated
@@ -381,19 +376,22 @@
     CGRect rect = [sourceView convertRect:[sourceView bounds] toView:window];
     
     BOOL isPortrait = IsPortrait;
-    [_collectionView setHidden:true];
+    [self->_collectionView setHidden:true];
     
     if(rect.origin.y > ScreenHeight ||
        rect.origin.y <= - rect.size.height ||
        rect.origin.x > ScreenWidth ||
        rect.origin.x <= - rect.size.width ||
        isPortrait == false ){
+        
         [self dismissViewControllerAnimated:true completion:nil];
+        
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [tempView setAlpha:0.f];
         } completion:^(BOOL finished) {
             [tempView removeFromSuperview];
         }];
+        
     }else{
         
         CGFloat width  = tempView.image.size.width;
@@ -405,6 +403,7 @@
         [window addSubview:tempView];
         
         [self dismissViewControllerAnimated:false completion:nil];
+        
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [tempView setFrame:rect];
             [self.view setBackgroundColor:[UIColor clearColor]];
@@ -470,6 +469,7 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [_collectionView.collectionViewLayout invalidateLayout];
+    
 }
 
 /**
@@ -480,11 +480,11 @@
     
     [_imageView setHidden:false];
     [_progressHUD setHidden:false];
-    
+
     KNPhotoItems *item = self.itemsArr[_currentIndex];
     NSString *url  = item.url;
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
-    
+
     [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
     
     _offsetPageIndex = _collectionView.contentOffset.x / _layout.itemSize.width;
@@ -499,6 +499,9 @@
         [self->_progressHUD setHidden:true];
         [self->_collectionView setHidden:false];
     });
+    if(_hasBeenOrientation == false){
+        _hasBeenOrientation = true;
+    }
 }
 
 /**
@@ -660,15 +663,21 @@
  @param photoData data
  */
 - (void)savePhotoToLocation:(NSData *)photoData{
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    NSDictionary *metadata = @{@"UTI":(__bridge NSString *)kUTTypeGIF};
-    [library writeImageDataToSavedPhotosAlbum:photoData metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
-        if(!error){
-            [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
-        }else{
-            [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
-        }
-    }] ;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
+        options.shouldMoveFile = true;
+        PHAssetCreationRequest *request = [PHAssetCreationRequest creationRequestForAsset];
+        [request addResourceWithType:PHAssetResourceTypePhoto data:photoData options:options];
+        request.creationDate = [NSDate date];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if(success){
+                [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
+            }else if(error) {
+                [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+            }
+        });
+    }];
 }
 
 /**

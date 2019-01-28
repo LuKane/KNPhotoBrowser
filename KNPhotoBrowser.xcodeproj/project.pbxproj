@@ -161,8 +161,8 @@
 		79D454A521F9911100184E4D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				79D454A621F9911100184E4D /* ViewController.m */,
 				79D454A721F9911100184E4D /* ViewController.h */,
+				79D454A621F9911100184E4D /* ViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -697,7 +697,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K9ZKH8PE66;
 				INFOPLIST_FILE = KNPhotoBrowser/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -716,7 +716,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K9ZKH8PE66;
 				INFOPLIST_FILE = KNPhotoBrowser/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

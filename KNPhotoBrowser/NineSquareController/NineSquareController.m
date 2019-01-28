@@ -20,6 +20,9 @@
 
 @implementation NineSquareController
 
+- (BOOL)prefersStatusBarHidden{
+    return true;
+}
 
 - (NSMutableArray *)dataArr{
     if (!_dataArr) {
