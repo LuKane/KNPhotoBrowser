@@ -366,12 +366,16 @@
     _tempArr = nil;
     
     if(tempView.image == nil){
+        
+        [_imageView removeFromSuperview];
+        [_progressHUD removeFromSuperview];
+        
+        [self loadScreenPortrait];
+        
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self->_collectionView.alpha = 0.f;
         } completion:^(BOOL finished) {
-            [self->_collectionView setHidden:true];
-            [self loadScreenPortrait];
-            [self dismissViewControllerAnimated:true completion:nil];
+            [self dismissViewControllerAnimated:false completion:nil];
         }];
         return;
     }
@@ -388,8 +392,7 @@
     if(rect.origin.y > ScreenHeight ||
        rect.origin.y <= - rect.size.height ||
        rect.origin.x > ScreenWidth ||
-       rect.origin.x <= - rect.size.width ||
-       isPortrait == false ){
+       rect.origin.x <= - rect.size.width ){
         
         [self loadScreenPortrait];
         [self dismissViewControllerAnimated:true completion:nil];
@@ -410,18 +413,35 @@
         [tempView setCenter:[self.view center]];
         [window addSubview:tempView];
         
-        [self dismissViewControllerAnimated:false completion:nil];
-        
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [tempView setFrame:rect];
-            [self.view setBackgroundColor:[UIColor clearColor]];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                [tempView setAlpha:0.f];
+        if(isPortrait == true){
+            [self dismissViewControllerAnimated:false completion:nil];
+            
+            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [tempView setFrame:rect];
+                [self.view setBackgroundColor:[UIColor clearColor]];
             } completion:^(BOOL finished) {
-                [tempView removeFromSuperview];
+                [UIView animateWithDuration:0.15 animations:^{
+                    [tempView setAlpha:0.f];
+                } completion:^(BOOL finished) {
+                    [tempView removeFromSuperview];
+                }];
             }];
-        }];
+        }else{
+            
+            [self loadScreenPortrait];
+            
+            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [tempView setFrame:rect];
+                [self.view setBackgroundColor:[UIColor clearColor]];
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.15 animations:^{
+                    [tempView setAlpha:0.f];
+                } completion:^(BOOL finished) {
+                    [tempView removeFromSuperview];
+                }];
+                [self dismissViewControllerAnimated:false completion:nil];
+            }];
+        }
     }
 }
 
