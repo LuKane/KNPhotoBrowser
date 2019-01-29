@@ -53,24 +53,30 @@
     if (self = [super init]) {
         self.actionSheetArr = [NSArray array];
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        self.modalPresentationStyle = UIModalPresentationCustom;
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
     }
     return self;
+}
+
+- (BOOL)shouldAutorotate{
+    return true;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (BOOL)prefersStatusBarHidden{
     return _statusBarHidden;
 }
 
-- (void)loadView{
-    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [self.view setBackgroundColor:[UIColor blackColor]];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = false;
+    
+    self.view.backgroundColor = [UIColor blackColor];
     
     [self initCollectionView];
     [self initNumView];
@@ -228,19 +234,18 @@
     }
 }
 
-#pragma mark - PhotoBrower will present
+#pragma mark - photoBrowser will present
 - (void)present{
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window.rootViewController presentViewController:self animated:false completion:^{
-//        self->_ApplicationStatusIsHidden = true;
-//        [self setNeedsStatusBarAppearanceUpdate];
+        
     }];
 }
 
 /**
- PhotoBrower first show
+ photoBrowser first show
  */
-- (void)photoBrowerWillShowWithAnimated{
+- (void)photoBrowserWillShowWithAnimated{
     // 0. catch absolute data source
     _tempArr = [NSMutableArray arrayWithArray:_itemsArr];
     
@@ -310,10 +315,11 @@
     }];
 }
 
-#pragma mark - PhotoBrower will dismiss
+#pragma mark - photoBrowser will dismiss
 - (void)dismiss{
-    if([_delegate respondsToSelector:@selector(photoBrowerWillDismiss)]){
-        [_delegate photoBrowerWillDismiss];
+    
+    if([_delegate respondsToSelector:@selector(photoBrowserWillDismiss)]){
+        [_delegate photoBrowserWillDismiss];
     }
     
     UIImageView *tempView = [[UIImageView alloc] init];
@@ -337,22 +343,22 @@
                 }else{
                     tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:self->_currentIndex] image];
                 }
-                [self photoBrowerWillDismissWithAnimated:tempView items:items];
+                [self photoBrowserWillDismissWithAnimated:tempView items:items];
             }];
         }else{
             tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:self->_currentIndex] image];
-            [self photoBrowerWillDismissWithAnimated:tempView items:items];
+            [self photoBrowserWillDismissWithAnimated:tempView items:items];
         }
     }
-    
 }
+
 /**
- PhotoBrower dismiss with animated
+ photoBrowser dismiss with animated
  
  @param tempView tempView
  @param items current items
  */
-- (void)photoBrowerWillDismissWithAnimated:(UIImageView *)tempView items:(KNPhotoItems *)items{
+- (void)photoBrowserWillDismissWithAnimated:(UIImageView *)tempView items:(KNPhotoItems *)items{
     [_pageControl setHidden:true];
     [_numView setHidden:true];
     
@@ -360,10 +366,11 @@
     _tempArr = nil;
     
     if(tempView.image == nil){
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self->_collectionView.alpha = 0.f;
         } completion:^(BOOL finished) {
             [self->_collectionView setHidden:true];
+            [self loadScreenPortrait];
             [self dismissViewControllerAnimated:true completion:nil];
         }];
         return;
@@ -384,6 +391,7 @@
        rect.origin.x <= - rect.size.width ||
        isPortrait == false ){
         
+        [self loadScreenPortrait];
         [self dismissViewControllerAnimated:true completion:nil];
         
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -417,6 +425,14 @@
     }
 }
 
+- (void)loadScreenPortrait{
+    if(IsPortrait) return;
+    NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
+    [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
+    NSNumber *orientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:orientationTarget forKey:@"orientation"];
+}
+
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     
@@ -431,6 +447,7 @@
 }
 
 - (void)layoutCollectionViewAndLayout{
+    
     [_layout setItemSize:(CGSize){self.view.width + 20,self.view.height}];
     _layout.minimumInteritemSpacing = 0;
     _layout.minimumLineSpacing = 0;
@@ -461,7 +478,7 @@
     }
     
     if(!_isShowed){
-        [self photoBrowerWillShowWithAnimated];
+        [self photoBrowserWillShowWithAnimated];
         _isShowed = true;
     }
 }
@@ -469,7 +486,6 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [_collectionView.collectionViewLayout invalidateLayout];
-    
 }
 
 /**
@@ -515,8 +531,8 @@
     __weak typeof(self) weakSelf = self;
     if(_actionSheetArr.count != 0){ // custom
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
-            if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
-                [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+            if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
+                [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
         }];
         [actionSheet show];
@@ -524,23 +540,23 @@
     }else{ // example
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存图片",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
             
-            if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationActionWithIndex:)]){
-                [weakSelf.delegate photoBrowerRightOperationActionWithIndex:buttonIndex];
+            if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
+                [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
             
             switch (buttonIndex) {
                 case 0:{ // Delete image
                     
                     // relative index
-                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:)]){
-                        [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:weakSelf.currentIndex];
+                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:)]){
+                        [weakSelf.delegate photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:weakSelf.currentIndex];
                     }
                     
                     // absolute index
                     KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                     NSInteger index = [self->_tempArr indexOfObject:items];
-                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:)]){
-                        [weakSelf.delegate photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:index];
+                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:)]){
+                        [weakSelf.delegate photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:index];
                     }
                     
                     // going to delete image
@@ -652,8 +668,8 @@
         [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
     }
     
-    if([weakSelf.delegate respondsToSelector:@selector(photoBrowerWriteToSavedPhotosAlbumStatus:)]){
-        [weakSelf.delegate photoBrowerWriteToSavedPhotosAlbumStatus:error?NO:YES];
+    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserWriteToSavedPhotosAlbumStatus:)]){
+        [weakSelf.delegate photoBrowserWriteToSavedPhotosAlbumStatus:error?NO:YES];
     }
 }
 
@@ -698,8 +714,8 @@
         _ApplicationStatusIsHidden = false;
         [self setNeedsStatusBarAppearanceUpdate];
         
-        if([_delegate respondsToSelector:@selector(photoBrowerWillDismiss)]){
-            [_delegate photoBrowerWillDismiss];
+        if([_delegate respondsToSelector:@selector(photoBrowserWillDismiss)]){
+            [_delegate photoBrowserWillDismiss];
         }
         
         [self dismissViewControllerAnimated:true completion:nil];

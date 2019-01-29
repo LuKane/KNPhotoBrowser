@@ -41,33 +41,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 /**
- PhotoBrower will dismiss
+ photoBrowser will dismiss
  */
-- (void)photoBrowerWillDismiss;
+- (void)photoBrowserWillDismiss;
 
 @optional
 /**
- PhotoBrower right top button did click, and actionSheet click with Index
+ photoBrowser right top button did click, and actionSheet click with Index
 
  @param index actionSheet did click with Index
  */
-- (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index;
+- (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index;
 
 @optional
 /**
- PhotoBrower Delete image success with relative index
+ photoBrowser Delete image success with relative index
 
  @param index relative index
  */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
+- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
 
 @optional
 /**
- PhotoBrower Delete image success with absolute index
+ photoBrowser Delete image success with absolute index
 
  @param index absolute index
  */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
+- (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
 
 @optional
 /**
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param success is success
  */
-- (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success;
+- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
 
 @end
 
@@ -119,12 +119,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isNeedPictureLongPress;
 
 /**
- PhotoBrower show
+ photoBrowser show
  */
 - (void)present;
 
 /**
- PhotoBrower dismiss
+ photoBrowser dismiss
  */
 - (void)dismiss;
 

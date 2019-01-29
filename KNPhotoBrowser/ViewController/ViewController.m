@@ -42,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.title = @"Normal(网络)";
     
     NSLog(@"%@",NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]));
@@ -134,6 +134,10 @@
     photoBrower.currentIndex = tap.view.tag;
     photoBrower.delegate = self;
     [photoBrower present];
+}
+
+- (void)photoBrowserNeedLoadScreenPortrait{
+    
 }
 
 
