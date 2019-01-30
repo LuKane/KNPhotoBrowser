@@ -36,7 +36,7 @@
 #define PhotoSaveImageMessageTime    2
 #define PhotoSaveImageFailureReason  @"图片需要下载完成"
 
-#define IsPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
+#define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
 
 // pic max zoom num
 #define PhotoBrowerImageMaxScale   2.f

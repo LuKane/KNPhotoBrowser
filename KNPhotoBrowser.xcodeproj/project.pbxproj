@@ -183,8 +183,8 @@
 		79D454B321F9913800184E4D /* ScrollViewController */ = {
 			isa = PBXGroup;
 			children = (
-				79D454B421F9913800184E4D /* ScrollViewController.m */,
 				79D454B521F9913800184E4D /* ScrollViewController.h */,
+				79D454B421F9913800184E4D /* ScrollViewController.m */,
 			);
 			path = ScrollViewController;
 			sourceTree = "<group>";

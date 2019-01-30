@@ -282,7 +282,7 @@
     CGFloat width  = tempView.image.size.width;
     CGFloat height = tempView.image.size.height;
     
-    if(IsPortrait == true){
+    if(isPortrait == true){
         tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
     }else{
         tempRectSize = CGSizeZero;
@@ -361,64 +361,63 @@
 - (void)photoBrowserWillDismissWithAnimated:(UIImageView *)tempView items:(KNPhotoItems *)items{
     [_pageControl setHidden:true];
     [_numView setHidden:true];
-    
-    _itemsArr = nil;
-    _tempArr = nil;
-    
+
     if(tempView.image == nil){
-        
-        [_imageView removeFromSuperview];
-        [_progressHUD removeFromSuperview];
         
         [self loadScreenPortrait];
         
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self->_collectionView.alpha = 0.f;
-        } completion:^(BOOL finished) {
-            [self dismissViewControllerAnimated:false completion:nil];
-        }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                self->_collectionView.alpha = 0.f;
+            } completion:^(BOOL finished) {
+                [self dismissViewControllerAnimated:false completion:nil];
+            }];
+        });
+        
         return;
     }
     
     UIView *sourceView = items.sourceView;
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [self.view addSubview:tempView];
     
-    CGRect rect = [sourceView convertRect:[sourceView bounds] toView:window];
+    __block CGRect rect = [sourceView convertRect:[sourceView bounds] toView:window];
     
-    BOOL isPortrait = IsPortrait;
     [self->_collectionView setHidden:true];
     
-    if(rect.origin.y > ScreenHeight ||
-       rect.origin.y <= - rect.size.height ||
-       rect.origin.x > ScreenWidth ||
-       rect.origin.x <= - rect.size.width ){
-        
-        [self loadScreenPortrait];
-        [self dismissViewControllerAnimated:true completion:nil];
-        
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [tempView setAlpha:0.f];
-        } completion:^(BOOL finished) {
-            [tempView removeFromSuperview];
-        }];
-        
+    if([self isOutOfScreen:rect]){
+        if(isPortrait == true){
+            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [tempView setAlpha:0.f];
+            } completion:^(BOOL finished) {
+                [tempView removeFromSuperview];
+                [self dismissViewControllerAnimated:true completion:nil];
+            }];
+        }else{
+            [self loadScreenPortrait];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    [tempView setAlpha:0.f];
+                } completion:^(BOOL finished) {
+                    [tempView removeFromSuperview];
+                    [self dismissViewControllerAnimated:true completion:nil];
+                }];
+            });
+        }
     }else{
-        
         CGFloat width  = tempView.image.size.width;
         CGFloat height = tempView.image.size.height;
         CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
         
-        [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
-        [tempView setCenter:[self.view center]];
-        [window addSubview:tempView];
-        
         if(isPortrait == true){
+            [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
+            [tempView setCenter:[self.view center]];
+            [window addSubview:tempView];
+            
             [self dismissViewControllerAnimated:false completion:nil];
             
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [tempView setFrame:rect];
-                [self.view setBackgroundColor:[UIColor clearColor]];
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.15 animations:^{
                     [tempView setAlpha:0.f];
@@ -430,23 +429,51 @@
             
             [self loadScreenPortrait];
             
-            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                [tempView setFrame:rect];
-                [self.view setBackgroundColor:[UIColor clearColor]];
-            } completion:^(BOOL finished) {
-                [UIView animateWithDuration:0.15 animations:^{
-                    [tempView setAlpha:0.f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                rect = [sourceView convertRect:[sourceView bounds] toView:window];
+                
+                [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
+                [tempView setCenter:[self.view center]];
+                [window addSubview:tempView];
+                
+                [self dismissViewControllerAnimated:true completion:nil];
+                
+                [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    [tempView setFrame:rect];
                 } completion:^(BOOL finished) {
-                    [tempView removeFromSuperview];
+                    [UIView animateWithDuration:0.15 animations:^{
+                        [tempView setAlpha:0.f];
+                    } completion:^(BOOL finished) {
+                        [tempView removeFromSuperview];
+                    }];
                 }];
-                [self dismissViewControllerAnimated:false completion:nil];
-            }];
+            });
         }
     }
 }
 
+- (BOOL)isOutOfScreen:(CGRect)rect{
+    if(isPortrait){
+        if(rect.origin.y > ScreenHeight ||
+           rect.origin.y <= - rect.size.height ||
+           rect.origin.x > ScreenWidth ||
+           rect.origin.x <= - rect.size.width ){
+            return true;
+        }
+    }else{
+        if(rect.origin.y > ScreenWidth ||
+           rect.origin.y <= - rect.size.height ||
+           rect.origin.x > ScreenHeight ||
+           rect.origin.x <= - rect.size.width){
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 - (void)loadScreenPortrait{
-    if(IsPortrait) return;
+    if(isPortrait) return;
     NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
     [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
     NSNumber *orientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
@@ -484,7 +511,7 @@
         y = 45;
     }
     
-    if(!IsPortrait){
+    if(!isPortrait){
         y = 15;
         x = 35;
     }
