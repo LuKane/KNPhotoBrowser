@@ -27,7 +27,6 @@
             [arr addObject:@"ViewController"];
             [arr addObject:@"NineSquareController"];
             [arr addObject:@"ScrollViewController"];
-            [arr addObject:@"CollectionViewController"];
             [_dataArr addObject:arr];
         }
         {
@@ -35,7 +34,6 @@
             [arr addObject:@"ViewLocController"];
             [arr addObject:@"NineSquareLocController"];
             [arr addObject:@"ScrollViewLocController"];
-            [arr addObject:@"CollectionViewLocController"];
             [_dataArr addObject:arr];
         }
     }

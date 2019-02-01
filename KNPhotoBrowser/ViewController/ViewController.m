@@ -45,8 +45,6 @@
     
     self.title = @"Normal(网络)";
     
-    NSLog(@"%@",NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]));
-    
     [self setupTopImgView];
     [self setupNineSquareView];
     
