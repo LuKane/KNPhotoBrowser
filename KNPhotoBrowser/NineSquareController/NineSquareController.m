@@ -161,6 +161,10 @@
     [super viewDidLoad];
     self.title = @"九宫格(网络)";
     [self setupTableView];
+    
+    if (@available(iOS 11.0, *)){
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
 }
 
 - (void)setupTableView{

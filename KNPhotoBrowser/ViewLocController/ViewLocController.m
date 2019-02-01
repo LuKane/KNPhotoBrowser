@@ -94,6 +94,11 @@
     KNPhotoBrowser *photoBrower = [[KNPhotoBrowser alloc] init];
     photoBrower.itemsArr = [_itemsArray copy];
     photoBrower.currentIndex = tap.view.tag;
+    
+    photoBrower.isNeedPageControl = true;
+    photoBrower.isNeedPageNumView = true;
+    photoBrower.isNeedRightTopBtn = true;
+    photoBrower.isNeedPictureLongPress = true;
     [photoBrower present];
 }
 

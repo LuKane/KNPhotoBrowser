@@ -32,6 +32,7 @@
 		79002D212203EEDF0084DA85 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79002D092203EEDF0084DA85 /* 2.jpg */; };
 		79002D222203EEDF0084DA85 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79002D0A2203EEDF0084DA85 /* 3.jpg */; };
 		79002D232203EEDF0084DA85 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79002D0B2203EEDF0084DA85 /* 1.jpg */; };
+		79002D262203F82E0084DA85 /* NineSquareLocCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79002D242203F82E0084DA85 /* NineSquareLocCell.m */; };
 		79D4549E21F990B400184E4D /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D4549D21F990B400184E4D /* NavigationController.m */; };
 		79D454A121F990BA00184E4D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D454A021F990BA00184E4D /* BaseViewController.m */; };
 		79D454A421F990BF00184E4D /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D454A321F990BF00184E4D /* FirstViewController.m */; };
@@ -105,6 +106,8 @@
 		79002D092203EEDF0084DA85 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		79002D0A2203EEDF0084DA85 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		79002D0B2203EEDF0084DA85 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		79002D242203F82E0084DA85 /* NineSquareLocCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NineSquareLocCell.m; sourceTree = "<group>"; };
+		79002D252203F82E0084DA85 /* NineSquareLocCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NineSquareLocCell.h; sourceTree = "<group>"; };
 		79D4549C21F990B400184E4D /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		79D4549D21F990B400184E4D /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		79D4549F21F990BA00184E4D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -274,8 +277,8 @@
 		79D454BF21F9919100184E4D /* ScrollViewLocController */ = {
 			isa = PBXGroup;
 			children = (
-				79D454C021F9919100184E4D /* ScrollViewLocController.m */,
 				79D454C121F9919100184E4D /* ScrollViewLocController.h */,
+				79D454C021F9919100184E4D /* ScrollViewLocController.m */,
 			);
 			path = ScrollViewLocController;
 			sourceTree = "<group>";
@@ -285,6 +288,8 @@
 			children = (
 				79D454C421F991A500184E4D /* NineSquareLocController.h */,
 				79D454C521F991A500184E4D /* NineSquareLocController.m */,
+				79002D252203F82E0084DA85 /* NineSquareLocCell.h */,
+				79002D242203F82E0084DA85 /* NineSquareLocCell.m */,
 			);
 			path = NineSquareLocController;
 			sourceTree = "<group>";
@@ -578,6 +583,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79D454E421F991F900184E4D /* KNPhotoBaseCell.m in Sources */,
+				79002D262203F82E0084DA85 /* NineSquareLocCell.m in Sources */,
 				79D454E921F991F900184E4D /* KNPhotoBrowser.m in Sources */,
 				79D454B121F9912B00184E4D /* NineSquareController.m in Sources */,
 				79D454A821F9911100184E4D /* ViewController.m in Sources */,

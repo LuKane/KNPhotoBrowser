@@ -12,8 +12,9 @@
 
 @interface ScrollViewController ()<UIScrollViewDelegate,KNPhotoBrowserDelegate>
 
-@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic,weak  ) UIScrollView *scrollView;
 
+@property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *itemsArr;
 
 @end
@@ -58,6 +59,10 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self setupScrollView];
+    
+    if (@available(iOS 11.0, *)){
+        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
 }
 
 - (void)setupScrollView{
@@ -71,6 +76,7 @@
     [scrollView setContentSize:(CGSize){(width + y * 2) * self.dataArr.count,0}];
     [scrollView setBackgroundColor:[UIColor orangeColor]];
     [self.view addSubview:scrollView];
+    _scrollView = scrollView;
     
     for (NSInteger i = 0; i < self.dataArr.count; i++) {
         UIImageView *imageView = [[UIImageView alloc] init];
