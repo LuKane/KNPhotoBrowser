@@ -10,6 +10,7 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/collectionView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
+![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrowser-IM.gif?raw=true)
 
 
 ## Update content
