@@ -10,18 +10,21 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/collectionView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
+![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrowser-IM.gif?raw=true)
+
 
 
 ## Update content
 * 1.photoBrowser has been recoded , turn the `UIView` to the `UIViewController`
 * 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.perfect adapt the rotate of the Screen
+* 4.photoBrowser for IM (like `Wechat` chat session)
 
 
 
 ## 1.Function describe and Point
 * 1.Depend `SDWebImage(4.0)` and `FLAnimatedImage`
-* 2.load nine picture type in one super View as an example
+* 2.load nine picture ,scrollView,tableView,chat session for IM 
 * 3.most like photoBrowser of Wechat and Weibo in China
 * 4.provide function which can delete and download image
 * 5.the other type's Demo will be upload soon
@@ -132,7 +135,7 @@ if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationAct
 ```
 
 ## By the way
-* 1.Currently, It just be used in nine picure type, the other type will be add soon
+* 1.Currently, It just be used in nine picure ,scrollView, tableView , chat session for IM 
 * 2.if you find any bug, just contact me, it will be perfect by each other
 * 3.perfect adapt `iPhone` `iPad`
 * 4.perfect adapt the `rotate of the Screen` like `Wechat` and `Weibo`

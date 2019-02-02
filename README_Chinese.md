@@ -11,16 +11,18 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/collectionView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
+![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrowser-IM.gif?raw=true)
 
 ## 更新内容 
 * 1.图片浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`
 * 2.适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.完美适配 屏幕旋转
+* 4.新增IM 聊天时 图片浏览器功能, 详情请看Demo (2019/2/2)
 
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(4.0)` 以及 `FLAnimatedImage`
-* 2.加载九宫格图片
+* 2.加载九宫格图片,scrollView,tableView, IM类型
 * 3.高仿 微信和微博 图片浏览效果,显示和回显动画
 * 4.提供删除图片和下载图片等功能
 * 5.其他类型Demo,会尽快增添进去
@@ -131,7 +133,7 @@ KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil othe
 ```
 
 ## 补充
-* 1.目前适配 九宫格, 其他类型,这边会陆续增加
+* 1.目前适配 九宫格,scrollView,tableView, IM类型
 * 2.如果bug, 希望大家给个issue,一起努力改好
 * 3.完美适配 `iPhone` `iPad` 
 * 4.完美适配 `横竖屏` : 模仿微信和微博
