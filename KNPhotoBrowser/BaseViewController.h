@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseViewController : UIViewController
 
-
+- (UIImage *)createImageWithUIColor:(UIColor *)imageColor;
 
 @end
 
