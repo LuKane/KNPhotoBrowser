@@ -111,17 +111,6 @@
     }
 }
 
-- (UIImage *)createImageWithUIColor:(UIColor *)imageColor{
-    CGRect rect = CGRectMake(0, 0, 1.f, 1.f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [imageColor CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-
 - (void)imageViewDidClick:(UITapGestureRecognizer *)tap{
     KNPhotoBrowser *photoBrower = [[KNPhotoBrowser alloc] init];
     photoBrower.itemsArr = [self.itemsArr copy];
