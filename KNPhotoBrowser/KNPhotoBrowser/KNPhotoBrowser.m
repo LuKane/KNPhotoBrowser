@@ -327,6 +327,7 @@
     KNPhotoItems *items = self->_itemsArr[self->_currentIndex];
     if(items.sourceImage){ // locate image by sourceImage of items
         tempView.image = items.sourceImage;
+        [self photoBrowserWillDismissWithAnimated:tempView items:items];
     }else{ // net image or locate image without sourceImage of items
         if(items.url){
             SDWebImageManager *mgr = [SDWebImageManager sharedManager];
@@ -841,6 +842,11 @@ static char KNBtnCurrentImageKey;
             objc_setAssociatedObject(self, &KNBtnCurrentImageKey, @"0", OBJC_ASSOCIATION_COPY_NONATOMIC);
         }
     }
+    
+    if(items.sourceView == nil && imageView.image == nil && items.sourceImage != nil){
+        imageView.image = items.sourceImage;
+    }
+    
     return imageView;
 }
 
