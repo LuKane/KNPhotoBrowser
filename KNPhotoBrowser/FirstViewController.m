@@ -36,6 +36,11 @@
             [arr addObject:@"ScrollViewLocController"];
             [_dataArr addObject:arr];
         }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:@"IMViewController"];
+            [_dataArr addObject:arr];
+        }
     }
     return _dataArr;
 }
