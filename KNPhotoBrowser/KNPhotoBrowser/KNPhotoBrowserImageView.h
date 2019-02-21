@@ -13,7 +13,6 @@
 typedef void(^PhotoBrowerSingleTap)(void);
 typedef void(^PhotoBrowerLongPressTap)(void);
 
-
 @interface KNPhotoBrowserImageView : UIView
 
 // all base control that can scroll

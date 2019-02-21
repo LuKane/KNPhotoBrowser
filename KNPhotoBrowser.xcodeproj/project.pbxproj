@@ -349,8 +349,8 @@
 			isa = PBXGroup;
 			children = (
 				79D454CD21F991F800184E4D /* KNActionSheet.h */,
-				79D454CE21F991F800184E4D /* KNActionSheetView.h */,
 				79D454CF21F991F800184E4D /* KNActionSheet.m */,
+				79D454CE21F991F800184E4D /* KNActionSheetView.h */,
 				79D454D021F991F800184E4D /* KNActionSheetView.m */,
 			);
 			path = KNActionSheet;

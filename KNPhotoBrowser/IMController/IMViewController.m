@@ -106,10 +106,6 @@
     }
     
     [self.tableView reloadData];
-    
-    
-    
-    
 }
 
 - (void)setupTableView{
@@ -140,6 +136,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
 // reload cell height
 - (void)reloadCellWithModel:(IMModel *)immModel{
     NSInteger index = [self.dataArr indexOfObject:immModel];
@@ -149,6 +146,7 @@
 
 // pic did  Click
 - (void)imImageViewDidClick:(IMModel *)imModel{
+    
     [self.itemsArr removeAllObjects];
     
     NSMutableArray *tempArr = [NSMutableArray array];
@@ -158,7 +156,7 @@
         
         KNPhotoItems *items = [[KNPhotoItems alloc] init];
         
-        if(imM.url == nil && imM.locImage == nil) { // if it's not a  picture
+        if(imM.url == nil && imM.locImage == nil) { // if it's not a picture
             
         }else{
             if(imM.url){

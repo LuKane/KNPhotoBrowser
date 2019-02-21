@@ -197,20 +197,6 @@
     cell.longPressTap = ^{
         [weakSelf longPressIBAction];
     };
-//    cell.panMove = ^(CGFloat scale) {
-//        CGFloat alpha = scale * scale;
-//
-//        NSLog(@"%f---%f",scale,alpha);
-//
-//        self->_collectionView.alpha = alpha;
-//    };
-//    cell.panRelease = ^(BOOL isDown) {
-//        if(isDown){
-//            [weakSelf dismiss];
-//        }else{
-//            self->_collectionView.alpha = 1.0;
-//        }
-//    };
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {

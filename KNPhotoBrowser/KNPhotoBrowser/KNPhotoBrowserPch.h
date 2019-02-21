@@ -24,10 +24,6 @@
 #define iPhoneXR ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828 , 1792), [[UIScreen mainScreen] currentMode].size) : false)
 #define iPhoneXs_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242 , 2688), [[UIScreen mainScreen] currentMode].size) : false)
 
-#define iPhone6P (ScreenWidth == 414)
-#define iPhone6 (ScreenWidth == 375)
-#define iPhone5 (ScreenHeight == 568)
-#define iPhone4 (ScreenHeight == 480)
 
 #define PhotoShowPlaceHolderImageColor [UIColor blackColor]
 

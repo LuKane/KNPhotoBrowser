@@ -19,8 +19,7 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 
 - (void)sd_ImageWithUrl:(NSString *)url placeHolder:(UIImage *)placeHolder;
 
-@property (nonatomic, strong) KNPhotoBrowserImageView *photoBrowerImageView;
-
+@property (nonatomic,strong) KNPhotoBrowserImageView *photoBrowerImageView;
 @property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;
 @property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
 

@@ -20,10 +20,6 @@
 
 @property (nonatomic, strong) FLAnimatedImageView *imageView;
 
-
-
-
-
 @end
 
 @implementation KNPhotoBrowserImageView
