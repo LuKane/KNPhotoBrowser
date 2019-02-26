@@ -29,6 +29,8 @@
         _imageView = [[FLAnimatedImageView alloc] init];
         [_imageView setUserInteractionEnabled:true];
         [_imageView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        _imageView.layer.cornerRadius = 0.1;
+        _imageView.clipsToBounds = true;
     }
     return _imageView;
 }

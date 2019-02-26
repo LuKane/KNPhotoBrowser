@@ -189,7 +189,7 @@
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
     [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
-    
+
     __weak typeof(self) weakSelf = self;
     cell.singleTap = ^{
         [weakSelf dismiss];
@@ -526,17 +526,19 @@
  ApplicationWillChangeStatusBarOrientation -> Notification
  */
 - (void)deviceWillOrientation{
-    [_collectionView setHidden:true];
     
-    [_imageView setHidden:false];
-    [_progressHUD setHidden:false];
-
     KNPhotoItems *item = self.itemsArr[_currentIndex];
     NSString *url  = item.url;
-    UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
-
-    [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
     
+    if(![item.url.lastPathComponent.pathExtension.lowercaseString isEqualToString:@"gif"]){
+        [_collectionView setHidden:true];
+        [_imageView setHidden:false];
+        [_progressHUD setHidden:false];
+        UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
+        [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
+    }else{
+        [_collectionView setHidden:false];
+    }
     _offsetPageIndex = _collectionView.contentOffset.x / _layout.itemSize.width;
 }
 
