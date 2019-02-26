@@ -18,9 +18,9 @@
 #import "UIImageView+WebCache.h"
 #import "UIImage+GIF.h"
 #import "KNPhotoBrowserNumView.h"
-#import <objc/runtime.h>
 #import "KNToast.h"
 #import "KNActionSheet/KNActionSheet.h"
+
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
@@ -271,7 +271,6 @@
     if(isPortrait == true){
         tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
     }else{
-        tempRectSize = CGSizeZero;
         if(width > height){
             if(width / height > ScreenWidth / ScreenHeight){
                 tempRectSize = (CGSize){ScreenWidth,height * ScreenWidth / width};
@@ -808,8 +807,6 @@
     return sourceImage;
 }
 
-static char KNBtnCurrentImageKey;
-
 /**
  get the image of current sourceView
  
@@ -824,11 +821,6 @@ static char KNBtnCurrentImageKey;
     }else if ([items.sourceView isKindOfClass:[UIButton class]]){
         UIButton *btn = (UIButton *)items.sourceView;
         [imageView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
-        if([btn currentBackgroundImage]){
-            objc_setAssociatedObject(self, &KNBtnCurrentImageKey, @"1", OBJC_ASSOCIATION_COPY_NONATOMIC);
-        }else{
-            objc_setAssociatedObject(self, &KNBtnCurrentImageKey, @"0", OBJC_ASSOCIATION_COPY_NONATOMIC);
-        }
     }
     
     if(items.sourceView == nil && imageView.image == nil && items.sourceImage != nil){
