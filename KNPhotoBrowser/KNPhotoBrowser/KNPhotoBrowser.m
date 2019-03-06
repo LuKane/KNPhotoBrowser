@@ -128,7 +128,7 @@
     KNProgressHUD *progressHUD = [[KNProgressHUD alloc] initWithFrame:(CGRect){{([UIScreen mainScreen].bounds.size.width - 40) * 0.5,([UIScreen mainScreen].bounds.size.height - 40) * 0.5},{40,40}}];
     [progressHUD setHidden:true];
     [self.view addSubview:progressHUD];
-
+    
     _imageView = imageView;
     _progressHUD = progressHUD;
 }
@@ -189,7 +189,7 @@
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
     [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
-
+    
     __weak typeof(self) weakSelf = self;
     cell.singleTap = ^{
         [weakSelf dismiss];
@@ -347,7 +347,7 @@
 - (void)photoBrowserWillDismissWithAnimated:(UIImageView *)tempView items:(KNPhotoItems *)items{
     [_pageControl setHidden:true];
     [_numView setHidden:true];
-
+    
     if(tempView.image == nil){
         
         [self loadScreenPortrait];

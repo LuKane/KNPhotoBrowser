@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /**
  photoBrowser Delete image success with relative index
-
+ 
  @param index relative index
  */
 - (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /**
  photoBrowser Delete image success with absolute index
-
+ 
  @param index absolute index
  */
 - (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /**
  is success or not of save picture
-
+ 
  @param success is success
  */
 - (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
