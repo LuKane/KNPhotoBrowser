@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /**
  photoBrowser right top button did click, and actionSheet click with Index
-
+ 
  @param index actionSheet did click with Index
  */
 - (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index;
