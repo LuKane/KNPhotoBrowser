@@ -116,7 +116,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  is or not need PictureLongPress , Default is false
  */
-@property (nonatomic, assign) BOOL isNeedPictureLongPress;
+@property (nonatomic,assign) BOOL  isNeedPictureLongPress;
+
+/**
+ is or not need prefetch image, maxCount is 8 (KNPhotoBrowserPch.h)
+ */
+@property (nonatomic,assign) BOOL  isNeedPrefetch;
 
 /**
  photoBrowser show
