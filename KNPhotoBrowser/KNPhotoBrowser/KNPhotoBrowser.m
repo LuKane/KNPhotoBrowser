@@ -20,7 +20,7 @@
 #import "KNPhotoBrowserNumView.h"
 #import "KNToast.h"
 #import "KNActionSheet/KNActionSheet.h"
-
+#import "SDWebImagePrefetcher.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
@@ -78,6 +78,7 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
+    [self prefetchImage];
     [self initCollectionView];
     [self initNumView];
     [self initPageControl];
@@ -95,6 +96,39 @@
                                              selector:@selector(deviceDidOrientation)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
+}
+
+/* prefetch 8 images with SDWebImagePrefetcher */
+- (void)prefetchImage{
+    if(self.isNeedPrefetch == false) return;
+    if(_itemsArr.count == 0) return;
+    NSMutableArray *urlArr = [NSMutableArray array];
+    if(_itemsArr.count <= PhotoBrowserPrefetchNum + 1){
+        for (NSInteger i = 0; i < _itemsArr.count; i++) {
+            if(i != _currentIndex){
+                KNPhotoItems *items = _itemsArr[i];
+                if(items.url != nil && [items.url hasPrefix:@"http"]){
+                    [urlArr addObject:[NSURL URLWithString:items.url]];
+                }
+            }
+        }
+    }else{
+        NSInteger index = 0;
+        if(_currentIndex == _itemsArr.count - 1){
+            index = _itemsArr.count;
+        }else{
+            index = _currentIndex + 1;
+        }
+        for (NSInteger i = index; i < _itemsArr.count; i++) {
+            KNPhotoItems *items = _itemsArr[i];
+            if(items.url != nil && [items.url hasPrefix:@"http"]){
+                [urlArr addObject:[NSURL URLWithString:items.url]];
+            }
+        }
+    }
+    if(urlArr.count != 0){
+        [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:urlArr];
+    }
 }
 
 /* init collectionView */
