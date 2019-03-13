@@ -10,6 +10,8 @@
 #import "NavigationController.h"
 #import "FirstViewController.h"
 
+#import "SDImageCache.h"
+
 @interface AppDelegate ()
 
 @end
@@ -17,6 +19,11 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // clear memory for test
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+        NSLog(@"clear disk is done");
+    }];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
