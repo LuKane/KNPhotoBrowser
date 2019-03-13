@@ -46,6 +46,7 @@ photoBrowser.itemsArr = [self.itemsArr copy];
 photoBrowser.isNeedPageControl = true;
 photoBrowser.isNeedPageNumView = true;
 photoBrowser.isNeedRightTopBtn = true;
+photoBrowser.isNeedPrefetch    = true;
 photoBrowser.isNeedPictureLongPress = true;
 photoBrowser.currentIndex = tap.view.tag;
 [photoBrowser present];
