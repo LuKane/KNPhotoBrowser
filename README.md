@@ -19,6 +19,7 @@
 * 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.perfect adapt the rotate of the Screen
 * 4.photoBrowser for IM (like `Wechat` chat session)
+* 5.photoBrowser add prefetch image API (2019/3/13)
 
 
 
@@ -48,6 +49,7 @@ photoBrowser.itemsArr = [self.itemsArr copy];
 photoBrowser.isNeedPageControl = true;
 photoBrowser.isNeedPageNumView = true;
 photoBrowser.isNeedRightTopBtn = true;
+photoBrowser.isNeedPrefetch    = true;
 photoBrowser.isNeedPictureLongPress = true;
 photoBrowser.currentIndex = tap.view.tag;
 [photoBrowser present];
