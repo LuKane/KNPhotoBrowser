@@ -118,14 +118,10 @@
     photoBrower.isNeedPageNumView = true;
     photoBrower.isNeedRightTopBtn = true;
     photoBrower.isNeedPictureLongPress = true;
+    photoBrower.isNeedPrefetch = true;
     photoBrower.currentIndex = tap.view.tag;
     photoBrower.delegate = self;
     [photoBrower present];
 }
-
-- (void)photoBrowserNeedLoadScreenPortrait{
-    
-}
-
 
 @end
