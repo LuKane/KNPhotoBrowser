@@ -7,12 +7,10 @@
 //
 
 #import "FirstViewController.h"
-#import "SDImageCache.h"
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,weak  ) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
 @end
@@ -48,20 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"KNPhotoBrowser 演示";
-    [self setupNav];
     [self setupTableView];
-}
-
-- (void)setupNav{
-    UIBarButtonItem *itemBtn = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStyleDone target:self action:@selector(rightBtnDidClick)];
-    self.navigationItem.rightBarButtonItem = itemBtn;
-}
-
-- (void)rightBtnDidClick{
-    // clear memory for test
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[SDImageCache sharedImageCache] clearMemory];
-    });
 }
 
 - (void)setupTableView{
