@@ -71,6 +71,20 @@
     return _statusBarHidden;
 }
 
+- (void)hiddenStatusBar{
+    UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
+    [UIView animateWithDuration:0.15 animations:^{
+        statusBar.transform = CGAffineTransformMakeTranslation(0, - statusBar.height);
+    }];
+}
+
+- (void)showStatusBar{
+    UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
+    [UIView animateWithDuration:0.15 animations:^{
+        statusBar.transform = CGAffineTransformIdentity;
+    }];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -323,6 +337,7 @@
         [self->_collectionView setAlpha:1];
     } completion:^(BOOL finished) {
         [self->_collectionView setHidden:false];
+        [self hiddenStatusBar];
         
         [UIView animateWithDuration:0.15 animations:^{
             [tempView setAlpha:0.f];
@@ -390,10 +405,10 @@
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 self->_collectionView.alpha = 0.f;
             } completion:^(BOOL finished) {
+                [self showStatusBar];
                 [self dismissViewControllerAnimated:false completion:nil];
             }];
         });
-        
         return;
     }
     
@@ -410,6 +425,7 @@
                 [tempView setAlpha:0.f];
             } completion:^(BOOL finished) {
                 [tempView removeFromSuperview];
+                [self showStatusBar];
                 [self dismissViewControllerAnimated:true completion:nil];
             }];
         }else{
@@ -420,6 +436,7 @@
                     [tempView setAlpha:0.f];
                 } completion:^(BOOL finished) {
                     [tempView removeFromSuperview];
+                    [self showStatusBar];
                     [self dismissViewControllerAnimated:true completion:nil];
                 }];
             });
@@ -439,6 +456,7 @@
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [tempView setFrame:rect];
             } completion:^(BOOL finished) {
+                [self showStatusBar];
                 [UIView animateWithDuration:0.15 animations:^{
                     [tempView setAlpha:0.f];
                 } completion:^(BOOL finished) {
@@ -461,6 +479,7 @@
                 [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                     [tempView setFrame:rect];
                 } completion:^(BOOL finished) {
+                    [self showStatusBar];
                     [UIView animateWithDuration:0.15 animations:^{
                         [tempView setAlpha:0.f];
                     } completion:^(BOOL finished) {
