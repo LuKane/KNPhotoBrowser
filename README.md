@@ -17,7 +17,7 @@
 ## Update content
 * 1.photoBrowser has been recoded , turn the `UIView` to the `UIViewController`
 * 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
-* 3.perfect adapt the rotate of the Screen
+* 3.perfect adapt the rotate of the Screen,try on the real iPhone or iPad
 * 4.photoBrowser for IM (like `Wechat` chat session)
 * 5.photoBrowser add prefetch image API (2019/3/13)
 
