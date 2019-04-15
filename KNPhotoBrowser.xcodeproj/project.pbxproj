@@ -33,6 +33,8 @@
 		79002D222203EEDF0084DA85 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79002D0A2203EEDF0084DA85 /* 3.jpg */; };
 		79002D232203EEDF0084DA85 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79002D0B2203EEDF0084DA85 /* 1.jpg */; };
 		79002D262203F82E0084DA85 /* NineSquareLocCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79002D242203F82E0084DA85 /* NineSquareLocCell.m */; };
+		79AD34372264305900922DC3 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AD34332264305900922DC3 /* FLAnimatedImage.m */; };
+		79AD34382264305900922DC3 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AD34342264305900922DC3 /* FLAnimatedImageView.m */; };
 		79B6C41A2204144E0010AB9B /* IMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6C4192204144E0010AB9B /* IMViewController.m */; };
 		79B6C420220415550010AB9B /* IMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6C41F220415550010AB9B /* IMTableViewCell.m */; };
 		79B6C423220415600010AB9B /* IMModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6C422220415600010AB9B /* IMModel.m */; };
@@ -112,6 +114,10 @@
 		79002D0B2203EEDF0084DA85 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		79002D242203F82E0084DA85 /* NineSquareLocCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NineSquareLocCell.m; sourceTree = "<group>"; };
 		79002D252203F82E0084DA85 /* NineSquareLocCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NineSquareLocCell.h; sourceTree = "<group>"; };
+		79AD34332264305900922DC3 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		79AD34342264305900922DC3 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		79AD34352264305900922DC3 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		79AD34362264305900922DC3 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
 		79B6C4182204144E0010AB9B /* IMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMViewController.h; sourceTree = "<group>"; };
 		79B6C4192204144E0010AB9B /* IMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMViewController.m; sourceTree = "<group>"; };
 		79B6C41E220415550010AB9B /* IMTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMTableViewCell.h; sourceTree = "<group>"; };
@@ -244,6 +250,17 @@
 				79002D0B2203EEDF0084DA85 /* 1.jpg */,
 			);
 			path = ImageSource;
+			sourceTree = "<group>";
+		};
+		79AD34322264305900922DC3 /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				79AD34352264305900922DC3 /* FLAnimatedImage.h */,
+				79AD34332264305900922DC3 /* FLAnimatedImage.m */,
+				79AD34362264305900922DC3 /* FLAnimatedImageView.h */,
+				79AD34342264305900922DC3 /* FLAnimatedImageView.m */,
+			);
+			path = FLAnimatedImage;
 			sourceTree = "<group>";
 		};
 		79B6C416220414200010AB9B /* IMController */ = {
@@ -390,6 +407,7 @@
 				79D454A021F990BA00184E4D /* BaseViewController.m */,
 				79D454A221F990BF00184E4D /* FirstViewController.h */,
 				79D454A321F990BF00184E4D /* FirstViewController.m */,
+				79AD34322264305900922DC3 /* FLAnimatedImage */,
 				79B6C416220414200010AB9B /* IMController */,
 				79D454A521F9911100184E4D /* ViewController */,
 				79D454A921F9912B00184E4D /* NineSquareController */,
@@ -614,10 +632,12 @@
 				79002D262203F82E0084DA85 /* NineSquareLocCell.m in Sources */,
 				79B6C41A2204144E0010AB9B /* IMViewController.m in Sources */,
 				79B6C423220415600010AB9B /* IMModel.m in Sources */,
+				79AD34382264305900922DC3 /* FLAnimatedImageView.m in Sources */,
 				79D454E921F991F900184E4D /* KNPhotoBrowser.m in Sources */,
 				79D454B121F9912B00184E4D /* NineSquareController.m in Sources */,
 				79D454A821F9911100184E4D /* ViewController.m in Sources */,
 				79D454E621F991F900184E4D /* KNToast.m in Sources */,
+				79AD34372264305900922DC3 /* FLAnimatedImage.m in Sources */,
 				79D4549E21F990B400184E4D /* NavigationController.m in Sources */,
 				79B6C420220415550010AB9B /* IMTableViewCell.m in Sources */,
 				79D454BE21F9917B00184E4D /* ViewLocController.m in Sources */,

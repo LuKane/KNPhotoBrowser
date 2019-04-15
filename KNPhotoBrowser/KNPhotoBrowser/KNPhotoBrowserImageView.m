@@ -7,7 +7,9 @@
 //
 
 #import "KNPhotoBrowserImageView.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDImageCache.h>
+
 #import "KNProgressHUD.h"
 #import "UIImage+GIF.h"
 #import "FLAnimatedImage.h"
@@ -129,7 +131,7 @@
     _placeHolder = placeHolder;
     
     if(!url){
-        if([placeHolder isGIF]){
+        if([placeHolder images] != nil){
             FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:UIImagePNGRepresentation(placeHolder)];
             _imageView.animatedImage = animatedImg;
         }else{

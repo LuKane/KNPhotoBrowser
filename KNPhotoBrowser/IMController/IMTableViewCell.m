@@ -8,7 +8,8 @@
 
 #import "IMTableViewCell.h"
 #import "IMModel.h"
-#import <UIImageView+WebCache.h>
+#import <SDWebImage/SDImageCache.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "UIView+Extension.h"
 
 @interface IMTableViewCell()

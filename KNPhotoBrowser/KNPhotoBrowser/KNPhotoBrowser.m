@@ -15,12 +15,14 @@
 #import "KNPhotoBrowser.h"
 #import "KNPhotoBaseCell.h"
 #import "KNPhotoBrowserPch.h"
-#import "UIImageView+WebCache.h"
-#import "UIImage+GIF.h"
+
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDWebImagePrefetcher.h>
+#import <SDWebImage/SDImageCache.h>
+
 #import "KNPhotoBrowserNumView.h"
 #import "KNToast.h"
 #import "KNActionSheet/KNActionSheet.h"
-#import "SDWebImagePrefetcher.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
@@ -364,16 +366,18 @@
         [self photoBrowserWillDismissWithAnimated:tempView items:items];
     }else{ // net image or locate image without sourceImage of items
         if(items.url){
+            
+            SDImageCache *cache = [SDImageCache sharedImageCache];
             SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-            [mgr cachedImageExistsForURL:[NSURL URLWithString:items.url] completion:^(BOOL isInCache) {
+            [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
                 if(isInCache){
                     if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif image
-                        NSData *data = UIImageJPEGRepresentation([[mgr imageCache] imageFromDiskCacheForKey:items.url], 1.f);
+                        NSData *data = UIImageJPEGRepresentation([cache imageFromCacheForKey:items.url], 1.f);
                         if(data){
                             tempView.image = [self imageFromGifFirstImage:data];
                         }
                     }else{ // normal image
-                        tempView.image = [[mgr imageCache] imageFromCacheForKey:items.url];
+                        tempView.image = [cache imageFromCacheForKey:items.url];
                     }
                 }else{
                     tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:self->_currentIndex] image];
@@ -659,14 +663,15 @@
                             // save currrent image to album
                             KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                             if(items.url){ // net image
+                                SDImageCache *cache = [SDImageCache sharedImageCache];
                                 SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                                [mgr diskImageExistsForURL:[NSURL URLWithString:items.url] completion:^(BOOL isInCache) {
+                                [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
                                     if(!isInCache){
                                         [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
                                         return ;
                                     }else{
-                                        [[mgr imageCache] queryCacheOperationForKey:items.url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
-                                            if([image isGIF]){
+                                        [[mgr imageCache] queryImageForKey:items.url options:SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+                                            if([image images] != nil){
                                                 [weakSelf savePhotoToLocation:data];
                                             }else{
                                                 if(image){
