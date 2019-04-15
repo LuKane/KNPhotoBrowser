@@ -24,7 +24,7 @@
 
 
 ## 1.Function describe and Point
-* 1.Depend `SDWebImage(4.0)` and `FLAnimatedImage`
+* 1.Depend `SDWebImage(5.0)` and `FLAnimatedImage`
 * 2.load nine picture ,scrollView,tableView,chat session for IM 
 * 3.most like photoBrowser of Wechat and Weibo in China
 * 4.provide function which can delete and download image
