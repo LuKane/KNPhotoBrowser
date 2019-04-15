@@ -22,7 +22,7 @@
 
 
 ## 一.功能描述及要点
-* 1.依赖 `SDWebImage(4.0)` 以及 `FLAnimatedImage`
+* 1.依赖 `SDWebImage(5.0)` 以及 `FLAnimatedImage`
 * 2.加载九宫格图片,scrollView,tableView, IM类型
 * 3.高仿 微信和微博 图片浏览效果,显示和回显动画
 * 4.提供删除图片和下载图片等功能
