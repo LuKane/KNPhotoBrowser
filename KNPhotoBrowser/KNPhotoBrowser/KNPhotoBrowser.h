@@ -124,6 +124,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL  isNeedPrefetch;
 
 /**
+ is or not need pan Gesture, Default is false
+ */
+@property (nonatomic,assign) BOOL  isNeedPanGesture;
+
+/**
  photoBrowser show
  */
 - (void)present;

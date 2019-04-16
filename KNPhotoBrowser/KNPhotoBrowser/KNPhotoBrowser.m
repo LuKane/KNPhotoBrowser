@@ -107,7 +107,9 @@
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
-    [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDidGesture:)]];
+    if(self.isNeedPanGesture){
+        [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDidGesture:)]];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deviceWillOrientation)
