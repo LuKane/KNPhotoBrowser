@@ -47,6 +47,9 @@
 
 @property (nonatomic,weak  ) KNActionSheet *actionSheet;
 
+@property (nonatomic, assign) CGPoint   startLocation;
+@property (nonatomic, assign) CGRect    startFrame;
+
 @end
 
 @implementation KNPhotoBrowser
@@ -104,6 +107,8 @@
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
+    [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDidGesture:)]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deviceWillOrientation)
                                                  name:UIApplicationWillChangeStatusBarOrientationNotification
@@ -160,7 +165,7 @@
     [collectionView setDataSource:self];
     [collectionView setDelegate:self];
     [collectionView setPagingEnabled:true];
-    [collectionView setBackgroundColor:[UIColor blackColor]];
+    [collectionView setBackgroundColor:[UIColor clearColor]];
     [collectionView setScrollsToTop:false];
     [collectionView setShowsHorizontalScrollIndicator:false];
     [collectionView setContentOffset:CGPointZero];
@@ -270,6 +275,67 @@
     }
 }
 
+- (void)panDidGesture:(UIPanGestureRecognizer *)pan{
+    
+    KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+    KNPhotoBrowserImageView *imageView = cell.photoBrowerImageView;
+    if(imageView.scrollView.zoomScale > 1.f) return;
+    if(!isPortrait) return;
+    
+    CGPoint point       = [pan translationInView:self.view];
+    CGPoint location    = [pan locationInView:imageView.scrollView];
+    CGPoint velocity    = [pan velocityInView:self.view];
+    
+    switch (pan.state) {
+        case UIGestureRecognizerStateBegan:{
+            _startLocation  = location;
+            _startFrame     = imageView.imageView.frame;
+        }
+            break;
+        case UIGestureRecognizerStateChanged:{
+            double percent = 1 - fabs(point.y) / self.view.frame.size.height;
+            double s = MAX(percent, 0.3);
+            
+            CGFloat width = self.startFrame.size.width * s;
+            CGFloat height = self.startFrame.size.height * s;
+            
+            CGFloat rateX = (self.startLocation.x - self.startFrame.origin.x) / self.startFrame.size.width;
+            CGFloat x = location.x - width * rateX;
+            
+            CGFloat rateY = (self.startLocation.y - self.startFrame.origin.y) / self.startFrame.size.height;
+            CGFloat y = location.y - height * rateY;
+            
+            imageView.imageView.frame = CGRectMake(x, y, width, height);
+            self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:percent];
+        }
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled: {
+            if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
+                // dismiss
+                _startFrame = imageView.imageView.frame;
+                [self dismiss];
+                _startFrame = CGRectZero;
+            }else{
+                // cancel
+                [self cancelAnimation:imageView.imageView];
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)cancelAnimation:(FLAnimatedImageView *)imageView{
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame = self.startFrame;
+    } completion:^(BOOL finished) {
+        self.view.backgroundColor = [UIColor blackColor];
+    }];
+}
+
 #pragma mark - photoBrowser will present
 - (void)present{
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -366,9 +432,7 @@
         [self photoBrowserWillDismissWithAnimated:tempView items:items];
     }else{ // net image or locate image without sourceImage of items
         if(items.url){
-            
             SDImageCache *cache = [SDImageCache sharedImageCache];
-            SDWebImageManager *mgr = [SDWebImageManager sharedManager];
             [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
                 if(isInCache){
                     if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif image
@@ -446,6 +510,7 @@
             });
         }
     }else{
+        
         CGFloat width  = tempView.image.size.width;
         CGFloat height = tempView.image.size.height;
         CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
@@ -453,6 +518,9 @@
         if(isPortrait == true){
             [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
             [tempView setCenter:[self.view center]];
+            if(!CGRectEqualToRect(self.startFrame, CGRectZero)){
+                tempView.frame = self.startFrame;
+            }
             [window addSubview:tempView];
             
             [self dismissViewControllerAnimated:false completion:nil];

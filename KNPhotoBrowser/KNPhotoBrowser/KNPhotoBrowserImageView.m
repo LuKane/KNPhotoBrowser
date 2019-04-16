@@ -12,15 +12,12 @@
 
 #import "KNProgressHUD.h"
 #import "UIImage+GIF.h"
-#import "FLAnimatedImage.h"
 #import "KNPhotoBrowserPch.h"
 
 @interface KNPhotoBrowserImageView()<UIScrollViewDelegate>{
     NSURL         *_url;
     UIImage       *_placeHolder;
 }
-
-@property (nonatomic, strong) FLAnimatedImageView *imageView;
 
 @end
 
@@ -240,7 +237,7 @@
 #pragma mark UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     // zoom the subviews of the scrollView
-    return _imageView;
+    return self.imageView;
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView{
