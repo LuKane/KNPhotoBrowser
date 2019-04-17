@@ -12,6 +12,7 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrowser-IM.gif?raw=true)
+![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower_Pan.gif?raw=true)
 
 ## 更新内容 
 * 1.图片浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`

@@ -11,7 +11,7 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrowser-IM.gif?raw=true)
-
+![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower_Pan.gif?raw=true)
 
 
 ## Update content
@@ -20,7 +20,7 @@
 * 3.perfect adapt the rotate of the Screen,try on the real iPhone or iPad
 * 4.photoBrowser for IM (like `Wechat` chat session)
 * 5.photoBrowser add prefetch image API (2019/3/13)
-
+* 6.photoBrowser add panGesture to dismiss or cancel
 
 
 ## 1.Function describe and Point
@@ -111,6 +111,11 @@ is or not need RightTopBtn , Default is false
 is or not need PictureLongPress , Default is false
 */
 @property (nonatomic, assign) BOOL isNeedPictureLongPress;
+
+/**
+is or not need pan Gesture, Default is false
+*/
+@property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
 PhotoBrowser show
