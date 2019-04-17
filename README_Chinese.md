@@ -111,6 +111,11 @@ photoBrowser.currentIndex = tap.view.tag;
 @property (nonatomic, assign) BOOL isNeedPictureLongPress;
 
 /**
+ is or not need pan Gesture, Default is false
+ */
+@property (nonatomic,assign) BOOL  isNeedPanGesture;
+
+/**
  PhotoBrowser show
  */
 - (void)present;

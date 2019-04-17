@@ -318,7 +318,7 @@
                 // dismiss
                 _startFrame = imageView.imageView.frame;
                 [self dismiss];
-                _startFrame = CGRectZero;
+                
             }else{
                 // cancel
                 [self cancelAnimation:imageView.imageView];
@@ -476,6 +476,7 @@
                 self->_collectionView.alpha = 0.f;
             } completion:^(BOOL finished) {
                 [self showStatusBar];
+                self->_startFrame = CGRectZero;
                 [self dismissViewControllerAnimated:false completion:nil];
             }];
         });
@@ -496,6 +497,7 @@
             } completion:^(BOOL finished) {
                 [tempView removeFromSuperview];
                 [self showStatusBar];
+                self->_startFrame = CGRectZero;
                 [self dismissViewControllerAnimated:true completion:nil];
             }];
         }else{
@@ -507,6 +509,7 @@
                 } completion:^(BOOL finished) {
                     [tempView removeFromSuperview];
                     [self showStatusBar];
+                    self->_startFrame = CGRectZero;
                     [self dismissViewControllerAnimated:true completion:nil];
                 }];
             });
@@ -524,7 +527,7 @@
                 tempView.frame = self.startFrame;
             }
             [window addSubview:tempView];
-            
+            self->_startFrame = CGRectZero;
             [self dismissViewControllerAnimated:false completion:nil];
             
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -547,7 +550,7 @@
                 [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
                 [tempView setCenter:[self.view center]];
                 [window addSubview:tempView];
-                
+                self->_startFrame = CGRectZero;
                 [self dismissViewControllerAnimated:true completion:nil];
                 
                 [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
