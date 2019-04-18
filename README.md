@@ -20,7 +20,7 @@
 * 3.perfect adapt the rotate of the Screen,try on the real iPhone or iPad
 * 4.photoBrowser for IM (like `Wechat` chat session)
 * 5.photoBrowser add prefetch image API (2019/3/13)
-* 6.photoBrowser add panGesture to dismiss or cancel
+* 6.photoBrowser add panGesture to dismiss or cancel(2019/4/16)
 
 
 ## 1.Function describe and Point
