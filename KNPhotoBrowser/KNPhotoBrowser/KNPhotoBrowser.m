@@ -254,6 +254,7 @@
     cell.longPressTap = ^{
         [weakSelf longPressIBAction];
     };
+    _cell = cell;
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -743,9 +744,9 @@
                                         [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
                                         return ;
                                     }else{
-                                        [[mgr imageCache] queryImageForKey:items.url options:SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+                                        [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
                                             if([image images] != nil){
-                                                [weakSelf savePhotoToLocation:data];
+                                                [weakSelf savePhotoToLocation:data url:items.url];
                                             }else{
                                                 if(image){
                                                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -844,22 +845,25 @@
  
  @param photoData data
  */
-- (void)savePhotoToLocation:(NSData *)photoData{
-    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-        PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
-        options.shouldMoveFile = true;
-        PHAssetCreationRequest *request = [PHAssetCreationRequest creationRequestForAsset];
-        [request addResourceWithType:PHAssetResourceTypePhoto data:photoData options:options];
-        request.creationDate = [NSDate date];
-    } completionHandler:^(BOOL success, NSError * _Nullable error) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if(success){
-                [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
-            }else if(error) {
-                [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
-            }
-        });
-    }];
+- (void)savePhotoToLocation:(NSData *)photoData url:(NSString *)url{
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
+            options.shouldMoveFile = true;
+            PHAssetCreationRequest *request = [PHAssetCreationRequest creationRequestForAsset];
+            [request addResourceWithType:PHAssetResourceTypePhoto data:photoData options:options];
+            request.creationDate = [NSDate date];
+        } completionHandler:^(BOOL success, NSError * _Nullable error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(success){
+                    [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
+                }else if(error) {
+                    [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+                }
+            });
+        }];
+    });
 }
 
 /**
