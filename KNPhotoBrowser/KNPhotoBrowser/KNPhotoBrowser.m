@@ -254,7 +254,6 @@
     cell.longPressTap = ^{
         [weakSelf longPressIBAction];
     };
-    _cell = cell;
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
