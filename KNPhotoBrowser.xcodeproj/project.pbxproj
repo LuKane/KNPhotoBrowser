@@ -67,6 +67,7 @@
 		79E503A421F98F7100BB125D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E503A321F98F7100BB125D /* main.m */; };
 		79E503AE21F98F7100BB125D /* KNPhotoBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E503AD21F98F7100BB125D /* KNPhotoBrowserTests.m */; };
 		79E503B921F98F7200BB125D /* KNPhotoBrowserUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E503B821F98F7200BB125D /* KNPhotoBrowserUITests.m */; };
+		79E6C2A322AFC99200EE6078 /* KNPhotoVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E6C2A222AFC99200EE6078 /* KNPhotoVideoCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +183,8 @@
 		79E503B421F98F7200BB125D /* KNPhotoBrowserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KNPhotoBrowserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		79E503B821F98F7200BB125D /* KNPhotoBrowserUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserUITests.m; sourceTree = "<group>"; };
 		79E503BA21F98F7200BB125D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79E6C2A122AFC99200EE6078 /* KNPhotoVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoVideoCell.h; sourceTree = "<group>"; };
+		79E6C2A222AFC99200EE6078 /* KNPhotoVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNPhotoVideoCell.m; sourceTree = "<group>"; };
 		9F749FC4F8118A145750D3F6 /* libPods-KNPhotoBrowser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KNPhotoBrowser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B41F0353E9E1FA7FC7687961 /* Pods-KNPhotoBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -345,6 +348,8 @@
 				79D454DF21F991F800184E4D /* KNPhotoBrowser.m */,
 				79D454D221F991F800184E4D /* KNPhotoBaseCell.h */,
 				79D454D921F991F800184E4D /* KNPhotoBaseCell.m */,
+				79E6C2A122AFC99200EE6078 /* KNPhotoVideoCell.h */,
+				79E6C2A222AFC99200EE6078 /* KNPhotoVideoCell.m */,
 				79D454D821F991F800184E4D /* KNPhotoBrowserImageView.h */,
 				79D454DE21F991F800184E4D /* KNPhotoBrowserImageView.m */,
 				79D454D621F991F800184E4D /* KNPhotoBrowserNumView.h */,
@@ -637,6 +642,7 @@
 				79D454B121F9912B00184E4D /* NineSquareController.m in Sources */,
 				79D454A821F9911100184E4D /* ViewController.m in Sources */,
 				79D454E621F991F900184E4D /* KNToast.m in Sources */,
+				79E6C2A322AFC99200EE6078 /* KNPhotoVideoCell.m in Sources */,
 				79AD34372264305900922DC3 /* FLAnimatedImage.m in Sources */,
 				79D4549E21F990B400184E4D /* NavigationController.m in Sources */,
 				79B6C420220415550010AB9B /* IMTableViewCell.m in Sources */,
