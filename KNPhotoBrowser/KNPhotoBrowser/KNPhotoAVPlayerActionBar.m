@@ -8,6 +8,18 @@
 
 #import "KNPhotoAVPlayerActionBar.h"
 
+@interface KNPhotoAVPlayerSlider : UISlider
+
+@end
+
+@implementation KNPhotoAVPlayerSlider
+
+
+
+@end
+
+
+
 @implementation KNPhotoAVPlayerActionBar
 
 
