@@ -40,6 +40,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:UIColor.clearColor];
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionViewDidClick)]];
         [self setupSubViews];
     }
     return self;
@@ -59,6 +60,7 @@
     [dismissImageView setUserInteractionEnabled:true];
     [dismissImageView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@2x.png"]];
     [dismissImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissImageViewDidClick)]];
+    [dismissImageView setHidden:true];
     [self addSubview:dismissImageView];
     _dismissImgView = dismissImageView;
     
@@ -82,6 +84,15 @@
 - (void)dismissImageViewDidClick{
     if ([_delegate respondsToSelector:@selector(photoAVPlayerActionViewDismiss)]) {
         [_delegate photoAVPlayerActionViewDismiss];
+    }
+}
+
+- (void)actionViewDidClick{
+    
+    [_dismissImgView setHidden:!_dismissImgView.hidden];
+    
+    if ([_delegate respondsToSelector:@selector(photoAVPlayerActionViewDidClickIsHidden:)]) {
+        [_delegate photoAVPlayerActionViewDidClickIsHidden:_dismissImgView.isHidden];
     }
 }
 

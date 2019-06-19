@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KNPhotoAVPlayerView : UIView
 
-
+- (instancetype)initWithFrame:(CGRect)frame
+                          url:(NSString *)url
+                  placeHolder:(UIImage *)placeHolder;
 
 @end
 

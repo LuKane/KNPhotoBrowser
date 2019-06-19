@@ -10,6 +10,11 @@
 
 @implementation KNPhotoAVPlayerView
 
-
+- (instancetype)initWithFrame:(CGRect)frame url:(NSString *)url placeHolder:(UIImage *)placeHolder{
+    if (self = [super initWithFrame:frame]) {
+        
+    }
+    return self;
+}
 
 @end
