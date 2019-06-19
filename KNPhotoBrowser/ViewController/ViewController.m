@@ -92,7 +92,7 @@
         imageView.userInteractionEnabled = YES;
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
         imageView.tag = i + 1;
-        [imageView sd_setImageWithURL:urlArr[i] placeholderImage:[self createImageWithUIColor:[UIColor grayColor]]];
+        [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
         imageView.backgroundColor = [UIColor grayColor];
         CGFloat width = (view.frame.size.width - 40) / 3;
         NSInteger row = i / 3;

@@ -245,7 +245,7 @@
     NSString *url  = item.url;
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
-    [cell sd_ImageWithUrl:url placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
+    [cell sd_ImageWithUrl:url placeHolder:tempView.image];
     
     __weak typeof(self) weakSelf = self;
     cell.singleTap = ^{
@@ -664,7 +664,7 @@
         [_imageView setHidden:false];
         [_progressHUD setHidden:false];
         UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
-        [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image?tempView.image:[self createImageWithUIColor:[UIColor lightGrayColor]]];
+        [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image];
     }else{
         [_collectionView setHidden:false];
     }
@@ -907,8 +907,8 @@
  @param imageColor color
  @return image is created by color
  */
-- (UIImage *)createImageWithUIColor:(UIColor *)imageColor{
-    CGRect rect = CGRectMake(0, 0, 1.f, 1.f);
+- (UIImage *)createImageWithUIColor:(UIColor *)imageColor size:(CGSize)size{
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [imageColor CGColor]);
@@ -959,6 +959,10 @@
     
     if(items.sourceView == nil && imageView.image == nil && items.sourceImage != nil){
         imageView.image = items.sourceImage;
+    }
+    
+    if(imageView.image == nil){
+        imageView.image = [self createImageWithUIColor:PhotoPlaceHolderDefaultColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
     }
     
     return imageView;
