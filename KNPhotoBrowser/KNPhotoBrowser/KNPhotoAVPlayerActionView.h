@@ -10,7 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol KNPhotoAVPlayerActionViewDelegate <NSObject>
+
+- (void)photoAVPlayerActionViewPauseOrStop;
+- (void)photoAVPlayerActionViewDismiss;
+
+@end
+
 @interface KNPhotoAVPlayerActionView : UIView
+
+@property (nonatomic,weak  ) id<KNPhotoAVPlayerActionViewDelegate> delegate;
 
 @end
 
