@@ -35,8 +35,6 @@
 
 @end
 
-
-
 @implementation KNPhotoAVPlayerActionBar
 
 
