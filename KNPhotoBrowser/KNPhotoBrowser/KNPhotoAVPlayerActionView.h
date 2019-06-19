@@ -21,6 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerActionViewDelegate> delegate;
 
+/**
+ player is buffering or not
+ */
+@property (nonatomic,assign) BOOL  isBuffering;
+
+/**
+ current player is playing
+ */
+@property (nonatomic,assign) BOOL  isPlaying;
+
 @end
 
 NS_ASSUME_NONNULL_END

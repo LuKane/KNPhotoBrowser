@@ -85,6 +85,18 @@
     }
 }
 
+- (void)setIsBuffering:(BOOL)isBuffering{
+    _isBuffering = isBuffering;
+    if (isBuffering) {
+        [_indicatorView startAnimating];
+    }else{
+        [_indicatorView stopAnimating];
+    }
+}
 
+- (void)setIsPlaying:(BOOL)isPlaying{
+    _isPlaying = isPlaying;
+    [_pauseImgView setHidden:isPlaying];
+}
 
 @end
