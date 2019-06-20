@@ -204,10 +204,10 @@
         // get the max radio
         maxScale = widthRadit > maxScale?widthRadit:maxScale;
         // if the max radio >= PhotoBrowerImageMaxScale, get max radio , else PhotoBrowerImageMaxScale
-        maxScale = maxScale > PhotoBrowerImageMaxScale?maxScale:PhotoBrowerImageMaxScale;
+        maxScale = maxScale > PhotoBrowserImageMaxScale?maxScale:PhotoBrowserImageMaxScale;
         
         // set max and min radio of scrollView
-        _scrollView.minimumZoomScale = PhotoBrowerImageMinScale;
+        _scrollView.minimumZoomScale = PhotoBrowserImageMinScale;
         _scrollView.maximumZoomScale = maxScale;
         
         // set scrollView zoom original
