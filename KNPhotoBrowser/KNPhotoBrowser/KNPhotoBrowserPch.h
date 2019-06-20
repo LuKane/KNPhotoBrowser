@@ -37,9 +37,11 @@
 #define PhotoPlaceHolderDefaultColor [UIColor grayColor]
 
 // pic max zoom num
-#define PhotoBrowerImageMaxScale   2.f
+#define PhotoBrowserImageMaxScale   2.f
 // pic min zoom out num
-#define PhotoBrowerImageMinScale   1.f
+#define PhotoBrowserImageMinScale   1.f
+
+#define PhotoBrowserAnimateTime 0.3
 
 // define SDWebImagePrefetcher max number
 #define PhotoBrowserPrefetchNum     8

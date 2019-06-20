@@ -331,7 +331,7 @@
 }
 
 - (void)cancelAnimation:(FLAnimatedImageView *)imageView{
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
         imageView.frame = self.startFrame;
     } completion:^(BOOL finished) {
         self.view.backgroundColor = [UIColor blackColor];
@@ -367,7 +367,7 @@
     
     if(tempView.image == nil){
         [_collectionView setHidden:false];
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [self->_collectionView setAlpha:1];
         } completion:^(BOOL finished) {
             self->_page = self->_currentIndex;
@@ -377,7 +377,7 @@
     }
     
     [tempView setFrame:rect];
-    [tempView setContentMode:sourceView.contentMode];
+//    [tempView setContentMode:sourceView.contentMode];
     tempView.layer.cornerRadius = 0.001;
     tempView.clipsToBounds = true;
     [self.view insertSubview:tempView atIndex:0];
@@ -401,7 +401,7 @@
     }
     [_collectionView setHidden:true];
     
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [tempView setCenter:[self.view center]];
         [tempView setBounds:(CGRect){CGPointZero,tempRectSize}];
         [self->_collectionView setAlpha:1];
@@ -411,7 +411,6 @@
         
         [UIView animateWithDuration:0.15 animations:^{
             [tempView setAlpha:0.f];
-            
         } completion:^(BOOL finished) {
             [tempView removeFromSuperview];
         }];
@@ -492,7 +491,7 @@
     
     if([self isOutOfScreen:rect]){
         if(isPortrait == true){
-            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [tempView setAlpha:0.f];
             } completion:^(BOOL finished) {
                 [tempView removeFromSuperview];
@@ -504,7 +503,7 @@
             [self loadScreenPortrait];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                     [tempView setAlpha:0.f];
                 } completion:^(BOOL finished) {
                     [tempView removeFromSuperview];
@@ -530,7 +529,7 @@
             self->_startFrame = CGRectZero;
             [self dismissViewControllerAnimated:false completion:nil];
             
-            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [tempView setFrame:rect];
             } completion:^(BOOL finished) {
                 [self showStatusBar];
@@ -553,7 +552,7 @@
                 self->_startFrame = CGRectZero;
                 [self dismissViewControllerAnimated:true completion:nil];
                 
-                [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                     [tempView setFrame:rect];
                 } completion:^(BOOL finished) {
                     [self showStatusBar];
