@@ -33,7 +33,7 @@
 - (UIImageView *)tempImgView{
     if (!_tempImgView) {
         _tempImgView = [[UIImageView alloc] initWithFrame:self.bounds];
-        [_tempImgView setBackgroundColor:UIColor.clearColor];
+        _tempImgView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _tempImgView;
 }
@@ -55,12 +55,43 @@
 - (void)playerWithURL:(NSString *)url
           placeHolder:(UIImage *_Nullable)placeHolder{
     self.url = url;
-    self.placeHolder = self.placeHolder;
+    self.placeHolder = placeHolder;
+    
+    [self removeAVPlayer];
     
     self.item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.url]];
     [self setupItemObserver];
     [self setupPlayer];
     [self setupActionView];
+}
+
+- (void)removeAVPlayer{
+    
+    [self removeAllObservers];
+    
+    [self.player pause];
+    self.player = nil;
+    self.playerLayer = nil;
+    [self.playerView removeFromSuperview];
+    self.playerView = nil;
+    [self.actionView removeFromSuperview];
+    [self.actionBar removeFromSuperview];
+    [self.tempImgView removeFromSuperview];
+    self.tempImgView = nil;
+    self.item = nil;
+}
+
+- (void)stopPlay{
+    if (self.player) {
+        [self.player pause];
+        [self videoDidPlayToEndTime];
+        
+        [_actionView setIsBuffering:false];
+        [_actionView setIsPlaying:false];
+        [_actionBar setHidden:true];
+        
+    }
+    self.isPlaying = false;
 }
 
 /**
@@ -86,7 +117,7 @@
 - (void)setupActionView{
     KNPhotoAVPlayerActionView *actionView = [[KNPhotoAVPlayerActionView alloc] initWithFrame:self.bounds];
     [actionView setDelegate:self];
-    [actionView setIsBuffering:true];
+    [actionView setIsBuffering:false];
     [actionView setIsPlaying:false];
     [self addSubview:actionView];
     _actionView = actionView;
@@ -123,19 +154,16 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    
+    if (self.isPlaying) return;
     if (![object isKindOfClass:[AVPlayerItem class]]) return;
     
     if ([keyPath isEqualToString:@"status"]) { // play
         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
             [self addPeriodicTimeObserver];
-            [self.tempImgView removeFromSuperview];
             [_actionView setIsBuffering:false];
         }
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
         _bufferTime = [self effectiveBufferedTime];
-        
-        if (self.tempImgView) [self.tempImgView removeFromSuperview];
         
         if (!_isGettotalPlayTime) {
             _isGettotalPlayTime = true;
@@ -145,20 +173,22 @@
         if (_actionBar.currentTime <= _actionBar.allDuration - 7) {
             if (_bufferTime <= _actionBar.currentTime + 5) {
                 [_actionBar setIsPlaying:false];
+                [_actionView setIsBuffering:true];
             }else{
                 [_actionBar setIsPlaying:true];
+                [_actionView setIsBuffering:false];
             }
         }else{
             [_actionBar setIsPlaying:true];
+            [_actionView setIsBuffering:false];
         }
     }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { // buffer is empty
         if ([_player.currentItem isPlaybackBufferEmpty]) {
             [_actionBar setIsPlaying:false];
-            if (self.tempImgView) [self.tempImgView removeFromSuperview];
+            [_actionView setIsBuffering:true];
         }
     }else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        if (self.tempImgView) [self.tempImgView removeFromSuperview];
     }
 }
 
@@ -208,8 +238,8 @@
     [super layoutSubviews];
     self.playerLayer.frame  = self.bounds;
     self.playerView.frame   = self.bounds;
-    self.tempImgView.frame  = self.bounds;
     self.actionView.frame   = self.bounds;
+    self.tempImgView.frame  = self.bounds;
     self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 30);
 }
 
@@ -221,6 +251,15 @@
     if (self.player) {
         [self.player play];
         self.isPlaying = true;
+        
+        if (self.tempImgView) [self.tempImgView removeFromSuperview];
+        
+        if (self.player.currentItem.status == AVPlayerStatusFailed) {
+            [_actionView setIsBuffering:true];
+        }else if (self.player.currentItem.status == AVPlayerStatusUnknown) {
+            [_actionView setIsBuffering:true];
+        }
+        
         [_actionBar setIsPlaying:true];
     }
 }
@@ -273,6 +312,16 @@
 }
 
 - (void)dealloc{
+    
+    [self removeAllObservers];
+    if(self.player){
+        [self.player pause];
+        self.player = nil;
+        self.playerLayer = nil;
+    }
+}
+
+- (void)removeAllObservers{
     if(self.item){
         [self.item removeObserver:self forKeyPath:@"status"];
         [self.item removeObserver:self forKeyPath:@"loadedTimeRanges"];
@@ -281,12 +330,6 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:AVPlayerItemDidPlayToEndTimeNotification
                                                       object:self.player.currentItem];
-    }
-    
-    if(self.player){
-        [self.player pause];
-        self.player = nil;
-        self.playerLayer = nil;
     }
 }
 

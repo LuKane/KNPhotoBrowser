@@ -22,8 +22,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KNPhotoAVPlayerView : UIView
 
+/**
+ create observe player with url ,ready to play
+
+ @param url url
+ @param placeHolder placeHolder image
+ */
 - (void)playerWithURL:(NSString *)url
           placeHolder:(UIImage *_Nullable)placeHolder;
+
+/**
+ stop play current item
+ */
+- (void)stopPlay;
 
 @property (nonatomic,copy  ) NSString *url;
 @property (nonatomic,strong) UIImage *placeHolder;
