@@ -14,6 +14,7 @@
 
 #import "KNPhotoBrowser.h"
 #import "KNPhotoBaseCell.h"
+#import "KNPhotoVideoCell.h"
 #import "KNPhotoBrowserPch.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -27,7 +28,7 @@
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
 
-@interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource>{
+@interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
     UICollectionView           *_collectionView;
     KNPhotoBrowserNumView      *_numView;
@@ -130,7 +131,7 @@
         for (NSInteger i = 0; i < _itemsArr.count; i++) {
             if(i != _currentIndex){
                 KNPhotoItems *items = _itemsArr[i];
-                if(items.url != nil && [items.url hasPrefix:@"http"]){
+                if(items.url != nil && [items.url hasPrefix:@"http"] && items.isVideo == false){
                     [urlArr addObject:[NSURL URLWithString:items.url]];
                 }
             }
@@ -144,7 +145,7 @@
         }
         for (NSInteger i = index; i < _itemsArr.count; i++) {
             KNPhotoItems *items = _itemsArr[i];
-            if(items.url != nil && [items.url hasPrefix:@"http"]){
+            if(items.url != nil && [items.url hasPrefix:@"http"] && items.isVideo == false){
                 [urlArr addObject:[NSURL URLWithString:items.url]];
             }
         }
@@ -178,6 +179,7 @@
     _layout = layout;
     _collectionView = collectionView;
     [_collectionView registerClass:[KNPhotoBaseCell class] forCellWithReuseIdentifier:@"KNPhotoBaseCellID"];
+    [_collectionView registerClass:[KNPhotoVideoCell class] forCellWithReuseIdentifier:@"KNPhotoVideoCellID"];
     
     KNPhotoBrowserImageView *imageView = [[KNPhotoBrowserImageView alloc] initWithFrame:self.view.bounds];
     [imageView setHidden:true];
@@ -240,21 +242,27 @@
     return self.itemsArr.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
     KNPhotoItems *item = self.itemsArr[indexPath.row];
-    NSString *url  = item.url;
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
-    [cell sd_ImageWithUrl:url placeHolder:tempView.image];
-    
-    __weak typeof(self) weakSelf = self;
-    cell.singleTap = ^{
-        [weakSelf dismiss];
-    };
-    cell.longPressTap = ^{
-        [weakSelf longPressIBAction];
-    };
-    return cell;
+    if (item.isVideo) {
+        KNPhotoVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoVideoCellID" forIndexPath:indexPath];
+        [cell setDelegate:self];
+        [cell playerWithURL:item.url placeHolder:tempView.image];
+        return cell;
+    }else{
+        KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
+        [cell sd_ImageWithUrl:item.url placeHolder:tempView.image];
+        
+        __weak typeof(self) weakSelf = self;
+        cell.singleTap = ^{
+            [weakSelf dismiss];
+        };
+        cell.longPressTap = ^{
+            [weakSelf longPressIBAction];
+        };
+        return cell;
+    }
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     [cell prepareForReuse];
@@ -277,8 +285,16 @@
     }
 }
 
+- (void)photoVideoAVPlayerDismiss{
+    [self dismiss];
+}
+
 - (void)panDidGesture:(UIPanGestureRecognizer *)pan{
     
+    KNPhotoItems *items = self.itemsArr[_currentIndex];
+    if (items.isVideo) {
+        return;
+    }
     KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
     KNPhotoBrowserImageView *imageView = cell.photoBrowerImageView;
     if(imageView.scrollView.zoomScale > 1.f) return;
@@ -432,7 +448,7 @@
         tempView.image = items.sourceImage;
         [self photoBrowserWillDismissWithAnimated:tempView items:items];
     }else{ // net image or locate image without sourceImage of items
-        if(items.url){
+        if(items.url && items.isVideo == false){
             SDImageCache *cache = [SDImageCache sharedImageCache];
             [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
                 if(isInCache){
@@ -658,7 +674,7 @@
     KNPhotoItems *item = self.itemsArr[_currentIndex];
     NSString *url  = item.url;
     
-    if(![item.url.lastPathComponent.pathExtension.lowercaseString isEqualToString:@"gif"]){
+    if(![item.url.lastPathComponent.pathExtension.lowercaseString isEqualToString:@"gif"] && item.isVideo == false){
         [_collectionView setHidden:true];
         [_imageView setHidden:false];
         [_progressHUD setHidden:false];
