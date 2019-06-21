@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,strong) UIView *sourceView;
 
+/**
+ is video of nor, default is false
+ */
+@property (nonatomic,assign) BOOL  isVideo;
+
 @end
 
 /****************************** == line == ********************************/
