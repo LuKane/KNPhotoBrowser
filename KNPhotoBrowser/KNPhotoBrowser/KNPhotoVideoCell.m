@@ -7,7 +7,43 @@
 //
 
 #import "KNPhotoVideoCell.h"
+#import "KNPhotoAVPlayer/KNPhotoAVPlayerView.h"
 
-@implementation KNPhotoVideoCell
+@interface KNPhotoVideoCell()<KNPhotoAVPlayerViewDelegate>
+
+@end
+
+@implementation KNPhotoVideoCell{
+    KNPhotoAVPlayerView *_playerView;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+        KNPhotoAVPlayerView *playerView = [[KNPhotoAVPlayerView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        [playerView setDelegate:self];
+        [self.contentView addSubview:playerView];
+        _playerView = playerView;
+    }
+    return self;
+}
+
+- (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder{
+    [_playerView playerWithURL:url placeHolder:placeHolder];
+}
+
+- (void)prepareForReuse{
+    [_playerView stopPlay];
+}
+
+- (void)photoAVPlayerViewDismiss{
+    if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {
+        [_delegate photoVideoAVPlayerDismiss];
+    }
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    _playerView.frame = self.bounds;
+}
 
 @end

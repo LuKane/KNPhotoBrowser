@@ -10,7 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol KNPhotoVideoCellDelegate <NSObject>
+
+- (void)photoVideoAVPlayerDismiss;
+
+@end
+
 @interface KNPhotoVideoCell : UICollectionViewCell
+
+- (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder;
+
+@property (nonatomic,weak  ) id<KNPhotoVideoCellDelegate> delegate;
 
 @end
 
