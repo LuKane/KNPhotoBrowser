@@ -78,17 +78,25 @@
 }
 
 - (void)hiddenStatusBar{
-    UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
-    [UIView animateWithDuration:0.15 animations:^{
-        statusBar.transform = CGAffineTransformMakeTranslation(0, - statusBar.height);
-    }];
+    if (@available(iOS 13.0, *)) {
+        
+    } else {
+        UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
+        [UIView animateWithDuration:0.15 animations:^{
+            statusBar.transform = CGAffineTransformMakeTranslation(0, - statusBar.height);
+        }];
+    }
 }
 
 - (void)showStatusBar{
-    UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
-    [UIView animateWithDuration:0.15 animations:^{
-        statusBar.transform = CGAffineTransformIdentity;
-    }];
+    if (@available(iOS 13.0, *)) {
+        
+    } else {
+        UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
+        [UIView animateWithDuration:0.15 animations:^{
+            statusBar.transform = CGAffineTransformIdentity;
+        }];
+    }
 }
 
 - (void)viewDidLoad {
