@@ -160,8 +160,10 @@
     if ([keyPath isEqualToString:@"status"]) { // play
         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
             [self addPeriodicTimeObserver];
-            [_actionView setIsBuffering:false];
+        }else{
+            [self stopPlay];
         }
+        [_actionView setIsBuffering:false];
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
         _bufferTime = [self effectiveBufferedTime];
         
@@ -214,6 +216,7 @@
             if (finished) {
                 weakself.actionBar.currentTime = 0;
                 [weakself.actionBar setIsPlaying:false];
+                [weakself.actionView setIsPlaying:false];
             }
         }];
     }
