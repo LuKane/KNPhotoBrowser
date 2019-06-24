@@ -35,6 +35,7 @@
 #define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
 
 #define PhotoPlaceHolderDefaultColor [UIColor grayColor]
+#define PhotoPlaceHolderVideoColor [UIColor clearColor]
 
 // pic max zoom num
 #define PhotoBrowserImageMaxScale   2.f
