@@ -293,6 +293,9 @@
     }
 }
 
+/**
+ * 视频消失
+ */
 - (void)photoVideoAVPlayerDismiss{
     [self dismiss];
 }
@@ -985,7 +988,11 @@
     }
     
     if(imageView.image == nil){
-        imageView.image = [self createImageWithUIColor:PhotoPlaceHolderDefaultColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+        if (items.isVideo == false) {
+            imageView.image = [self createImageWithUIColor:PhotoPlaceHolderDefaultColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+        }else {
+            imageView.image = [self createImageWithUIColor:PhotoPlaceHolderVideoColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+        }
     }
     
     return imageView;
