@@ -26,6 +26,8 @@
 @property (nonatomic,assign) BOOL  isPlaying;
 @property (nonatomic,assign) BOOL  isGettotalPlayTime;
 
+@property (nonatomic,assign) BOOL  isAddObserver;
+
 @end
 
 @implementation KNPhotoAVPlayerView
@@ -60,7 +62,7 @@
     [self removeAVPlayer];
     
     self.item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.url]];
-    [self setupItemObserver];
+    
     [self setupPlayer];
     [self setupActionView];
 }
@@ -89,9 +91,9 @@
         [_actionView setIsBuffering:false];
         [_actionView setIsPlaying:false];
         [_actionBar setHidden:true];
-        
     }
     self.isPlaying = false;
+    self.isAddObserver = false;
 }
 
 /**
@@ -143,10 +145,17 @@
                 forKeyPath:@"loadedTimeRanges"
                    options:NSKeyValueObservingOptionNew
                    context:nil];
-    [self.item addObserver:self
-                forKeyPath:@"playbackBufferEmpty"
-                   options:NSKeyValueObservingOptionNew
-                   context:nil];
+    
+    __weak typeof(self) weakself = self;
+    [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        if (CMTimeGetSeconds(time) == weakself.actionBar.allDuration) {
+            [weakself videoDidPlayToEndTime];
+            weakself.actionBar.currentTime = 0;
+        }else{
+            weakself.actionBar.currentTime = CMTimeGetSeconds(time);
+        }
+    }];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(videoDidPlayToEndTime)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -154,19 +163,17 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    if (self.isPlaying) return;
+    
     if (![object isKindOfClass:[AVPlayerItem class]]) return;
     
     if ([keyPath isEqualToString:@"status"]) { // play
         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
             [self addPeriodicTimeObserver];
-        }else{
-            [self stopPlay];
         }
-        [_actionView setIsBuffering:false];
+        [self.tempImgView removeFromSuperview];
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
         _bufferTime = [self effectiveBufferedTime];
-        
+        [self.tempImgView removeFromSuperview];
         if (!_isGettotalPlayTime) {
             _isGettotalPlayTime = true;
             _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
@@ -175,21 +182,21 @@
         if (_actionBar.currentTime <= _actionBar.allDuration - 7) {
             if (_bufferTime <= _actionBar.currentTime + 5) {
                 [_actionBar setIsPlaying:false];
+                
                 [_actionView setIsBuffering:true];
             }else{
                 [_actionBar setIsPlaying:true];
+                [_actionView setIsPlaying:true];
+                
                 [_actionView setIsBuffering:false];
             }
         }else{
             [_actionBar setIsPlaying:true];
+            [_actionView setIsPlaying:true];
+            
             [_actionView setIsBuffering:false];
         }
-    }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { // buffer is empty
-        if ([_player.currentItem isPlaybackBufferEmpty]) {
-            [_actionBar setIsPlaying:false];
-            [_actionView setIsBuffering:true];
-        }
-    }else {
+    } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -226,15 +233,7 @@
  add observer for current video speed
  */
 - (void)addPeriodicTimeObserver{
-    __weak typeof(self) weakself = self;
-    [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        if (CMTimeGetSeconds(time) == weakself.actionBar.allDuration) {
-            [weakself videoDidPlayToEndTime];
-            weakself.actionBar.currentTime = 0;
-        }else{
-            weakself.actionBar.currentTime = CMTimeGetSeconds(time);
-        }
-    }];
+    
 }
 
 - (void)layoutSubviews{
@@ -252,18 +251,17 @@
  */
 - (void)photoAVPlayerActionViewPauseOrStop{
     if (self.player) {
+        
+        if (self.isAddObserver == false) {
+            [self setupItemObserver];
+            self.isAddObserver = true;
+        }
+        
         [self.player play];
         self.isPlaying = true;
         
-        if (self.tempImgView) [self.tempImgView removeFromSuperview];
-        
-        if (self.player.currentItem.status == AVPlayerStatusFailed) {
-            [_actionView setIsBuffering:true];
-        }else if (self.player.currentItem.status == AVPlayerStatusUnknown) {
-            [_actionView setIsBuffering:true];
-        }
-        
         [_actionBar setIsPlaying:true];
+        [_actionView setIsPlaying:true];
     }
 }
 /**
@@ -325,11 +323,9 @@
 }
 
 - (void)removeAllObservers{
-    if(self.item){
+    if (self.item && self.isAddObserver == true) {
         [self.item removeObserver:self forKeyPath:@"status"];
         [self.item removeObserver:self forKeyPath:@"loadedTimeRanges"];
-        [self.item removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-        
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:AVPlayerItemDidPlayToEndTimeNotification
                                                       object:self.player.currentItem];
