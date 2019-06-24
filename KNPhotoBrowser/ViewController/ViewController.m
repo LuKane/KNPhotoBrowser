@@ -44,7 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Normal(网络)";
+    self.title = @"Normal(图片 + 视频)(网络)";
     
     [self setupTopImgView];
     [self setupNineSquareView];
@@ -80,7 +80,6 @@
     NSArray *urlArr = @[
                         @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg",
                         @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdgoa9xxj218g0rsaon.jpg",
-//                        @"https://wx2.sinaimg.cn/thumbnail/9bbc284bgy1frtdht9q6mj21hc0u0hdt.jpg",
                         @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4",
                         @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif",
                         @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg",
@@ -117,7 +116,7 @@
         }else{
             [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
         }
-
+        
         imageView.backgroundColor = [UIColor grayColor];
         CGFloat width = (view.frame.size.width - 40) / 3;
         NSInteger row = i / 3;
