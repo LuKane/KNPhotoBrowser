@@ -7,15 +7,12 @@
 //
 
 #import "KNPhotoVideoCell.h"
-#import "KNPhotoAVPlayer/KNPhotoAVPlayerView.h"
 
 @interface KNPhotoVideoCell()<KNPhotoAVPlayerViewDelegate>
 
 @end
 
-@implementation KNPhotoVideoCell{
-    KNPhotoAVPlayerView *_playerView;
-}
+@implementation KNPhotoVideoCell
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -26,9 +23,12 @@
     }
     return self;
 }
-
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder{
     [_playerView playerWithURL:url placeHolder:placeHolder];
+}
+
+- (void)playerMustBePause{
+    [_playerView pausePlay];
 }
 
 - (void)prepareForReuse{

@@ -257,6 +257,7 @@
         KNPhotoVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoVideoCellID" forIndexPath:indexPath];
         [cell setDelegate:self];
         [cell playerWithURL:item.url placeHolder:tempView.image];
+        
         return cell;
     }else{
         KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
@@ -294,31 +295,53 @@
 }
 
 /**
- * 视频消失
+ * video will dismiss with animate
  */
 - (void)photoVideoAVPlayerDismiss{
     [self dismiss];
 }
-
+/**
+ * pan to dismiss or cancel
+ */
 - (void)panDidGesture:(UIPanGestureRecognizer *)pan{
-    
-    KNPhotoItems *items = self.itemsArr[_currentIndex];
-    if (items.isVideo) {
-        return;
-    }
-    KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-    KNPhotoBrowserImageView *imageView = cell.photoBrowerImageView;
-    if(imageView.scrollView.zoomScale > 1.f) return;
     if(!isPortrait) return;
     
-    CGPoint point       = [pan translationInView:self.view];
-    CGPoint location    = [pan locationInView:imageView.scrollView];
-    CGPoint velocity    = [pan velocityInView:self.view];
+    KNPhotoItems *items = self.itemsArr[_currentIndex];
+    
+    CGPoint point       = CGPointZero;
+    CGPoint location    = CGPointZero;
+    CGPoint velocity    = CGPointZero;
+    
+    KNPhotoBrowserImageView *imageView;
+    KNPhotoAVPlayerView *playerView;
+    
+    if (items.isVideo) {
+        KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+        
+        playerView  = cell.playerView;
+        
+        point       = [pan translationInView:self.view];
+        location    = [pan locationInView:playerView.scrollView];
+        velocity    = [pan velocityInView:self.view];
+    }else{
+        KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+        
+        imageView = cell.photoBrowerImageView;
+        
+        if(imageView.scrollView.zoomScale > 1.f) return;
+        point       = [pan translationInView:self.view];
+        location    = [pan locationInView:imageView.scrollView];
+        velocity    = [pan velocityInView:self.view];
+    }
     
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:{
             _startLocation  = location;
-            _startFrame     = imageView.imageView.frame;
+            if(items.isVideo){
+                _startFrame     = playerView.playerView.frame;
+            }else{
+                _startFrame     = imageView.imageView.frame;
+            }
         }
             break;
         case UIGestureRecognizerStateChanged:{
@@ -334,21 +357,37 @@
             CGFloat rateY = (self.startLocation.y - self.startFrame.origin.y) / self.startFrame.size.height;
             CGFloat y = location.y - height * rateY;
             
-            imageView.imageView.frame = CGRectMake(x, y, width, height);
+            if(items.isVideo){
+                playerView.playerView.frame     = CGRectMake(x, y, width, height);
+                playerView.playerLayer.frame    = CGRectMake(0, 0, width, height);
+            }else{
+                imageView.imageView.frame = CGRectMake(x, y, width, height);
+            }
+            
             self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:percent];
         }
             break;
             
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled: {
-            if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
-                // dismiss
-                _startFrame = imageView.imageView.frame;
-                [self dismiss];
-                
-            }else{
-                // cancel
-                [self cancelAnimation:imageView.imageView];
+            if (items.isVideo) {
+                if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
+                    // dismiss
+                    _startFrame = playerView.playerView.frame;
+                    [self dismiss];
+                }else{
+                    // cancel
+                    [self cancelVideoAnimation:playerView layer:playerView.playerLayer];
+                }
+            }else {
+                if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
+                    // dismiss
+                    _startFrame = imageView.imageView.frame;
+                    [self dismiss];
+                }else{
+                    // cancel
+                    [self cancelAnimation:imageView.imageView];
+                }
             }
         }
             break;
@@ -357,9 +396,20 @@
     }
 }
 
+/// cancel animate for get back photoBrowser
+/// @param imageView current image
 - (void)cancelAnimation:(FLAnimatedImageView *)imageView{
     [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
         imageView.frame = self.startFrame;
+    } completion:^(BOOL finished) {
+        self.view.backgroundColor = [UIColor blackColor];
+    }];
+}
+
+- (void)cancelVideoAnimation:(UIView *)playerView layer:(AVPlayerLayer *)layer{
+    [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
+        playerView.frame = self.startFrame;
+//        layer.frame      = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);
     } completion:^(BOOL finished) {
         self.view.backgroundColor = [UIColor blackColor];
     }];
