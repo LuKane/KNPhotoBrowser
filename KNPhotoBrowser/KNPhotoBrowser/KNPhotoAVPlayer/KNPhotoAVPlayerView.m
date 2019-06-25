@@ -14,9 +14,7 @@
 
 @property (nonatomic,strong) AVPlayer       *player;
 @property (nonatomic,strong) AVPlayerItem   *item;
-@property (nonatomic,strong) AVPlayerLayer  *playerLayer;
 
-@property (nonatomic,strong) UIView *playerView;
 @property (nonatomic,strong) UIImageView *tempImgView;
 
 @property (nonatomic,weak  ) KNPhotoAVPlayerActionView  *actionView;
@@ -32,6 +30,14 @@
 
 @implementation KNPhotoAVPlayerView
 
+- (UIScrollView *)scrollView{
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] init];
+        [_scrollView setClipsToBounds:true];
+    }
+    return _scrollView;
+}
+
 - (UIImageView *)tempImgView{
     if (!_tempImgView) {
         _tempImgView = [[UIImageView alloc] initWithFrame:self.bounds];
@@ -42,14 +48,14 @@
 - (UIView *)playerView{
     if (!_playerView) {
         _playerView = [[UIView alloc] initWithFrame:self.bounds];
-        [_playerView setBackgroundColor:UIColor.clearColor];
+        [_playerView setBackgroundColor:UIColor.cyanColor];
     }
     return _playerView;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        [self setBackgroundColor:UIColor.blackColor];
+        [self setBackgroundColor:UIColor.clearColor];
     }
     return self;
 }
@@ -96,16 +102,28 @@
     self.isAddObserver = false;
 }
 
+- (void)pausePlay{
+    if (self.player) {
+        [self.player pause];
+        
+        [_actionView setIsBuffering:false];
+        [_actionView setIsPlaying:false];
+        [_actionBar setHidden:true];
+    }
+    self.isPlaying = false;
+}
+
 /**
  player and views
  */
 - (void)setupPlayer{
     self.player = [AVPlayer playerWithPlayerItem:self.item];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    self.playerLayer.frame = self.bounds;
-    
     [self.playerView.layer addSublayer:self.playerLayer];
-    [self addSubview:self.playerView];
+    
+    [self.scrollView addSubview:self.playerView];
+    
+    [self addSubview:self.scrollView];
     
     if (self.placeHolder) {
         self.tempImgView.image = self.placeHolder;
@@ -238,6 +256,7 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    self.scrollView.frame   = self.bounds;
     self.playerLayer.frame  = self.bounds;
     self.playerView.frame   = self.bounds;
     self.actionView.frame   = self.bounds;

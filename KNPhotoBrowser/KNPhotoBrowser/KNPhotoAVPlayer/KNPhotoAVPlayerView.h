@@ -35,9 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
  stop play current item
  */
 - (void)stopPlay;
+/**
+ * pause 
+ */
+- (void)pausePlay;
 
+@property (nonatomic,strong,nullable) UIView *playerView;
 @property (nonatomic,copy  ) NSString *url;
 @property (nonatomic,strong) UIImage *placeHolder;
+@property (nonatomic,strong) UIScrollView *scrollView;
+@property (nonatomic,strong) AVPlayerLayer  *playerLayer;
 
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerViewDelegate> delegate;
 
