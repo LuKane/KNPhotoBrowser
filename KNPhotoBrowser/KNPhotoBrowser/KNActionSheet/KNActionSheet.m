@@ -67,7 +67,7 @@ static id ActionSheet;
     _coverView = coverView;
     [coverView setBackgroundColor:kActionCoverBackGroundColor];
     [coverView setAlpha:0.f];
-    [coverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)]];
+    [coverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coverViewDidClick)]];
     [self addSubview:coverView];
     
     UIView *bgView = [[UIView alloc] init];
@@ -113,6 +113,13 @@ static id ActionSheet;
 - (void)actionSheetViewIBAction:(NSInteger)index{
     if(_ActionBlock){
         _ActionBlock(index);
+    }
+    [self dismiss];
+}
+
+- (void)coverViewDidClick{
+    if(_ActionBlock){
+        _ActionBlock(-1);
     }
     [self dismiss];
 }

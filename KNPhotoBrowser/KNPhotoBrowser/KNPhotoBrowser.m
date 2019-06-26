@@ -44,6 +44,7 @@
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
     BOOL                        _hasBeenOrientation;
+    BOOL                        _isOperationDidClick;
 }
 
 @property (nonatomic,weak  ) KNActionSheet *actionSheet;
@@ -265,6 +266,7 @@
         
         __weak typeof(self) weakSelf = self;
         cell.singleTap = ^{
+//            if (self->_isClickOperationBtn) return;
             [weakSelf dismiss];
         };
         cell.longPressTap = ^{
@@ -497,6 +499,11 @@
 
 #pragma mark - photoBrowser will dismiss
 - (void)dismiss{
+    
+    if(_isOperationDidClick) {
+        _isOperationDidClick = false;
+        return;
+    }
     
     if([_delegate respondsToSelector:@selector(photoBrowserWillDismiss)]){
         [_delegate photoBrowserWillDismiss];
@@ -768,6 +775,8 @@
     // ActionSheet will show , if self.actionSheetArr is not empty , that means custom ActionSheet, just let delegate to do
     // if self.actionSheetArr is empty , that actionSheet just is example
     
+    _isOperationDidClick = true;
+    
     // careful : there is weakSelf , not self. be careful of the strong link
     __weak typeof(self) weakSelf = self;
     if(_actionSheetArr.count != 0){ // custom
@@ -775,12 +784,13 @@
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
+            self->_isOperationDidClick = false;
         }];
         [actionSheet show];
         self.actionSheet = actionSheet;
     }else{ // example
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存图片",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
-            
+            self->_isOperationDidClick = false;
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
