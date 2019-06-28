@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy  ) NSString *url;
 @property (nonatomic,strong) UIImage *placeHolder;
 @property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) AVPlayerLayer  *playerLayer;
+@property (nonatomic,strong,nullable) AVPlayerLayer  *playerLayer;
 
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerViewDelegate> delegate;
 
