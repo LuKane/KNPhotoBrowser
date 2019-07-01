@@ -21,6 +21,7 @@
 * 4.photoBrowser for IM (like `Wechat` chat session)
 * 5.photoBrowser add prefetch image API (2019/3/13)
 * 6.photoBrowser add panGesture to dismiss or cancel(2019/4/16)
+* 7.video player is going ,but not ready
 
 
 ## 1.Function describe and Point
