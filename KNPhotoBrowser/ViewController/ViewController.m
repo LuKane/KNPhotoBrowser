@@ -80,8 +80,8 @@
     NSArray *urlArr = @[
                         @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg",
                         @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdgoa9xxj218g0rsaon.jpg",
-                        @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg",
-//                        @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4",
+//                        @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg",
+                        @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4",
                         @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif",
                         @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg",
                         @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg",
@@ -95,28 +95,28 @@
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
         imageView.tag = i + 1;
         
-//        if(i == 2){
-//            AVURLAsset *avAsset = nil;
-//            if ([urlArr[i] hasPrefix:@"http"]) {
-//                avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:urlArr[i]]];
-//            }
-//            if (avAsset) {
-//                CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
-//                CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
-//                    generator.appliesPreferredTrackTransform = YES;
-//                    generator.maximumSize = imageViewSize;
-//                    NSError *error = nil;
-//                    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        imageView.image = [UIImage imageWithCGImage:cgImage];
-//                    });
-//                });
-//            }
-//        }else{
+        if(i == 2){
+            AVURLAsset *avAsset = nil;
+            if ([urlArr[i] hasPrefix:@"http"]) {
+                avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:urlArr[i]]];
+            }
+            if (avAsset) {
+                CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
+                CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                    generator.appliesPreferredTrackTransform = YES;
+                    generator.maximumSize = imageViewSize;
+                    NSError *error = nil;
+                    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        imageView.image = [UIImage imageWithCGImage:cgImage];
+                    });
+                });
+            }
+        }else{
             [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
-//        }
+        }
         
         imageView.backgroundColor = [UIColor grayColor];
         CGFloat width = (view.frame.size.width - 40) / 3;
@@ -129,9 +129,9 @@
         KNPhotoItems *items = [[KNPhotoItems alloc] init];
         items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
         items.sourceView = imageView;
-//        if(i == 2){
-//            items.isVideo = true;
-//        }
+        if(i == 2){
+            items.isVideo = true;
+        }
         [self.itemsArr addObject:items];
         
         [view addSubview:imageView];
