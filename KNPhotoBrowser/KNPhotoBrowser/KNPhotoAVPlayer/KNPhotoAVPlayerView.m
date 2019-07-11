@@ -30,13 +30,13 @@
 
 @implementation KNPhotoAVPlayerView
 
-- (UIScrollView *)scrollView{
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
-        [_scrollView setClipsToBounds:true];
-    }
-    return _scrollView;
-}
+//- (UIScrollView *)scrollView{
+//    if (!_scrollView) {
+//        _scrollView = [[UIScrollView alloc] init];
+//        [_scrollView setClipsToBounds:true];
+//    }
+//    return _scrollView;
+//}
 
 - (UIImageView *)tempImgView{
     if (!_tempImgView) {
@@ -48,7 +48,7 @@
 - (UIView *)playerView{
     if (!_playerView) {
         _playerView = [[UIView alloc] initWithFrame:self.bounds];
-        [_playerView setBackgroundColor:UIColor.cyanColor];
+        [_playerView setBackgroundColor:UIColor.clearColor];
     }
     return _playerView;
 }
@@ -121,14 +121,12 @@
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     [self.playerView.layer addSublayer:self.playerLayer];
     
-    [self.scrollView addSubview:self.playerView];
-    
-    [self addSubview:self.scrollView];
-    
     if (self.placeHolder) {
         self.tempImgView.image = self.placeHolder;
     }
     [self addSubview:self.tempImgView];
+    
+    [self addSubview:self.playerView];
 }
 
 /**
@@ -188,10 +186,8 @@
         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
             [self addPeriodicTimeObserver];
         }
-        [self.tempImgView removeFromSuperview];
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
         _bufferTime = [self effectiveBufferedTime];
-        [self.tempImgView removeFromSuperview];
         if (!_isGettotalPlayTime) {
             _isGettotalPlayTime = true;
             _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
@@ -202,6 +198,7 @@
                 [_actionBar setIsPlaying:false];
                 
                 [_actionView setIsBuffering:true];
+                [_actionView setIsPlaying:false];
             }else{
                 [_actionBar setIsPlaying:true];
                 [_actionView setIsPlaying:true];
@@ -211,7 +208,6 @@
         }else{
             [_actionBar setIsPlaying:true];
             [_actionView setIsPlaying:true];
-            
             [_actionView setIsBuffering:false];
         }
     } else {
@@ -256,7 +252,6 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    self.scrollView.frame   = self.bounds;
     self.playerLayer.frame  = self.bounds;
     self.playerView.frame   = self.bounds;
     self.actionView.frame   = self.bounds;
