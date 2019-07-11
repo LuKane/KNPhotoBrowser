@@ -323,7 +323,7 @@
         playerView  = cell.playerView;
         
         point       = [pan translationInView:self.view];
-        location    = [pan locationInView:playerView.scrollView];
+//        location    = [pan locationInView:playerView.scrollView];
         velocity    = [pan velocityInView:self.view];
     }else{
         KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
