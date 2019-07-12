@@ -25,14 +25,13 @@
 }
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder{
     [_playerView playerWithURL:url placeHolder:placeHolder];
+    NSLog(@"--->2");
 }
 
-- (void)playerMustBePause{
-    [_playerView pausePlay];
-}
-
+// 2->1 1->1->2  
 - (void)prepareForReuse{
-    [_playerView stopPlay];
+    [_playerView videoPlayerWillReset];
+    NSLog(@"--->1");
 }
 
 - (void)photoAVPlayerViewDismiss{

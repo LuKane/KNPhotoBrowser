@@ -144,6 +144,7 @@
 }
 
 - (void)setAllDuration:(float)allDuration{
+    if (isnan(allDuration)) return;
     _allDuration = allDuration;
     _slider.maximumValue = allDuration;
     [_endTimeLabel setText:[self caluTimeFormatWithSeconds:allDuration]];
@@ -155,6 +156,12 @@
     }else{ // 一小时以内
         return [NSString stringWithFormat:@"%02zd:%02zd", (NSInteger)((seconds % 3600) / 60), (NSInteger)(seconds % 60)];
     }
+}
+
+- (void)resetActionBarAllInfo{
+    self.isPlaying = false;
+    _preTimeLabel.text = @"00:00";
+    _endTimeLabel.text = @"00:00";
 }
 
 - (void)layoutSubviews{
