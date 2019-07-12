@@ -30,14 +30,6 @@
 
 @implementation KNPhotoAVPlayerView
 
-//- (UIScrollView *)scrollView{
-//    if (!_scrollView) {
-//        _scrollView = [[UIScrollView alloc] init];
-//        [_scrollView setClipsToBounds:true];
-//    }
-//    return _scrollView;
-//}
-
 - (UIImageView *)tempImgView{
     if (!_tempImgView) {
         _tempImgView = [[UIImageView alloc] initWithFrame:self.bounds];
@@ -65,8 +57,6 @@
     self.url = url;
     self.placeHolder = placeHolder;
     
-    [self removeAVPlayer];
-    
     self.item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.url]];
     
     [self setupPlayer];
@@ -77,7 +67,6 @@
     
     [self removeAllObservers];
     
-    [self.player pause];
     self.player = nil;
     self.playerLayer = nil;
     [self.playerView removeFromSuperview];
@@ -93,7 +82,7 @@
     if (self.player) {
         [self.player pause];
         [self videoDidPlayToEndTime];
-        
+
         [_actionView setIsBuffering:false];
         [_actionView setIsPlaying:false];
         [_actionBar setHidden:true];
@@ -187,45 +176,13 @@
             [self addPeriodicTimeObserver];
         }
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
-        _bufferTime = [self effectiveBufferedTime];
         if (!_isGettotalPlayTime) {
             _isGettotalPlayTime = true;
             _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
         }
-        
-        if (_actionBar.currentTime <= _actionBar.allDuration - 7) {
-            if (_bufferTime <= _actionBar.currentTime + 5) {
-                [_actionBar setIsPlaying:false];
-                
-                [_actionView setIsBuffering:true];
-                [_actionView setIsPlaying:false];
-            }else{
-                [_actionBar setIsPlaying:true];
-                [_actionView setIsPlaying:true];
-                
-                [_actionView setIsBuffering:false];
-            }
-        }else{
-            [_actionBar setIsPlaying:true];
-            [_actionView setIsPlaying:true];
-            [_actionView setIsBuffering:false];
-        }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
-}
-
-/**
- get current effect buffer time
- 
- @return time
- */
-- (NSTimeInterval)effectiveBufferedTime{
-    NSArray *timeRanges = [[self.player currentItem] loadedTimeRanges];
-    CMTimeRange range = [[timeRanges firstObject] CMTimeRangeValue];
-    NSTimeInterval startTime = CMTimeGetSeconds(range.start);
-    NSTimeInterval duration  = CMTimeGetSeconds(range.duration);
-    return startTime + duration;
 }
 
 - (void)videoDidPlayToEndTime{
@@ -326,20 +283,43 @@
     }
 }
 
-- (void)dealloc{
-    
+- (void)videoPlayerWillReset{
     [self removeAllObservers];
-    if(self.player){
-        [self.player pause];
-        self.player = nil;
-        self.playerLayer = nil;
+    
+    if (_player) {
+        _isGettotalPlayTime = false;
+        [_player pause];
+        
+        [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
+            
+        }];
+        
+        [_actionBar removeFromSuperview];
+        [_actionView removeFromSuperview];
+        _player = nil;
+        
+        [_playerLayer removeFromSuperlayer];
+        _playerLayer = nil;
+        
+        [_playerView removeFromSuperview];
+        _playerView = nil;
+        
+        [_tempImgView removeFromSuperview];
+        _tempImgView =  nil;
+        self.isAddObserver = false;
     }
+    
+    self.item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.url]];
+    self.isAddObserver = true;
+    [self setupPlayer];
+    [self setupActionView];
+    [self setupItemObserver];
 }
 
 - (void)removeAllObservers{
     if (self.item && self.isAddObserver == true) {
-        [self.item removeObserver:self forKeyPath:@"status"];
-        [self.item removeObserver:self forKeyPath:@"loadedTimeRanges"];
+//        [self.item removeObserver:self forKeyPath:@"status"];
+//        [self.item removeObserver:self forKeyPath:@"loadedTimeRanges"];
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:AVPlayerItemDidPlayToEndTimeNotification
                                                       object:self.player.currentItem];
