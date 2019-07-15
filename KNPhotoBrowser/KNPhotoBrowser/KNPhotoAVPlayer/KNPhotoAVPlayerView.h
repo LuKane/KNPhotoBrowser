@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol KNPhotoAVPlayerViewDelegate <NSObject>
 
+
 /**
  avplayer dimiss
  */
@@ -31,14 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playerWithURL:(NSString *)url
           placeHolder:(UIImage *_Nullable)placeHolder;
 
-/**
- stop play current item
- */
-- (void)stopPlay;
-/**
- * pause 
- */
-- (void)pausePlay;
+///**
+// stop play current item
+// */
+//- (void)stopPlay;
+///**
+// * pause
+// */
+//- (void)pausePlay;
 
 - (void)videoPlayerWillReset;
 
