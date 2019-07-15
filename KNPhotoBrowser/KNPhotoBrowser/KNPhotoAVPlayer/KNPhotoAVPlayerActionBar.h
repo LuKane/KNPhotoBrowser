@@ -12,16 +12,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol KNPhotoAVPlayerActionBarDelegate <NSObject>
 
+@optional
 /**
  actionBar pause or stop btn did click
-
+ 
  @param isNeedPlay isNeedPlay
  */
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay;
 
+@optional
 /**
  actionBar value has changed by slider
-
+ 
  @param value value
  */
 - (void)photoAVPlayerActionBarChangeValue:(float)value;

@@ -12,16 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol KNPhotoAVPlayerActionViewDelegate <NSObject>
 
+@optional
 /**
  actionView's Pause imageView
  */
 - (void)photoAVPlayerActionViewPauseOrStop;
 
+@optional
 /**
  actionView's dismiss imageView
  */
 - (void)photoAVPlayerActionViewDismiss;
 
+@optional
 /**
  actionView
  */
