@@ -25,12 +25,17 @@
 }
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder{
     [_playerView playerWithURL:url placeHolder:placeHolder];
+    NSLog(@"url:%@",url);
 }
 
-
-- (void)prepareForReuse{
+- (void)playerWillEndDisplay{
     [_playerView videoPlayerWillReset];
 }
+
+//- (void)prepareForReuse{
+//    [_playerView videoPlayerWillReset];
+//    [super prepareForReuse];
+//}
 
 - (void)photoAVPlayerViewDismiss{
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {

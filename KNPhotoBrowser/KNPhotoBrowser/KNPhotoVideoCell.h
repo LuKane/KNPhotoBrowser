@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder;
 
+- (void)playerWillEndDisplay;
+
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *playerView;
 @property (nonatomic,weak  ) id<KNPhotoVideoCellDelegate> delegate;
 
