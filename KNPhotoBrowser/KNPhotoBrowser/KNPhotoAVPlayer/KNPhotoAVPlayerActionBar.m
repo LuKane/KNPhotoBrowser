@@ -135,6 +135,7 @@
 }
 
 - (void)setCurrentTime:(float)currentTime{
+    if (isnan(currentTime)) return;
     _currentTime = currentTime;
     [_preTimeLabel setText:[self caluTimeFormatWithSeconds:currentTime]];
     
