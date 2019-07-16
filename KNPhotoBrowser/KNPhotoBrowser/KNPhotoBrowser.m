@@ -251,22 +251,16 @@
     return self.itemsArr.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    KNPhotoItems *item = self.itemsArr[indexPath.row];
-    UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     
+    KNPhotoItems *item = self.itemsArr[indexPath.row];
     if (item.isVideo) {
         KNPhotoVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoVideoCellID" forIndexPath:indexPath];
         [cell setDelegate:self];
-        [cell playerWithURL:item.url placeHolder:tempView.image];
-        
         return cell;
     }else{
         KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
-        [cell sd_ImageWithUrl:item.url placeHolder:tempView.image];
-        
         __weak typeof(self) weakSelf = self;
         cell.singleTap = ^{
-//            if (self->_isClickOperationBtn) return;
             [weakSelf dismiss];
         };
         cell.longPressTap = ^{
@@ -277,6 +271,23 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     [cell prepareForReuse];
+    
+    KNPhotoItems *item = self.itemsArr[indexPath.row];
+    UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
+    if (item.isVideo) {
+        KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
+        [cell1 playerWithURL:item.url placeHolder:tempView.image];
+    } else {
+        KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
+        [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image];
+    }
+}
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    KNPhotoItems *item = self.itemsArr[indexPath.row];
+    if (item.isVideo) {
+        KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
+        [cell1 playerWillEndDisplay];
+    }
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return collectionView.frame.size;
