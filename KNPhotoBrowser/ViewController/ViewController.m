@@ -44,7 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Normal(图片 + 视频)(网络)";
+    self.title = @"Normal(网络图片)(网络 + 本地 : 视频)";
     
     [self setupTopImgView];
     [self setupNineSquareView];
@@ -77,11 +77,18 @@
     view.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:view];
     
-    NSArray *urlArr = @[
+    NSString *videoUrl1 = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+    NSString *videoUrl2 = @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4";
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"location_video.MP4" ofType:nil];
+//    NSURL *url = [NSURL fileURLWithPath:path];
+    
+    NSArray *urlArr =
+                   @[
                    @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg",
-                   @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4",
-                   @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4",
-                   @"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif",
+                   path,
+                   videoUrl1,
+                   videoUrl2,
                    @"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg",
                    @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg",
                    @"http://ww2.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr39ht9j20gy0o6q74.jpg",
@@ -94,7 +101,7 @@
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
         imageView.tag = i + 1;
         
-        if(i == 2 || i == 1){
+        if(i == 2 || i == 3){
             AVURLAsset *avAsset = nil;
             if ([urlArr[i] hasPrefix:@"http"]) {
                 avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:urlArr[i]]];
@@ -113,7 +120,21 @@
                     });
                 });
             }
-        }else{
+        }else if ( i == 1) {
+            AVURLAsset *avAsset = nil;
+            avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:path]];
+            if (avAsset) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                    generator.appliesPreferredTrackTransform = YES;
+                    NSError *error = nil;
+                    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        imageView.image = [UIImage imageWithCGImage:cgImage];
+                    });
+                });
+            }
+        }else {
             [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
         }
         
@@ -128,13 +149,13 @@
         KNPhotoItems *items = [[KNPhotoItems alloc] init];
         items.sourceView = imageView;
         
-        if(i == 2 || i == 1){
+        if(i == 2 || i == 3 || i == 1){
             items.isVideo = true;
             items.url = urlArr[i];
         }else{
             items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
         }
-
+        
         [self.itemsArr addObject:items];
         
         [view addSubview:imageView];
