@@ -100,7 +100,12 @@
     
     _isPlaying = false;
     
-    _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:_url]];
+    if ([_url hasPrefix:@"http"]) {
+        _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:_url]];
+    } else {
+        _item = [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:_url]];
+    }
+    
     [self setupPlayer:true];
     [self setupActionView];
     [self videoDidPlayToEndTime];
@@ -120,13 +125,16 @@
 
 /**
  setup player
-
+ 
  @param isNeedRecreate is or not need reset placeHolder
  */
 - (void)setupPlayer:(BOOL)isNeedRecreate{
     _player = [AVPlayer playerWithPlayerItem:_item];
     _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     [self.playerView.layer addSublayer:_playerLayer];
+    
+    _playerLayer.frame = self.bounds;
+    _playerView.frame  = self.bounds;
     
     if (_placeHolder && isNeedRecreate) {
         [self.placeHolderImgView setImage:_placeHolder];
@@ -230,7 +238,6 @@
     }
 }
 
-
 /**
  actionView'action :tap ,swipe , pan
  */
@@ -279,7 +286,11 @@
                 [self removeAVPlayerAndActionView];
             }
             
-            _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:_url]];
+            if ([_url hasPrefix:@"http"]) {
+                _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:_url]];
+            } else {
+                _item = [AVPlayerItem playerItemWithAsset:[AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_url] options:nil]];
+            }
             [self setupPlayer:false];
             [self setupActionView];
             [self addItemObserver];
