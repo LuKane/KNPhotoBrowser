@@ -154,7 +154,7 @@
         }
         for (NSInteger i = index; i < _itemsArr.count; i++) {
             KNPhotoItems *items = _itemsArr[i];
-            if(items.url != nil && [items.url hasPrefix:@"http"] && items.isVideo == false){
+            if(items.url != nil && items.isVideo == false && [items.url hasPrefix:@"http"]){
                 [urlArr addObject:[NSURL URLWithString:items.url]];
             }
         }
@@ -1062,7 +1062,7 @@
         if (items.isVideo == false) {
             imageView.image = [self createImageWithUIColor:PhotoPlaceHolderDefaultColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
         }else {
-            imageView.image = [self createImageWithUIColor:PhotoPlaceHolderVideoColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+            imageView.image = [self createImageWithUIColor:UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
         }
     }
     

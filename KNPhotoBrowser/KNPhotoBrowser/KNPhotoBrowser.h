@@ -13,6 +13,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIView *sourceView;
 
 /**
- is video of nor, default is false
+ is video of not, default is false
  */
 @property (nonatomic,assign) BOOL  isVideo;
 
