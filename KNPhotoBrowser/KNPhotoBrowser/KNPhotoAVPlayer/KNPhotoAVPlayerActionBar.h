@@ -44,8 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerActionBarDelegate> delegate;
 
+/**
+ setter or getter of isPlaying of ActionBar
+ */
 @property (nonatomic,assign) BOOL  isPlaying;
 
+/**
+ reset all information of ActionBar
+ */
 - (void)resetActionBarAllInfo;
 
 @end

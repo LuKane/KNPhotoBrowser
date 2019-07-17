@@ -152,9 +152,9 @@
 }
 
 - (NSString *)caluTimeFormatWithSeconds:(NSInteger)seconds{
-    if(seconds > 60 * 60){ // 1小时或以上
+    if(seconds > 60 * 60){ // one hour or more than
         return [NSString stringWithFormat:@"%02zd:%02zd:%02zd",(NSInteger)(seconds / 3600),(NSInteger)((seconds % 3600) / 60) , (NSInteger)(seconds % 60)];
-    }else{ // 一小时以内
+    }else{ // in one hour
         return [NSString stringWithFormat:@"%02zd:%02zd", (NSInteger)((seconds % 3600) / 60), (NSInteger)(seconds % 60)];
     }
 }
