@@ -92,6 +92,10 @@
     _url = url;
     _placeHolder = placeHolder;
     
+    AVAudioSession * session  = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [session setActive:YES error:nil];
+    
     [self removeItemObserver];
     if (_player) {
         [self removeTimeObserver];
@@ -197,7 +201,6 @@
         }else{
             strongself.actionBar.currentTime = CMTimeGetSeconds(time);
         }
-        NSLog(@"time:%f",CMTimeGetSeconds(time));
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
