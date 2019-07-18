@@ -80,6 +80,14 @@
     _actionBar   = nil;
 }
 
+/**
+ Add observer for active or not
+ */
+- (void)addObserverForAppActive{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive)  name:UIApplicationWillEnterForegroundNotification  object:nil];
+}
+
 /****************************** == Line == ********************************/
 
 /**
@@ -91,6 +99,8 @@
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *)placeHolder{
     _url = url;
     _placeHolder = placeHolder;
+    
+    [self addObserverForAppActive];
     
     AVAudioSession * session  = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -264,6 +274,20 @@
             }
         }];
     }
+}
+
+/**
+ app will resign active
+ */
+- (void)appWillResignActive{
+    
+}
+
+/**
+ app will become active
+ */
+- (void)appDidBecomeActive{
+    
 }
 
 - (void)layoutSubviews{
