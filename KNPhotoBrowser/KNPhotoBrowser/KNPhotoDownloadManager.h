@@ -7,17 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KNPhotoBrowser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger ,PhotoDownloadState) {
-    PhotoDownloadStateUnknow,
-    PhotoDownloadStateSuccess,
-    PhotoDownloadStateFailure,
-    PhotoDownloadStateDownloading
-};
-
-typedef void(^PhotoDownLoadBlock)(PhotoDownloadState downloadState);
+typedef void(^PhotoDownLoadBlock)(KNPhotoDownloadState downloadState);
 typedef void(^PhotoDownLoadProgressBlock)(float progress);
 
 @interface KNPhotoDownloadManager : NSObject <NSURLSessionDelegate>
@@ -25,11 +19,12 @@ typedef void(^PhotoDownLoadProgressBlock)(float progress);
 /**
  download video
 
+ @param item current Item
  @param videoURL videoURL locate || network 的url
  @param downloadBlock download state
  @param progressBlock download progress
  */
-- (void)downloadVideoWithVideoURL:(NSString *)videoURL downloadState:(PhotoDownLoadBlock)downloadBlock progress:(PhotoDownLoadProgressBlock)progressBlock;
+- (void)downloadVideoWithItem:(KNPhotoItems *)item videoURL:(NSString *)videoURL downloadState:(PhotoDownLoadBlock)downloadBlock progress:(PhotoDownLoadProgressBlock)progressBlock;
 
 @end
 
