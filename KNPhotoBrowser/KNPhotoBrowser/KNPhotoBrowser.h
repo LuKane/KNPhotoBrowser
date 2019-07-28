@@ -17,6 +17,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
+    KNPhotoDownloadStateUnknow,
+    KNPhotoDownloadStateSuccess,
+    KNPhotoDownloadStateFailure,
+    KNPhotoDownloadStateDownloading
+};
+
 @interface KNPhotoItems : NSObject
 
 /**
@@ -38,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
  is video of not, default is false
  */
 @property (nonatomic,assign) BOOL  isVideo;
+
+/**
+ video is downloading or other state, Default is unknow
+ */
+@property (nonatomic,assign) KNPhotoDownloadState  downloadState;
 
 @end
 
