@@ -27,6 +27,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
+#import "KNPhotoDownloadManager.h"
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
@@ -800,14 +801,14 @@
         [actionSheet show];
         self.actionSheet = actionSheet;
     }else{ // example
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存图片",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
             self->_isOperationDidClick = false;
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
             
             switch (buttonIndex) {
-                case 0:{ // Delete image
+                case 0:{ // Delete image or video
                     
                     // relative index
                     if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:)]){
@@ -825,42 +826,55 @@
                     [weakSelf deleteImageDidClick];
                 }
                     break;
-                case 1:{
+                case 1:{// save image or video
                     [weakSelf deviceAlbumAuth:^(BOOL isAuthor) {
                         if(isAuthor == false){
                             // do not have auth, you need alert .....
                         }else{
                             // save currrent image to album
                             KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
-                            if(items.url){ // net image
-                                SDImageCache *cache = [SDImageCache sharedImageCache];
-                                SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                                [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
-                                    if(!isInCache){
-                                        [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
-                                        return ;
-                                    }else{
-                                        [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
-                                            if([image images] != nil){
-                                                [weakSelf savePhotoToLocation:data url:items.url];
-                                            }else{
-                                                if(image){
-                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                        UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                                                    });
-                                                }
-                                            }
-                                        }];
+                            if (items.isVideo) { // video
+                                KNPhotoDownloadManager *mgr = [[KNPhotoDownloadManager alloc] init];
+                                [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float prgress) {
+                                    if (downloadState == KNPhotoDownloadStateFailure) {
+                                        [[KNToast shareToast] initWithText:PhotoSaveVideoFailureReason];
+                                    }else if (downloadState == KNPhotoDownloadStateSuccess) {
+                                        [[KNToast shareToast] initWithText:PhotoSaveVideoSuccessReason];
+                                    }else if (downloadState == KNPhotoDownloadStateDownloading) {
+                                        // video is downloading --> u can show loading
                                     }
                                 }];
-                            }else{ // locate image or sourceimage
-                                UIImageView *imageView = [weakSelf tempViewFromSourceViewWithCurrentIndex:weakSelf.currentIndex];
-                                if(imageView.image){
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        UIImageWriteToSavedPhotosAlbum(imageView.image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                                    });
-                                }else{
-                                    [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+                            }else{ // image
+                                if(items.url){ // net image
+                                    SDImageCache *cache = [SDImageCache sharedImageCache];
+                                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+                                    [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
+                                        if(!isInCache){
+                                            [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
+                                            return ;
+                                        }else{
+                                            [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+                                                if([image images] != nil){
+                                                    [weakSelf savePhotoToLocation:data url:items.url];
+                                                }else{
+                                                    if(image){
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                                                        });
+                                                    }
+                                                }
+                                            }];
+                                        }
+                                    }];
+                                }else{ // locate image or sourceimage
+                                    UIImageView *imageView = [weakSelf tempViewFromSourceViewWithCurrentIndex:weakSelf.currentIndex];
+                                    if(imageView.image){
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            UIImageWriteToSavedPhotosAlbum(imageView.image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                                        });
+                                    }else{
+                                        [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+                                    }
                                 }
                             }
                         }

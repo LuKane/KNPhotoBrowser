@@ -51,6 +51,11 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  */
 @property (nonatomic,assign) KNPhotoDownloadState  downloadState;
 
+/**
+ video is downloading, current progress
+ */
+@property (nonatomic,assign) float  downloadProgress;
+
 @end
 
 /****************************** == line == ********************************/
