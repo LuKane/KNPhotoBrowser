@@ -22,7 +22,7 @@
     
     // clear memory for test
     [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
-        NSLog(@"clear disk is done");
+        NSLog(@"AppDelegate : clear disk is done for test");
     }];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
