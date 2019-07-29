@@ -34,6 +34,7 @@
 
 #define PhotoSaveVideoFailureReason  @"视频下载失败"
 #define PhotoSaveVideoSuccessReason  @"视频下载成功"
+#define PhotoSaveVideoCannotReason  @"视频无法下载"
 
 #define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
 

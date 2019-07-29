@@ -840,6 +840,8 @@
                                         [[KNToast shareToast] initWithText:PhotoSaveVideoFailureReason];
                                     }else if (downloadState == KNPhotoDownloadStateSuccess) {
                                         [[KNToast shareToast] initWithText:PhotoSaveVideoSuccessReason];
+                                    }else if (downloadState == KNPhotoDownloadStateUnknow) {
+                                        [[KNToast shareToast] initWithText:PhotoSaveVideoCannotReason];
                                     }else if (downloadState == KNPhotoDownloadStateDownloading) {
                                         // video is downloading --> u can show loading
                                     }
