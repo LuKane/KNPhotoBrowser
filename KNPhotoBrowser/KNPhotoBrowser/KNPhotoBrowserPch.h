@@ -32,6 +32,9 @@
 #define PhotoSaveImageMessageTime    2
 #define PhotoSaveImageFailureReason  @"图片需要下载完成"
 
+#define PhotoSaveVideoFailureReason  @"视频下载失败"
+#define PhotoSaveVideoSuccessReason  @"视频下载成功"
+
 #define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
 
 #define PhotoPlaceHolderDefaultColor [UIColor grayColor]
