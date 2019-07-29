@@ -11,20 +11,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PhotoDownLoadBlock)(KNPhotoDownloadState downloadState);
-typedef void(^PhotoDownLoadProgressBlock)(float progress);
+typedef void(^PhotoDownLoadBlock)(KNPhotoDownloadState downloadState ,float prgress);
 
 @interface KNPhotoDownloadManager : NSObject <NSURLSessionDelegate>
 
 /**
  download video
 
- @param item current Item
- @param videoURL videoURL locate || network 的url
- @param downloadBlock download state
- @param progressBlock download progress
+ @param item current item
+ @param downloadBlock block
  */
-- (void)downloadVideoWithItem:(KNPhotoItems *)item videoURL:(NSString *)videoURL downloadState:(PhotoDownLoadBlock)downloadBlock progress:(PhotoDownLoadProgressBlock)progressBlock;
+- (void)downloadVideoWithItems:(KNPhotoItems *)item downloadBlock:(PhotoDownLoadBlock)downloadBlock;
 
 @end
 
