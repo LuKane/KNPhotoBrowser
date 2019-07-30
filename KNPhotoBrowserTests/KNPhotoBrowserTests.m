@@ -1,10 +1,11 @@
 //
-//  AppDelegate.m
-//  KNPhotoBrowser
+//  KNPhotoBrowserTests.m
+//  KNPhotoBrowserTests
 //
-//  Created by LuKane on 2019/1/14.
+//  Created by LuKane on 2019/7/30.
 //  Copyright © 2019 LuKane. All rights reserved.
 //
+
 #import <XCTest/XCTest.h>
 
 @interface KNPhotoBrowserTests : XCTestCase

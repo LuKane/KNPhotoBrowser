@@ -27,7 +27,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
-//#import "KNPhotoDownloadMgr.h"
+#import "KNPhotoDownloadMgr.h"
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
@@ -834,18 +834,18 @@
                             // save currrent image to album
                             KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                             if (items.isVideo) { // video
-//                                KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
-//                                [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float prgress) {
-//                                    if (downloadState == KNPhotoDownloadStateFailure) {
-//                                        [[KNToast shareToast] initWithText:PhotoSaveVideoFailureReason];
-//                                    }else if (downloadState == KNPhotoDownloadStateSuccess) {
-//                                        [[KNToast shareToast] initWithText:PhotoSaveVideoSuccessReason];
-//                                    }else if (downloadState == KNPhotoDownloadStateUnknow) {
-//                                        [[KNToast shareToast] initWithText:PhotoSaveVideoCannotReason];
-//                                    }else if (downloadState == KNPhotoDownloadStateDownloading) {
-//                                        // video is downloading --> u can show loading
-//                                    }
-//                                }];
+                                KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
+                                [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float prgress) {
+                                    if (downloadState == KNPhotoDownloadStateFailure) {
+                                        [[KNToast shareToast] initWithText:PhotoSaveVideoFailureReason];
+                                    }else if (downloadState == KNPhotoDownloadStateSuccess) {
+                                        [[KNToast shareToast] initWithText:PhotoSaveVideoSuccessReason];
+                                    }else if (downloadState == KNPhotoDownloadStateUnknow) {
+                                        [[KNToast shareToast] initWithText:PhotoSaveVideoCannotReason];
+                                    }else if (downloadState == KNPhotoDownloadStateDownloading) {
+                                        // video is downloading --> u can show loading
+                                    }
+                                }];
                             }else{ // image
                                 if(items.url){ // net image
                                     SDImageCache *cache = [SDImageCache sharedImageCache];
