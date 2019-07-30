@@ -45,13 +45,14 @@
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
     BOOL                        _hasBeenOrientation;
-    BOOL                        _isOperationDidClick;
+//    BOOL                        _isOperationDidClick;
 }
 
 @property (nonatomic,weak  ) KNActionSheet *actionSheet;
 
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
+@property (nonatomic,assign) BOOL  isOperationDidClick;
 
 @end
 
@@ -788,7 +789,6 @@
     // if self.actionSheetArr is empty , that actionSheet just is example
     
     _isOperationDidClick = true;
-    
     // careful : there is weakSelf , not self. be careful of the strong link
     __weak typeof(self) weakSelf = self;
     if(_actionSheetArr.count != 0){ // custom
@@ -796,13 +796,14 @@
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
-            self->_isOperationDidClick = false;
+            weakSelf.isOperationDidClick = false;
         }];
         [actionSheet show];
         self.actionSheet = actionSheet;
     }else{ // example
         KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
-            self->_isOperationDidClick = false;
+            
+            weakSelf.isOperationDidClick = false;
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
