@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79B6F4EF22F03D4900C18504 /* KNPhotoDownloadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6F4EE22F03D4900C18504 /* KNPhotoDownloadMgr.m */; };
 		79E114FD22F030B40022106B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E114FC22F030B40022106B /* Assets.xcassets */; };
 		79E1150322F030B40022106B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150222F030B40022106B /* main.m */; };
 		79E1150D22F030B40022106B /* KNPhotoBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150C22F030B40022106B /* KNPhotoBrowserTests.m */; };
@@ -69,7 +70,6 @@
 		79E115CF22F032310022106B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1158B22F032310022106B /* BaseViewController.m */; };
 		79E115D122F032310022106B /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1158E22F032310022106B /* FirstViewController.m */; };
 		79E115D522F032310022106B /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1159522F032310022106B /* NavigationController.m */; };
-		79E115D822F033500022106B /* KNPhotoDownloadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E115D622F0334F0022106B /* KNPhotoDownloadMgr.m */; };
 		79E115DB22F0347E0022106B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115D922F0347E0022106B /* Main.storyboard */; };
 		79E115DC22F0347E0022106B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115DA22F0347E0022106B /* LaunchScreen.storyboard */; };
 		D7BBE6CFBA46ABDE79A92A7B /* libPods-KNPhotoBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */; };
@@ -94,6 +94,7 @@
 
 /* Begin PBXFileReference section */
 		10207FA44A8221F667DA1D6F /* Pods-KNPhotoBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.release.xcconfig"; sourceTree = "<group>"; };
+		79B6F4EE22F03D4900C18504 /* KNPhotoDownloadMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoDownloadMgr.m; sourceTree = "<group>"; };
 		79E114F022F030B30022106B /* KNPhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNPhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79E114FC22F030B40022106B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79E1150122F030B40022106B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -195,7 +196,6 @@
 		79E1158C22F032310022106B /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		79E1158E22F032310022106B /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		79E1159522F032310022106B /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
-		79E115D622F0334F0022106B /* KNPhotoDownloadMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoDownloadMgr.m; sourceTree = "<group>"; };
 		79E115D722F033500022106B /* KNPhotoDownloadMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoDownloadMgr.h; sourceTree = "<group>"; };
 		79E115D922F0347E0022106B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		79E115DA22F0347E0022106B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 				79E1154222F032300022106B /* KNProgressHUD.m */,
 				79E1153922F032300022106B /* KNPhotoBrowserPch.h */,
 				79E115D722F033500022106B /* KNPhotoDownloadMgr.h */,
-				79E115D622F0334F0022106B /* KNPhotoDownloadMgr.m */,
+				79B6F4EE22F03D4900C18504 /* KNPhotoDownloadMgr.m */,
 				79E1154E22F032300022106B /* KNPhotoBrowser.bundle */,
 				79E1153222F032300022106B /* KNActionSheet */,
 				79E1154422F032300022106B /* KNPhotoAVPlayer */,
@@ -691,7 +691,7 @@
 				79E1159822F032310022106B /* FLAnimatedImageView.m in Sources */,
 				79E1159B22F032310022106B /* KNActionSheetView.m in Sources */,
 				79E115D522F032310022106B /* NavigationController.m in Sources */,
-				79E115D822F033500022106B /* KNPhotoDownloadMgr.m in Sources */,
+				79B6F4EF22F03D4900C18504 /* KNPhotoDownloadMgr.m in Sources */,
 				79E1159A22F032310022106B /* KNActionSheet.m in Sources */,
 				79E115A322F032310022106B /* KNToast.m in Sources */,
 				79E115A822F032310022106B /* KNPhotoBrowserNumView.m in Sources */,
