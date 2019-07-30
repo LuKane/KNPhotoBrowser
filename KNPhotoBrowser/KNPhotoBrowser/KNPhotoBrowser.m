@@ -27,7 +27,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
-#import "KNPhotoDownloadManager.h"
+#import "KNPhotoDownloadMgr.h"
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
@@ -834,7 +834,7 @@
                             // save currrent image to album
                             KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
                             if (items.isVideo) { // video
-                                KNPhotoDownloadManager *mgr = [[KNPhotoDownloadManager alloc] init];
+                                KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
                                 [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float prgress) {
                                     if (downloadState == KNPhotoDownloadStateFailure) {
                                         [[KNToast shareToast] initWithText:PhotoSaveVideoFailureReason];

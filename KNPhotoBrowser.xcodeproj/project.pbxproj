@@ -36,6 +36,7 @@
 		794F3B6022BB77AD00E5FF8F /* KNPhotoAVPlayerActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 794F3B5D22BB77AD00E5FF8F /* KNPhotoAVPlayerActionView.m */; };
 		794F3B6122BB77AD00E5FF8F /* KNPhotoAVPlayerActionBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 794F3B5E22BB77AD00E5FF8F /* KNPhotoAVPlayerActionBar.m */; };
 		794F3B6222BB77AD00E5FF8F /* KNPhotoAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 794F3B5F22BB77AD00E5FF8F /* KNPhotoAVPlayerView.m */; };
+		7973C92A22EFD75500A779FA /* KNPhotoDownloadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 7973C92822EFD75500A779FA /* KNPhotoDownloadMgr.m */; };
 		79A8378722DDC2EB008E32F2 /* location_video.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 79A8378622DDC2EB008E32F2 /* location_video.MP4 */; };
 		79AD34372264305900922DC3 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AD34332264305900922DC3 /* FLAnimatedImage.m */; };
 		79AD34382264305900922DC3 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AD34342264305900922DC3 /* FLAnimatedImageView.m */; };
@@ -125,6 +126,8 @@
 		794F3B5D22BB77AD00E5FF8F /* KNPhotoAVPlayerActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoAVPlayerActionView.m; sourceTree = "<group>"; };
 		794F3B5E22BB77AD00E5FF8F /* KNPhotoAVPlayerActionBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoAVPlayerActionBar.m; sourceTree = "<group>"; };
 		794F3B5F22BB77AD00E5FF8F /* KNPhotoAVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoAVPlayerView.m; sourceTree = "<group>"; };
+		7973C92822EFD75500A779FA /* KNPhotoDownloadMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoDownloadMgr.m; sourceTree = "<group>"; };
+		7973C92922EFD75500A779FA /* KNPhotoDownloadMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoDownloadMgr.h; sourceTree = "<group>"; };
 		79A8378622DDC2EB008E32F2 /* location_video.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = location_video.MP4; sourceTree = "<group>"; };
 		79AD34332264305900922DC3 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
 		79AD34342264305900922DC3 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
@@ -379,6 +382,8 @@
 				79D454DE21F991F800184E4D /* KNPhotoBrowserImageView.m */,
 				79D454D621F991F800184E4D /* KNPhotoBrowserNumView.h */,
 				79D454E021F991F800184E4D /* KNPhotoBrowserNumView.m */,
+				7973C92922EFD75500A779FA /* KNPhotoDownloadMgr.h */,
+				7973C92822EFD75500A779FA /* KNPhotoDownloadMgr.m */,
 				79D454D121F991F800184E4D /* KNProgressHUD.h */,
 				79D454DA21F991F800184E4D /* KNProgressHUD.m */,
 				79D454D421F991F800184E4D /* KNToast.h */,
@@ -686,6 +691,7 @@
 				79D454A421F990BF00184E4D /* FirstViewController.m in Sources */,
 				79B732B022053B8A00D8E3B6 /* UIView+Extension.m in Sources */,
 				79D454E521F991F900184E4D /* KNProgressHUD.m in Sources */,
+				7973C92A22EFD75500A779FA /* KNPhotoDownloadMgr.m in Sources */,
 				79D454E121F991F900184E4D /* KNActionSheet.m in Sources */,
 				79D454C621F991A500184E4D /* NineSquareLocController.m in Sources */,
 				79E503A421F98F7100BB125D /* main.m in Sources */,
