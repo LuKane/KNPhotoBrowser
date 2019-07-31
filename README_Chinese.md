@@ -4,7 +4,7 @@
 
 [中文](https://github.com/LuKane/KNPhotoBrowser/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrowser/blob/master/README.md)
 
-##### 微信 && 微博 图片浏览器
+##### 微信 && 微博 图片||视频 浏览器
 
 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower.gif?raw=true)
@@ -15,19 +15,20 @@
 ![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower_Pan.gif?raw=true)
 
 ## 更新内容 
-* 1.图片浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`
+* 1.浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`
 * 2.适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.完美适配 屏幕旋转 , 请在真机上测试 旋转功能
 * 4.新增IM 聊天时 图片浏览器功能, 详情请看Demo (2019/2/2)
 * 5.新增 图片预加载的功能 (2019/3/13)
 * 6.新增图片 拖拽 消失 或 回显的功能(2019/4/16)
+* 7.新增视频播放功能(本地视频和网络视频)(2019/7/30)
 
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(5.0)` 以及 `FLAnimatedImage`
 * 2.加载九宫格图片,scrollView,tableView, IM类型
-* 3.高仿 微信和微博 图片浏览效果,显示和回显动画
-* 4.提供删除图片和下载图片等功能
+* 3.高仿 微信和微博 图片||视频 浏览效果,显示和回显动画
+* 4.提供删除图片和下载图片||视频等功能
 * 5.其他类型Demo,会尽快增添进去
 
 ## 二.方法调用
@@ -38,6 +39,9 @@
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 items.sourceView = imageView;
+// 如果当前url是本地||网络视频
+// items.isVideo = true;
+
 [self.itemsArr addObject:items];
 ```
 
