@@ -2,7 +2,7 @@
 # KNPhotoBrowser
 [中文](https://github.com/LuKane/KNPhotoBrowser/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrowser/blob/master/README.md)
 
-##### most like photoBrowser of `Wechat(TX)` and `Weibo(Sina)` in China
+##### most like photo or video browser of `Wechat(TX)` and `Weibo(Sina)` in China
 ##### if you get any function to add, just contact me by E-mail. Welcome to Star 
 
 
@@ -15,13 +15,13 @@
 
 
 ## Update content
-* 1.photoBrowser has been recoded , turn the `UIView` to the `UIViewController`
+* 1.browser has been recoded , turn the `UIView` to the `UIViewController`
 * 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
 * 3.perfect adapt the rotate of the Screen,try on the real iPhone or iPad
 * 4.photoBrowser for IM (like `Wechat` chat session)
 * 5.photoBrowser add prefetch image API (2019/3/13)
 * 6.photoBrowser add panGesture to dismiss or cancel(2019/4/16)
-* 7.video player is going ,but not ready
+* 7.video player is ready to use (location video and net video) (2019/7/30)
 
 
 ## 1.Function describe and Point
@@ -40,6 +40,8 @@
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 items.sourceView = imageView;
+// if current url is video type
+// items.isVideo = true;
 [self.itemsArr addObject:items];
 ```
 
