@@ -45,14 +45,13 @@
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
     BOOL                        _hasBeenOrientation;
-//    BOOL                        _isOperationDidClick;
 }
 
-@property (nonatomic,weak  ) KNActionSheet *actionSheet;
+@property (nonatomic, weak  ) KNActionSheet *actionSheet;
 
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
-@property (nonatomic,assign) BOOL  isOperationDidClick;
+@property (nonatomic, assign) BOOL  isOperationDidClick;
 
 @end
 
