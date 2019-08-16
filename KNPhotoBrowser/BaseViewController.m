@@ -23,9 +23,9 @@
     self.navigationController.navigationBar.translucent = NO;
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-    UIBarButtonItem *backIetm = [[UIBarButtonItem alloc] init];
-    backIetm.title = @"返回";
-    self.navigationItem.backBarButtonItem = backIetm;
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] init];
+    backItem.title = @"返回";
+    self.navigationItem.backBarButtonItem = backItem;
 }
 
 - (BOOL)shouldAutorotate{
