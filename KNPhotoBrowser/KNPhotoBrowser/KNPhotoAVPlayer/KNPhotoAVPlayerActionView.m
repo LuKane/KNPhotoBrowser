@@ -7,6 +7,7 @@
 //
 
 #import "KNPhotoAVPlayerActionView.h"
+#import "KNPhotoBrowserPch.h"
 
 @interface KNPhotoAVPlayerActionView()
 
@@ -71,7 +72,20 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     _pauseImgView.frame     = CGRectMake((self.frame.size.width - 80) * 0.5, (self.frame.size.height - 80) * 0.5, 80, 80);
-    _dismissImgView.frame   = CGRectMake(20, 20, 20, 20);
+    
+    
+    CGFloat y = 25;
+    CGFloat x = 0;
+    if(iPhoneX || iPhoneXR || iPhoneXs_Max){
+        y = 45;
+        x = 20;
+    }
+    
+    if(!isPortrait){
+        y = 15;
+        x = 35;
+    }
+    _dismissImgView.frame   = CGRectMake(x, y, 20, 20);
     _indicatorView.frame    = CGRectMake((self.frame.size.width - 30) * 0.5, (self.frame.size.height - 30) * 0.5, 30, 30);
 }
 
