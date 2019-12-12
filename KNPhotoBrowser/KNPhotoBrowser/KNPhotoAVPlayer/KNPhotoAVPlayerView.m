@@ -25,6 +25,8 @@
 
 @property (nonatomic,strong) id timeObserver;
 
+@property (nonatomic,assign) BOOL isDragging;
+
 @end
 
 @implementation KNPhotoAVPlayerView
@@ -174,14 +176,6 @@
     [actionBar setHidden:true];
     [actionBar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionBarDidClick)]];
     
-//    UIPanGestureRecognizer *panGest = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(actionBarDidClick)];
-//    [actionBar addGestureRecognizer:panGest];
-    
-//    UISwipeGestureRecognizer *swipeGest = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(actionBarDidClick)];
-//    swipeGest.direction = UISwipeGestureRecognizerDirectionRight;
-//    swipeGest.direction = UISwipeGestureRecognizerDirectionLeft;
-//    [actionBar addGestureRecognizer:swipeGest];
-    
     [self addSubview:actionBar];
     _actionBar = actionBar;
 }
@@ -201,7 +195,6 @@
     [self removeTimeObserver];
     
     self.timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        
         __strong typeof(weakself) strongself = weakself;
         if (CMTimeGetSeconds(time) == strongself.actionBar.allDuration) {
             if (strongself.actionBar.allDuration != 0) {
@@ -209,6 +202,10 @@
             }
             strongself.actionBar.currentTime = 0;
         }else{
+            if (strongself.isDragging == true) {
+                strongself.isDragging = false;
+                return;
+            }
             strongself.actionBar.currentTime = CMTimeGetSeconds(time);
         }
     }];
@@ -295,7 +292,7 @@
     self.playerView.frame   = self.bounds;
     self.actionView.frame   = self.bounds;
     self.placeHolderImgView.frame  = self.bounds;
-    self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 30);
+    self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 40);
 }
 
 /****************************** == Delegate == ********************************/
@@ -375,12 +372,14 @@
 
 /**
  actionBar change value
-
+ 
  @param value value
  */
 - (void)photoAVPlayerActionBarChangeValue:(float)value{
+    _isDragging = true;
     [_player seekToTime:CMTimeMake(value, 1) completionHandler:^(BOOL finished) {
         if (finished) {
+            
         }
     }];
 }

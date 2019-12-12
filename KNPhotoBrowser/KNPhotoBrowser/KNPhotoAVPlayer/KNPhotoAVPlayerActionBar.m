@@ -16,16 +16,26 @@
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        [self setThumbImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/circlePoint@2x.png"] forState:UIControlStateNormal];
+        [self setThumbImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/circlePoint@3x.png"] forState:UIControlStateNormal];
         [self setMinimumTrackTintColor:[UIColor whiteColor]];
         [self setMaximumTrackTintColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5]];
     }
     return self;
 }
 
+- (CGRect)minimumValueImageRectForBounds:(CGRect)bounds{
+    CGRect frame = [super minimumValueImageRectForBounds:bounds];
+    return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 15);
+}
+
+- (CGRect)maximumValueImageRectForBounds:(CGRect)bounds{
+    CGRect frame = [super maximumValueImageRectForBounds:bounds];
+    return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 15);
+}
+
 - (CGRect)trackRectForBounds:(CGRect)bounds{
     CGRect frame = [super trackRectForBounds:bounds];
-    return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 2);
+    return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 3);
 }
 
 - (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value {
@@ -35,9 +45,7 @@
 
 @end
 
-@interface KNPhotoAVPlayerActionBar (){
-    BOOL    _isDragging; // is draging or not
-}
+@interface KNPhotoAVPlayerActionBar ()
 
 @property (nonatomic,strong) UIButton *pauseStopBtn;
 @property (nonatomic,strong) UILabel *preTimeLabel;
@@ -46,7 +54,9 @@
 
 @end
 
-@implementation KNPhotoAVPlayerActionBar
+@implementation KNPhotoAVPlayerActionBar {
+    BOOL _isDragging;
+}
 
 /****************************** == lazy == ********************************/
 
@@ -98,12 +108,17 @@
     if (self = [super initWithFrame:frame]) {
         self.layer.cornerRadius = 5;
         self.clipsToBounds = true;
+        [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragViewMoved:)]];
         [self addSubview:self.pauseStopBtn];
         [self addSubview:self.preTimeLabel];
         [self addSubview:self.endTimeLabel];
         [self addSubview:self.slider];
     }
     return self;
+}
+
+- (void)dragViewMoved:(UIPanGestureRecognizer *)panGestureRecognizer{
+    
 }
 
 - (void)pauseStopBtnDidClick{
@@ -116,6 +131,8 @@
     if ([_delegate respondsToSelector:@selector(photoAVPlayerActionBarChangeValue:)]) {
         [_delegate photoAVPlayerActionBarChangeValue:slider.value];
     }
+    _isDragging = false;
+   [_slider setUserInteractionEnabled:true];
 }
 - (void)actionBarSliderDown:(KNPhotoAVPlayerSlider *)slider{
     _isDragging = true;
@@ -168,10 +185,10 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    self.pauseStopBtn.frame = CGRectMake(10, 5, 20, 20);
-    self.preTimeLabel.frame = CGRectMake(CGRectGetMaxX(self.pauseStopBtn.frame), 0, 55, 30);
-    self.endTimeLabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 30 - 55, 0, 55, 30);
-    self.slider.frame       = CGRectMake(CGRectGetMaxX(self.preTimeLabel.frame), 0, CGRectGetMinX(self.endTimeLabel.frame) - CGRectGetMaxX(self.preTimeLabel.frame), 30);
+    self.pauseStopBtn.frame = CGRectMake(10, 10, 20, 20);
+    self.preTimeLabel.frame = CGRectMake(CGRectGetMaxX(self.pauseStopBtn.frame), 5, 55, 30);
+    self.endTimeLabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 30 - 55, 5, 55, 30);
+    self.slider.frame       = CGRectMake(CGRectGetMaxX(self.preTimeLabel.frame), 0, CGRectGetMinX(self.endTimeLabel.frame) - CGRectGetMaxX(self.preTimeLabel.frame), 40);
 }
 
 @end
