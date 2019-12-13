@@ -26,6 +26,7 @@
 @property (nonatomic,strong) id timeObserver;
 
 @property (nonatomic,assign) BOOL isDragging;
+@property (nonatomic,assign) BOOL isEnterBackground;
 
 @end
 
@@ -86,8 +87,7 @@
  Add observer for active or not
  */
 - (void)addObserverForAppActive{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive)  name:UIApplicationWillEnterForegroundNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 /****************************** == Line == ********************************/
@@ -230,10 +230,12 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     
     if (object != self.item) return;
+    
+    if (_isEnterBackground) return;
+    
     if ([keyPath isEqualToString:@"status"]) { // play
         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
             [_player play];
-            
             [_actionBar setIsPlaying:true];
             [_actionView setIsPlaying:true];
             [_actionView setIsBuffering:false];
@@ -277,14 +279,10 @@
  app will resign active
  */
 - (void)appWillResignActive{
-    
-}
-
-/**
- app will become active
- */
-- (void)appDidBecomeActive{
-    
+    [self.player pause];
+    [_actionBar setIsPlaying:false];
+    [_actionView setIsPlaying:false];
+    _isEnterBackground = true;
 }
 
 - (void)layoutSubviews{
@@ -297,7 +295,7 @@
 
 /****************************** == Delegate == ********************************/
 - (void)photoAVPlayerActionViewPauseOrStop{
-    
+    _isEnterBackground = false;
     if (_isPlaying == false) {
         if (_player) {
             
