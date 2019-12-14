@@ -14,7 +14,6 @@
 
 @property (nonatomic,strong) AVPlayer       *player;
 @property (nonatomic,strong) AVPlayerItem   *item;
-@property (nonatomic,strong) UIImageView    *placeHolderImgView;
 
 @property (nonatomic,weak  ) KNPhotoAVPlayerActionView  *actionView;
 @property (nonatomic,weak  ) KNPhotoAVPlayerActionBar   *actionBar;
@@ -32,6 +31,13 @@
 
 @implementation KNPhotoAVPlayerView
 
+- (UIView *)playerBgView{
+    if (!_playerBgView) {
+        _playerBgView = [[UIView alloc] init];
+    }
+    return _playerBgView;
+}
+
 /**
  placeHolderImageView for temp image
  
@@ -39,7 +45,7 @@
  */
 - (UIImageView *)placeHolderImgView{
     if (!_placeHolderImgView) {
-        _placeHolderImgView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _placeHolderImgView = [[UIImageView alloc] init];
         [_placeHolderImgView setContentMode:UIViewContentModeScaleAspectFit];
     }
     return _placeHolderImgView;
@@ -52,7 +58,7 @@
  */
 - (UIView *)playerView{
     if (!_playerView) {
-        _playerView = [[UIView alloc] initWithFrame:self.bounds];
+        _playerView = [[UIView alloc] init];
         [_playerView setBackgroundColor:UIColor.clearColor];
     }
     return _playerView;
@@ -140,6 +146,15 @@
 }
 
 /**
+ swipe player by hand
+ */
+- (void)videoWillSwipe{
+    [_actionView avplayerActionViewNeedHidden:true];
+    [_actionBar setHidden:true];
+//    [_placeHolderImgView setHidden:true];
+}
+
+/**
  setup player
  
  @param isNeedRecreate is or not need reset placeHolder
@@ -148,33 +163,31 @@
     _player = [AVPlayer playerWithPlayerItem:_item];
     _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     [self.playerView.layer addSublayer:_playerLayer];
-    
-    _playerLayer.frame = self.bounds;
-    _playerView.frame  = self.bounds;
+    [self addSubview:self.playerBgView];
     
     if (_placeHolder && isNeedRecreate) {
         [self.placeHolderImgView setImage:_placeHolder];
-        [self addSubview:self.placeHolderImgView];
+        [self.playerBgView addSubview:self.placeHolderImgView];
     }
-    [self addSubview:self.playerView];
+    
+    [self.playerBgView addSubview:self.playerView];
 }
 
 /**
  setup actionView and actionBar
  */
 - (void)setupActionView{
-    KNPhotoAVPlayerActionView *actionView = [[KNPhotoAVPlayerActionView alloc] initWithFrame:self.bounds];
+    KNPhotoAVPlayerActionView *actionView = [[KNPhotoAVPlayerActionView alloc] init];
     [actionView setDelegate:self];
     [actionView setIsBuffering:false];
     [actionView setIsPlaying:false];
     [self addSubview:actionView];
     _actionView = actionView;
     
-    KNPhotoAVPlayerActionBar *actionBar = [[KNPhotoAVPlayerActionBar alloc] initWithFrame:self.bounds];
+    KNPhotoAVPlayerActionBar *actionBar = [[KNPhotoAVPlayerActionBar alloc] init];
     [actionBar setBackgroundColor:[UIColor colorWithRed:45/255.0 green:45/255.0 blue:45/255.0 alpha:1]];
     [actionBar setDelegate:self];
     [actionBar setHidden:true];
-    [actionBar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionBarDidClick)]];
     
     [self addSubview:actionBar];
     _actionBar = actionBar;
@@ -251,13 +264,6 @@
 }
 
 /**
- actionView'action :tap ,swipe , pan
- */
-- (void)actionBarDidClick{
-    
-}
-
-/**
  current video is end
  */
 - (void)videoDidPlayToEndTime{
@@ -286,10 +292,11 @@
 }
 
 - (void)layoutSubviews{
-    self.playerLayer.frame  = self.bounds;
-    self.playerView.frame   = self.bounds;
-    self.actionView.frame   = self.bounds;
-    self.placeHolderImgView.frame  = self.bounds;
+    self.playerBgView.frame = CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height);
+    self.playerView.frame   = self.playerBgView.bounds;
+    self.playerLayer.frame  = self.playerView.bounds;
+    self.actionView.frame   = self.playerBgView.frame;
+    self.placeHolderImgView.frame  = self.playerBgView.bounds;
     self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 40);
 }
 

@@ -37,9 +37,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)videoPlayerWillReset;
 
 /**
+ swipe player by hand
+ */
+- (void)videoWillSwipe;
+
+/**
  player view
  */
 @property (nonatomic,strong,nullable) UIView *playerView;
+
+/**
+ player background view (as locate current location for swipe)
+ */
+@property (nonatomic,strong,nullable) UIView *playerBgView;
+
+/**
+ placeHolder imageView
+*/
+@property (nonatomic,strong,nullable) UIImageView *placeHolderImgView;
 
 /**
  current url
