@@ -434,14 +434,14 @@
 		79E1156522F032300022106B /* IMController */ = {
 			isa = PBXGroup;
 			children = (
-				79E1156622F032300022106B /* IMModel.m */,
-				79E1156722F032300022106B /* IMViewController.h */,
-				79E1156822F032300022106B /* IMTableViewCell.m */,
-				79E1156922F032300022106B /* UIView+Extension.h */,
-				79E1156A22F032300022106B /* IMTableViewCell.h */,
 				79E1156B22F032300022106B /* IMModel.h */,
-				79E1156C22F032300022106B /* IMViewController.m */,
+				79E1156622F032300022106B /* IMModel.m */,
+				79E1156922F032300022106B /* UIView+Extension.h */,
 				79E1156D22F032300022106B /* UIView+Extension.m */,
+				79E1156A22F032300022106B /* IMTableViewCell.h */,
+				79E1156822F032300022106B /* IMTableViewCell.m */,
+				79E1156722F032300022106B /* IMViewController.h */,
+				79E1156C22F032300022106B /* IMViewController.m */,
 			);
 			path = IMController;
 			sourceTree = "<group>";
