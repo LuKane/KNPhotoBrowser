@@ -81,8 +81,6 @@
     NSString *videoUrl2 = @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4";
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"location_video.MP4" ofType:nil];
-//    NSURL *url = [NSURL fileURLWithPath:path];
-    
     NSArray *urlArr =
                    @[
                    @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg",
