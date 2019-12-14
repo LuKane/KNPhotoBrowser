@@ -319,8 +319,8 @@
 		79E1152522F032300022106B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				79E1152622F032300022106B /* ViewController.m */,
 				79E1152722F032300022106B /* ViewController.h */,
+				79E1152622F032300022106B /* ViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
