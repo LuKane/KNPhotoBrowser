@@ -335,7 +335,7 @@
         playerView  = cell.playerView;
         
         point       = [pan translationInView:self.view];
-//        location    = [pan locationInView:playerView.scrollView];
+        location    = [pan locationInView:playerView.playerBgView];
         velocity    = [pan velocityInView:self.view];
     }else{
         KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
@@ -352,7 +352,8 @@
         case UIGestureRecognizerStateBegan:{
             _startLocation  = location;
             if(items.isVideo){
-                _startFrame     = playerView.playerView.frame;
+                _startFrame     = playerView.playerBgView.frame;
+                [playerView videoWillSwipe];
             }else{
                 _startFrame     = imageView.imageView.frame;
             }
@@ -374,6 +375,7 @@
             if(items.isVideo){
                 playerView.playerView.frame     = CGRectMake(x, y, width, height);
                 playerView.playerLayer.frame    = CGRectMake(0, 0, width, height);
+                playerView.placeHolderImgView.frame = CGRectMake(x, y, width, height);
             }else{
                 imageView.imageView.frame = CGRectMake(x, y, width, height);
             }
@@ -391,7 +393,7 @@
                     [self dismiss];
                 }else{
                     // cancel
-                    [self cancelVideoAnimation:playerView layer:playerView.playerLayer];
+                    [self cancelVideoAnimation:playerView];
                 }
             }else {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
@@ -420,10 +422,11 @@
     }];
 }
 
-- (void)cancelVideoAnimation:(UIView *)playerView layer:(AVPlayerLayer *)layer{
+- (void)cancelVideoAnimation:(KNPhotoAVPlayerView *)playerView{
     [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
-        playerView.frame = self.startFrame;
-//        layer.frame      = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);
+        playerView.playerView.frame = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);;
+        playerView.playerLayer.frame = playerView.playerView.bounds;
+        playerView.placeHolderImgView.frame = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);
     } completion:^(BOOL finished) {
         self.view.backgroundColor = [UIColor blackColor];
     }];
