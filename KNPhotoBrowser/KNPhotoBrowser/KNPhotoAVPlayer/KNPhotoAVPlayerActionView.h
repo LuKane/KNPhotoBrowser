@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KNPhotoAVPlayerActionView : UIView
 
+/**
+ avPlayerActionView need hidden or not
+ */
+- (void)avplayerActionViewNeedHidden:(BOOL)isHidden;
+
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerActionViewDelegate> delegate;
 
 /**

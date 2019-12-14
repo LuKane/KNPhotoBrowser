@@ -75,7 +75,7 @@
     
     
     CGFloat y = 25;
-    CGFloat x = 0;
+    CGFloat x = 10;
     if(iPhoneX || iPhoneXR || iPhoneXs_Max){
         y = 45;
         x = 20;
@@ -112,6 +112,17 @@
     
     if ([_delegate respondsToSelector:@selector(photoAVPlayerActionViewDidClickIsHidden:)]) {
         [_delegate photoAVPlayerActionViewDidClickIsHidden:_dismissImgView.isHidden];
+    }
+}
+
+/**
+ avPlayerActionView need hidden or not
+ */
+- (void)avplayerActionViewNeedHidden:(BOOL)isHidden{
+    if (isHidden == true) {
+        [_dismissImgView setHidden:true];
+        [_indicatorView setHidden:true];
+        [_pauseImgView setHidden:true];
     }
 }
 
