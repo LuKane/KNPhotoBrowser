@@ -15,7 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy  ) NSString *url;
 @property (nonatomic,strong) UIImage *locImage;
-@property (nonatomic,assign) BOOL  isLeft;
+@property (nonatomic,assign) BOOL isLeft;
+@property (nonatomic,assign) BOOL isVideo;
+
+// width / height
+@property (nonatomic,assign) CGFloat rate;
 
 @property (nonatomic,assign) CGFloat  cellHeight;
 
