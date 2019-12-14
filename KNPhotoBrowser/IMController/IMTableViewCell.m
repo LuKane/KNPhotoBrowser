@@ -11,6 +11,7 @@
 #import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIView+Extension.h"
+#import <Photos/Photos.h>
 
 @interface IMTableViewCell()
 
@@ -71,7 +72,7 @@
     
     if(imModel.url){
         UIImage *image = [[SDImageCache sharedImageCache] imageFromCacheForKey:imModel.url];
-        if(image){
+        if(image && imModel.isVideo == false ){
             if(image.size.width >= image.size.height){ // 横图
                 rect.size = CGSizeMake(100, image.size.height * 100 / image.size.width);
                 _picImgView.frame = rect;
@@ -79,40 +80,83 @@
                 rect.size = CGSizeMake(image.size.width * 100 / image.size.height, 100);
                 _picImgView.frame = rect;
             }
-            
             if(imModel.isLeft){
                 _picImgView.x = CGRectGetMaxX(_iconView.frame) + 20;
             }else{
                 _picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
             }
-            
             imModel.cellHeight = CGRectGetMaxY(self->_picImgView.frame) + 20;
             _picImgView.image = image;
         }else{
-            imModel.cellHeight = CGRectGetMaxY(_picImgView.frame) + 20;
-            [_picImgView sd_setImageWithURL:[NSURL URLWithString:imModel.url] placeholderImage:[self createImageWithUIColor:[UIColor lightGrayColor]] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                if(!error && image){
-                    if(image.size.width >= image.size.height){ // 横图
-                        rect.size = CGSizeMake(100, image.size.height * 100 / image.size.width);
-                        self->_picImgView.frame = rect;
-                    }else{ // 竖图
-                        rect.size = CGSizeMake(image.size.width * 100 / image.size.height, 100);
-                        self->_picImgView.frame = rect;
+            if (imModel.isVideo) {
+                if(imModel.isLeft){
+                    self->_picImgView.x = CGRectGetMaxX(self->_iconView.frame) + 20;
+                }else{
+                    self->_picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
+                }
+                if (imModel.rate > 1) { // 横图
+                    self.picImgView.size = CGSizeMake(100 * imModel.rate, 100);
+                }else{ // 竖图 || 正方形
+                    self.picImgView.size = CGSizeMake(100, 100 / imModel.rate);
+                }
+                imModel.cellHeight = CGRectGetMaxY(_picImgView.frame) + 20;
+                
+                AVURLAsset *avAsset = nil;
+                if ([imModel.url hasPrefix:@"http"]) {
+                    avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:imModel.url]];
+                    if (avAsset) {
+                        CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
+                        CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                            generator.appliesPreferredTrackTransform = YES;
+                            generator.maximumSize = imageViewSize;
+                            NSError *error = nil;
+                            CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                self->_picImgView.image = [UIImage imageWithCGImage:cgImage];
+                            });
+                        });
                     }
-                    
-                    if(imModel.isLeft){
-                        self->_picImgView.x = CGRectGetMaxX(self->_iconView.frame) + 20;
-                    }else{
-                        self->_picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
-                    }
-                    
-                    imModel.cellHeight = CGRectGetMaxY(self->_iconView.frame) + 20;
-                    
-                    if([self->_delegate respondsToSelector:@selector(reloadCellWithModel:)]){
-                        [self->_delegate reloadCellWithModel:imModel];
+                }else{
+                    avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:imModel.url]];
+                    if (avAsset) {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                            generator.appliesPreferredTrackTransform = YES;
+                            NSError *error = nil;
+                            CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                self->_picImgView.image = [UIImage imageWithCGImage:cgImage];
+                            });
+                        });
                     }
                 }
-            }];
+            }else{
+                [_picImgView sd_setImageWithURL:[NSURL URLWithString:imModel.url] placeholderImage:[self createImageWithUIColor:[UIColor lightGrayColor]] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                    if(!error && image){
+                        if(image.size.width >= image.size.height){ // 横图
+                            rect.size = CGSizeMake(100, image.size.height * 100 / image.size.width);
+                            self->_picImgView.frame = rect;
+                        }else{ // 竖图
+                            rect.size = CGSizeMake(image.size.width * 100 / image.size.height, 100);
+                            self->_picImgView.frame = rect;
+                        }
+                        
+                        if(imModel.isLeft){
+                            self->_picImgView.x = CGRectGetMaxX(self->_iconView.frame) + 20;
+                        }else{
+                            self->_picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
+                        }
+                        
+                        imModel.cellHeight = CGRectGetMaxY(self->_iconView.frame) + 20;
+                        
+                        if([self->_delegate respondsToSelector:@selector(reloadCellWithModel:)]){
+                            [self->_delegate reloadCellWithModel:imModel];
+                        }
+                    }
+                }];
+            }
         }
     }else if(imModel.locImage){
         _picImgView.image = imModel.locImage;

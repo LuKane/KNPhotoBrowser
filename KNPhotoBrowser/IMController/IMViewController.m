@@ -11,6 +11,7 @@
 #import "IMModel.h"
 
 #import "KNPhotoBrowser.h"
+#import <Photos/Photos.h>
 
 @interface IMViewController ()<UITableViewDelegate,UITableViewDataSource,IMTableViewCellDelegate>
 
@@ -46,59 +47,67 @@
 }
 
 - (void)loadingData{
-    {
+    {   // 1
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"1.jpg"];
         model.isLeft   = true;
         [self.dataArr addObject:model];
     }
-    
-    {
+
+    {   // 2
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"2.jpg"];
         [self.dataArr addObject:model];
     }
-    
-    {
+
+    {   // 3
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"3.jpg"];
         model.isLeft   = true;
         [_dataArr addObject:model];
     }
-    
-    {
+
+    {   // 4
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"4.jpg"];
         [_dataArr addObject:model];
     }
-    
-    {
+
+    {   // 5
         IMModel *model = [[IMModel alloc] init];
         model.url = @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg";
         model.isLeft   = true;
         [_dataArr addObject:model];
     }
-    
-    {
+
+    {   // 6
         IMModel *model = [[IMModel alloc] init];
         model.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
         [_dataArr addObject:model];
     }
-    
+
     {
+        // 7
+        NSString *videoUrl2 = @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4";
+
         IMModel *model = [[IMModel alloc] init];
-        model.locImage = [UIImage imageNamed:@"7.jpg"];
+        model.isVideo  = true;
+        model.url      = videoUrl2;
         model.isLeft   = true;
-        [_dataArr addObject:model];
+        model.rate     = ScreenWidth / ScreenHeight;
+        [self.dataArr addObject:model];
     }
     
-    {
+    {   // 8
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"location_video.MP4" ofType:nil];
         IMModel *model = [[IMModel alloc] init];
-        model.locImage = [UIImage imageNamed:@"8.jpg"];
-        [_dataArr addObject:model];
+        model.url      = path;
+        model.isVideo  = true;
+        model.rate     = ScreenWidth / ScreenHeight;
+        [self.dataArr addObject:model];
     }
     
-    {
+    {   // 9
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"9.jpg"];
         model.isLeft   = true;
@@ -159,10 +168,46 @@
         if(imM.url == nil && imM.locImage == nil) { // if it's not a picture
             
         }else{
-            if(imM.url){
+            if(imM.url && imM.isVideo == false){
                 items.url = [imM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
             }else if(imM.locImage){
                 items.sourceImage = imM.locImage;
+            }else if (imM.isVideo && imM.url) {
+                items.url = imM.url;
+                items.isVideo = true;
+                
+                AVURLAsset *avAsset = nil;
+                if ([imM.url hasPrefix:@"http"]) {
+                    avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:imM.url]];
+                    if (avAsset) {
+                        CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
+                        CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                            generator.appliesPreferredTrackTransform = YES;
+                            generator.maximumSize = imageViewSize;
+                            NSError *error = nil;
+                            CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                items.sourceImage = [UIImage imageWithCGImage:cgImage];
+                            });
+                        });
+                    }
+                }else{
+                    avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:imM.url]];
+                    if (avAsset) {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                            generator.appliesPreferredTrackTransform = YES;
+                            NSError *error = nil;
+                            CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                items.sourceImage = [UIImage imageWithCGImage:cgImage];
+                            });
+                        });
+                    }
+                }
+                
             }
             [self.itemsArr addObject:items];
             [tempArr addObject:imM];
@@ -170,18 +215,19 @@
     }
     
     NSArray *visibleCells = self.tableView.visibleCells;
-    
+
     for (NSInteger i = 0; i < self.itemsArr.count; i++) {
         KNPhotoItems *items = self.itemsArr[i];
         IMModel      *imM   = tempArr[i];
-        
+
         for (NSInteger j = 0; j < visibleCells.count; j++) {
             IMTableViewCell *cell = (IMTableViewCell *)visibleCells[j];
             if(cell.imModel.url == nil && cell.imModel.locImage == nil){
-                
+
             }else{
                 if(imM == cell.imModel){
                     items.sourceView = cell.picImgView;
+                    items.isVideo    = imM.isVideo;
                 }
             }
         }
