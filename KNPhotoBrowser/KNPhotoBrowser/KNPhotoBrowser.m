@@ -255,12 +255,22 @@
     
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     if (item.isVideo) {
+        
+        if (_pageControl.hidden == false) {
+            _pageControl.hidden = true;
+        }
+        
         KNPhotoVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoVideoCellID" forIndexPath:indexPath];
         [cell setDelegate:self];
         return cell;
     }else{
         KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
         __weak typeof(self) weakSelf = self;
+        
+        if (_pageControl.hidden == true && _isNeedPageControl) {
+            _pageControl.hidden = false;
+        }
+        
         cell.singleTap = ^{
             [weakSelf dismiss];
         };
