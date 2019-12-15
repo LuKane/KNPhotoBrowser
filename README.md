@@ -22,7 +22,7 @@
 * 5.photoBrowser add prefetch image API (2019/3/13)
 * 6.photoBrowser add panGesture to dismiss or cancel(2019/4/16)
 * 7.video player is ready to use (location video and net video) (2019/7/30)
-* 8. swipe  video player is done!  
+* 8.swipe  video player is done!  
 
 
 ## 1.Function describe and Point
