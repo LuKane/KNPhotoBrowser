@@ -13,7 +13,7 @@
 #import "KNPhotoBrowser.h"
 #import <Photos/Photos.h>
 
-@interface IMViewController ()<UITableViewDelegate,UITableViewDataSource,IMTableViewCellDelegate>
+@interface IMViewController ()<UITableViewDelegate,UITableViewDataSource,IMTableViewCellDelegate,UIAlertViewDelegate>
 
 @property (nonatomic,weak  ) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
@@ -41,9 +41,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"IM";
-    [self setupTableView];
     
-    [self loadingData];
+    if (TARGET_IPHONE_SIMULATOR == 1 && TARGET_OS_IPHONE == 1) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"该功能在真机上执行" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+        [alertView show];
+    } else {
+        [self setupTableView];
+        [self loadingData];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)loadingData{
