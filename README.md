@@ -23,6 +23,7 @@
 * 6.photoBrowser add panGesture to dismiss or cancel(2019/4/16)
 * 7.video player is ready to use (location video and net video) (2019/7/30)
 * 8.swipe  video player is done!  
+* 9.when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
 
 
 ## 1.Function describe and Point
