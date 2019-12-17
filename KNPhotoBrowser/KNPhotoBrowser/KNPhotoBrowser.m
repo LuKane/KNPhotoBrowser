@@ -228,10 +228,24 @@
     // whatever is or not set '_isNeedPageControl' , if itemArr.cout == 1, it must be hidden
     if(_itemsArr.count == 1){
         [pageControl setHidden:true];
+    }else {
+        // if contain video , hide pagecontrol
+        if ([self isContainVideo:_itemsArr]) {
+            [pageControl setHidden:true];
+        }
     }
     [self.view addSubview:pageControl];
     
     _pageControl = pageControl;
+}
+
+- (BOOL)isContainVideo:(NSArray <KNPhotoItems *> *)itemsArr {
+    for (KNPhotoItems *items in itemsArr) {
+        if (items.isVideo) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /* init right top Btn */
@@ -252,25 +266,14 @@
     return self.itemsArr.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     if (item.isVideo) {
-        
-        if (_pageControl.hidden == false) {
-            _pageControl.hidden = true;
-        }
-        
         KNPhotoVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoVideoCellID" forIndexPath:indexPath];
         [cell setDelegate:self];
         return cell;
     }else{
         KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
         __weak typeof(self) weakSelf = self;
-        
-        if (_pageControl.hidden == true && _isNeedPageControl) {
-            _pageControl.hidden = false;
-        }
-        
         cell.singleTap = ^{
             [weakSelf dismiss];
         };

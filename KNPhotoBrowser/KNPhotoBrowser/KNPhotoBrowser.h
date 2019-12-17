@@ -127,7 +127,7 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
 @property (nonatomic,assign) BOOL  isNeedPageNumView;
 
 /**
- is or not need pageControl , Default is false
+ is or not need pageControl , Default is false (but if photobrowser contain video,then hidden)
  */
 @property (nonatomic,assign) BOOL  isNeedPageControl;
 
