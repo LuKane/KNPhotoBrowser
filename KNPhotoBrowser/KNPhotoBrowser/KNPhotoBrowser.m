@@ -297,6 +297,10 @@
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (self.itemsArr.count <= indexPath.row) {
+        return;
+    }
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     if (item.isVideo) {
         KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
@@ -1018,6 +1022,8 @@
         
         [self dismissViewControllerAnimated:true completion:nil];
     }else{
+        [_pageControl setCurrentPage:_currentIndex];
+        [_pageControl setNumberOfPages:_itemsArr.count];
         [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
 }
