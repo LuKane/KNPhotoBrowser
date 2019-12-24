@@ -1,62 +1,49 @@
 //
-//  KNActionSheeth
-//  KNActionSheet
+//  KNActionSheet.h
+//  test
 //
-//  Created by LuKane on 16/9/5.
-//  Copyright © 2016年 LuKane. All rights reserved.
+//  Created by LuKane on 2019/12/18.
+//  Copyright © 2019 LuKane. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef void(^ActionBlock)(NSInteger buttonIndex);
+NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^ActionSheetBlock)(NSInteger buttonIndex);
 
 @interface KNActionSheet : UIView
 
-/**
- alert
++ (KNActionSheet *)share;
 
- @param cancelTitle title of cancel
- @param otherTitleArr other title array
- @param ActionBlock call back
- @return alert
- */
-- (instancetype)initWithCancelTitle:(NSString *)cancelTitle
-                      otherTitleArr:(NSArray  *)otherTitleArr
-                        actionBlock:(ActionBlock)ActionBlock;
+- (instancetype)initWithTitle:(NSString *)title
+                  cancelTitle:(NSString *)cancelTitle
+                   titleArray:(NSMutableArray <NSString *> *)titleArray
+                  actionSheetBlock:(ActionSheetBlock)sheetBlock;
 
-/**
- alert  + destruction
+- (instancetype)initWithTitle:(NSString *)title
+                  cancelTitle:(NSString *)cancelTitle
+                   titleArray:(NSMutableArray <NSString *> *)titleArray
+             destructiveArray:(NSMutableArray <NSString *> *)destructiveArray
+             actionSheetBlock:(ActionSheetBlock)sheetBlock;
 
- @param cancelTitle title of cancel
- @param destructiveTitle destructive title
- @param otherTitleArr other title array
- @param ActionBlock call back
- @return alert
- */
-- (instancetype)initWithCancelTitle:(NSString *)cancelTitle
-                   destructiveTitle:(NSString *)destructiveTitle
-                      otherTitleArr:(NSArray  *)otherTitleArr
-                        actionBlock:(ActionBlock)ActionBlock;
 
-/**
- alert + destructive + index of destructive
+- (instancetype)initWithTitle:(NSString *)title
+                   titleColor:(nullable UIColor *)titleColor
+                  cancelTitle:(NSString *)cancelTitle
+                   titleArray:(NSMutableArray <NSString *> *)titleArray
+             actionSheetBlock:(ActionSheetBlock)sheetBlock;
 
- @param cancelTitle title of cancel
- @param destructiveTitle destructive title
- @param destructiveIndex destructive index
- @param otherTitleArr other title array
- @param ActionBlock call back
- @return alert
- */
-- (instancetype)initWithCancelTitle:(NSString *)cancelTitle
-                   destructiveTitle:(NSString *)destructiveTitle
-                   destructiveIndex:(NSInteger )destructiveIndex
-                      otherTitleArr:(NSArray  *)otherTitleArr
-                        actionBlock:(ActionBlock)ActionBlock;
-
+- (instancetype)initWithTitle:(NSString *)title
+                   titleColor:(nullable UIColor *)titleColor
+                  cancelTitle:(NSString *)cancelTitle
+                   titleArray:(NSMutableArray <NSString *> *)titleArray
+             destructiveArray:(NSMutableArray <NSString *> *)destructiveArray
+             actionSheetBlock:(ActionSheetBlock)sheetBlock;
 
 - (void)show;
 - (void)dismiss;
 
 @end
+
+NS_ASSUME_NONNULL_END
