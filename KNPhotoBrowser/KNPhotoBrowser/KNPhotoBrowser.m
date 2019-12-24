@@ -51,7 +51,6 @@
 
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
-@property (nonatomic, assign) BOOL  isOperationDidClick;
 
 @end
 
@@ -302,7 +301,7 @@
         return;
     }
     KNPhotoItems *item = self.itemsArr[indexPath.row];
-    if (item.isVideo) {
+    if (item.isVideo && [cell isKindOfClass:[KNPhotoVideoCell class]]) {
         KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
         [cell1 playerWillEndDisplay];
     }
@@ -531,12 +530,6 @@
 
 #pragma mark - photoBrowser will dismiss
 - (void)dismiss{
-    
-    if(_isOperationDidClick) {
-        _isOperationDidClick = false;
-        return;
-    }
-    
     if([_delegate respondsToSelector:@selector(photoBrowserWillDismiss)]){
         [_delegate photoBrowserWillDismiss];
     }
@@ -807,22 +800,19 @@
     // ActionSheet will show , if self.actionSheetArr is not empty , that means custom ActionSheet, just let delegate to do
     // if self.actionSheetArr is empty , that actionSheet just is example
     
-    _isOperationDidClick = true;
     // careful : there is weakSelf , not self. be careful of the strong link
     __weak typeof(self) weakSelf = self;
     if(_actionSheetArr.count != 0){ // custom
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:self.actionSheetArr.mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
-            weakSelf.isOperationDidClick = false;
         }];
         [actionSheet show];
         self.actionSheet = actionSheet;
     }else{ // example
-        KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil destructiveTitle:@"删除" otherTitleArr:@[@"保存",@"转发微博",@"赞"]  actionBlock:^(NSInteger buttonIndex) {
+        KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
             
-            weakSelf.isOperationDidClick = false;
             if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
                 [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
             }
