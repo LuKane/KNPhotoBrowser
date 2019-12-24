@@ -249,9 +249,9 @@
 		79BCF8AB23B2077D003921DA /* KNActionSheet */ = {
 			isa = PBXGroup;
 			children = (
-				79BCF8AC23B2077D003921DA /* KNActionSheetItem.h */,
 				79BCF8AD23B2077E003921DA /* KNActionSheet.h */,
 				79BCF8AE23B2077E003921DA /* KNActionSheet.m */,
+				79BCF8AC23B2077D003921DA /* KNActionSheetItem.h */,
 				79BCF8AF23B2077E003921DA /* KNActionSheetItem.m */,
 			);
 			path = KNActionSheet;

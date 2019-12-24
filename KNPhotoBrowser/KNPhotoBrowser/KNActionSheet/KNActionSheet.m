@@ -145,6 +145,7 @@
     
     UIView *bgView = [[UIView alloc] init];
     [bgView setBackgroundColor:[UIColor whiteColor]];
+//    [self addRectCorners:UIRectCornerTopLeft | UIRectCornerTopRight width:15 view:bgView];
     [self addSubview:bgView];
     _bgView = bgView;
     
@@ -260,9 +261,13 @@
         UIEdgeInsets insets = self.safeAreaInsets;
         CGFloat height = _kKNActionItemHeight * (_itemsArr.count + 1) + 8;
         _bgView.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, height + insets.bottom);
-        
+        [self addRectCorners:UIRectCornerTopLeft | UIRectCornerTopRight width:13 view:_bgView];
         for (NSInteger i = 0; i < _itemsArr.count; i++) {
             KNActionSheetItem *item = _itemsArr[i];
+            if (i == 0) {
+                [self addRectCorners:UIRectCornerTopLeft | UIRectCornerTopRight width:13 view:item];
+            }
+            
             item.frame = CGRectMake(0, (_kKNActionItemHeight + _padding) * i, _bgView.frame.size.width, _kKNActionItemHeight);
             CALayer *line = _lineArr[i];
             if (i != _itemsArr.count - 1) {
@@ -284,9 +289,12 @@
     } else {
         CGFloat height = _kKNActionItemHeight * (_itemsArr.count + 1) + 8;
         _bgView.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, height);
-        
+        [self addRectCorners:UIRectCornerTopLeft | UIRectCornerTopRight width:13 view:_bgView];
         for (NSInteger i = 0; i < _itemsArr.count; i++) {
             KNActionSheetItem *item = _itemsArr[i];
+            if (i == 0) {
+                [self addRectCorners:UIRectCornerTopLeft | UIRectCornerTopRight width:13 view:item];
+            }
             item.frame = CGRectMake(0, (_kKNActionItemHeight + _padding) * i, _bgView.frame.size.width, _kKNActionItemHeight);
             CALayer *line = _lineArr[i];
             if (i != _itemsArr.count - 1) {
@@ -310,6 +318,17 @@
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)addRectCorners:(UIRectCorner)corners width:(CGFloat)width view:(UIView *)view{
+    if (width > view.frame.size.width) {
+        return;
+    }
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:CGSizeMake(width, width)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    view.layer.mask = maskLayer;
 }
 
 @end
