@@ -39,6 +39,11 @@
             [arr addObject:@"IMViewController"];
             [_dataArr addObject:arr];
         }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:@"SendImageController"];
+            [_dataArr addObject:arr];
+        }
     }
     return _dataArr;
 }
