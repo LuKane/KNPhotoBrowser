@@ -174,4 +174,8 @@
     [photoBrower present];
 }
 
+- (void)dealloc{
+    NSLog(@"dealloc");
+}
+
 @end
