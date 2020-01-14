@@ -32,6 +32,7 @@
 }
 
 - (void)photoAVPlayerViewDismiss{
+    [_playerView videoPlayerWillReset];
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {
         [_delegate photoVideoAVPlayerDismiss];
     }
