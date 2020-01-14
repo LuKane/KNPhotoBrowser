@@ -138,7 +138,6 @@
  */
 - (void)videoPlayerWillReset{
     [self removeTimeObserver];
-    
     if (_player) {
         [_player pause];
         _isPlaying = false;
@@ -151,7 +150,6 @@
 - (void)videoWillSwipe{
     [_actionView avplayerActionViewNeedHidden:true];
     [_actionBar setHidden:true];
-//    [_placeHolderImgView setHidden:true];
 }
 
 /**
