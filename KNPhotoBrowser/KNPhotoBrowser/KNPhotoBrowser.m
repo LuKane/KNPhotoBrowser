@@ -406,6 +406,7 @@
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
                     // dismiss
                     _startFrame = playerView.playerView.frame;
+                    [playerView videoPlayerWillReset];
                     [self dismiss];
                 }else{
                     // cancel
@@ -537,6 +538,7 @@
     UIImageView *tempView = [[UIImageView alloc] init];
     
     KNPhotoItems *items = self->_itemsArr[self->_currentIndex];
+    
     if(items.sourceImage){ // locate image by sourceImage of items
         tempView.image = items.sourceImage;
         [self photoBrowserWillDismissWithAnimated:tempView items:items];
@@ -992,10 +994,21 @@
  delete image --> for example
  */
 - (void)deleteImageDidClick{
+    
+    KNPhotoItems *item = _itemsArr[_currentIndex];
+    if (item.isVideo) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:_currentIndex inSection:0];
+        KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:path];
+        [cell playerWillEndDisplay];
+    }
+    
     NSMutableArray *tempArr = [NSMutableArray arrayWithArray:_itemsArr];
     [tempArr removeObjectAtIndex:_currentIndex];
     _itemsArr = [tempArr copy];
     [_collectionView reloadData];
+    
+    
+    
     
     if(_itemsArr.count == 0){
         [_collectionView setHidden:true];
