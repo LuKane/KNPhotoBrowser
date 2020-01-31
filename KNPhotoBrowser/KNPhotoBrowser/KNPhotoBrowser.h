@@ -152,6 +152,16 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
+ delete current photo or video
+ */
+- (void)deletePhotoAndVideo;
+
+/**
+ download photo or video to Album, but it must be authed at first
+ */
+- (void)downloadPhotoAndVideo;
+
+/**
  photoBrowser show
  */
 - (void)present;
