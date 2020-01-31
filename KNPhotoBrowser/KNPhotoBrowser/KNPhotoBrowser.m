@@ -44,11 +44,9 @@
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
-    BOOL                        _hasBeenOrientation;
 }
 
 @property (nonatomic, weak  ) KNActionSheet *actionSheet;
-
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
 
@@ -251,7 +249,7 @@
 - (void)initOperationView{
     UIButton *operationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [operationBtn.layer setCornerRadius:3];
-    [operationBtn.layer setMasksToBounds:YES];
+    [operationBtn.layer setMasksToBounds:true];
     [operationBtn setBackgroundColor:[UIColor blackColor]];
     [operationBtn setAlpha:0.4];
     [operationBtn setBackgroundImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/more_tap@2x.png"] forState:UIControlStateNormal];
@@ -790,9 +788,6 @@
         [self->_progressHUD setHidden:true];
         [self->_collectionView setHidden:false];
     });
-    if(_hasBeenOrientation == false){
-        _hasBeenOrientation = true;
-    }
 }
 
 /**
@@ -835,7 +830,7 @@
                     }
                     
                     // going to delete image
-                    [weakSelf deleteImageDidClick];
+                    [weakSelf deletePhotoAndVideo];
                 }
                     break;
                 case 1:{// save image or video
@@ -960,7 +955,7 @@
     }
     
     if([weakSelf.delegate respondsToSelector:@selector(photoBrowserWriteToSavedPhotosAlbumStatus:)]){
-        [weakSelf.delegate photoBrowserWriteToSavedPhotosAlbumStatus:error?NO:YES];
+        [weakSelf.delegate photoBrowserWriteToSavedPhotosAlbumStatus:error?false:true];
     }
 }
 
@@ -991,10 +986,9 @@
 }
 
 /**
- delete image --> for example
+ delete current photo or video
  */
-- (void)deleteImageDidClick{
-    
+- (void)deletePhotoAndVideo{
     KNPhotoItems *item = _itemsArr[_currentIndex];
     if (item.isVideo) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:_currentIndex inSection:0];
@@ -1006,9 +1000,6 @@
     [tempArr removeObjectAtIndex:_currentIndex];
     _itemsArr = [tempArr copy];
     [_collectionView reloadData];
-    
-    
-    
     
     if(_itemsArr.count == 0){
         [_collectionView setHidden:true];
@@ -1029,6 +1020,13 @@
         [_pageControl setNumberOfPages:_itemsArr.count];
         [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
+}
+
+/**
+ download photo or video to Album, but it must be authed at first
+ */
+- (void)downloadPhotoAndVideo{
+    
 }
 
 /**
