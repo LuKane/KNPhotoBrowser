@@ -27,14 +27,14 @@
 
 #define PhotoShowPlaceHolderImageColor [UIColor blackColor]
 
-#define PhotoSaveImageSuccessMessage  @"^_^ 保存成功!!"
-#define PhotoSaveImageFailureMessage @"/(ㄒoㄒ)/~~ 保存失败!!"
+#define PhotoSaveImageSuccessMessage  @"保存成功!!"
+#define PhotoSaveImageFailureMessage  @"保存失败!!"
 #define PhotoSaveImageMessageTime    2
 #define PhotoSaveImageFailureReason  @"图片需要下载完成"
 
-#define PhotoSaveVideoFailureReason  @"视频下载失败"
-#define PhotoSaveVideoSuccessReason  @"视频下载成功"
-#define PhotoSaveVideoCannotReason  @"视频无法下载"
+#define PhotoSaveVideoFailureMessage  @"视频下载失败"
+#define PhotoSaveVideoSuccessMessage  @"视频下载成功"
+#define PhotoSaveVideoFailureReason   @"视频无法下载"
 
 #define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
 
