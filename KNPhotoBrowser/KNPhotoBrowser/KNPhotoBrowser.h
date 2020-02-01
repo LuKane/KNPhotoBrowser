@@ -14,6 +14,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "KNActionSheet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -58,6 +59,17 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
 
 @end
 
+@interface UIDevice(PBExtension)
+
+/**
+ judge is have auth of Album
+ 
+ @param authorBlock block
+ */
++ (void)deviceAlbumAuth:(void (^)(BOOL isAuthor))authorBlock;
+
+@end
+
 /****************************** == line == ********************************/
 
 @protocol KNPhotoBrowserDelegate <NSObject>
@@ -70,11 +82,9 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
 
 @optional
 /**
- photoBrowser right top button did click, and actionSheet click with Index
- 
- @param index actionSheet did click with Index
+ photoBrowser right top button did click
  */
-- (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index;
+- (void)photoBrowserRightOperationAction;
 
 @optional
 /**
@@ -100,6 +110,13 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  */
 - (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
 
+@optional
+/**
+ download video with progress
+ @param progress current progress
+ */
+- (void)photoBrowserDownloadVideoWithProgress:(CGFloat)progress;
+
 @end
 
 /****************************** == line == ********************************/
@@ -115,11 +132,6 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  contain KNPhotoItems : url && UIView
  */
 @property (nonatomic,strong) NSArray<KNPhotoItems *> *itemsArr;
-
-/**
- contain ActionSheet alert contents ,which is belong NSString type
- */
-@property (nonatomic,strong) NSArray<NSString *> *actionSheetArr;
 
 /**
  is or not need pageNumView , Default is false
@@ -150,6 +162,35 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  is or not need pan Gesture, Default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
+
+/**
+ photoBrowser image download success toast message, default in KNPhotoBrowserPch
+ */
+@property (nonatomic,copy  ) NSString *photoBrowserImageSuccessMsg;
+/**
+photoBrowser image download failure toast message, default in KNPhotoBrowserPch
+*/
+@property (nonatomic,copy  ) NSString *photoBrowserImageFailureMsg;
+/**
+photoBrowser image download failure reason, default in KNPhotoBrowserPch
+*/
+@property (nonatomic,copy  ) NSString *photoBrowserImageFailureReason;
+/**
+photoBrowser video download success toast message, default in KNPhotoBrowserPch
+*/
+@property (nonatomic,copy  ) NSString *photoBrowserVideoSuccessMsg;
+/**
+photoBrowser image download failure toast message, default in KNPhotoBrowserPch
+*/
+@property (nonatomic,copy  ) NSString *photoBrowserVideoFailureMsg;
+/**
+photoBrowser image download failure reason, default in KNPhotoBrowserPch
+*/
+@property (nonatomic,copy  ) NSString *photoBrowserVideoFailureReason;
+/**
+ photoBrowser toast time, Default is 2 seconds
+ */
+@property (nonatomic,assign) NSInteger photoBrowserToastTime;
 
 /**
  delete current photo or video
