@@ -16,7 +16,7 @@
 
 @property (nonatomic,strong) NSMutableArray *itemsArr;
 @property (nonatomic,strong) NSMutableArray *actionSheetArr;
-
+@property (nonatomic,weak  ) KNPhotoBrowser *photoBrowser;
 @property (nonatomic,assign) BOOL  statusBarHidden;
 
 @end
@@ -161,17 +161,51 @@
 }
 
 - (void)imageViewDidClick:(UITapGestureRecognizer *)tap{
-    KNPhotoBrowser *photoBrower = [[KNPhotoBrowser alloc] init];
-    photoBrower.itemsArr = [self.itemsArr copy];
-//    photoBrower.isNeedPageControl = true; // if it has video to play , I do not suggest you to use PageControl
-    photoBrower.isNeedPageNumView = true;
-    photoBrower.isNeedRightTopBtn = true;
-    photoBrower.isNeedPictureLongPress = true;
-    photoBrower.isNeedPanGesture = true;
-    photoBrower.isNeedPrefetch = true;
-    photoBrower.currentIndex = tap.view.tag;
-    photoBrower.delegate = self;
-    [photoBrower present];
+    KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
+    photoBrowser.itemsArr = [self.itemsArr copy];
+//    photoBrowser.isNeedPageControl = true; // if it has video to play , I do not suggest you to use PageControl
+    photoBrowser.isNeedPageNumView = true;
+    photoBrowser.isNeedRightTopBtn = true;
+    photoBrowser.isNeedPictureLongPress = true;
+    photoBrowser.isNeedPanGesture = true;
+    photoBrowser.isNeedPrefetch = true;
+    photoBrowser.photoBrowserImageSuccessMsg = @"图片下载成功";
+    photoBrowser.photoBrowserImageFailureMsg = @"图片下载失败";
+    photoBrowser.photoBrowserImageFailureReason = @"图片需要下载完才能下载";
+    
+    photoBrowser.photoBrowserVideoSuccessMsg = @"视频下载成功";
+    photoBrowser.photoBrowserVideoFailureMsg = @"视频下载失败";
+    photoBrowser.photoBrowserVideoFailureReason = @"视频下载未知错误";
+    
+    photoBrowser.currentIndex = tap.view.tag;
+    photoBrowser.delegate = self;
+    [photoBrowser present];
+    
+    _photoBrowser = photoBrowser;
+}
+
+- (void)photoBrowserRightOperationAction{
+    
+    __weak typeof(self) weakself = self;
+    KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
+        NSLog(@"buttonIndex:%zd",buttonIndex);
+        
+        if (buttonIndex == 0) {
+            [weakself.photoBrowser deletePhotoAndVideo];
+        }
+        
+        if (buttonIndex == 1) {
+            [UIDevice deviceAlbumAuth:^(BOOL isAuthor) {
+                if (isAuthor == false) {
+                    // do something -> for example : jump to setting
+                }else {
+                    [weakself.photoBrowser downloadPhotoAndVideo];                    
+                }
+            }];
+        }
+    }];
+    
+    [actionSheet show];
 }
 
 - (void)dealloc{

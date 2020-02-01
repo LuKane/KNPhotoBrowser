@@ -12,7 +12,6 @@
 @interface ScrollViewLocController ()<UIScrollViewDelegate,KNPhotoBrowserDelegate>
 
 @property (nonatomic,weak  ) UIScrollView *scrollView;
-
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *itemsArr;
 
@@ -108,7 +107,6 @@
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedPictureLongPress = true;
-    
     [photoBrowser present];
 }
 
@@ -120,8 +118,13 @@
 }
 
 /* photoBrowser 右上角按钮的点击 */
-- (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index{
-    NSLog(@"operation:%zd",index);
+- (void)photoBrowserRightOperationAction{
+    
+    KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
+        NSLog(@"buttonIndex:%zd",buttonIndex);
+    }];
+    
+    [actionSheet show];
 }
 
 /**

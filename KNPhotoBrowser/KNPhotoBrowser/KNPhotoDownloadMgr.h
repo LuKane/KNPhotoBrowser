@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PhotoDownLoadBlock)(KNPhotoDownloadState downloadState ,float prgress);
+typedef void(^PhotoDownLoadBlock)(KNPhotoDownloadState downloadState ,float progress);
 
 @interface KNPhotoDownloadMgr : NSObject <NSURLSessionDelegate>
 
