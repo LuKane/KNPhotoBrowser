@@ -56,7 +56,6 @@
 
 - (instancetype)init{
     if (self = [super init]) {
-        self.actionSheetArr = [NSArray array];
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.modalPresentationStyle = UIModalPresentationCustom;
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
@@ -794,147 +793,8 @@
  right top Btn Did click
  */
 - (void)operationBtnIBAction{
-    // ActionSheet will show , if self.actionSheetArr is not empty , that means custom ActionSheet, just let delegate to do
-    // if self.actionSheetArr is empty , that actionSheet just is example
-    
-    // careful : there is weakSelf , not self. be careful of the strong link
-    __weak typeof(self) weakSelf = self;
-    if(_actionSheetArr.count != 0){ // custom
-        KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:self.actionSheetArr.mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
-            if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
-                [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
-            }
-        }];
-        [actionSheet show];
-        self.actionSheet = actionSheet;
-    }else{ // example
-        KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
-            
-            if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
-                [weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
-            }
-            
-            switch (buttonIndex) {
-                case 0:{ // Delete image or video
-                    
-                    // relative index
-                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:)]){
-                        [weakSelf.delegate photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:weakSelf.currentIndex];
-                    }
-                    
-                    // absolute index
-                    KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
-                    NSInteger index = [self->_tempArr indexOfObject:items];
-                    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:)]){
-                        [weakSelf.delegate photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:index];
-                    }
-                    
-                    // going to delete image
-                    [weakSelf deletePhotoAndVideo];
-                }
-                    break;
-                case 1:{// save image or video
-                    [weakSelf deviceAlbumAuth:^(BOOL isAuthor) {
-                        if(isAuthor == false){
-                            // do not have auth, you need alert .....
-                        }else{
-                            // save currrent image to album
-                            KNPhotoItems *items = weakSelf.itemsArr[weakSelf.currentIndex];
-                            if (items.isVideo) { // video
-                                KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
-                                [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float prgress) {
-                                    if (downloadState == KNPhotoDownloadStateFailure) {
-                                        [[KNToast shareToast] initWithText:PhotoSaveVideoFailureReason];
-                                    }else if (downloadState == KNPhotoDownloadStateSuccess) {
-                                        [[KNToast shareToast] initWithText:PhotoSaveVideoSuccessReason];
-                                    }else if (downloadState == KNPhotoDownloadStateUnknow) {
-                                        [[KNToast shareToast] initWithText:PhotoSaveVideoCannotReason];
-                                    }else if (downloadState == KNPhotoDownloadStateDownloading) {
-                                        // video is downloading --> u can show loading
-                                    }
-                                }];
-                            }else{ // image
-                                if(items.url){ // net image
-                                    SDImageCache *cache = [SDImageCache sharedImageCache];
-                                    SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-                                    [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
-                                        if(!isInCache){
-                                            [[KNToast shareToast] initWithText:PhotoSaveImageFailureReason];
-                                            return ;
-                                        }else{
-                                            [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
-                                                if([image images] != nil){
-                                                    [weakSelf savePhotoToLocation:data url:items.url];
-                                                }else{
-                                                    if(image){
-                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                            UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                                                        });
-                                                    }
-                                                }
-                                            }];
-                                        }
-                                    }];
-                                }else{ // locate image or sourceimage
-                                    UIImageView *imageView = [weakSelf tempViewFromSourceViewWithCurrentIndex:weakSelf.currentIndex];
-                                    if(imageView.image){
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            UIImageWriteToSavedPhotosAlbum(imageView.image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-                                        });
-                                    }else{
-                                        [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
-                                    }
-                                }
-                            }
-                        }
-                    }];
-                }
-                    break;
-                default:
-                    // the other func ,you need do by yourself
-                    break;
-            }
-        }];
-        [actionSheet show];
-        self.actionSheet = actionSheet;
-    }
-}
-
-/**
- judge is have auth of Album --> for example
- 
- @param authorBlock block
- */
-- (void)deviceAlbumAuth:(void (^)(BOOL isAuthor))authorBlock{
-    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-    if (status == PHAuthorizationStatusRestricted) {
-        if(authorBlock){
-            authorBlock(false);
-        }
-    } else if (status == PHAuthorizationStatusDenied) {
-        if(authorBlock){
-            authorBlock(false);
-        }
-    } else if (status == PHAuthorizationStatusAuthorized) {
-        if(authorBlock){
-            authorBlock(true);
-        }
-    } else if (status == PHAuthorizationStatusNotDetermined) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            if (status == PHAuthorizationStatusAuthorized) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if(authorBlock){
-                        authorBlock(true);
-                    }
-                });
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if(authorBlock){
-                        authorBlock(false);
-                    }
-                });
-            }
-        }];
+    if ([_delegate respondsToSelector:@selector(photoBrowserRightOperationAction)]) {
+        [_delegate photoBrowserRightOperationAction];
     }
 }
 
@@ -946,16 +806,15 @@
  @param contextInfo context
  */
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-    __weak typeof(self) weakSelf = self;
     
     if(!error){
-        [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
+        [[KNToast shareToast] initWithText: _photoBrowserImageSuccessMsg?_photoBrowserImageSuccessMsg:PhotoSaveImageSuccessMessage duration:_photoBrowserToastTime?_photoBrowserToastTime:PhotoSaveImageMessageTime];
     }else{
-        [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+        [[KNToast shareToast] initWithText:_photoBrowserImageFailureMsg?_photoBrowserImageFailureMsg:PhotoSaveImageFailureMessage duration:_photoBrowserToastTime?_photoBrowserToastTime:PhotoSaveImageMessageTime];
     }
     
-    if([weakSelf.delegate respondsToSelector:@selector(photoBrowserWriteToSavedPhotosAlbumStatus:)]){
-        [weakSelf.delegate photoBrowserWriteToSavedPhotosAlbumStatus:error?false:true];
+    if([_delegate respondsToSelector:@selector(photoBrowserWriteToSavedPhotosAlbumStatus:)]){
+        [_delegate photoBrowserWriteToSavedPhotosAlbumStatus:error?false:true];
     }
 }
 
@@ -976,9 +835,9 @@
         } completionHandler:^(BOOL success, NSError * _Nullable error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(success){
-                    [[KNToast shareToast] initWithText:PhotoSaveImageSuccessMessage duration:PhotoSaveImageMessageTime];
+                    [[KNToast shareToast] initWithText: self.photoBrowserImageSuccessMsg?self.photoBrowserImageSuccessMsg:PhotoSaveImageSuccessMessage duration:self.photoBrowserToastTime?self.photoBrowserToastTime:PhotoSaveImageMessageTime];
                 }else if(error) {
-                    [[KNToast shareToast] initWithText:PhotoSaveImageFailureMessage duration:PhotoSaveImageMessageTime];
+                    [[KNToast shareToast] initWithText:self.photoBrowserImageFailureMsg?self.photoBrowserImageFailureMsg:PhotoSaveImageFailureMessage duration:self.photoBrowserToastTime?self.photoBrowserToastTime:PhotoSaveImageMessageTime];
                 }
             });
         }];
@@ -1026,7 +885,56 @@
  download photo or video to Album, but it must be authed at first
  */
 - (void)downloadPhotoAndVideo{
-    
+    KNPhotoItems *items = self.itemsArr[self.currentIndex];
+    __weak typeof(self) weakself = self;
+    if (items.isVideo) { // video
+        KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
+        [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
+            if (downloadState == KNPhotoDownloadStateFailure) {
+                [[KNToast shareToast] initWithText:weakself.photoBrowserVideoFailureMsg?weakself.photoBrowserVideoFailureMsg:PhotoSaveVideoFailureMessage duration:weakself.photoBrowserToastTime?weakself.photoBrowserToastTime:PhotoSaveImageMessageTime];
+            }else if (downloadState == KNPhotoDownloadStateSuccess) {
+                [[KNToast shareToast] initWithText:weakself.photoBrowserVideoSuccessMsg?weakself.photoBrowserVideoSuccessMsg:PhotoSaveVideoSuccessMessage duration:weakself.photoBrowserToastTime?weakself.photoBrowserToastTime:PhotoSaveImageMessageTime];
+            }else if (downloadState == KNPhotoDownloadStateUnknow) {
+                [[KNToast shareToast] initWithText:weakself.photoBrowserVideoFailureReason?weakself.photoBrowserVideoFailureReason:PhotoSaveVideoFailureReason duration:weakself.photoBrowserToastTime?weakself.photoBrowserToastTime:PhotoSaveImageMessageTime];
+            }else if (downloadState == KNPhotoDownloadStateDownloading) {
+                if ([weakself.delegate respondsToSelector:@selector(photoBrowserDownloadVideoWithProgress:)]) {
+                    [weakself.delegate photoBrowserDownloadVideoWithProgress:progress];
+                }
+            }
+        }];
+    }else{ // image
+        if(items.url){ // net image
+            SDImageCache *cache = [SDImageCache sharedImageCache];
+            SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+            [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
+                if(!isInCache){
+                    [[KNToast shareToast] initWithText:weakself.photoBrowserImageFailureReason?weakself.photoBrowserImageFailureReason:PhotoSaveImageFailureReason duration:weakself.photoBrowserToastTime?weakself.photoBrowserToastTime:PhotoSaveImageMessageTime];
+                    return ;
+                }else{
+                    [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+                        if([image images] != nil){
+                            [weakself savePhotoToLocation:data url:items.url];
+                        }else{
+                            if(image){
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    UIImageWriteToSavedPhotosAlbum(image, weakself, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                                });
+                            }
+                        }
+                    }];
+                }
+            }];
+        }else{ // locate image or sourceimage
+            UIImageView *imageView = [self tempViewFromSourceViewWithCurrentIndex:self.currentIndex];
+            if(imageView.image){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+                });
+            }else{
+                [[KNToast shareToast] initWithText:_photoBrowserImageFailureMsg?_photoBrowserImageFailureMsg:PhotoSaveImageFailureMessage duration:_photoBrowserToastTime?_photoBrowserToastTime:PhotoSaveImageMessageTime];
+            }
+        }
+    }
 }
 
 /**
@@ -1112,5 +1020,47 @@
 
 @implementation KNPhotoItems
 
+
+@end
+
+@implementation UIDevice(PBExtension)
+
+/**
+ judge is have auth of Album --> for example
+ 
+ @param authorBlock block
+ */
++ (void)deviceAlbumAuth:(void (^)(BOOL isAuthor))authorBlock{
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusRestricted) {
+        if(authorBlock){
+            authorBlock(false);
+        }
+    } else if (status == PHAuthorizationStatusDenied) {
+        if(authorBlock){
+            authorBlock(false);
+        }
+    } else if (status == PHAuthorizationStatusAuthorized) {
+        if(authorBlock){
+            authorBlock(true);
+        }
+    } else if (status == PHAuthorizationStatusNotDetermined) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            if (status == PHAuthorizationStatusAuthorized) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(authorBlock){
+                        authorBlock(true);
+                    }
+                });
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(authorBlock){
+                        authorBlock(false);
+                    }
+                });
+            }
+        }];
+    }
+}
 
 @end
