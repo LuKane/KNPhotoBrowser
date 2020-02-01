@@ -135,6 +135,7 @@
                                                object:nil];
     
     [self setBackgroundColor:[UIColor clearColor]];
+    [self setFrame:[UIScreen mainScreen].bounds];
     
     UIView *coverView = [[UIView alloc] initWithFrame:self.bounds];
     [coverView setBackgroundColor:kKNActionCoverBackgroundColor];
@@ -145,7 +146,6 @@
     
     UIView *bgView = [[UIView alloc] init];
     [bgView setBackgroundColor:[UIColor whiteColor]];
-//    [self addRectCorners:UIRectCornerTopLeft | UIRectCornerTopRight width:15 view:bgView];
     [self addSubview:bgView];
     _bgView = bgView;
     
