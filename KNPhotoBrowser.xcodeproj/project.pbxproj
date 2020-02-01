@@ -467,8 +467,8 @@
 		79E1156E22F032310022106B /* ScrollViewLocController */ = {
 			isa = PBXGroup;
 			children = (
-				79E1156F22F032310022106B /* ScrollViewLocController.m */,
 				79E1157022F032310022106B /* ScrollViewLocController.h */,
+				79E1156F22F032310022106B /* ScrollViewLocController.m */,
 			);
 			path = ScrollViewLocController;
 			sourceTree = "<group>";
