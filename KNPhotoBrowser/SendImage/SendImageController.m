@@ -100,6 +100,30 @@
     [self reloadSubViews];
 }
 
+- (void)photoBrowserRightOperationAction{
+    
+    __weak typeof(self) weakself = self;
+    KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
+        NSLog(@"buttonIndex:%zd",buttonIndex);
+        
+        if (buttonIndex == 0) {
+            [weakself.photoBrowser deletePhotoAndVideo];
+        }
+        
+        if (buttonIndex == 1) {
+            [UIDevice deviceAlbumAuth:^(BOOL isAuthor) {
+                if (isAuthor == false) {
+                    // do something -> for example : jump to setting
+                }else {
+                    [weakself.photoBrowser downloadPhotoAndVideo];
+                }
+            }];
+        }
+    }];
+    
+    [actionSheet show];
+}
+
 - (void)sendImageItemDeleteClick:(NSInteger)index{
     // delete locate control
     [_bgView.subviews[index] removeFromSuperview];

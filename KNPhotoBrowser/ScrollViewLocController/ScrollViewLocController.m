@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *itemsArr;
 
+@property (nonatomic,weak  ) KNPhotoBrowser *photoBrowser;
+
 @end
 
 @implementation ScrollViewLocController
@@ -108,6 +110,8 @@
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedPictureLongPress = true;
     [photoBrowser present];
+    
+    _photoBrowser = photoBrowser;
 }
 
 
@@ -120,8 +124,11 @@
 /* photoBrowser 右上角按钮的点击 */
 - (void)photoBrowserRightOperationAction{
     
+    __weak typeof(self) weakself = self;
     KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
-        NSLog(@"buttonIndex:%zd",buttonIndex);
+        if (buttonIndex == 0) {
+            [weakself.photoBrowser deletePhotoAndVideo];
+        }
     }];
     
     [actionSheet show];

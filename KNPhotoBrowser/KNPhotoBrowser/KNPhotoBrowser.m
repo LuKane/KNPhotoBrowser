@@ -879,6 +879,14 @@
         [_pageControl setNumberOfPages:_itemsArr.count];
         [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
+    
+    if ([_delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:)]) {
+        [_delegate photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:_currentIndex];
+    }
+    
+    if ([_delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:)]) {
+        [_delegate photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:[_tempArr indexOfObject:item]];
+    }
 }
 
 /**
