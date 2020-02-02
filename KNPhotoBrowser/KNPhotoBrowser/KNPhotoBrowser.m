@@ -1024,6 +1024,10 @@
     return imageView;
 }
 
+- (void)dealloc{
+    NSLog(@"photoBrowser dealloc");
+}
+
 @end
 
 @implementation KNPhotoItems
