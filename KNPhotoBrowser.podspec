@@ -12,9 +12,9 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "LuKane" => "1169604556@qq.com" }
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/LuKane/KNPhotoBrowser.git", :tag =>"1.0" }
-  s.source_files  = "KNPhotoBrowser/KNPhotoBrowser/**/*.{h,m}"
-
+  s.source       = { :git => "https://github.com/LuKane/KNPhotoBrowser.git", :tag => s.version}
+  s.source_files = 'KNPhotoBrowser/KNPhotoBrowser/**/*.{h,m}'
+  s.resouce      = 'KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle'
   s.requires_arc = true
   s.dependency 'SDWebImage',"~> 5.0.0"
 
