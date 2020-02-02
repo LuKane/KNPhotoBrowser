@@ -1,18 +1,23 @@
 PODS:
-  - SDWebImage (5.0.1):
-    - SDWebImage/Core (= 5.0.1)
-  - SDWebImage/Core (5.0.1)
+  - KNPhotoBrowser (1.1.1):
+    - SDWebImage (~> 5.0.0)
+  - SDWebImage (5.0.6):
+    - SDWebImage/Core (= 5.0.6)
+  - SDWebImage/Core (5.0.6)
 
 DEPENDENCIES:
+  - KNPhotoBrowser (~> 1.1.1)
   - SDWebImage
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
+    - KNPhotoBrowser
     - SDWebImage
 
 SPEC CHECKSUMS:
-  SDWebImage: 27dd2c9ea07a2252f94557c9fbb6105ee94b74c9
+  KNPhotoBrowser: 0de7dd415a06f0b51f876a4ed1ca71e91eecce53
+  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
 
-PODFILE CHECKSUM: eaa54a3d49cd61882a82f815ef403a0a26501305
+PODFILE CHECKSUM: 45472f77f6a357064c9a0d50038328fe8fa24104
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

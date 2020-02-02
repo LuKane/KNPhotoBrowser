@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "KNPhotoBrowser.h"
+#import <KNPhotoBrowser.h>
 #import "KNToast.h"
 #import "UIImageView+WebCache.h"
 #import <Photos/Photos.h>

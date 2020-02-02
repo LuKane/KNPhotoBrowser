@@ -7,7 +7,7 @@
 //
 
 #import "ViewLocController.h"
-#import "KNPhotoBrowser.h"
+#import <KNPhotoBrowser.h>
 #import "FLAnimatedImage.h"
 
 @interface ViewLocController ()

@@ -8,7 +8,7 @@
 
 #import "SendImageController.h"
 #import "SendImageItem.h"
-#import "KNPhotoBrowser.h"
+#import <KNPhotoBrowser.h>
 #import "UIImageView+WebCache.h"
 
 @interface SendImageController ()<SendImageItemDelegate,KNPhotoBrowserDelegate>

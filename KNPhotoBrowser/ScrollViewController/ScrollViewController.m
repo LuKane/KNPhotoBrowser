@@ -8,7 +8,7 @@
 
 #import "ScrollViewController.h"
 #import "UIImageView+WebCache.h"
-#import "KNPhotoBrowser.h"
+#import <KNPhotoBrowser.h>
 
 @interface ScrollViewController ()<UIScrollViewDelegate,KNPhotoBrowserDelegate>
 
