@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/LuKane/KNPhotoBrowser.git", :tag => s.version}
   s.source_files = 'KNPhotoBrowser/KNPhotoBrowser/**/*.{h,m}'
-  s.resouce      = 'KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle'
+  s.resource     = 'KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle'
   s.requires_arc = true
   s.dependency 'SDWebImage',"~> 5.0.0"
 
