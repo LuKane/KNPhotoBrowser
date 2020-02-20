@@ -23,7 +23,7 @@
 
 #import "KNPhotoBrowserNumView.h"
 #import "KNToast.h"
-#import "KNActionSheet/KNActionSheet.h"
+#import "KNActionSheet.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
@@ -314,6 +314,11 @@
     
     if(_page != page){
         _page = page;
+        
+        if ([_delegate respondsToSelector:@selector(photoBrowserScrollToLocateWithIndex:)]) {
+            [_delegate photoBrowserScrollToLocateWithIndex:page];
+        }
+        
         if(_page + 1 <= _itemsArr.count){
             [_numView setCurrentNum:_page + 1];
             [_pageControl setCurrentPage:_page];

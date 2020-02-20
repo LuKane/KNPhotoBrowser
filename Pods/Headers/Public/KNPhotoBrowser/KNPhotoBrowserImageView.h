@@ -1,1 +1,0 @@
-../../../KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowserImageView.h

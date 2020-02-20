@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KNPhotoAVPlayer/KNPhotoAVPlayerView.h"
+#import "KNPhotoAVPlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

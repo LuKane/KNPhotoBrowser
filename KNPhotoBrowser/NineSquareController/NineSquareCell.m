@@ -10,7 +10,7 @@
 #import "NineSquareModel.h"
 #import "UIImageView+WebCache.h"
 
-#import <KNPhotoBrowser.h>
+#import "KNPhotoBrowser.h"
 
 @interface NineSquareCell()<KNPhotoBrowserDelegate>
 

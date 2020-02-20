@@ -117,6 +117,13 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  */
 - (void)photoBrowserDownloadVideoWithProgress:(CGFloat)progress;
 
+@optional
+/**
+ photoBrowser scroll to current index
+ @param index current index
+ */
+- (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index;
+
 @end
 
 /****************************** == line == ********************************/

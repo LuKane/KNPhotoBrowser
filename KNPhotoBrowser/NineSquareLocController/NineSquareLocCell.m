@@ -8,7 +8,7 @@
 
 #import "NineSquareLocCell.h"
 #import "NineSquareModel.h"
-#import <KNPhotoBrowser.h>
+#import "KNPhotoBrowser.h"
 
 @interface NineSquareLocCell()
 

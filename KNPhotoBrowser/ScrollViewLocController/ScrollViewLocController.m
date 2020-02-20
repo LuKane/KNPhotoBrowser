@@ -7,7 +7,7 @@
 //
 
 #import "ScrollViewLocController.h"
-#import <KNPhotoBrowser.h>
+#import "KNPhotoBrowser.h"
 
 @interface ScrollViewLocController ()<UIScrollViewDelegate,KNPhotoBrowserDelegate>
 

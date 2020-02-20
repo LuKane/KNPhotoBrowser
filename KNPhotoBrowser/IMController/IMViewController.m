@@ -10,7 +10,7 @@
 #import "IMTableViewCell.h"
 #import "IMModel.h"
 
-#import <KNPhotoBrowser.h>
+#import "KNPhotoBrowser.h"
 #import <Photos/Photos.h>
 
 @interface IMViewController ()<UITableViewDelegate,UITableViewDataSource,IMTableViewCellDelegate,UIAlertViewDelegate>
