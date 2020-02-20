@@ -570,6 +570,19 @@
 }
 
 /**
+ createCustomViewOnTopView
+ */
+- (void)createCustomViewOnTopView:(UIView *)customView{
+    if (customView == nil) {
+        return;
+    }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.view addSubview:customView];
+    });
+}
+
+/**
  photoBrowser dismiss with animated
  
  @param tempView tempView
