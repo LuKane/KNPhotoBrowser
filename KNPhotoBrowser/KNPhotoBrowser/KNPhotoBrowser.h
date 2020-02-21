@@ -218,6 +218,7 @@ photoBrowser image download failure reason, default in KNPhotoBrowserPch
  photoBrowser dismiss
  */
 - (void)dismiss;
+
 /**
  create custom view on the topView(photoBrowser controller's view)
  @param customView customView

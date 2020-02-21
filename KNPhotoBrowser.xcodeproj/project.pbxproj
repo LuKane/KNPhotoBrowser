@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */; };
 		791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */; };
 		791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */; };
+		796A0A6C23FFA3A100E06135 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 796A0A6B23FFA3A100E06135 /* CustomViewController.m */; };
 		798D104723B9F736006ACF61 /* SendImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104623B9F736006ACF61 /* SendImageController.m */; };
 		798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104923B9F807006ACF61 /* SendImageItem.m */; };
 		79E114FD22F030B40022106B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E114FC22F030B40022106B /* Assets.xcassets */; };
@@ -130,6 +131,8 @@
 		7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserImageView.m; sourceTree = "<group>"; };
 		7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowser.m; sourceTree = "<group>"; };
 		7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserNumView.m; sourceTree = "<group>"; };
+		796A0A6A23FFA3A100E06135 /* CustomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
+		796A0A6B23FFA3A100E06135 /* CustomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomViewController.m; sourceTree = "<group>"; };
 		798D104523B9F736006ACF61 /* SendImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageController.h; sourceTree = "<group>"; };
 		798D104623B9F736006ACF61 /* SendImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageController.m; sourceTree = "<group>"; };
 		798D104823B9F807006ACF61 /* SendImageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageItem.h; sourceTree = "<group>"; };
@@ -317,6 +320,16 @@
 			path = KNPhotoAVPlayer;
 			sourceTree = "<group>";
 		};
+		796A0A6923FFA38800E06135 /* CustomViewController */ = {
+			isa = PBXGroup;
+			children = (
+				796A0A6A23FFA3A100E06135 /* CustomViewController.h */,
+				796A0A6B23FFA3A100E06135 /* CustomViewController.m */,
+			);
+			name = CustomViewController;
+			path = KNPhotoBrowser/CustomViewController;
+			sourceTree = SOURCE_ROOT;
+		};
 		798D104423B9F71B006ACF61 /* SendImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +384,7 @@
 				79E1156E22F032310022106B /* ScrollViewLocController */,
 				79E1156522F032300022106B /* IMController */,
 				798D104423B9F71B006ACF61 /* SendImage */,
+				796A0A6923FFA38800E06135 /* CustomViewController */,
 				79E114FC22F030B40022106B /* Assets.xcassets */,
 				79E115DA22F0347E0022106B /* LaunchScreen.storyboard */,
 				79E115D922F0347E0022106B /* Main.storyboard */,
@@ -684,6 +698,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79E115B422F032310022106B /* UIView+Extension.m in Sources */,
+				796A0A6C23FFA3A100E06135 /* CustomViewController.m in Sources */,
 				79E115B522F032310022106B /* ScrollViewLocController.m in Sources */,
 				79E115B122F032310022106B /* IMModel.m in Sources */,
 				791260A323FE75F300BC4181 /* UIView+PBExtesion.m in Sources */,

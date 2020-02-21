@@ -44,6 +44,11 @@
             [arr addObject:@"SendImageController"];
             [_dataArr addObject:arr];
         }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:@"CustomViewController"];
+            [_dataArr addObject:arr];
+        }
     }
     return _dataArr;
 }
