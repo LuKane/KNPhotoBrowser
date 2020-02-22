@@ -32,6 +32,7 @@
         CGFloat y = 10;
         CGFloat width = 180;
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - (width + y * 2) , self.view.frame.size.width, width + y * 2)];
+        _scrollView.scrollEnabled = false;
         _scrollView.delegate = self;
         _scrollView.showsVerticalScrollIndicator = false;
         _scrollView.showsHorizontalScrollIndicator = false;
