@@ -7,8 +7,6 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 # KNPhotoBrowser
 [中文](https://github.com/LuKane/KNPhotoBrowser/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrowser/blob/master/README.md)
 
-
-##### pod 'KNPhotoBrowser', '~>1.1.1'
 ##### most like photo or video browser of `Wechat(TX)` and `Weibo(Sina)` in China
 ##### if you get any function to add, just contact me by E-mail. Welcome to Star 
 
@@ -31,7 +29,10 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 7.video player is ready to use (location video and net video) (2019/7/30)
 * 8.swipe  video player is done!  
 * 9.when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
-* 10.pod -> version begin from 1.1.1
+* 10. pod 1.1.1 -> add KNPhotoBrowser to the cocoapods
+* 11. pod 1.1.2 -> add custom View on photoBrowser 
+
+
 
 ## 1.Function describe and Point
 * 1.Depend `SDWebImage(5.0)` and `FLAnimatedImage`
