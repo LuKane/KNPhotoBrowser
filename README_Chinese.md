@@ -27,8 +27,8 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 7.新增视频播放功能(本地视频和网络视频)(2019/7/30)
 * 8.视频播放增加了拖动 消失和 返回的功能
 * 9.当浏览器中包含 视频播放时, 无论设置是否隐藏pageControl ,都得 隐藏
-* 10. pod 1.1.1 -> 将图片浏览器增加到 cocoapods
-* 11. pod 1.1.2 -> 浏览器增加 自定义控件
+* 10.pod 1.1.1 -> 将图片浏览器增加到 cocoapods
+* 11.pod 1.1.2 -> 浏览器增加 自定义控件
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(5.0)` 以及 `FLAnimatedImage`
