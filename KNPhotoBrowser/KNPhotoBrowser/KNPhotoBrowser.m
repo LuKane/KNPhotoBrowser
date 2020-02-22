@@ -23,7 +23,6 @@
 
 #import "KNPhotoBrowserNumView.h"
 #import "KNToast.h"
-#import "KNActionSheet.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
@@ -44,9 +43,8 @@
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _ApplicationStatusIsHidden;
+    NSArray                    *_customArr;
 }
-
-@property (nonatomic, weak  ) KNActionSheet *actionSheet;
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
 
@@ -109,6 +107,7 @@
     [self initNumView];
     [self initPageControl];
     [self initOperationView];
+    [self initCustomView];
     
     if (@available(iOS 11.0, *)){
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -233,6 +232,13 @@
     [self.view addSubview:pageControl];
     
     _pageControl = pageControl;
+}
+/* init customView */
+- (void)initCustomView{
+    if ([self isEmptyArray:_customArr]) return;
+    for (UIView *view in _customArr) {
+        [self.view addSubview:view];
+    }
 }
 
 - (BOOL)isContainVideo:(NSArray <KNPhotoItems *> *)itemsArr {
@@ -569,17 +575,21 @@
     }
 }
 
-/**
- createCustomViewOnTopView
- */
-- (void)createCustomViewOnTopView:(UIView *)customView{
-    if (customView == nil) {
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated{
+    
+    if ([self isEmptyArray:customViewArr]) {
         return;
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.view addSubview:customView];
-    });
+    if (animated == false) {
+        _customArr = [NSArray arrayWithArray:customViewArr];
+    }else{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            for (UIView *view in customViewArr) {
+                [self.view addSubview:view];
+            }
+        });
+    }
 }
 
 /**
@@ -723,14 +733,9 @@
 
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
-    
-    if(_actionSheet){
-        [_actionSheet removeFromSuperview];
-        _actionSheet = nil;
-        sleep(0.7);
-        [self layoutCollectionViewAndLayout];
-    }else{
-        [self layoutCollectionViewAndLayout];
+    [self layoutCollectionViewAndLayout];
+    if ([_delegate respondsToSelector:@selector(photoBrowserWillLayoutSubviews)]) {
+        [_delegate photoBrowserWillLayoutSubviews];
     }
 }
 
@@ -1012,6 +1017,17 @@
 }
 
 /**
+ judge array is empty or null or nil
+ @param array isEmpty array
+ */
+- (BOOL)isEmptyArray:(NSArray *)array{
+    if(array == nil || [array isKindOfClass:[NSNull class]] || array.count == 0){
+        return YES;
+    }
+    return NO;
+}
+
+/**
  get the image of current sourceView
  
  @param currentIndex index
@@ -1040,10 +1056,6 @@
     }
     
     return imageView;
-}
-
-- (void)dealloc{
-    NSLog(@"photoBrowser dealloc");
 }
 
 @end

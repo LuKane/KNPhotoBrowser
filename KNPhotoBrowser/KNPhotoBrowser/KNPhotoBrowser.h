@@ -124,6 +124,12 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  */
 - (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index;
 
+@optional
+/**
+ photoBrowser will layout subviews
+ */
+- (void)photoBrowserWillLayoutSubviews;
+
 @end
 
 /****************************** == line == ********************************/
@@ -221,9 +227,13 @@ photoBrowser image download failure reason, default in KNPhotoBrowserPch
 
 /**
  create custom view on the topView(photoBrowser controller's view)
- @param customView customView
+ for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
+ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
+ 'CustomViewController' in Demo, you can see it how to use
+ @param customViewArr customViewArr
+ @param animated need animated or not
  */
-- (void)createCustomViewOnTopView:(UIView *)customView;
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated;
 
 /**
  Delegate
