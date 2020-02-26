@@ -29,6 +29,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 9.当浏览器中包含 视频播放时, 无论设置是否隐藏pageControl ,都得 隐藏
 * 10.pod 1.1.1 -> 将图片浏览器增加到 cocoapods
 * 11.pod 1.1.2 -> 浏览器增加 自定义控件
+* 12.pod 1.1.3 -> 增加多个自定义控件
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(5.0)` 以及 `FLAnimatedImage`

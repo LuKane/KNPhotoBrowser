@@ -31,7 +31,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 9.when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
 * 10.pod 1.1.1 -> add KNPhotoBrowser to the cocoapods
 * 11.pod 1.1.2 -> add custom View on photoBrowser 
-
+* 12.pod 1.1.3 -> add custom View with Array on photoBrowser
 
 
 ## 1.Function describe and Point
