@@ -16,6 +16,8 @@
 @property (nonatomic,strong) NSMutableArray *itemsArr;
 @property (nonatomic,weak  ) KNPhotoBrowser *photoBrowser;
 
+@property (nonatomic,weak  ) UIView *tempView;
+
 @end
 
 @implementation CustomViewController
@@ -103,7 +105,13 @@
 - (void)imgItemDidClick:(UITapGestureRecognizer *)tap{
     KNPhotoBrowser *photoBrower = [[KNPhotoBrowser alloc] init];
     
-    [photoBrower createCustomViewOnTopView:self.scrollView];
+    [photoBrower createCustomViewArrOnTopView:@[self.scrollView] animated:true];
+    
+    
+    UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 90) * 0.5, 100, 90, 30)];
+    tempView.backgroundColor = UIColor.lightGrayColor;
+    [photoBrower createCustomViewArrOnTopView:@[tempView] animated:false];
+    _tempView = tempView;
     
     photoBrower.itemsArr = [self.itemsArr mutableCopy];
     photoBrower.currentIndex = tap.view.tag;
@@ -123,5 +131,16 @@
     [self.scrollView setContentOffset:CGPointZero animated:false];
 }
 
+- (void)photoBrowserWillLayoutSubviews{
+    
+    CGFloat y = 10;
+    CGFloat width = 180;
+    
+    // change scrollView contentSize by yourself
+    
+    _scrollView.frame = CGRectMake(0, self.view.frame.size.height - (width + y * 2) , self.view.frame.size.width, width + y * 2);
+    _tempView.frame = CGRectMake((self.view.frame.size.width - 90) * 0.5, 100, 90, 30);
+    
+}
 
 @end
