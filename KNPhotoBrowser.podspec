@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "KNPhotoBrowser"
-  s.version      = "1.1.3"
+  s.version      = "1.2"
   s.summary      = "A lightweight and beautiful photo or video browser and adapt rotate screen"
 
   s.description  = <<-DESC
@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.resource     = 'KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle'
   s.frameworks   = "Foundation","UIKit"
   s.requires_arc = true
-  s.dependency 'SDWebImage',"~> 5.0.0"
+  s.dependency 'SDWebImage'
 
 end

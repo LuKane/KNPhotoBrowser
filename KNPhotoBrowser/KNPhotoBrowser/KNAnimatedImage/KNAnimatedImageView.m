@@ -1,28 +1,18 @@
 //
-//  FLAnimatedImageView.h
-//  Flipboard
+//  KNAnimatedImageView.m
+//  KNPhotoBrowser
 //
-//  Created by Raphael Schaad on 7/8/13.
-//  Copyright (c) 2013-2015 Flipboard. All rights reserved.
-//
+//  Created by LuKane on 2020/3/12.
+//  Copyright © 2020 LuKane. All rights reserved.
+//  copy it with FLAnimatedImage
 
-
-#import "FLAnimatedImageView.h"
-#import "FLAnimatedImage.h"
+#import "KNAnimatedImageView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "KNAnimatedImage.h"
+#import "KNPhotoBrowserProxy.h"
 
+@interface KNAnimatedImageView()
 
-#if defined(DEBUG) && DEBUG
-@protocol FLAnimatedImageViewDebugDelegate <NSObject>
-@optional
-- (void)debug_animatedImageView:(FLAnimatedImageView *)animatedImageView waitingForFrame:(NSUInteger)index duration:(NSTimeInterval)duration;
-@end
-#endif
-
-
-@interface FLAnimatedImageView ()
-
-// Override of public `readonly` properties as private `readwrite`
 @property (nonatomic, strong, readwrite) UIImage *currentFrame;
 @property (nonatomic, assign, readwrite) NSUInteger currentFrameIndex;
 
@@ -33,17 +23,12 @@
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image or visibility (window, superview, hidden, alpha) has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
 
-#if defined(DEBUG) && DEBUG
-@property (nonatomic, weak) id<FLAnimatedImageViewDebugDelegate> debug_delegate;
-#endif
 
 @end
 
+@implementation KNAnimatedImageView
 
-@implementation FLAnimatedImageView
 @synthesize runLoopMode = _runLoopMode;
-
-#pragma mark - Initializers
 
 // -initWithImage: isn't documented as a designated initializer of UIImageView, but it actually seems to be.
 // Using -initWithImage: doesn't call any of the other designated initializers.
@@ -89,12 +74,9 @@
     self.runLoopMode = [[self class] defaultRunLoopMode];
 }
 
-
-#pragma mark - Accessors
-#pragma mark Public
-
-- (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
-{
+- (void)setAnimatedImage:(KNAnimatedImage *)animatedImage{
+    
+    
     if (![_animatedImage isEqual:animatedImage]) {
         if (animatedImage) {
             // Clear out the image.
@@ -107,9 +89,9 @@
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
         }
-        
+
         _animatedImage = animatedImage;
-        
+
         self.currentFrame = animatedImage.posterImage;
         self.currentFrameIndex = 0;
         if (animatedImage.loopCount > 0) {
@@ -118,13 +100,13 @@
             self.loopCountdown = NSUIntegerMax;
         }
         self.accumulator = 0.0;
-        
+
         // Start animating after the new animated image has been set.
         [self updateShouldAnimate];
         if (self.shouldAnimate) {
             [self startAnimating];
         }
-        
+
         [self.layer setNeedsDisplay];
     }
 }
@@ -241,8 +223,8 @@
 
 - (NSTimeInterval)frameDelayGreatestCommonDivisor
 {
-    // Presision is set to half of the `kFLAnimatedImageDelayTimeIntervalMinimum` in order to minimize frame dropping.
-    const NSTimeInterval kGreatestCommonDivisorPrecision = 2.0 / kFLAnimatedImageDelayTimeIntervalMinimum;
+    // Presision is set to half of the `kKNAnimatedImageDelayTimeIntervalMinimum` in order to minimize frame dropping.
+    const NSTimeInterval kGreatestCommonDivisorPrecision = 2.0 / kKNAnimatedImageDelayTimeIntervalMinimum;
 
     NSArray *delays = self.animatedImage.delayTimesForIndexes.allValues;
 
@@ -287,12 +269,12 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
             // will retain its target until it is invalidated. We use a weak proxy so that the image view will get deallocated
             // independent of the display link's lifetime. Upon image view deallocation, we invalidate the display
             // link which will lead to the deallocation of both the display link and the weak proxy.
-            FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
+            KNPhotoBrowserProxy *weakProxy = [KNPhotoBrowserProxy weakProxyForObject:self];
             self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
             
             [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:self.runLoopMode];
         }
-
+        
         // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
         // Setting it to 2 divides the frame rate by 2 and hence calls back at every other display refresh.
         const NSTimeInterval kDisplayRefreshRate = 60.0; // 60Hz
@@ -364,7 +346,6 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     // If for some reason a wild call makes it through when we shouldn't be animating, bail.
     // Early return!
     if (!self.shouldAnimate) {
-        FLLog(FLLogLevelWarn, @"Trying to animate image when we shouldn't: %@", self);
         return;
     }
     
@@ -375,7 +356,6 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         // If we have a nil image (e.g. waiting for frame), don't update the view nor playhead.
         UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
         if (image) {
-            FLLog(FLLogLevelVerbose, @"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
             self.currentFrame = image;
             if (self.needsDisplayWhenImageBecomesAvailable) {
                 [self.layer setNeedsDisplay];
@@ -406,21 +386,14 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
                 self.needsDisplayWhenImageBecomesAvailable = YES;
             }
         } else {
-            FLLog(FLLogLevelDebug, @"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
-#if defined(DEBUG) && DEBUG
-            if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
-                [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)displayLink.duration * displayLink.frameInterval];
-            }
-#endif
+
         }
     } else {
         self.currentFrameIndex++;
     }
 }
 
-+ (NSString *)defaultRunLoopMode
-{
-    // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
++ (NSString *)defaultRunLoopMode{
     return [NSProcessInfo processInfo].activeProcessorCount > 1 ? NSRunLoopCommonModes : NSDefaultRunLoopMode;
 }
 

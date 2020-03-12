@@ -439,7 +439,7 @@
 
 /// cancel animate for get back photoBrowser
 /// @param imageView current image
-- (void)cancelAnimation:(FLAnimatedImageView *)imageView{
+- (void)cancelAnimation:(KNAnimatedImageView *)imageView{
     [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
         imageView.frame = self.startFrame;
     } completion:^(BOOL finished) {

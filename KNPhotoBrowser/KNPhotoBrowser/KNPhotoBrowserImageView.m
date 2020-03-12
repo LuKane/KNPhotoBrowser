@@ -23,9 +23,9 @@
 
 @implementation KNPhotoBrowserImageView
 
-- (FLAnimatedImageView *)imageView{
+- (KNAnimatedImageView *)imageView{
     if (!_imageView) {
-        _imageView = [[FLAnimatedImageView alloc] init];
+        _imageView = [[KNAnimatedImageView alloc] init];
         [_imageView setUserInteractionEnabled:true];
         [_imageView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _imageView.layer.cornerRadius = 0.1;
@@ -129,7 +129,7 @@
     
     if(!url){
         if([placeHolder images] != nil){
-            FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:UIImagePNGRepresentation(placeHolder)];
+            KNAnimatedImage *animatedImg = [KNAnimatedImage animatedImageWithGIFData:UIImagePNGRepresentation(placeHolder)];
             _imageView.animatedImage = animatedImg;
         }else{
             [_imageView setImage:placeHolder];

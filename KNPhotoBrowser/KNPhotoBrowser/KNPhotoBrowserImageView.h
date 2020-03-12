@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FLAnimatedImage.h"
+#import "KNAnimatedImage.h"
 @class KNProgressHUD;
 
 typedef void(^PhotoBrowerSingleTap)(void);
@@ -18,7 +18,7 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 // all base control that can scroll
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-@property (nonatomic, strong) FLAnimatedImageView *imageView;
+@property (nonatomic, strong) KNAnimatedImageView *imageView;
 
 // single tap
 @property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;
