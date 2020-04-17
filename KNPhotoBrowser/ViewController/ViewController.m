@@ -169,6 +169,8 @@
     photoBrowser.isNeedPictureLongPress = true;
     photoBrowser.isNeedPanGesture = true;
     photoBrowser.isNeedPrefetch = true;
+    photoBrowser.isNeedAutoPlay = true;
+    
     photoBrowser.photoBrowserImageSuccessMsg = @"图片下载成功";
     photoBrowser.photoBrowserImageFailureMsg = @"图片下载失败";
     photoBrowser.photoBrowserImageFailureReason = @"图片需要下载完才能下载";
