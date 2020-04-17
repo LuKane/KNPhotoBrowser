@@ -133,6 +133,13 @@
     [self videoDidPlayToEndTime];
 }
 
+- (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay{
+    _isNeedAutoPlay = isNeedAutoPlay;
+    if (_isNeedAutoPlay == true) {
+        [self photoAVPlayerActionViewPauseOrStop];
+    }
+}
+
 /**
  reset avplayer
  */

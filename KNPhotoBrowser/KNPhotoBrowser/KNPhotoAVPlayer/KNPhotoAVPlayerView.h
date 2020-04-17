@@ -42,6 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)videoWillSwipe;
 
 /**
+auto play when you need
+ */
+@property (nonatomic,assign) BOOL isNeedAutoPlay;
+
+/**
  player view
  */
 @property (nonatomic,strong,nullable) UIView *playerView;
