@@ -177,6 +177,11 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
+ is or not need auto play video, Default is false
+ */
+@property (nonatomic,assign) BOOL isNeedAutoPlay;
+
+/**
  photoBrowser image download success toast message, default in KNPhotoBrowserPch
  */
 @property (nonatomic,copy  ) NSString *photoBrowserImageSuccessMsg;

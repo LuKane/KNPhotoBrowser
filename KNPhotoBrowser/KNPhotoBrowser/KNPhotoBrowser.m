@@ -293,6 +293,9 @@
     if (item.isVideo) {
         KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
         [cell1 playerWithURL:item.url placeHolder:tempView.image];
+        if (_isNeedAutoPlay == true) {
+            [cell1 setIsNeedAutoPlay:true];
+        }
     } else {
         KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
         [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image];

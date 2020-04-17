@@ -31,6 +31,13 @@
     [_playerView videoPlayerWillReset];
 }
 
+- (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay{
+    _isNeedAutoPlay = isNeedAutoPlay;
+    if (isNeedAutoPlay == true) {
+        [_playerView setIsNeedAutoPlay:true];
+    }
+}
+
 - (void)photoAVPlayerViewDismiss{
     [_playerView videoPlayerWillReset];
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {
