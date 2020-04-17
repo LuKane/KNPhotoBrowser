@@ -30,6 +30,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 10.pod 1.1.1 -> 将图片浏览器增加到 cocoapods
 * 11.pod 1.1.2 -> 浏览器增加 自定义控件
 * 12.pod 1.1.3 -> 增加多个自定义控件
+* 13.视频播放增加 自动播放的API (目前pod有问题,无法更新, 暂且使用 Demo中的框架即可)
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(5.0)` 以及 `FLAnimatedImage`
