@@ -1,5 +1,4 @@
-#- source 'https://github.com/CocoaPods/Specs.git'
-#+ source 'https://cdn.cocoapods.org/'
+source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
 target 'KNPhotoBrowser' do
