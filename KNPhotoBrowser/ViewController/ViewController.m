@@ -171,14 +171,6 @@
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
     
-    photoBrowser.photoBrowserImageSuccessMsg = @"图片下载成功";
-    photoBrowser.photoBrowserImageFailureMsg = @"图片下载失败";
-    photoBrowser.photoBrowserImageFailureReason = @"图片需要下载完才能下载";
-    
-    photoBrowser.photoBrowserVideoSuccessMsg = @"视频下载成功";
-    photoBrowser.photoBrowserVideoFailureMsg = @"视频下载失败";
-    photoBrowser.photoBrowserVideoFailureReason = @"视频下载未知错误";
-    
     photoBrowser.currentIndex = tap.view.tag;
     photoBrowser.delegate = self;
     [photoBrowser present];
@@ -208,6 +200,20 @@
     }];
     
     [actionSheet show];
+}
+
+/// long press
+/// @param photoBrowser pb
+/// @param longPress press
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser longPress:(UILongPressGestureRecognizer *)longPress {
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        [photoBrowser setImmediatelyPlayerRate:2];
+    }else if (longPress.state == UIGestureRecognizerStateEnded || longPress.state == UIGestureRecognizerStateCancelled || longPress.state == UIGestureRecognizerStateFailed || longPress.state == UIGestureRecognizerStateRecognized){
+        [photoBrowser setImmediatelyPlayerRate:1];
+    }
+}
+- (void)photoBrowserToast:(KNPhotoShowState)state photoBrower:(KNPhotoBrowser *)photoBrowser photoItemRelative:(KNPhotoItems *)photoItemRe photoItemAbsolute:(KNPhotoItems *)photoItemAb{
+    NSLog(@"%@==%@",photoItemRe.url, photoItemAb.url);
 }
 
 - (void)dealloc{
