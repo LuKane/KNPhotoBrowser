@@ -7,15 +7,13 @@
 //
 
 #import "KNPhotoAVPlayerView.h"
-#import "KNPhotoAVPlayerActionView.h"
 #import "KNPhotoAVPlayerActionBar.h"
 
 @interface KNPhotoAVPlayerView ()<KNPhotoAVPlayerActionViewDelegate,KNPhotoAVPlayerActionBarDelegate>
 
-@property (nonatomic,strong) AVPlayer       *player;
 @property (nonatomic,strong) AVPlayerItem   *item;
 
-@property (nonatomic,weak  ) KNPhotoAVPlayerActionView  *actionView;
+@property (nonatomic,strong) AVPlayer       *player;
 @property (nonatomic,weak  ) KNPhotoAVPlayerActionBar   *actionBar;
 
 @property (nonatomic,assign) BOOL  isPlaying;
@@ -69,8 +67,12 @@
  */
 - (void)removeTimeObserver{
     if (self.timeObserver && _player ) {
-        [_player removeTimeObserver:self.timeObserver];
-        self.timeObserver = nil;
+        @try{
+            [_player removeTimeObserver:self.timeObserver];
+            self.timeObserver = nil;
+        }@catch(id anException){
+        
+        }
     }
 }
 
@@ -133,6 +135,8 @@
     [self videoDidPlayToEndTime];
 }
 
+/// set is need auto play
+/// @param isNeedAutoPlay param
 - (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay{
     _isNeedAutoPlay = isNeedAutoPlay;
     if (_isNeedAutoPlay == true) {
@@ -160,6 +164,17 @@
 }
 
 /**
+ set player rate
+ */
+- (void)videoPlayerSetRate:(CGFloat)rate{
+    if (_isPlaying == false) {
+        return;
+    }
+    
+    _player.rate = rate;
+}
+
+/**
  setup player
  
  @param isNeedRecreate is or not need reset placeHolder
@@ -183,6 +198,7 @@
  */
 - (void)setupActionView{
     KNPhotoAVPlayerActionView *actionView = [[KNPhotoAVPlayerActionView alloc] init];
+    [actionView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(photoAVPlayerActionViewDidLongPress:)]];
     [actionView setDelegate:self];
     [actionView setIsBuffering:false];
     [actionView setIsPlaying:false];
@@ -273,7 +289,7 @@
  */
 - (void)videoDidPlayToEndTime{
     _isGetAllPlayItem = false;
-    
+    _isPlaying = false;
     if (_player) {
         __weak typeof(self) weakself = self;
         [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
@@ -336,7 +352,7 @@
         }
     } else {
         [_player play];
-        
+        _isPlaying = true;
         [_actionBar setIsPlaying:true];
         [_actionView setIsPlaying:true];
         [_actionView setIsBuffering:false];
@@ -349,6 +365,17 @@
 - (void)photoAVPlayerActionViewDismiss{
     if ([_delegate respondsToSelector:@selector(photoAVPlayerViewDismiss)]) {
         [_delegate photoAVPlayerViewDismiss];
+    }
+}
+/**
+ avplayer did long press
+ */
+- (void)photoAVPlayerActionViewDidLongPress:(UILongPressGestureRecognizer *)longPress{
+    if (_isPlaying == false) {
+        return;
+    }
+    if ([_delegate respondsToSelector:@selector(photoAVPlayerLongPress:)]) {
+        [_delegate photoAVPlayerLongPress:longPress];
     }
 }
 
@@ -371,10 +398,12 @@
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{
     if (isNeedPlay) {
         [_player play];
+        _isPlaying = true;
         [_actionView setIsPlaying:true];
         [_actionBar setIsPlaying:true];
     }else {
         [_player pause];
+        _isPlaying = false;
         [_actionView setIsPlaying:false];
         [_actionBar setIsPlaying:false];
     }

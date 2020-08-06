@@ -17,11 +17,11 @@
 		791260A923FE75F300BC4181 /* KNPhotoAVPlayerActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609623FE75F300BC4181 /* KNPhotoAVPlayerActionView.m */; };
 		791260AA23FE75F300BC4181 /* KNPhotoAVPlayerActionBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609723FE75F300BC4181 /* KNPhotoAVPlayerActionBar.m */; };
 		791260AB23FE75F300BC4181 /* KNPhotoAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609823FE75F300BC4181 /* KNPhotoAVPlayerView.m */; };
-		791260AC23FE75F300BC4181 /* KNToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609A23FE75F300BC4181 /* KNToast.m */; };
 		791260AD23FE75F300BC4181 /* KNPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7912609C23FE75F300BC4181 /* KNPhotoBrowser.bundle */; };
 		791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */; };
 		791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */; };
 		791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */; };
+		791C6B7324DC1F70003E3AF1 /* KNToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 791C6B7224DC1F70003E3AF1 /* KNToast.m */; };
 		796A0A6C23FFA3A100E06135 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 796A0A6B23FFA3A100E06135 /* CustomViewController.m */; };
 		798D104723B9F736006ACF61 /* SendImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104623B9F736006ACF61 /* SendImageController.m */; };
 		798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104923B9F807006ACF61 /* SendImageItem.m */; };
@@ -106,7 +106,6 @@
 		7912608123FE75F300BC4181 /* KNPhotoBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBaseCell.h; sourceTree = "<group>"; };
 		7912608223FE75F300BC4181 /* KNPhotoBrowserPch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowserPch.h; sourceTree = "<group>"; };
 		7912608323FE75F300BC4181 /* KNPhotoDownloadMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoDownloadMgr.m; sourceTree = "<group>"; };
-		7912608423FE75F300BC4181 /* KNToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNToast.h; sourceTree = "<group>"; };
 		7912608523FE75F300BC4181 /* UIView+PBExtesion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PBExtesion.m"; sourceTree = "<group>"; };
 		7912608623FE75F300BC4181 /* KNPhotoVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoVideoCell.h; sourceTree = "<group>"; };
 		7912608723FE75F300BC4181 /* KNPhotoBrowserNumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowserNumView.h; sourceTree = "<group>"; };
@@ -122,12 +121,13 @@
 		7912609723FE75F300BC4181 /* KNPhotoAVPlayerActionBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoAVPlayerActionBar.m; sourceTree = "<group>"; };
 		7912609823FE75F300BC4181 /* KNPhotoAVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoAVPlayerView.m; sourceTree = "<group>"; };
 		7912609923FE75F300BC4181 /* UIView+PBExtesion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PBExtesion.h"; sourceTree = "<group>"; };
-		7912609A23FE75F300BC4181 /* KNToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNToast.m; sourceTree = "<group>"; };
 		7912609B23FE75F300BC4181 /* KNPhotoDownloadMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoDownloadMgr.h; sourceTree = "<group>"; };
 		7912609C23FE75F300BC4181 /* KNPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KNPhotoBrowser.bundle; sourceTree = "<group>"; };
 		7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserImageView.m; sourceTree = "<group>"; };
 		7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowser.m; sourceTree = "<group>"; };
 		7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserNumView.m; sourceTree = "<group>"; };
+		791C6B7124DC1F70003E3AF1 /* KNToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNToast.h; sourceTree = "<group>"; };
+		791C6B7224DC1F70003E3AF1 /* KNToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNToast.m; sourceTree = "<group>"; };
 		796A0A6A23FFA3A100E06135 /* CustomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
 		796A0A6B23FFA3A100E06135 /* CustomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomViewController.m; sourceTree = "<group>"; };
 		798D104523B9F736006ACF61 /* SendImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageController.h; sourceTree = "<group>"; };
@@ -277,8 +277,6 @@
 				7912608F23FE75F300BC4181 /* KNPhotoBaseCell.m */,
 				7912608623FE75F300BC4181 /* KNPhotoVideoCell.h */,
 				7912609123FE75F300BC4181 /* KNPhotoVideoCell.m */,
-				7912608423FE75F300BC4181 /* KNToast.h */,
-				7912609A23FE75F300BC4181 /* KNToast.m */,
 				7912609B23FE75F300BC4181 /* KNPhotoDownloadMgr.h */,
 				7912608323FE75F300BC4181 /* KNPhotoDownloadMgr.m */,
 				7912608E23FE75F300BC4181 /* KNPhotoBrowserImageView.h */,
@@ -420,6 +418,8 @@
 		79E1152522F032300022106B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				791C6B7124DC1F70003E3AF1 /* KNToast.h */,
+				791C6B7224DC1F70003E3AF1 /* KNToast.m */,
 				79E1152722F032300022106B /* ViewController.h */,
 				79E1152622F032300022106B /* ViewController.m */,
 			);
@@ -718,7 +718,6 @@
 				79B6A792241A5722003197A7 /* KNPhotoBrowserProxy.m in Sources */,
 				79E1159622F032310022106B /* ViewController.m in Sources */,
 				798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */,
-				791260AC23FE75F300BC4181 /* KNToast.m in Sources */,
 				79E115AE22F032310022106B /* NineSquareModel.m in Sources */,
 				791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */,
 				791260A923FE75F300BC4181 /* KNPhotoAVPlayerActionView.m in Sources */,
@@ -726,6 +725,7 @@
 				791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */,
 				791260AB23FE75F300BC4181 /* KNPhotoAVPlayerView.m in Sources */,
 				791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */,
+				791C6B7324DC1F70003E3AF1 /* KNToast.m in Sources */,
 				79B6A794241A5722003197A7 /* KNAnimatedImageView.m in Sources */,
 				798D104723B9F736006ACF61 /* SendImageController.m in Sources */,
 				79E1150322F030B40022106B /* main.m in Sources */,

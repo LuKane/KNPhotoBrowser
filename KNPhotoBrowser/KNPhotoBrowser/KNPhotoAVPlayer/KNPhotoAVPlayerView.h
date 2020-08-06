@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "KNPhotoAVPlayerActionView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
  avplayer dimiss
  */
 - (void)photoAVPlayerViewDismiss;
+/**
+ avplayer long press
+ */
+- (void)photoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress;
 
 @end
 
@@ -24,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  create observe player with url ,ready to play
-
+ 
  @param url url
  @param placeHolder placeHolder image
  */
@@ -40,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
  swipe player by hand
  */
 - (void)videoWillSwipe;
+
+/**
+ set player rate
+ */
+- (void)videoPlayerSetRate:(CGFloat)rate;
 
 /**
 auto play when you need
@@ -75,6 +85,11 @@ auto play when you need
  layer of player
  */
 @property (nonatomic,strong,nullable) AVPlayerLayer  *playerLayer;
+
+/**
+ actionView : (pause | start | slider) and longPress
+ */
+@property (nonatomic,weak,nullable  ) KNPhotoAVPlayerActionView  *actionView;
 
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerViewDelegate> delegate;
 
