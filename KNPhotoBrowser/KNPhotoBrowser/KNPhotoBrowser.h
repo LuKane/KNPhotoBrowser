@@ -15,14 +15,25 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "KNActionSheet.h"
+@class KNPhotoBrowser;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
+typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
     KNPhotoDownloadStateUnknow,
     KNPhotoDownloadStateSuccess,
     KNPhotoDownloadStateFailure,
     KNPhotoDownloadStateDownloading
+};
+
+typedef NS_ENUM(NSInteger, KNPhotoShowState) {
+    KNPhotoShowImageSuccess,        // download image success
+    KNPhotoShowImageFailure,        // download image failure
+    KNPhotoShowImageFailureUnknow,  // the reason of download image failure
+    
+    KNPhotoShowVideoSuccess,        // download video success
+    KNPhotoShowVideoFailure,        // download video failure
+    KNPhotoShowVideoFailureUnknow   // the reason of download video failure
 };
 
 @interface KNPhotoItems : NSObject
@@ -108,7 +119,7 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  
  @param success is success
  */
-- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
+- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute:  instead");
 
 @optional
 /**
@@ -123,6 +134,23 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  @param index current index
  */
 - (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index;
+
+@optional
+/// photoBrowser did long press
+/// @param photoBrowser photobrowser
+/// @param longPress long press gestureRecognizer
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser longPress:(UILongPressGestureRecognizer *)longPress;
+
+@optional
+/// download image or video  success | failure | failure reason call back
+/// @param photoBrowser toast on photoBrower.view
+/// @param state state
+/// @param photoItemRe relative photoItem
+/// @param photoItemAb absolute photoItem
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser
+               state:(KNPhotoShowState)state
+   photoItemRelative:(KNPhotoItems *)photoItemRe
+   photoItemAbsolute:(KNPhotoItems *)photoItemAb;
 
 @optional
 /**
@@ -145,6 +173,11 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
  contain KNPhotoItems : url && UIView
  */
 @property (nonatomic,strong) NSArray<KNPhotoItems *> *itemsArr;
+
+/**
+ Delegate
+ */
+@property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
 /**
  is or not need pageNumView , Default is false
@@ -184,31 +217,27 @@ typedef NS_ENUM(NSInteger ,KNPhotoDownloadState) {
 /**
  photoBrowser image download success toast message, default in KNPhotoBrowserPch
  */
-@property (nonatomic,copy  ) NSString *photoBrowserImageSuccessMsg;
+@property (nonatomic,copy  ) NSString *photoBrowserImageSuccessMsg DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
 /**
 photoBrowser image download failure toast message, default in KNPhotoBrowserPch
 */
-@property (nonatomic,copy  ) NSString *photoBrowserImageFailureMsg;
+@property (nonatomic,copy  ) NSString *photoBrowserImageFailureMsg DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
 /**
 photoBrowser image download failure reason, default in KNPhotoBrowserPch
 */
-@property (nonatomic,copy  ) NSString *photoBrowserImageFailureReason;
+@property (nonatomic,copy  ) NSString *photoBrowserImageFailureReason DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
 /**
 photoBrowser video download success toast message, default in KNPhotoBrowserPch
 */
-@property (nonatomic,copy  ) NSString *photoBrowserVideoSuccessMsg;
+@property (nonatomic,copy  ) NSString *photoBrowserVideoSuccessMsg DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
 /**
 photoBrowser image download failure toast message, default in KNPhotoBrowserPch
 */
-@property (nonatomic,copy  ) NSString *photoBrowserVideoFailureMsg;
+@property (nonatomic,copy  ) NSString *photoBrowserVideoFailureMsg DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
 /**
 photoBrowser image download failure reason, default in KNPhotoBrowserPch
 */
-@property (nonatomic,copy  ) NSString *photoBrowserVideoFailureReason;
-/**
- photoBrowser toast time, Default is 2 seconds
- */
-@property (nonatomic,assign) NSInteger photoBrowserToastTime;
+@property (nonatomic,copy  ) NSString *photoBrowserVideoFailureReason DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
 
 /**
  delete current photo or video
@@ -221,14 +250,9 @@ photoBrowser image download failure reason, default in KNPhotoBrowserPch
 - (void)downloadPhotoAndVideo;
 
 /**
- photoBrowser show
+ player's rate immediately to use
  */
-- (void)present;
-
-/**
- photoBrowser dismiss
- */
-- (void)dismiss;
+- (void)setImmediatelyPlayerRate:(CGFloat)rate;
 
 /**
  create custom view on the topView(photoBrowser controller's view)
@@ -241,9 +265,14 @@ photoBrowser image download failure reason, default in KNPhotoBrowserPch
 - (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated;
 
 /**
- Delegate
+ photoBrowser show
  */
-@property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
+- (void)present;
+
+/**
+ photoBrowser dismiss
+ */
+- (void)dismiss;
 
 @end
 
