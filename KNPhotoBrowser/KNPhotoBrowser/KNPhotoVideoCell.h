@@ -13,7 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol KNPhotoVideoCellDelegate <NSObject>
 
+/// avplayer will dismmiss
 - (void)photoVideoAVPlayerDismiss;
+
+/// avplayer long press
+/// @param longPress press
+- (void)photoVideoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress;
 
 @end
 

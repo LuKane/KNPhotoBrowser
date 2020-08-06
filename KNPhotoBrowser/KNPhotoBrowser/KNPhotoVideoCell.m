@@ -23,6 +23,7 @@
     }
     return self;
 }
+
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder{
     [_playerView playerWithURL:url placeHolder:placeHolder];
 }
@@ -42,6 +43,12 @@
     [_playerView videoPlayerWillReset];
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {
         [_delegate photoVideoAVPlayerDismiss];
+    }
+}
+
+- (void)photoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress{
+    if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerLongPress:)]) {
+        [_delegate photoVideoAVPlayerLongPress:longPress];
     }
 }
 
