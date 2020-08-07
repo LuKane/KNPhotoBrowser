@@ -27,7 +27,7 @@
     _photoBrowerImageView = photoBrowerView;
     [self.contentView addSubview:photoBrowerView];
     
-    
+    // single tap
     __weak typeof(self) weakself = self;
     photoBrowerView.singleTap = ^{
         if (weakself.singleTap) {
@@ -35,6 +35,7 @@
         }
     };
     
+    // long press
     photoBrowerView.longPressTap = ^{
         if (weakself.longPressTap) {
             weakself.longPressTap();
