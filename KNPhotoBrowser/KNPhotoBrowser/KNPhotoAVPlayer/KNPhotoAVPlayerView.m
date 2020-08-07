@@ -197,6 +197,7 @@
  setup actionView and actionBar
  */
 - (void)setupActionView{
+    
     KNPhotoAVPlayerActionView *actionView = [[KNPhotoAVPlayerActionView alloc] init];
     [actionView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(photoAVPlayerActionViewDidLongPress:)]];
     [actionView setDelegate:self];
