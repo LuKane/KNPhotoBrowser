@@ -12,10 +12,10 @@ Pod::Spec.new do |s|
   s.author       = { "LuKane" => "1169604556@qq.com" }
   s.platform     = :ios, "10.0"
   s.source       = { :git => "https://github.com/LuKane/KNPhotoBrowser.git", :tag => s.version}
-  s.source_files = 'KNPhotoBrowser/KNPhotoBrowser/**/*.{h,m}'
-  s.resource     = 'KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle'
+  s.source_files = "KNPhotoBrowser/KNPhotoBrowser/**/*.{h,m}"
+  s.resource     = "KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle"
   s.frameworks   = "Foundation","UIKit"
   s.requires_arc = true
-  s.dependency 'SDWebImage'
+  s.dependency "SDWebImage"
 
 end
