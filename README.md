@@ -29,9 +29,10 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 7.video player is ready to use (location video and net video) (2019/7/30)
 * 8.swipe  video player is done!  
 * 9.when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
-* 10.pod 1.1.1 -> add KNPhotoBrowser to the cocoapods
-* 11.pod 1.1.2 -> add custom View on photoBrowser 
-* 12.pod 1.1.3 -> add custom View with Array on photoBrowser
+* 10.add custom control as you wish
+* 11.video player contain autoplay api now
+* 12.video player add quick play api
+* 13.all alert or toast will be down by delegate function
 
 
 ## 1.Function describe and Point
@@ -39,7 +40,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 * 2.load nine picture ,scrollView,tableView,chat session for IM 
 * 3.most like photoBrowser of Wechat and Weibo in China
 * 4.provide function which can delete and download image
-* 5.the other type's Demo will be upload soon
+* 5.provide quick play for video
 
 
 ## 2.How to use
@@ -70,16 +71,80 @@ photoBrowser.currentIndex = tap.view.tag;
 
 ### 2.provide Delegate --> KNPhotoBrowserDelegate
 ```
-/* PhotoBrowser will dismiss */
+@optional
+/**
+ photoBrowser will dismiss
+ */
 - (void)photoBrowserWillDismiss;
-/* PhotoBrowser right top btn show and ActionSheet will click with Index */
-- (void)photoBrowserRightOperationActionWithIndex:(NSInteger)index;
-/* PhotoBrowser save pic is success or not */
-- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success;
-/* PhotoBrowser delete image --> relative index */
+
+@optional
+/**
+ photoBrowser right top button did click
+ */
+- (void)photoBrowserRightOperationAction;
+
+@optional
+/**
+ photoBrowser Delete image success with relative index
+ 
+ @param index relative index
+ */
 - (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
-/* PhotoBrowser delete image --> absolute Index */
+
+@optional
+/**
+ photoBrowser Delete image success with absolute index
+ 
+ @param index absolute index
+ */
 - (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
+
+@optional
+/**
+ is success or not of save picture
+ 
+ @param success is success
+ */
+- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute:  instead");
+
+@optional
+/**
+ download video with progress
+ @param progress current progress
+ */
+- (void)photoBrowserDownloadVideoWithProgress:(CGFloat)progress;
+
+@optional
+/**
+ photoBrowser scroll to current index
+ @param index current index
+ */
+- (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index;
+
+@optional
+/// photoBrowser did long press
+/// @param photoBrowser photobrowser
+/// @param longPress long press gestureRecognizer
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser longPress:(UILongPressGestureRecognizer *)longPress;
+
+@optional
+/// download image or video  success | failure | failure reason call back
+/// @param photoBrowser toast on photoBrower.view
+/// @param state state
+/// @param photoItemRe relative photoItem
+/// @param photoItemAb absolute photoItem
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser
+               state:(KNPhotoShowState)state
+   photoItemRelative:(KNPhotoItems *)photoItemRe
+   photoItemAbsolute:(KNPhotoItems *)photoItemAb;
+
+@optional
+/**
+ photoBrowser will layout subviews
+ */
+- (void)photoBrowserWillLayoutSubviews;
+
+
 ```
 
 ### 3.provide function of dismiss
@@ -91,67 +156,89 @@ photoBrowser.currentIndex = tap.view.tag;
 ### 4.API
 ```
 /**
-current select index
-*/
+ current select index
+ */
 @property (nonatomic,assign) NSInteger  currentIndex;
 
 /**
-contain KNPhotoItems : url && UIView
-*/
+ contain KNPhotoItems : url && UIView
+ */
 @property (nonatomic,strong) NSArray<KNPhotoItems *> *itemsArr;
 
 /**
-contain ActionSheet alert contents ,which is belong NSString type
-*/
-@property (nonatomic,strong) NSArray<NSString *> *actionSheetArr;
+ Delegate
+ */
+@property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
 /**
-is or not need pageNumView , Default is false
-*/
+ is or not need pageNumView , Default is false
+ */
 @property (nonatomic,assign) BOOL  isNeedPageNumView;
 
 /**
-is or not need pageControl , Default is false
-*/
+ is or not need pageControl , Default is false (but if photobrowser contain video,then hidden)
+ */
 @property (nonatomic,assign) BOOL  isNeedPageControl;
 
 /**
-is or not need RightTopBtn , Default is false
-*/
+ is or not need RightTopBtn , Default is false
+ */
 @property (nonatomic,assign) BOOL  isNeedRightTopBtn;
 
 /**
-is or not need PictureLongPress , Default is false
-*/
-@property (nonatomic, assign) BOOL isNeedPictureLongPress;
+ is or not need PictureLongPress , Default is false
+ */
+@property (nonatomic,assign) BOOL  isNeedPictureLongPress;
 
 /**
-is or not need pan Gesture, Default is false
-*/
+ is or not need prefetch image, maxCount is 8 (KNPhotoBrowserPch.h)
+ */
+@property (nonatomic,assign) BOOL  isNeedPrefetch;
+
+/**
+ is or not need pan Gesture, Default is false
+ */
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
-PhotoBrowser show
-*/
+ is or not need auto play video, Default is false
+ */
+@property (nonatomic,assign) BOOL isNeedAutoPlay;
+
+/**
+ delete current photo or video
+ */
+- (void)deletePhotoAndVideo;
+
+/**
+ download photo or video to Album, but it must be authed at first
+ */
+- (void)downloadPhotoAndVideo;
+
+/**
+ player's rate immediately to use
+ */
+- (void)setImmediatelyPlayerRate:(CGFloat)rate;
+
+/**
+ create custom view on the topView(photoBrowser controller's view)
+ for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
+ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
+ 'CustomViewController' in Demo, you can see it how to use
+ @param customViewArr customViewArr
+ @param animated need animated or not
+ */
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated;
+
+/**
+ photoBrowser show
+ */
 - (void)present;
 
 /**
-PhotoBrowser dismiss
-*/
+ photoBrowser dismiss
+ */
 - (void)dismiss;
-```
-
-### 5.Most important point : strong link will lead to the photobrowser never destroy when it dismiss
-```
-// about ActionSheet, if you use it with much code, just let the `self` become `weakSelf` 
-__weak typeof(self) weakSelf = self;
-KNActionSheet *actionSheet = [[KNActionSheet alloc] initWithCancelTitle:nil otherTitleArr:self.actionSheetArr.copy actionBlock:^(NSInteger buttonIndex) {
-if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationActionWithIndex:)]){
-[weakSelf.delegate photoBrowserRightOperationActionWithIndex:buttonIndex];
-}
-}];
-[actionSheet show];
-
 ```
 
 ## By the way
@@ -159,3 +246,4 @@ if([weakSelf.delegate respondsToSelector:@selector(photoBrowserRightOperationAct
 * 2.if you find any bug, just contact me, it will be perfect by each other
 * 3.perfect adapt `iPhone` `iPad`
 * 4.perfect adapt the `rotate of the Screen` like `Wechat` and `Weibo`
+* 5.if you get any idea, just contact me! Thanks
