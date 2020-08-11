@@ -241,4 +241,4 @@ photoBrowser.currentIndex = tap.view.tag;
 * 2.如果bug, 希望大家给个issue,一起努力改好
 * 3.完美适配 `iPhone` `iPad` 
 * 4.完美适配 `横竖屏` : 模仿微信和微博
-*  5. 有需要增加的功能, 请您通过邮箱或者QQ联系我!
+* 5.有需要增加的功能, 请您通过邮箱或者QQ联系我!
