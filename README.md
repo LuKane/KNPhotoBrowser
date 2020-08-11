@@ -20,19 +20,19 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 
 
 ## Update content
-* 1.browser has been recoded , turn the `UIView` to the `UIViewController`
-* 2.adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
-* 3.perfect adapt the rotate of the Screen,try on the real iPhone or iPad
-* 4.photoBrowser for IM (like `Wechat` chat session)
-* 5.photoBrowser add prefetch image API (2019/3/13)
-* 6.photoBrowser add panGesture to dismiss or cancel(2019/4/16)
-* 7.video player is ready to use (location video and net video) (2019/7/30)
-* 8.swipe  video player is done!  
-* 9.when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
-* 10.add custom control as you wish
-* 11.video player contain autoplay api now
-* 12.video player add quick play api
-* 13.all alert or toast will be down by delegate function
+- [x] browser has been recoded , turn the `UIView` to the `UIViewController`
+- [x] adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
+- [x] perfect adapt the rotate of the Screen,try on the real iPhone or iPad
+- [x] photoBrowser for IM (like `Wechat` chat session)
+- [x] photoBrowser add prefetch image API (2019/3/13)
+- [x] photoBrowser add panGesture to dismiss or cancel(2019/4/16)
+- [x] video player is ready to use (location video and net video) (2019/7/30)
+- [x] swipe  video player is done!  
+- [x] when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
+- [x] add custom control as you wish
+- [x] video player contain autoplay api now
+- [x] video player add quick play api
+- [x] all alert or toast will be down by delegate function
 
 
 ## 1.Function describe and Point
