@@ -33,7 +33,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 - [x] 所有弹出框和提示语都 通过代理方法回调
 
 ## 一.功能描述及要点
-* 1.依赖 `SDWebImage(5.0)` 以及 `FLAnimatedImage`
+* 1.依赖 `SDWebImage(5.0)`
 * 2.加载九宫格图片,scrollView,tableView, IM类型
 * 3.高仿 微信和微博 图片||视频 浏览效果,显示和回显动画
 * 4.提供删除图片和下载图片||视频等功能
