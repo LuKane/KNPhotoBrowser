@@ -33,7 +33,8 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 - [x] video player contain autoplay api now
 - [x] video player add quick play api
 - [x] all alert or toast will be down by delegate function
-
+- [x] add custom is followed with photoBrowser to dismiss or show 
+- [x] add animated image to browser in Demo
 
 ## 1.Function describe and Point
 * 1.depend `SDWebImage(5.0)`
@@ -221,14 +222,17 @@ photoBrowser.currentIndex = tap.view.tag;
 - (void)setImmediatelyPlayerRate:(CGFloat)rate;
 
 /**
- create custom view on the topView(photoBrowser controller's view)
- for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
- delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
- 'CustomViewController' in Demo, you can see it how to use
- @param customViewArr customViewArr
- @param animated need animated or not
- */
-- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated;
+create custom view on the topView(photoBrowser controller's view)
+for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
+delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
+'CustomViewController' in Demo, you can see it how to use
+@param customViewArr customViewArr
+@param animated need animated or not
+@param followAnimated need animated or not for follow photoBrowser
+*/
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
+                            animated:(BOOL)animated
+                      followAnimated:(BOOL)followAnimated;
 
 /**
  photoBrowser show

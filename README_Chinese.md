@@ -31,6 +31,8 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 - [x] 视频播放增加 自动播放的API
 - [x] 视频播放增加 长按速放(0.5~2.0)
 - [x] 所有弹出框和提示语都 通过代理方法回调
+- [x] 增加自定义控件 是否随着 photoBrowser一起动画消失和显示
+- [x] 增加Demo中默认动图 进行 动画浏览
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(5.0)`
@@ -216,14 +218,17 @@ photoBrowser.currentIndex = tap.view.tag;
 - (void)setImmediatelyPlayerRate:(CGFloat)rate;
 
 /**
- create custom view on the topView(photoBrowser controller's view)
- for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
- delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
- 'CustomViewController' in Demo, you can see it how to use
- @param customViewArr customViewArr
- @param animated need animated or not
- */
-- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated;
+create custom view on the topView(photoBrowser controller's view)
+for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
+delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
+'CustomViewController' in Demo, you can see it how to use
+@param customViewArr customViewArr
+@param animated need animated or not
+@param followAnimated need animated or not for follow photoBrowser
+*/
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
+                            animated:(BOOL)animated
+                      followAnimated:(BOOL)followAnimated;
 
 /**
  photoBrowser show
