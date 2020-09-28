@@ -43,12 +43,22 @@
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     NSArray                    *_customArr;
 }
+
+@property (nonatomic, strong) NSMutableArray *followArr;
+
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
 
 @end
 
 @implementation KNPhotoBrowser
+
+- (NSMutableArray *)followArr{
+    if (!_followArr) {
+        _followArr = [NSMutableArray array];
+    }
+    return _followArr;
+}
 
 - (instancetype)init{
     if (self = [super init]) {
@@ -392,6 +402,7 @@
             }else{
                 _startFrame     = imageView.imageView.frame;
             }
+            [self customViewSubViewsWillDismiss];
         }
             break;
         case UIGestureRecognizerStateChanged:{
@@ -430,6 +441,7 @@
                 }else{
                     // cancel
                     [self cancelVideoAnimation:playerView];
+                    [self customViewSubViewsWillShow];
                 }
             }else {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
@@ -439,6 +451,7 @@
                 }else{
                     // cancel
                     [self cancelAnimation:imageView.imageView];
+                    [self customViewSubViewsWillShow];
                 }
             }
         }
@@ -588,7 +601,8 @@
     }
 }
 
-- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated{
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
+                            animated:(BOOL)animated{
     
     if ([self isEmptyArray:customViewArr]) {
         return;
@@ -602,6 +616,51 @@
                 [self.view addSubview:view];
             }
         });
+    }
+}
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
+                            animated:(BOOL)animated
+                      followAnimated:(BOOL)followAnimated{
+    if ([self isEmptyArray:customViewArr]) {
+        return;
+    }
+    if (followAnimated == true) {
+        [self.followArr addObjectsFromArray:customViewArr];
+    }
+    
+    if (animated == false) {
+        _customArr = [NSArray arrayWithArray:customViewArr];
+    }else{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            for (UIView *view in customViewArr) {
+                [self.view addSubview:view];
+            }
+        });
+    }
+}
+
+- (void)customViewSubViewsWillShow{
+    if ([self isEmptyArray:self.followArr] == false) {
+        for (UIView *subView in self.followArr) {
+            [subView setAlpha:1];
+        }
+    }
+    if (_isNeedFollowAnimated == true) {
+        [_numView setAlpha:1];
+        [_pageControl setAlpha:1];
+        [_operationBtn setAlpha:1];
+    }
+}
+- (void)customViewSubViewsWillDismiss{
+    if ([self isEmptyArray:self.followArr] == false) {
+        for (UIView *subView in self.followArr) {
+            [subView setAlpha:0.0];
+        }
+    }
+    if (_isNeedFollowAnimated == true) {
+        [_numView setAlpha:0.0];
+        [_pageControl setAlpha:0.0];
+        [_operationBtn setAlpha:0.0];
     }
 }
 

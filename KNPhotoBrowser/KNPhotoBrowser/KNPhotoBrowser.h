@@ -215,6 +215,14 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
 /**
+ is or not need follow photoBrowser , Default is false
+ when touch photoBrowser, the customView will be hidden
+ when you cancel, the customView will be showed
+ when dismiss the photoBrowser immediately, the customView will be hidden immediately
+ */
+@property (nonatomic,assign) BOOL isNeedFollowAnimated;
+
+/**
  photoBrowser image download success toast message, default in KNPhotoBrowserPch
  */
 @property (nonatomic,copy  ) NSString *photoBrowserImageSuccessMsg DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute: instead");
@@ -262,7 +270,21 @@ photoBrowser image download failure reason, default in KNPhotoBrowserPch
  @param customViewArr customViewArr
  @param animated need animated or not
  */
-- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr animated:(BOOL)animated;
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
+                            animated:(BOOL)animated DEPRECATED_MSG_ATTRIBUTE("use createCustomViewArrOnTopView:animated:followAnimated instead!");
+
+/**
+create custom view on the topView(photoBrowser controller's view)
+for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
+delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
+'CustomViewController' in Demo, you can see it how to use
+@param customViewArr customViewArr
+@param animated need animated or not
+@param followAnimated need animated or not for follow photoBrowser
+*/
+- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
+                            animated:(BOOL)animated
+                      followAnimated:(BOOL)followAnimated;
 
 /**
  photoBrowser show
