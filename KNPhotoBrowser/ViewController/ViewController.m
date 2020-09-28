@@ -11,6 +11,7 @@
 #import "KNToast.h"
 #import "UIImageView+WebCache.h"
 #import <Photos/Photos.h>
+#import "KNAnimatedImageView.h"
 
 @interface ViewController ()<KNPhotoBrowserDelegate>
 
@@ -91,72 +92,96 @@
                    @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr1xydcj20gy0o9q6s.jpg",
                    @"http://ww2.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr39ht9j20gy0o6q74.jpg",
                    @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr3xvtlj20gy0obadv.jpg",
-                   @"http://ww3.sinaimg.cn/thumbnail/8e88b0c1gw1e9lpr57tn9j20gy0obn0f.jpg"
+                   @"http://ww2.sinaimg.cn/bmiddle/642beb18gw1ep3629gfm0g206o050b2a.gif"
                    ];
     for (NSInteger i = 0 ;i < urlArr.count; i ++) {
-        UIImageView *imageView = [[UIImageView alloc] init];
-        imageView.userInteractionEnabled = YES;
-        [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
-        imageView.tag = i + 1;
         
-        if(i == 2 || i == 3){
-            AVURLAsset *avAsset = nil;
-            if ([urlArr[i] hasPrefix:@"http"]) {
-                avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:urlArr[i]]];
-            }
-            if (avAsset) {
-                CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
-                CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
-                    generator.appliesPreferredTrackTransform = YES;
-                    generator.maximumSize = imageViewSize;
-                    NSError *error = nil;
-                    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        imageView.image = [UIImage imageWithCGImage:cgImage];
+        if (i != urlArr.count - 1) {
+            UIImageView *imageView = [[UIImageView alloc] init];
+            imageView.userInteractionEnabled = YES;
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
+            imageView.tag = i + 1;
+            
+            if(i == 2 || i == 3){
+                AVURLAsset *avAsset = nil;
+                if ([urlArr[i] hasPrefix:@"http"]) {
+                    avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:urlArr[i]]];
+                }
+                if (avAsset) {
+                    CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
+                    CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                        generator.appliesPreferredTrackTransform = YES;
+                        generator.maximumSize = imageViewSize;
+                        NSError *error = nil;
+                        CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            imageView.image = [UIImage imageWithCGImage:cgImage];
+                        });
                     });
-                });
-            }
-        }else if ( i == 1) {
-            AVURLAsset *avAsset = nil;
-            avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:path]];
-            if (avAsset) {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
-                    generator.appliesPreferredTrackTransform = YES;
-                    NSError *error = nil;
-                    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        imageView.image = [UIImage imageWithCGImage:cgImage];
+                }
+            }else if ( i == 1) {
+                AVURLAsset *avAsset = nil;
+                avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:path]];
+                if (avAsset) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                        generator.appliesPreferredTrackTransform = YES;
+                        NSError *error = nil;
+                        CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            imageView.image = [UIImage imageWithCGImage:cgImage];
+                        });
                     });
-                });
+                }
+            }else {
+                [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
             }
+            
+            imageView.backgroundColor = [UIColor grayColor];
+            CGFloat width = (view.frame.size.width - 40) / 3;
+            NSInteger row = i / 3;
+            NSInteger col = i % 3;
+            CGFloat x = 10 + col * (10 + width);
+            CGFloat y = 10 + row * (10 + width);
+            imageView.frame = CGRectMake(x, y, width, width);
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.sourceView = imageView;
+            
+            if(i == 2 || i == 3 || i == 1){
+                items.isVideo = true;
+                items.url = urlArr[i];
+            }else{
+                items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            }
+            
+            [self.itemsArr addObject:items];
+            
+            [view addSubview:imageView];
         }else {
+            KNAnimatedImageView *imageView = [[KNAnimatedImageView alloc] init];
+            imageView.userInteractionEnabled = YES;
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
+            imageView.tag = i + 1;
             [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
-        }
-        
-        imageView.backgroundColor = [UIColor grayColor];
-        CGFloat width = (view.frame.size.width - 40) / 3;
-        NSInteger row = i / 3;
-        NSInteger col = i % 3;
-        CGFloat x = 10 + col * (10 + width);
-        CGFloat y = 10 + row * (10 + width);
-        imageView.frame = CGRectMake(x, y, width, width);
-        
-        KNPhotoItems *items = [[KNPhotoItems alloc] init];
-        items.sourceView = imageView;
-        
-        if(i == 2 || i == 3 || i == 1){
-            items.isVideo = true;
-            items.url = urlArr[i];
-        }else{
+            
+            imageView.backgroundColor = [UIColor grayColor];
+            CGFloat width = (view.frame.size.width - 40) / 3;
+            NSInteger row = i / 3;
+            NSInteger col = i % 3;
+            CGFloat x = 10 + col * (10 + width);
+            CGFloat y = 10 + row * (10 + width);
+            imageView.frame = CGRectMake(x, y, width, width);
+            
+            KNPhotoItems *items = [[KNPhotoItems alloc] init];
+            items.sourceView = imageView;
             items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+            
+            [self.itemsArr addObject:items];
+            [view addSubview:imageView];
         }
-        
-        [self.itemsArr addObject:items];
-        
-        [view addSubview:imageView];
     }
 }
 
@@ -193,7 +218,7 @@
                 if (isAuthor == false) {
                     // do something -> for example : jump to setting
                 }else {
-                    [weakself.photoBrowser downloadPhotoAndVideo];                    
+                    [weakself.photoBrowser downloadPhotoAndVideo];
                 }
             }];
         }
