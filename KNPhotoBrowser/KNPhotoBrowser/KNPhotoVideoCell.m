@@ -39,6 +39,11 @@
     }
 }
 
+- (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder{
+    _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
+    _playerView.isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
+}
+
 - (void)photoAVPlayerViewDismiss{
     [_playerView videoPlayerWillReset];
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {

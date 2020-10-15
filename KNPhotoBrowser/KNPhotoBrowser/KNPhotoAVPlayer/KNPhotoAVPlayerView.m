@@ -8,12 +8,14 @@
 
 #import "KNPhotoAVPlayerView.h"
 #import "KNPhotoAVPlayerActionBar.h"
+#import "KNPhotoAVPlayerActionView.h"
 
 @interface KNPhotoAVPlayerView ()<KNPhotoAVPlayerActionViewDelegate,KNPhotoAVPlayerActionBarDelegate>
 
+@property (nonatomic,strong) AVPlayer       *player;
 @property (nonatomic,strong) AVPlayerItem   *item;
 
-@property (nonatomic,strong) AVPlayer       *player;
+@property (nonatomic,weak, ) KNPhotoAVPlayerActionView  *actionView;
 @property (nonatomic,weak  ) KNPhotoAVPlayerActionBar   *actionBar;
 
 @property (nonatomic,assign) BOOL  isPlaying;
@@ -142,6 +144,11 @@
     if (_isNeedAutoPlay == true) {
         [self photoAVPlayerActionViewPauseOrStop];
     }
+}
+
+- (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder{
+    _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
+    self.placeHolderImgView.hidden = !isNeedVideoPlaceHolder;
 }
 
 /**
@@ -393,18 +400,18 @@
 
 /**
  actionBar click play or pause btn
-
+ 
  @param isNeedPlay current player is or not need to play
  */
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{
     if (isNeedPlay) {
         [_player play];
-        _isPlaying = true;
+//        _isPlaying = true;
         [_actionView setIsPlaying:true];
         [_actionBar setIsPlaying:true];
     }else {
         [_player pause];
-        _isPlaying = false;
+//        _isPlaying = false;
         [_actionView setIsPlaying:false];
         [_actionBar setIsPlaying:false];
     }

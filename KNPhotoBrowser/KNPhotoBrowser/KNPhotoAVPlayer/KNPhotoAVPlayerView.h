@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "KNPhotoAVPlayerActionView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,6 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)videoPlayerSetRate:(CGFloat)rate;
 
 /**
+ is or not need Video placeHolder
+ */
+@property (nonatomic,assign) BOOL isNeedVideoPlaceHolder;
+
+/**
 auto play when you need
  */
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
@@ -87,10 +91,8 @@ auto play when you need
 @property (nonatomic,strong,nullable) AVPlayerLayer  *playerLayer;
 
 /**
- actionView : (pause | start | slider) and longPress
+ delegate
  */
-@property (nonatomic,weak,nullable  ) KNPhotoAVPlayerActionView  *actionView;
-
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerViewDelegate> delegate;
 
 @end

@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playerWillEndDisplay;
 
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
+@property (nonatomic,assign) BOOL isNeedVideoPlaceHolder;
+
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *playerView;
 @property (nonatomic,weak  ) id<KNPhotoVideoCellDelegate> delegate;
 

@@ -398,6 +398,7 @@
             _startLocation  = location;
             if(items.isVideo){
                 _startFrame     = playerView.playerBgView.frame;
+                [playerView setIsNeedVideoPlaceHolder:false];
                 [playerView videoWillSwipe];
             }else{
                 _startFrame     = imageView.imageView.frame;
@@ -437,11 +438,13 @@
                     // dismiss
                     _startFrame = playerView.playerView.frame;
                     [playerView videoPlayerWillReset];
+                    [playerView setIsNeedVideoPlaceHolder:true];
                     [self dismiss];
                 }else{
                     // cancel
                     [self cancelVideoAnimation:playerView];
                     [self customViewSubViewsWillShow];
+                    [playerView setIsNeedVideoPlaceHolder:true];
                 }
             }else {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
