@@ -306,7 +306,7 @@
         }
     } else {
         KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
-        [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image];
+        [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image photoItem:item];
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -466,7 +466,7 @@
 
 /// cancel animate for get back photoBrowser
 /// @param imageView current image
-- (void)cancelAnimation:(KNAnimatedImageView *)imageView{
+- (void)cancelAnimation:(SDAnimatedImageView *)imageView{
     [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
         imageView.frame = self.startFrame;
     } completion:^(BOOL finished) {
@@ -869,7 +869,7 @@
         [_imageView setHidden:false];
         [_progressHUD setHidden:false];
         UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
-        [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image];
+        [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image photoItem:item];
     }else{
         [_collectionView setHidden:false];
     }

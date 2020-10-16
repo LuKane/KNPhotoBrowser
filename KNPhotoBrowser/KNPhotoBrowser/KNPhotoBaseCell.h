@@ -10,6 +10,8 @@
 #import "KNPhotoBrowserImageView.h"
 #import "KNProgressHUD.h"
 
+@class KNPhotoItems;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^PhotoBrowerSingleTap)(void);
@@ -17,7 +19,7 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 
 @interface KNPhotoBaseCell : UICollectionViewCell
 
-- (void)sd_ImageWithUrl:(NSString *)url placeHolder:(UIImage *)placeHolder;
+- (void)sd_ImageWithUrl:(NSString *)url placeHolder:(UIImage *)placeHolder photoItem:(KNPhotoItems *)photoItem;
 
 @property (nonatomic,strong) KNPhotoBrowserImageView *photoBrowerImageView;
 @property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;

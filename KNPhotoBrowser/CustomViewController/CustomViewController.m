@@ -103,24 +103,24 @@
 }
 
 - (void)imgItemDidClick:(UITapGestureRecognizer *)tap{
-    KNPhotoBrowser *photoBrower = [[KNPhotoBrowser alloc] init];
+    KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     
-    [photoBrower createCustomViewArrOnTopView:@[self.scrollView] animated:true];
-    
+    [photoBrowser createCustomViewArrOnTopView:@[self.scrollView] animated:true followAnimated:true];
     
     UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 90) * 0.5, 100, 90, 30)];
     tempView.backgroundColor = UIColor.lightGrayColor;
-    [photoBrower createCustomViewArrOnTopView:@[tempView] animated:false];
+    [photoBrowser createCustomViewArrOnTopView:@[tempView] animated:false followAnimated:true];
     _tempView = tempView;
     
-    photoBrower.itemsArr = [self.itemsArr mutableCopy];
-    photoBrower.currentIndex = tap.view.tag;
-    photoBrower.isNeedPageControl = true;
-    photoBrower.isNeedPageNumView = true;
-    photoBrower.isNeedRightTopBtn = true;
-    photoBrower.isNeedPictureLongPress = true;
-    [photoBrower present];
-    photoBrower.delegate = self;
+    photoBrowser.itemsArr = [self.itemsArr mutableCopy];
+    photoBrowser.currentIndex = tap.view.tag;
+    photoBrowser.isNeedPageControl = true;
+    photoBrowser.isNeedPageNumView = true;
+    photoBrowser.isNeedRightTopBtn = true;
+    photoBrowser.isNeedPictureLongPress = true;
+    photoBrowser.isNeedPanGesture = true;
+    [photoBrowser present];
+    photoBrowser.delegate = self;
 }
 
 - (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index{
@@ -137,10 +137,8 @@
     CGFloat width = 180;
     
     // change scrollView contentSize by yourself
-    
     _scrollView.frame = CGRectMake(0, self.view.frame.size.height - (width + y * 2) , self.view.frame.size.width, width + y * 2);
     _tempView.frame = CGRectMake((self.view.frame.size.width - 90) * 0.5, 100, 90, 30);
-    
 }
 
 @end

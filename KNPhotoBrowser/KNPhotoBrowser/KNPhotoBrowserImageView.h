@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KNAnimatedImage.h"
+#import <SDAnimatedImageView.h>
+
 @class KNProgressHUD;
+@class KNPhotoItems;
 
 typedef void(^PhotoBrowerSingleTap)(void);
 typedef void(^PhotoBrowerLongPressTap)(void);
@@ -18,13 +20,13 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 // all base control that can scroll
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-@property (nonatomic, strong) KNAnimatedImageView *imageView;
+@property (nonatomic, strong) SDAnimatedImageView *imageView;
 
 // single tap
 @property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;
 // longPress tap
 @property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
 
-- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder;
+- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder photoItem:(KNPhotoItems *)photoItem;
 
 @end

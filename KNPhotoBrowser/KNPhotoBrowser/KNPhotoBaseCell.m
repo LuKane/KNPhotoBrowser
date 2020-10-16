@@ -48,10 +48,11 @@
     [self.contentView addSubview:progressHUD];
 }
 
-- (void)sd_ImageWithUrl:(NSString *)url placeHolder:(UIImage *)placeHolder{
+- (void)sd_ImageWithUrl:(NSString *)url placeHolder:(UIImage *)placeHolder photoItem:(nonnull KNPhotoItems *)photoItem{
     [_photoBrowerImageView sd_ImageWithUrl:[NSURL URLWithString:url]
                                progressHUD:_progressHUD
-                               placeHolder:placeHolder];
+                               placeHolder:placeHolder
+                                 photoItem:photoItem];
 }
 
 - (void)prepareForReuse{

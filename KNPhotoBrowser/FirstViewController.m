@@ -47,6 +47,7 @@
         {
             NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"CustomViewController"];
+            [arr addObject:@"LocateGifController"];
             [_dataArr addObject:arr];
         }
     }

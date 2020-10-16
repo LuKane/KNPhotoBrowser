@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,12 +22,11 @@
 		791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */; };
 		791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */; };
 		791C6B7324DC1F70003E3AF1 /* KNToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 791C6B7224DC1F70003E3AF1 /* KNToast.m */; };
+		794038D025398746002ADE14 /* LocateGifController.m in Sources */ = {isa = PBXBuildFile; fileRef = 794038CF25398746002ADE14 /* LocateGifController.m */; };
+		794038D22539883A002ADE14 /* gif3.GIF in Resources */ = {isa = PBXBuildFile; fileRef = 794038D12539883A002ADE14 /* gif3.GIF */; };
 		796A0A6C23FFA3A100E06135 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 796A0A6B23FFA3A100E06135 /* CustomViewController.m */; };
 		798D104723B9F736006ACF61 /* SendImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104623B9F736006ACF61 /* SendImageController.m */; };
 		798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104923B9F807006ACF61 /* SendImageItem.m */; };
-		79B6A792241A5722003197A7 /* KNPhotoBrowserProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6A78F241A5722003197A7 /* KNPhotoBrowserProxy.m */; };
-		79B6A793241A5722003197A7 /* KNAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6A790241A5722003197A7 /* KNAnimatedImage.m */; };
-		79B6A794241A5722003197A7 /* KNAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B6A791241A5722003197A7 /* KNAnimatedImageView.m */; };
 		79E114FD22F030B40022106B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E114FC22F030B40022106B /* Assets.xcassets */; };
 		79E1150322F030B40022106B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150222F030B40022106B /* main.m */; };
 		79E1150D22F030B40022106B /* KNPhotoBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150C22F030B40022106B /* KNPhotoBrowserTests.m */; };
@@ -126,18 +125,15 @@
 		7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserNumView.m; sourceTree = "<group>"; };
 		791C6B7124DC1F70003E3AF1 /* KNToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNToast.h; sourceTree = "<group>"; };
 		791C6B7224DC1F70003E3AF1 /* KNToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNToast.m; sourceTree = "<group>"; };
+		794038CE25398746002ADE14 /* LocateGifController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocateGifController.h; sourceTree = "<group>"; };
+		794038CF25398746002ADE14 /* LocateGifController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocateGifController.m; sourceTree = "<group>"; };
+		794038D12539883A002ADE14 /* gif3.GIF */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.GIF; sourceTree = "<group>"; };
 		796A0A6A23FFA3A100E06135 /* CustomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
 		796A0A6B23FFA3A100E06135 /* CustomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomViewController.m; sourceTree = "<group>"; };
 		798D104523B9F736006ACF61 /* SendImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageController.h; sourceTree = "<group>"; };
 		798D104623B9F736006ACF61 /* SendImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageController.m; sourceTree = "<group>"; };
 		798D104823B9F807006ACF61 /* SendImageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageItem.h; sourceTree = "<group>"; };
 		798D104923B9F807006ACF61 /* SendImageItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageItem.m; sourceTree = "<group>"; };
-		79B6A78C241A5722003197A7 /* KNAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAnimatedImage.h; sourceTree = "<group>"; };
-		79B6A78D241A5722003197A7 /* KNPhotoBrowserProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowserProxy.h; sourceTree = "<group>"; };
-		79B6A78E241A5722003197A7 /* KNAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAnimatedImageView.h; sourceTree = "<group>"; };
-		79B6A78F241A5722003197A7 /* KNPhotoBrowserProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserProxy.m; sourceTree = "<group>"; };
-		79B6A790241A5722003197A7 /* KNAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAnimatedImage.m; sourceTree = "<group>"; };
-		79B6A791241A5722003197A7 /* KNAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAnimatedImageView.m; sourceTree = "<group>"; };
 		79E114F022F030B30022106B /* KNPhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNPhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79E114FC22F030B40022106B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79E1150122F030B40022106B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -258,7 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				7912609C23FE75F300BC4181 /* KNPhotoBrowser.bundle */,
-				79B6A78B241A5722003197A7 /* KNAnimatedImage */,
 				7912609223FE75F300BC4181 /* KNPhotoAVPlayer */,
 				7912607B23FE75F300BC4181 /* KNActionSheet */,
 				7912608823FE75F300BC4181 /* KNPhotoBrowser.h */,
@@ -306,6 +301,15 @@
 			path = KNPhotoAVPlayer;
 			sourceTree = "<group>";
 		};
+		794038CD25398735002ADE14 /* LocateGifController */ = {
+			isa = PBXGroup;
+			children = (
+				794038CE25398746002ADE14 /* LocateGifController.h */,
+				794038CF25398746002ADE14 /* LocateGifController.m */,
+			);
+			path = LocateGifController;
+			sourceTree = "<group>";
+		};
 		796A0A6923FFA38800E06135 /* CustomViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,19 +329,6 @@
 				798D104923B9F807006ACF61 /* SendImageItem.m */,
 			);
 			path = SendImage;
-			sourceTree = "<group>";
-		};
-		79B6A78B241A5722003197A7 /* KNAnimatedImage */ = {
-			isa = PBXGroup;
-			children = (
-				79B6A78C241A5722003197A7 /* KNAnimatedImage.h */,
-				79B6A790241A5722003197A7 /* KNAnimatedImage.m */,
-				79B6A78E241A5722003197A7 /* KNAnimatedImageView.h */,
-				79B6A791241A5722003197A7 /* KNAnimatedImageView.m */,
-				79B6A78D241A5722003197A7 /* KNPhotoBrowserProxy.h */,
-				79B6A78F241A5722003197A7 /* KNPhotoBrowserProxy.m */,
-			);
-			path = KNAnimatedImage;
 			sourceTree = "<group>";
 		};
 		79E114E722F030B30022106B = {
@@ -384,6 +375,7 @@
 				79E1156522F032300022106B /* IMController */,
 				798D104423B9F71B006ACF61 /* SendImage */,
 				796A0A6923FFA38800E06135 /* CustomViewController */,
+				794038CD25398735002ADE14 /* LocateGifController */,
 				79E114FC22F030B40022106B /* Assets.xcassets */,
 				79E115DA22F0347E0022106B /* LaunchScreen.storyboard */,
 				79E115D922F0347E0022106B /* Main.storyboard */,
@@ -491,6 +483,7 @@
 		79E1157122F032310022106B /* ImageSource */ = {
 			isa = PBXGroup;
 			children = (
+				794038D12539883A002ADE14 /* gif3.GIF */,
 				79E1157322F032310022106B /* location_video.MP4 */,
 				79E1157422F032310022106B /* LocationLong.JPG */,
 				79E1157622F032310022106B /* 8.jpg */,
@@ -627,6 +620,7 @@
 				79E115C822F032310022106B /* 4.jpg in Resources */,
 				79E115CC22F032310022106B /* 2.jpg in Resources */,
 				79E115C422F032310022106B /* 21.jpg in Resources */,
+				794038D22539883A002ADE14 /* gif3.GIF in Resources */,
 				79E115BD22F032310022106B /* 15.jpg in Resources */,
 				79E115BE22F032310022106B /* 17.jpg in Resources */,
 				79E115DB22F0347E0022106B /* Main.storyboard in Resources */,
@@ -700,6 +694,7 @@
 				79E115B122F032310022106B /* IMModel.m in Sources */,
 				791260A323FE75F300BC4181 /* UIView+PBExtesion.m in Sources */,
 				791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */,
+				794038D025398746002ADE14 /* LocateGifController.m in Sources */,
 				791260A723FE75F300BC4181 /* KNProgressHUD.m in Sources */,
 				79E115B322F032310022106B /* IMViewController.m in Sources */,
 				79E115B222F032310022106B /* IMTableViewCell.m in Sources */,
@@ -707,7 +702,6 @@
 				79E115AF22F032310022106B /* NineSquareController.m in Sources */,
 				791260A623FE75F300BC4181 /* KNPhotoBaseCell.m in Sources */,
 				79E115A922F032310022106B /* NineSquareLocController.m in Sources */,
-				79B6A792241A5722003197A7 /* KNPhotoBrowserProxy.m in Sources */,
 				79E1159622F032310022106B /* ViewController.m in Sources */,
 				798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */,
 				79E115AE22F032310022106B /* NineSquareModel.m in Sources */,
@@ -718,13 +712,11 @@
 				791260AB23FE75F300BC4181 /* KNPhotoAVPlayerView.m in Sources */,
 				791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */,
 				791C6B7324DC1F70003E3AF1 /* KNToast.m in Sources */,
-				79B6A794241A5722003197A7 /* KNAnimatedImageView.m in Sources */,
 				798D104723B9F736006ACF61 /* SendImageController.m in Sources */,
 				79E1150322F030B40022106B /* main.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
 				79E115AA22F032310022106B /* NineSquareLocCell.m in Sources */,
 				79E115D122F032310022106B /* FirstViewController.m in Sources */,
-				79B6A793241A5722003197A7 /* KNAnimatedImage.m in Sources */,
 				791260A023FE75F300BC4181 /* KNActionSheet.m in Sources */,
 				79E115D522F032310022106B /* NavigationController.m in Sources */,
 				79E115B022F032310022106B /* NineSquareCell.m in Sources */,

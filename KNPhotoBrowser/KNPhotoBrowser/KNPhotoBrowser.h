@@ -49,6 +49,13 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,strong) UIImage *sourceImage;
 
 /**
+ is locate gif image or not, default is false
+ if is locate gif image , just set it true,
+ if is net gif image, do not set it
+ */
+@property (nonatomic,assign) BOOL isLocateGif;
+
+/**
  current control
  */
 @property (nonatomic,strong) UIView *sourceView;
@@ -59,7 +66,7 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) BOOL  isVideo;
 
 /**
- video is downloading or other state, Default is unknow
+ video is downloading or other state, default is unknow
  */
 @property (nonatomic,assign) KNPhotoDownloadState  downloadState;
 
@@ -180,22 +187,22 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
 /**
- is or not need pageNumView , Default is false
+ is or not need pageNumView , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPageNumView;
 
 /**
- is or not need pageControl , Default is false (but if photobrowser contain video,then hidden)
+ is or not need pageControl , default is false (but if photobrowser contain video,then hidden)
  */
 @property (nonatomic,assign) BOOL  isNeedPageControl;
 
 /**
- is or not need RightTopBtn , Default is false
+ is or not need RightTopBtn , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedRightTopBtn;
 
 /**
- is or not need PictureLongPress , Default is false
+ is or not need PictureLongPress , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPictureLongPress;
 
@@ -205,17 +212,17 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) BOOL  isNeedPrefetch;
 
 /**
- is or not need pan Gesture, Default is false
+ is or not need pan Gesture, default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
- is or not need auto play video, Default is false
+ is or not need auto play video, default is false
  */
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
 /**
- is or not need follow photoBrowser , Default is false
+ is or not need follow photoBrowser , default is false
  when touch photoBrowser, the customView will be hidden
  when you cancel, the customView will be showed
  when dismiss the photoBrowser immediately, the customView will be hidden immediately
@@ -279,7 +286,7 @@ for example: create a scrollView on the photoBrowser controller's view, when pho
 delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 'CustomViewController' in Demo, you can see it how to use
 @param customViewArr customViewArr
-@param animated need animated or not
+@param animated need animated or not, with photoBrowser present
 @param followAnimated need animated or not for follow photoBrowser
 */
 - (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr

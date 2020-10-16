@@ -11,7 +11,7 @@
 #import "KNToast.h"
 #import "UIImageView+WebCache.h"
 #import <Photos/Photos.h>
-#import "KNAnimatedImageView.h"
+#import <SDAnimatedImageView.h>
 
 @interface ViewController ()<KNPhotoBrowserDelegate>
 
@@ -161,7 +161,7 @@
             
             [view addSubview:imageView];
         }else {
-            KNAnimatedImageView *imageView = [[KNAnimatedImageView alloc] init];
+            SDAnimatedImageView *imageView = [[SDAnimatedImageView alloc] init];
             imageView.userInteractionEnabled = YES;
             [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDidClick:)]];
             imageView.tag = i + 1;

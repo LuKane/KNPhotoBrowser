@@ -13,6 +13,7 @@
 #import "KNProgressHUD.h"
 #import "UIImage+GIF.h"
 #import "KNPhotoBrowserPch.h"
+#import "KNPhotoBrowser.h"
 
 @interface KNPhotoBrowserImageView()<UIScrollViewDelegate>{
     NSURL         *_url;
@@ -23,9 +24,9 @@
 
 @implementation KNPhotoBrowserImageView
 
-- (KNAnimatedImageView *)imageView{
+- (SDAnimatedImageView *)imageView{
     if (!_imageView) {
-        _imageView = [[KNAnimatedImageView alloc] init];
+        _imageView = [[SDAnimatedImageView alloc] init];
         [_imageView setUserInteractionEnabled:true];
         [_imageView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _imageView.layer.cornerRadius = 0.1;
@@ -120,7 +121,7 @@
     }
 }
 
-- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder{
+- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder photoItem:(KNPhotoItems *)photoItem{
     
     [progressHUD setHidden:true];
     
@@ -128,10 +129,9 @@
     _placeHolder = placeHolder;
     
     if(!url){
-        if([placeHolder images] != nil){
-            KNAnimatedImage *animatedImg = [KNAnimatedImage animatedImageWithGIFData:UIImagePNGRepresentation(placeHolder)];
-            _imageView.animatedImage = animatedImg;
-        }else{
+        if (photoItem.isLocateGif == true) {
+            [_imageView setImage:photoItem.sourceImage];
+        }else {
             [_imageView setImage:placeHolder];
         }
         [self layoutSubviews];
