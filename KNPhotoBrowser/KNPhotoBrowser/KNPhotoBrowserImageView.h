@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SDAnimatedImageView.h>
 
+@class SDAnimatedImageView;
 @class KNProgressHUD;
 @class KNPhotoItems;
 
@@ -27,6 +27,9 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 // longPress tap
 @property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
 
-- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder photoItem:(KNPhotoItems *)photoItem;
+- (void)sd_ImageWithUrl:(NSURL *)url
+            progressHUD:(KNProgressHUD *)progressHUD
+            placeHolder:(UIImage *)placeHolder
+              photoItem:(KNPhotoItems *)photoItem;
 
 @end

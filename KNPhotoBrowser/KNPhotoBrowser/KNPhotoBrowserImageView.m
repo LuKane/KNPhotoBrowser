@@ -9,6 +9,7 @@
 #import "KNPhotoBrowserImageView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/SDImageCache.h>
+#import <SDAnimatedImageView.h>
 
 #import "KNProgressHUD.h"
 #import "UIImage+GIF.h"
@@ -121,7 +122,10 @@
     }
 }
 
-- (void)sd_ImageWithUrl:(NSURL *)url progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *)placeHolder photoItem:(KNPhotoItems *)photoItem{
+- (void)sd_ImageWithUrl:(NSURL *)url
+            progressHUD:(KNProgressHUD *)progressHUD
+            placeHolder:(UIImage *)placeHolder
+              photoItem:(KNPhotoItems *)photoItem{
     
     [progressHUD setHidden:true];
     
