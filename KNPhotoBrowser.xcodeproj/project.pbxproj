@@ -74,10 +74,6 @@
 		79E115D522F032310022106B /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1159522F032310022106B /* NavigationController.m */; };
 		79E115DB22F0347E0022106B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115D922F0347E0022106B /* Main.storyboard */; };
 		79E115DC22F0347E0022106B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115DA22F0347E0022106B /* LaunchScreen.storyboard */; };
-		8B9DE1C12538AA9100B9D861 /* QYPersonalCenterAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9DE1BB2538AA8F00B9D861 /* QYPersonalCenterAlbumCell.m */; };
-		8B9DE1C22538AA9100B9D861 /* AddImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9DE1BC2538AA9000B9D861 /* AddImageViewController.m */; };
-		8B9DE1C32538AA9100B9D861 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9DE1BD2538AA9000B9D861 /* ImageModel.m */; };
-		8B9DE1C62538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9DE1C42538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.m */; };
 		D7BBE6CFBA46ABDE79A92A7B /* libPods-KNPhotoBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */; };
 /* End PBXBuildFile section */
 
@@ -211,14 +207,6 @@
 		79E1159522F032310022106B /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		79E115D922F0347E0022106B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		79E115DA22F0347E0022106B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8B9DE1BB2538AA8F00B9D861 /* QYPersonalCenterAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QYPersonalCenterAlbumCell.m; sourceTree = "<group>"; };
-		8B9DE1BC2538AA9000B9D861 /* AddImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddImageViewController.m; sourceTree = "<group>"; };
-		8B9DE1BD2538AA9000B9D861 /* ImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageModel.m; sourceTree = "<group>"; };
-		8B9DE1BE2538AA9000B9D861 /* QYPersonalCenterAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QYPersonalCenterAlbumCell.h; sourceTree = "<group>"; };
-		8B9DE1BF2538AA9100B9D861 /* AddImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddImageViewController.h; sourceTree = "<group>"; };
-		8B9DE1C02538AA9100B9D861 /* ImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModel.h; sourceTree = "<group>"; };
-		8B9DE1C42538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowerLocateGifImageView.m; sourceTree = "<group>"; };
-		8B9DE1C52538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowerLocateGifImageView.h; sourceTree = "<group>"; };
 		AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KNPhotoBrowser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF870D3B26B6F5603B345795 /* Pods-KNPhotoBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,8 +278,6 @@
 				7912608E23FE75F300BC4181 /* KNPhotoBrowserImageView.h */,
 				7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */,
 				7912608223FE75F300BC4181 /* KNPhotoBrowserPch.h */,
-				8B9DE1C52538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.h */,
-				8B9DE1C42538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.m */,
 			);
 			path = KNPhotoBrowser;
 			sourceTree = "<group>";
@@ -379,7 +365,6 @@
 		79E114F222F030B30022106B /* KNPhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
-				8B9DE1BA2538AA7800B9D861 /* AddImageViewController */,
 				7912607A23FE75F300BC4181 /* KNPhotoBrowser */,
 				79E1152822F032300022106B /* AppDelegate.h */,
 				79E1152F22F032300022106B /* AppDelegate.m */,
@@ -533,19 +518,6 @@
 			path = ImageSource;
 			sourceTree = "<group>";
 		};
-		8B9DE1BA2538AA7800B9D861 /* AddImageViewController */ = {
-			isa = PBXGroup;
-			children = (
-				8B9DE1BF2538AA9100B9D861 /* AddImageViewController.h */,
-				8B9DE1BC2538AA9000B9D861 /* AddImageViewController.m */,
-				8B9DE1C02538AA9100B9D861 /* ImageModel.h */,
-				8B9DE1BD2538AA9000B9D861 /* ImageModel.m */,
-				8B9DE1BE2538AA9000B9D861 /* QYPersonalCenterAlbumCell.h */,
-				8B9DE1BB2538AA8F00B9D861 /* QYPersonalCenterAlbumCell.m */,
-			);
-			path = AddImageViewController;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -557,7 +529,6 @@
 				79E114EC22F030B30022106B /* Sources */,
 				79E114ED22F030B30022106B /* Frameworks */,
 				79E114EE22F030B30022106B /* Resources */,
-				0612F39AA9EEFE1B04C6EB17 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -698,23 +669,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0612F39AA9EEFE1B04C6EB17 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B1F8823B069D755A497A6328 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -756,20 +710,16 @@
 				79B6A792241A5722003197A7 /* KNPhotoBrowserProxy.m in Sources */,
 				79E1159622F032310022106B /* ViewController.m in Sources */,
 				798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */,
-				8B9DE1C62538AB6500B9D861 /* KNPhotoBrowerLocateGifImageView.m in Sources */,
 				79E115AE22F032310022106B /* NineSquareModel.m in Sources */,
 				791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */,
 				791260A923FE75F300BC4181 /* KNPhotoAVPlayerActionView.m in Sources */,
 				79E115AC22F032310022106B /* ScrollViewController.m in Sources */,
 				791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */,
 				791260AB23FE75F300BC4181 /* KNPhotoAVPlayerView.m in Sources */,
-				8B9DE1C22538AA9100B9D861 /* AddImageViewController.m in Sources */,
-				8B9DE1C32538AA9100B9D861 /* ImageModel.m in Sources */,
 				791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */,
 				791C6B7324DC1F70003E3AF1 /* KNToast.m in Sources */,
 				79B6A794241A5722003197A7 /* KNAnimatedImageView.m in Sources */,
 				798D104723B9F736006ACF61 /* SendImageController.m in Sources */,
-				8B9DE1C12538AA9100B9D861 /* QYPersonalCenterAlbumCell.m in Sources */,
 				79E1150322F030B40022106B /* main.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
 				79E115AA22F032310022106B /* NineSquareLocCell.m in Sources */,
