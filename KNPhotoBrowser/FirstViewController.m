@@ -47,6 +47,8 @@
         {
             NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"CustomViewController"];
+            [arr addObject:@"AddImageViewController"];
+            
             [_dataArr addObject:arr];
         }
     }

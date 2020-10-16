@@ -67,3 +67,50 @@
 }
 
 @end
+
+
+@implementation KNPhotoOfLocateGifBaseCell
+
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+        [self setupImageView];
+    }
+    return self;
+}
+
+
+- (void)setupImageView{
+    // 1.photoBrowerView
+    KNPhotoBrowerLocateGifImageView *gifView = [[KNPhotoBrowerLocateGifImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _gifImageView = gifView;
+    [self.contentView addSubview:gifView];
+    
+    // single tap
+    __weak typeof(self) weakself = self;
+    gifView.singleTap = ^{
+        if (weakself.gifSingleTap) {
+            weakself.gifSingleTap();
+        }
+    };
+    
+    // long press
+    gifView.longPressTap = ^{
+        if (weakself.gifLongPressTap) {
+            weakself.gifLongPressTap();
+        }
+    };
+}
+
+
+
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    _gifImageView.frame = self.bounds;
+}
+
+
+
+@end
+
