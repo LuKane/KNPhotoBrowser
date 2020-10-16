@@ -1,7 +1,7 @@
-#source 'https://github.com/CocoaPods/Specs.git'
-source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
 target 'KNPhotoBrowser' do
 pod 'SDWebImage'
-pod 'TZImagePickerController','~> 3.4.2'
 end
 
