@@ -20,7 +20,6 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/SDWebImagePrefetcher.h>
 #import <SDWebImage/SDImageCache.h>
-#import <SDWebImage/SDAnimatedImageView.h>
 
 #import "KNPhotoBrowserNumView.h"
 #import <MobileCoreServices/UTCoreTypes.h>

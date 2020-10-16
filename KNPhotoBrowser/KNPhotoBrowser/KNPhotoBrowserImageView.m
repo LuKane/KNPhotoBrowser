@@ -9,10 +9,8 @@
 #import "KNPhotoBrowserImageView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/SDImageCache.h>
-#import <SDAnimatedImageView.h>
 
 #import "KNProgressHUD.h"
-#import "UIImage+GIF.h"
 #import "KNPhotoBrowserPch.h"
 #import "KNPhotoBrowser.h"
 

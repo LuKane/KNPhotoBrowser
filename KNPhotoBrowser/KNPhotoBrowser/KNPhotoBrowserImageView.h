@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SDWebImage/SDAnimatedImageView.h>
 
-@class SDAnimatedImageView;
 @class KNProgressHUD;
 @class KNPhotoItems;
 
