@@ -193,7 +193,6 @@
     _collectionView = collectionView;
     [_collectionView registerClass:[KNPhotoBaseCell class] forCellWithReuseIdentifier:@"KNPhotoBaseCellID"];
     [_collectionView registerClass:[KNPhotoVideoCell class] forCellWithReuseIdentifier:@"KNPhotoVideoCellID"];
-    [_collectionView registerClass:[KNPhotoOfLocateGifBaseCell class] forCellWithReuseIdentifier:@"KNPhotoOfLocateGifBaseCellID"];
     
     KNPhotoBrowserImageView *imageView = [[KNPhotoBrowserImageView alloc] initWithFrame:self.view.bounds];
     [imageView setHidden:true];
@@ -283,27 +282,15 @@
         [cell setDelegate:self];
         return cell;
     }else{
-        if (item.isLocateGif) {
-            KNPhotoOfLocateGifBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoOfLocateGifBaseCellID" forIndexPath:indexPath];
-            __weak typeof(self) weakSelf = self;
-            cell.gifSingleTap = ^{
-                [weakSelf dismiss];
-            };
-            cell.gifLongPressTap = ^{
-                [weakSelf longPressIBAction];
-            };
-            return cell;
-        }else{
-            KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
-            __weak typeof(self) weakSelf = self;
-            cell.singleTap = ^{
-                [weakSelf dismiss];
-            };
-            cell.longPressTap = ^{
-                [weakSelf longPressIBAction];
-            };
-            return cell;
-        }
+        KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
+        __weak typeof(self) weakSelf = self;
+        cell.singleTap = ^{
+            [weakSelf dismiss];
+        };
+        cell.longPressTap = ^{
+            [weakSelf longPressIBAction];
+        };
+        return cell;
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -318,13 +305,8 @@
             [cell1 setIsNeedAutoPlay:true];
         }
     } else {
-        if (item.isLocateGif) {
-            KNPhotoOfLocateGifBaseCell *cell1 = (KNPhotoOfLocateGifBaseCell *)cell;
-            cell1.gifImageView.imageView.image = item.sourceImage;
-        }else{
-            KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
-            [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image];
-        }
+        KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
+        [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image];
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -391,7 +373,6 @@
     
     KNPhotoBrowserImageView *imageView;
     KNPhotoAVPlayerView *playerView;
-    KNPhotoBrowerLocateGifImageView *locateGifImageView;
     
     if (items.isVideo) {
         KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
@@ -402,23 +383,14 @@
         location    = [pan locationInView:playerView.playerBgView];
         velocity    = [pan velocityInView:self.view];
     }else{
-        if (items.isLocateGif) {
-            KNPhotoOfLocateGifBaseCell *cell = (KNPhotoOfLocateGifBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-            locateGifImageView = cell.gifImageView;
-            
-            if(locateGifImageView.scrollView.zoomScale > 1.f) return;
-            point       = [pan translationInView:self.view];
-            location    = [pan locationInView:locateGifImageView.scrollView];
-            velocity    = [pan velocityInView:self.view];
-        }else{
-            KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-            imageView = cell.photoBrowerImageView;
-            
-            if(imageView.scrollView.zoomScale > 1.f) return;
-            point       = [pan translationInView:self.view];
-            location    = [pan locationInView:imageView.scrollView];
-            velocity    = [pan velocityInView:self.view];
-        }
+        KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+        
+        imageView = cell.photoBrowerImageView;
+        
+        if(imageView.scrollView.zoomScale > 1.f) return;
+        point       = [pan translationInView:self.view];
+        location    = [pan locationInView:imageView.scrollView];
+        velocity    = [pan velocityInView:self.view];
     }
     
     switch (pan.state) {
@@ -429,11 +401,7 @@
                 [playerView setIsNeedVideoPlaceHolder:false];
                 [playerView videoWillSwipe];
             }else{
-                if (items.isLocateGif) {
-                    _startFrame     = locateGifImageView.imageView.frame;
-                }else{
-                    _startFrame     = imageView.imageView.frame;
-                }
+                _startFrame     = imageView.imageView.frame;
             }
             [self customViewSubViewsWillDismiss];
         }
@@ -451,17 +419,12 @@
             CGFloat rateY = (self.startLocation.y - self.startFrame.origin.y) / self.startFrame.size.height;
             CGFloat y = location.y - height * rateY;
             
-            CGRect rect = CGRectMake(x, y, width, height);
             if(items.isVideo){
-                playerView.playerView.frame     = rect;
+                playerView.playerView.frame     = CGRectMake(x, y, width, height);
                 playerView.playerLayer.frame    = CGRectMake(0, 0, width, height);
-                playerView.placeHolderImgView.frame = rect;
+                playerView.placeHolderImgView.frame = CGRectMake(x, y, width, height);
             }else{
-                if (items.isLocateGif) {
-                    locateGifImageView.imageView.frame = rect;
-                }else{
-                    imageView.imageView.frame = rect;
-                }
+                imageView.imageView.frame = CGRectMake(x, y, width, height);
             }
             
             self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:percent];
@@ -486,19 +449,11 @@
             }else {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
                     // dismiss
-                    if (items.isLocateGif) {
-                        _startFrame = locateGifImageView.imageView.frame;
-                    }else{
-                        _startFrame = imageView.imageView.frame;
-                    }
+                    _startFrame = imageView.imageView.frame;
                     [self dismiss];
                 }else{
                     // cancel
-                    if (items.isLocateGif) {
-                        [self cancelAnimation:locateGifImageView.imageView];
-                    }else{
-                        [self cancelAnimation:imageView.imageView];
-                    }
+                    [self cancelAnimation:imageView.imageView];
                     [self customViewSubViewsWillShow];
                 }
             }
@@ -511,15 +466,12 @@
 
 /// cancel animate for get back photoBrowser
 /// @param imageView current image
-- (void)cancelAnimation:(id)imageView{
-    if ([imageView isKindOfClass:[UIImageView class]]) {
-        UIImageView *imgView = (UIImageView *)imageView;
-        [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
-            imgView.frame = self.startFrame;
-        } completion:^(BOOL finished) {
-            self.view.backgroundColor = [UIColor blackColor];
-        }];
-    }
+- (void)cancelAnimation:(KNAnimatedImageView *)imageView{
+    [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
+        imageView.frame = self.startFrame;
+    } completion:^(BOOL finished) {
+        self.view.backgroundColor = [UIColor blackColor];
+    }];
 }
 
 - (void)cancelVideoAnimation:(KNPhotoAVPlayerView *)playerView{

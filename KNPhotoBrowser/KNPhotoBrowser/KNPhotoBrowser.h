@@ -48,9 +48,6 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
  */
 @property (nonatomic,strong) UIImage *sourceImage;
 
-/** if is locate gif, mush be set 'Yes'*/
-@property(nonatomic,assign) BOOL isLocateGif;
-
 /**
  current control
  */
