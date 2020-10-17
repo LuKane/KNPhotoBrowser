@@ -34,7 +34,8 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 - [x] video player add quick play api
 - [x] all alert or toast will be down by delegate function
 - [x] add custom is followed with photoBrowser to dismiss or show 
-- [x] add animated image to browser in Demo
+- [x] animated image to browser in Demo
+- [x] locate gif in demo
 
 ## 1.Function describe and Point
 * 1.depend `SDWebImage(5.0)`
