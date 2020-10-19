@@ -249,6 +249,7 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
  photoBrowser dismiss
  */
 - (void)dismiss;
+
 ```
 
 ## How to install 
