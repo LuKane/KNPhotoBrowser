@@ -144,9 +144,12 @@ photoBrowser.delegate = self;
 /**
  photoBrowser will layout subviews
  */
-- (void)photoBrowserWillLayoutSubviews;```
+- (void)photoBrowserWillLayoutSubviews;
+
+```
 
 ### 4.provide function of dismiss
+
 ```
 // maybe you never use it
 [_photoBrowser dismiss];
