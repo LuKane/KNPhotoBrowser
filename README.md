@@ -1,4 +1,4 @@
-![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
+![image](https://upload-images.jianshu.io/upload_images/1693073-222e76b529bc5f9e.png)
 
 <a href="https://img.shields.io/cocoapods/v/KNPhotoBrowser.svg"><img src="https://img.shields.io/cocoapods/v/KNPhotoBrowser.svg"></a>
 <a href="http://cocoadocs.org/docsets/KNPhotoBrowser"><img 
@@ -11,38 +11,34 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 ##### if you get any function to add, just contact me by E-mail. Welcome to Star 
 
 
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/collectionView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/photoBrowser-IMVideo.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower_Pan.gif?raw=true)
+![image](https://upload-images.jianshu.io/upload_images/1693073-138f5db5a76a3751.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-c4b3c40b49899a2a.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-934ff5b95e03083c.gif)
 
 
 ## Update content
-- [x] browser has been recoded , turn the `UIView` to the `UIViewController`
-- [x] adapt `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
-- [x] perfect adapt the rotate of the Screen,try on the real iPhone or iPad
-- [x] photoBrowser for IM (like `Wechat` chat session)
-- [x] photoBrowser add prefetch image API (2019/3/13)
-- [x] photoBrowser add panGesture to dismiss or cancel(2019/4/16)
-- [x] video player is ready to use (location video and net video) (2019/7/30)
-- [x] swipe  video player is done!  
-- [x] when photobrowser contain video ,then hide pagecontrol whatever you need or not pageControl
-- [x] add custom control as you wish
-- [x] video player contain autoplay api now
-- [x] video player add quick play api
+- [x] photoBrowser has been coded by `UIViewController` 
+- [x] ready for `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`、`iPhone12Mini`、`iPhone12`、`iPhonePro_Max`
+- [x] perfect adapt for rotate of the Screen , try it on the real device
+- [x] panGesture to dismiss or cancel
+- [x] prefetch image with API
+- [x] locate and net GIF is ready use
+- [x] video player is ready to use( locate and net video)
+- [x] video swipe function is ready to use
+- [x] video player contain autoplay API
+- [x] video player add quick play API
+- [x] custom control on the photoBrowser 
+- [x] custom is followed with photoBrowser to dismiss or show 
 - [x] all alert or toast will be down by delegate function
-- [x] add custom is followed with photoBrowser to dismiss or show 
-- [x] animated image to browser in Demo
-- [x] locate gif in demo
 
 ## 1.Function describe and Point
 * 1.depend `SDWebImage(5.0)`
-* 2.load nine picture ,scrollView,tableView,chat session for IM 
-* 3.most like photoBrowser of Wechat and Weibo in China
-* 4.provide function which can delete and download image
-* 5.provide quick play for video
+* 2.most like photoBrowser of Wechat and Weibo in China
+* 3.provide function which can delete and download image or video
+* 4.custom control as you wish
 
 
 ## 2.How to use
@@ -55,23 +51,27 @@ items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withStr
 items.sourceView = imageView;
 // if current url is video type
 // items.isVideo = true;
+// if current image is locate gif
+// itemM.isLocateGif = true;
 [self.itemsArr addObject:items];
 ```
+### 2.present , custom control as you wish
 
 ```
-// jump to the photobrowser --> you can see in the Demo 
 KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
 photoBrowser.itemsArr = [self.itemsArr copy];
-photoBrowser.isNeedPageControl = true;
 photoBrowser.isNeedPageNumView = true;
 photoBrowser.isNeedRightTopBtn = true;
-photoBrowser.isNeedPrefetch    = true;
 photoBrowser.isNeedPictureLongPress = true;
+photoBrowser.isNeedPanGesture = true;
+photoBrowser.isNeedPrefetch = true;
+photoBrowser.isNeedAutoPlay = true;
 photoBrowser.currentIndex = tap.view.tag;
+photoBrowser.delegate = self;
 [photoBrowser present];
 ```
 
-### 2.provide Delegate --> KNPhotoBrowserDelegate
+### 3.provide Delegate --> KNPhotoBrowserDelegate
 ```
 @optional
 /**
@@ -144,18 +144,15 @@ photoBrowser.currentIndex = tap.view.tag;
 /**
  photoBrowser will layout subviews
  */
-- (void)photoBrowserWillLayoutSubviews;
+- (void)photoBrowserWillLayoutSubviews;```
 
-
-```
-
-### 3.provide function of dismiss
+### 4.provide function of dismiss
 ```
 // maybe you never use it
 [_photoBrowser dismiss];
 ```
 
-### 4.API
+### 5.API
 ```
 /**
  current select index
@@ -173,22 +170,22 @@ photoBrowser.currentIndex = tap.view.tag;
 @property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
 /**
- is or not need pageNumView , Default is false
+ is or not need pageNumView , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPageNumView;
 
 /**
- is or not need pageControl , Default is false (but if photobrowser contain video,then hidden)
+ is or not need pageControl , default is false (but if photobrowser contain video,then hidden)
  */
 @property (nonatomic,assign) BOOL  isNeedPageControl;
 
 /**
- is or not need RightTopBtn , Default is false
+ is or not need RightTopBtn , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedRightTopBtn;
 
 /**
- is or not need PictureLongPress , Default is false
+ is or not need PictureLongPress , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPictureLongPress;
 
@@ -198,14 +195,22 @@ photoBrowser.currentIndex = tap.view.tag;
 @property (nonatomic,assign) BOOL  isNeedPrefetch;
 
 /**
- is or not need pan Gesture, Default is false
+ is or not need pan Gesture, default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
- is or not need auto play video, Default is false
+ is or not need auto play video, default is false
  */
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
+
+/**
+ is or not need follow photoBrowser , default is false
+ when touch photoBrowser, the customView will be hidden
+ when you cancel, the customView will be showed
+ when dismiss the photoBrowser immediately, the customView will be hidden immediately
+ */
+@property (nonatomic,assign) BOOL isNeedFollowAnimated;
 
 /**
  delete current photo or video
@@ -228,7 +233,7 @@ for example: create a scrollView on the photoBrowser controller's view, when pho
 delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 'CustomViewController' in Demo, you can see it how to use
 @param customViewArr customViewArr
-@param animated need animated or not
+@param animated need animated or not, with photoBrowser present
 @param followAnimated need animated or not for follow photoBrowser
 */
 - (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
@@ -244,6 +249,11 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
  photoBrowser dismiss
  */
 - (void)dismiss;
+```
+
+## How to install 
+```
+pod 'KNPhotoBrowser'
 ```
 
 ## By the way
