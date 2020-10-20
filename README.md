@@ -258,6 +258,10 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 ## How to install 
 ```
 pod 'KNPhotoBrowser'
+
+// terminal : cd ~(current path)
+pod install or pod update
+
 ```
 
 ## By the way

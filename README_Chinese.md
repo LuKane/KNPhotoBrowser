@@ -250,6 +250,16 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 - (void)dismiss;
 ```
 
+## 如何安装 
+```
+pod 'KNPhotoBrowser'
+
+
+// 终端进入项目目录 
+pod install or pod update
+
+```
+
 ## 补充
 * 1.目前适配 九宫格,scrollView,tableView, IM类型, 视频播放类型
 * 2.如果bug, 希望大家给个issue,一起努力改好
