@@ -1,4 +1,4 @@
-![image](https://raw.githubusercontent.com/LuKane/KNImageResource/master/PhotoBrower/KNPhotoBrower.png)
+![image](https://upload-images.jianshu.io/upload_images/1693073-222e76b529bc5f9e.png)
 
 <a href="https://img.shields.io/cocoapods/v/KNPhotoBrowser.svg"><img src="https://img.shields.io/cocoapods/v/KNPhotoBrowser.svg"></a>
 <a href="http://cocoadocs.org/docsets/KNPhotoBrowser"><img 
@@ -10,36 +10,33 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 
 ##### 微信 && 微博 图片||视频 浏览器
 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/collectionView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/scrollView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/tableView.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/photoBrowser-IMVideo.gif?raw=true)
-![image](https://github.com/LuKane/KNImageResource/blob/master/PhotoBrower/PhotoBrower_Pan.gif?raw=true)
+
+![image](https://upload-images.jianshu.io/upload_images/1693073-138f5db5a76a3751.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-c4b3c40b49899a2a.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-934ff5b95e03083c.gif)
 
 ## 内容 
-- [x] 浏览器大改版, 将之前的 `UIView` 改成 `UIViewController`
-- [x] 适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`
-- [x] 完美适配 屏幕旋转 , 请在真机上测试 旋转功能
-- [x] 新增IM 聊天时 图片浏览器功能(2019/2/2)
-- [x] 新增 图片预加载的功能 (2019/3/13)
-- [x] 新增图片 拖拽 消失 或 回显的功能(2019/4/16)
-- [x] 新增视频播放功能(本地视频和网络视频)(2019/7/30)
-- [x] 视频播放增加了拖动 消失和 返回的功能
-- [x] 当浏览器中包含 视频播放时, 无论设置是否隐藏pageControl ,都得隐藏
-- [x] 增加多个自定义控件
-- [x] 视频播放增加 自动播放的API
-- [x] 视频播放增加 长按速放(0.5~2.0)
-- [x] 所有弹出框和提示语都 通过代理方法回调
-- [x] 增加自定义控件 是否随着 photoBrowser一起动画消失和显示
-- [x] 增加Demo中默认动图 进行 动画浏览
+- [x] 浏览器编码为 `UIViewController`
+- [x] 适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`、`iPhone12Mini`、`iPhone12`、`iPhone12_Pro_Max`
+- [x] 完美适配屏幕旋转, 请在真机上测试
+- [x] 拖动消失或取消
+- [x] 预加载图片
+- [x] 加载本地gif图
+- [x] 本地和网络视频播放器
+- [x] 视频轻扫功能
+- [x] 视频快放功能
+- [x] 在浏览器上自定义控件
+- [x] 自定义控件  跟着 浏览器一起动画消失和动画展示
+- [x] 所有的弹出信息和操作 都通过代理方法操作
 
 ## 一.功能描述及要点
 * 1.依赖 `SDWebImage(5.0)`
-* 2.加载九宫格图片,scrollView,tableView, IM类型
-* 3.高仿 微信和微博 图片||视频 浏览效果,显示和回显动画
-* 4.提供删除图片和下载图片||视频等功能
-* 5.提供长按倍速播放视频的功能
+* 2.类似与微信和微博
+* 3.提供控件操作并通过代理方法处理
+* 4.自定义控件
 
 ## 二.方法调用
 
@@ -49,25 +46,30 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 items.sourceView = imageView;
-// 如果当前url是本地||网络视频
+// 如果是视频
 // items.isVideo = true;
-
+// 如果是本地gif
+// itemM.isLocateGif = true;
 [self.itemsArr addObject:items];
 ```
+
+### 2. present : 自定义控件
 
 ```
 // 直接跳入 图片浏览器 --> 详情请看Demo
 KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
 photoBrowser.itemsArr = [self.itemsArr copy];
-photoBrowser.isNeedPageControl = true;
 photoBrowser.isNeedPageNumView = true;
 photoBrowser.isNeedRightTopBtn = true;
-photoBrowser.isNeedPrefetch    = true;
 photoBrowser.isNeedPictureLongPress = true;
+photoBrowser.isNeedPanGesture = true;
+photoBrowser.isNeedPrefetch = true;
+photoBrowser.isNeedAutoPlay = true;
 photoBrowser.currentIndex = tap.view.tag;
+photoBrowser.delegate = self;
 [photoBrowser present];
 ```
-### 2.提供代理方法 --> KNPhotoBrowserDelegate
+### 3.提供代理方法 --> KNPhotoBrowserDelegate
 ```
 @optional
 /**
@@ -141,16 +143,15 @@ photoBrowser.currentIndex = tap.view.tag;
  photoBrowser will layout subviews
  */
 - (void)photoBrowserWillLayoutSubviews;
-
 ```
 
-### 3.提供 消失方法
+### 4.提供 消失方法
 ```
 [_photoBrowser dismiss];
 ```
 
 
-### 4.API
+### 5.API
 ```
 /**
  current select index
@@ -168,22 +169,22 @@ photoBrowser.currentIndex = tap.view.tag;
 @property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
 /**
- is or not need pageNumView , Default is false
+ is or not need pageNumView , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPageNumView;
 
 /**
- is or not need pageControl , Default is false (but if photobrowser contain video,then hidden)
+ is or not need pageControl , default is false (but if photobrowser contain video,then hidden)
  */
 @property (nonatomic,assign) BOOL  isNeedPageControl;
 
 /**
- is or not need RightTopBtn , Default is false
+ is or not need RightTopBtn , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedRightTopBtn;
 
 /**
- is or not need PictureLongPress , Default is false
+ is or not need PictureLongPress , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPictureLongPress;
 
@@ -193,14 +194,22 @@ photoBrowser.currentIndex = tap.view.tag;
 @property (nonatomic,assign) BOOL  isNeedPrefetch;
 
 /**
- is or not need pan Gesture, Default is false
+ is or not need pan Gesture, default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPanGesture;
 
 /**
- is or not need auto play video, Default is false
+ is or not need auto play video, default is false
  */
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
+
+/**
+ is or not need follow photoBrowser , default is false
+ when touch photoBrowser, the customView will be hidden
+ when you cancel, the customView will be showed
+ when dismiss the photoBrowser immediately, the customView will be hidden immediately
+ */
+@property (nonatomic,assign) BOOL isNeedFollowAnimated;
 
 /**
  delete current photo or video
@@ -223,7 +232,7 @@ for example: create a scrollView on the photoBrowser controller's view, when pho
 delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 'CustomViewController' in Demo, you can see it how to use
 @param customViewArr customViewArr
-@param animated need animated or not
+@param animated need animated or not, with photoBrowser present
 @param followAnimated need animated or not for follow photoBrowser
 */
 - (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
