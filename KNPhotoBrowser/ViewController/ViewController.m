@@ -13,6 +13,8 @@
 #import <Photos/Photos.h>
 #import <SDAnimatedImageView.h>
 
+#import "KNPhotoBrowserPch.h"
+
 @interface ViewController ()<KNPhotoBrowserDelegate>
 
 @property (nonatomic,strong) NSMutableArray *itemsArr;

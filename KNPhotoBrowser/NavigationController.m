@@ -15,16 +15,16 @@
 @implementation NavigationController
 
 - (BOOL)shouldAutorotate{
-    return NO;
+    return true;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 // Presentation推出支持的屏幕旋转
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 @end
