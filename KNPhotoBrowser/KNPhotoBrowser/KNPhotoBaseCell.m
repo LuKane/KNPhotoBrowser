@@ -58,6 +58,7 @@
 }
 
 - (void)prepareForReuse{
+    [super prepareForReuse];
     [_photoBrowerImageView.scrollView setZoomScale:1.f animated:false];
 }
 
