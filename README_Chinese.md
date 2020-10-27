@@ -11,7 +11,6 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 ##### 微信 && 微博 图片||视频 浏览器
 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
 
-![image](https://upload-images.jianshu.io/upload_images/1693073-138f5db5a76a3751.gif)
 ![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)
 ![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)
 ![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)
