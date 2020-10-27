@@ -32,7 +32,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 - [x] 所有的弹出信息和操作 都通过代理方法操作
 
 ## 一.功能描述及要点
-* 1.依赖 `SDWebImage(5.0)`, 若需要本地gif,则依赖`SDWebImage(5.9.3)`
+* 1.依赖 `SDWebImage(5.0)`, 若需要本地gif,则依赖`SDWebImage(5.8.3)`
 * 2.类似与微信和微博
 * 3.提供控件操作并通过代理方法处理
 * 4.自定义控件
