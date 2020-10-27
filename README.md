@@ -33,7 +33,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 - [x] all alert or toast will be down by delegate function
 
 ## 1.Function describe and Point
-* 1.depend `SDWebImage(5.0)`
+* 1.depend `SDWebImage(5.0)`, if need locate gif, depend `SDWebImage(5.8.3)`
 * 2.most like photoBrowser of Wechat and Weibo in China
 * 3.provide function which can delete and download image or video
 * 4.custom control as you wish
