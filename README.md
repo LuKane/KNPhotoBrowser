@@ -10,8 +10,6 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 ##### most like photo or video browser of `Wechat(TX)` and `Weibo(Sina)` in China
 ##### if you get any function to add, just contact me by E-mail. Welcome to Star 
 
-
-![image](https://upload-images.jianshu.io/upload_images/1693073-138f5db5a76a3751.gif)
 ![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)
 ![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)
 ![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)
