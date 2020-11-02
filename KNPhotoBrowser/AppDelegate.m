@@ -25,15 +25,6 @@
         NSLog(@"AppDelegate : clear disk is done for test");
     }];
     
-    if (@available(iOS 13.0, *)) {
-        UIStatusBarManager *statusBarManager = [UIApplication sharedApplication].windows.firstObject.windowScene.statusBarManager;
-        NSLog(@"statusBarHeight:%f",statusBarManager.statusBarFrame.size.height);
-    }
-    else {
-        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-        NSLog(@"statusBarHeight:%f",statusBarHeight);
-    }
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
