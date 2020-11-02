@@ -232,15 +232,27 @@
 /// long press
 /// @param photoBrowser pb
 /// @param longPress press
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser longPress:(UILongPressGestureRecognizer *)longPress {
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress {
     if (longPress.state == UIGestureRecognizerStateBegan) {
         [photoBrowser setImmediatelyPlayerRate:2];
     }else if (longPress.state == UIGestureRecognizerStateEnded || longPress.state == UIGestureRecognizerStateCancelled || longPress.state == UIGestureRecognizerStateFailed || longPress.state == UIGestureRecognizerStateRecognized){
         [photoBrowser setImmediatelyPlayerRate:1];
     }
 }
+
 - (void)photoBrowserToast:(KNPhotoShowState)state photoBrower:(KNPhotoBrowser *)photoBrowser photoItemRelative:(KNPhotoItems *)photoItemRe photoItemAbsolute:(KNPhotoItems *)photoItemAb{
     NSLog(@"%@==%@",photoItemRe.url, photoItemAb.url);
+}
+
+- (void)photoBrowserImageDidLongPress:(KNPhotoBrowser *)photoBrowser{
+    NSLog(@"image did long press");
+}
+
+- (void)photoBrowserDeleteSourceSuccessWithAbsoluteIndex:(NSInteger)index {
+    NSLog(@"deleteSourceSuccessWithAbsolute");
+}
+- (void)photoBrowserDeleteSourceSuccessWithRelativeIndex:(NSInteger)index {
+    NSLog(@"deleteSourceSuccessWithRelative");
 }
 
 - (void)dealloc{

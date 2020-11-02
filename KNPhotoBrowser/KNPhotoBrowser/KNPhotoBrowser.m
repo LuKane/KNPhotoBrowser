@@ -354,8 +354,8 @@
  video will long press
  */
 - (void)photoVideoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress{
-    if ([_delegate respondsToSelector:@selector(photoBrowser:longPress:)]) {
-        [_delegate photoBrowser:self longPress:longPress];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:videoLongPress:)]) {
+        [_delegate photoBrowser:self videoLongPress:longPress];
     }
 }
 
@@ -828,7 +828,7 @@
     
     CGFloat y = 25;
     CGFloat x = 0;
-    if(iPhoneX || iPhoneXR || iPhoneXs_Max){
+    if(iPhoneX || iPhoneXR || iPhoneXs_Max || iPhone12 || iPhone12_Pro_Max){
         y = 45;
     }
     
@@ -998,12 +998,12 @@
         [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
     
-    if ([_delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:)]) {
-        [_delegate photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:_currentIndex];
+    if ([_delegate respondsToSelector:@selector(photoBrowserDeleteSourceSuccessWithRelativeIndex:)]) {
+        [_delegate photoBrowserDeleteSourceSuccessWithRelativeIndex:_currentIndex];
     }
     
-    if ([_delegate respondsToSelector:@selector(photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:)]) {
-        [_delegate photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:[_tempArr indexOfObject:item]];
+    if ([_delegate respondsToSelector:@selector(photoBrowserDeleteSourceSuccessWithAbsoluteIndex:)]) {
+        [_delegate photoBrowserDeleteSourceSuccessWithAbsoluteIndex:[_tempArr indexOfObject:item]];
     }
 }
 
@@ -1112,7 +1112,9 @@
  */
 - (void)longPressIBAction{
     if(!_isNeedPictureLongPress) return;
-    [self operationBtnIBAction];
+    if ([_delegate respondsToSelector:@selector(photoBrowserImageDidLongPress:)]) {
+        [_delegate photoBrowserImageDidLongPress:self];
+    }
 }
 
 /**

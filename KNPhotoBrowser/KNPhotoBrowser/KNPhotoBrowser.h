@@ -100,25 +100,31 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 
 @optional
 /**
- photoBrowser right top button did click
+ photoBrowser right top button did click, (you can custom you right button)
  */
 - (void)photoBrowserRightOperationAction;
 
 @optional
 /**
- photoBrowser Delete image success with relative index
- 
- @param index relative index
+ photoBrowser did long press (for the image or gif image)
  */
-- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
+- (void)photoBrowserImageDidLongPress:(KNPhotoBrowser *)photoBrowser;
 
 @optional
 /**
- photoBrowser Delete image success with absolute index
+ photoBrowser delete image success with relative index
+ 
+ @param index relative index
+ */
+- (void)photoBrowserDeleteSourceSuccessWithRelativeIndex:(NSInteger)index;
+
+@optional
+/**
+ photoBrowser delete image success with absolute index
  
  @param index absolute index
  */
-- (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
+- (void)photoBrowserDeleteSourceSuccessWithAbsoluteIndex:(NSInteger)index;
 
 @optional
 /**
@@ -143,10 +149,10 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 - (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index;
 
 @optional
-/// photoBrowser did long press
+/// photoBrowser did long press for the video player
 /// @param photoBrowser photobrowser
 /// @param longPress long press gestureRecognizer
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser longPress:(UILongPressGestureRecognizer *)longPress;
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress;
 
 @optional
 /// download image or video  success | failure | failure reason call back

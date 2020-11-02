@@ -121,6 +121,7 @@
     
     [self removeItemObserver];
     if (_player) {
+        [_player pause];
         [self removeTimeObserver];
         [self removeAVPlayerAndActionView];
     }
