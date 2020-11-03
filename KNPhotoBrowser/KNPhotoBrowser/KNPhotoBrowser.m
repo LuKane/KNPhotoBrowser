@@ -570,6 +570,11 @@
         [_delegate photoBrowserWillDismiss];
     }
     
+    // if customView on photoBrowser, them must be show
+    for (UIView *subView in self.followArr) {
+        [subView setAlpha:1];
+    }
+    
     UIImageView *tempView = [[UIImageView alloc] init];
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
