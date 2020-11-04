@@ -158,10 +158,7 @@
  */
 - (void)videoPlayerWillReset{
     [self removeTimeObserver];
-    if (_player) {
-        [_player pause];
-        _isPlaying = false;
-    }
+    [self removeAVPlayerAndActionView];
 }
 
 /**

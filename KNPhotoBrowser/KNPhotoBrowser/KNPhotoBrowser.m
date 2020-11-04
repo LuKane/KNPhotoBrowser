@@ -36,12 +36,12 @@
     KNPhotoBrowserImageView    *_imageView;
     KNProgressHUD              *_progressHUD;
     NSArray                    *_tempArr; // absolute data source
+    NSArray                    *_customArr; // custom view on photoBrowser
     
     CGFloat                     _offsetPageIndex; // record location index, for screen rotate
     NSInteger                   _page; // current page
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
-    NSArray                    *_customArr;
 }
 
 @property (nonatomic, strong) NSMutableArray *followArr;
@@ -281,7 +281,7 @@
         KNPhotoVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoVideoCellID" forIndexPath:indexPath];
         [cell setDelegate:self];
         return cell;
-    }else{
+    }else {
         KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
         __weak typeof(self) weakSelf = self;
         cell.singleTap = ^{

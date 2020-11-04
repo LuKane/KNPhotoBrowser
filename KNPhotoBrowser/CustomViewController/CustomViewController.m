@@ -49,7 +49,6 @@
             titleL.text = [NSString stringWithFormat:@"This is an example for customView:%zd index\nThis is an example for customView:%zd index\nThis is an example for customView:%zd index\nThis is an example for customView:%zd index",i,i,i,i];
             [_scrollView addSubview:titleL];
         }
-        
     }
     return _scrollView;
 }
