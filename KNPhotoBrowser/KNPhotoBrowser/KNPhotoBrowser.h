@@ -89,7 +89,6 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @end
 
 /****************************** == line == ********************************/
-
 @protocol KNPhotoBrowserDelegate <NSObject>
 
 @optional
