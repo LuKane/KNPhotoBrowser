@@ -302,6 +302,16 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 /// if `which is already presenting`, use the `- (void)present:(UIViewController *)controller` to instead
 - (void)present;
 
+/* ====================== tip ======================== */
+ /* by the way , you alse can present as you wish, like: */
+
+ /*
+ [controller presentViewController:photoBrowser animated:false completion:^{
+ 
+ }];
+  */
+/* ====================== tip ======================== */
+
 /// photoBrowser will present base on current controller
 /// @param controller current controller
 - (void)present:(UIViewController *)controller;
