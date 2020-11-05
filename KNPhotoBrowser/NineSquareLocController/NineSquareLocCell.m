@@ -118,9 +118,7 @@
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedPictureLongPress = true;
-    [photoBrowser present];
+    [photoBrowser present:_vc];
 }
-
-
 
 @end

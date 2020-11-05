@@ -298,14 +298,15 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
                             animated:(BOOL)animated
                       followAnimated:(BOOL)followAnimated;
 
-/**
- photoBrowser show
- */
+/// photoBrowser will present
+/// if `which is already presenting`, use the `- (void)present:(UIViewController *)controller` to instead
 - (void)present;
 
-/**
- photoBrowser dismiss
- */
+/// photoBrowser will present base on current controller
+/// @param controller current controller
+- (void)present:(UIViewController *)controller;
+
+/// photoBrowser dismiss
 - (void)dismiss;
 
 @end

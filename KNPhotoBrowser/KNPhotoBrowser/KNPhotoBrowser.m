@@ -484,10 +484,16 @@
     }];
 }
 
-#pragma mark - photoBrowser will present
+#pragma mark - photoBrowser will present -- window
 - (void)present{
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window.rootViewController presentViewController:self animated:false completion:^{
+        
+    }];
+}
+#pragma mark - photoBrowser will present -- controller
+- (void)present:(UIViewController *)controller {
+    [controller presentViewController:self animated:false completion:^{
         
     }];
 }

@@ -183,6 +183,7 @@
     NineSquareLocCell *cell = [NineSquareLocCell nineSquareLocCellWithTableView:tableView];
     NineSquareModel *model = self.dataArr[indexPath.section];
     cell.squareM = model;
+    cell.vc = self;
     _cell = cell;
     return cell;
 }

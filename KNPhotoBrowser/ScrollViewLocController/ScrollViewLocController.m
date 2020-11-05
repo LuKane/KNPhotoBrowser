@@ -109,7 +109,7 @@
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedPictureLongPress = true;
-    [photoBrowser present];
+    [photoBrowser present:self];
     
     _photoBrowser = photoBrowser;
 }
@@ -128,6 +128,8 @@
     KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
         if (buttonIndex == 0) {
             [weakself.photoBrowser deletePhotoAndVideo];
+        }else if (buttonIndex == 1) {
+            [weakself.photoBrowser downloadPhotoAndVideo];
         }
     }];
     
@@ -152,8 +154,16 @@
     NSLog(@"delete-Absolute:%zd",index);
 }
 
-/* photoBrowser 保存图片是否成功 */
-- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success{
-    NSLog(@"saveImage:%d",success);
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser state:(KNPhotoShowState)state photoItemRelative:(KNPhotoItems *)photoItemRe photoItemAbsolute:(KNPhotoItems *)photoItemAb {
+    if (state == KNPhotoShowImageSuccess) {
+        NSLog(@"%@",@"下载图片成功");
+    }else if (state == KNPhotoShowImageFailure) {
+        NSLog(@"%@",@"下载图片失败");
+    }else if (state == KNPhotoShowImageFailureUnknow) {
+        NSLog(@"%@",@"下载图片失败:不知原因");
+    }else {
+        NSLog(@"其他状态");
+    }
 }
+
 @end

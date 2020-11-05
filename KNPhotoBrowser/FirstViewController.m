@@ -7,6 +7,7 @@
 //
 
 #import "FirstViewController.h"
+#import "NavigationController.h"
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -96,7 +97,16 @@
     
     Class class = NSClassFromString(arr[indexPath.row]);
     UIViewController *vc = [[class alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if (indexPath.section == 1) {
+        
+        NavigationController *nav = [[NavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:true completion:^{
+            
+        }];
+    }else {
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];

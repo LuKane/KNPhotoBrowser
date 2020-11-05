@@ -18,4 +18,6 @@
 
 @property (nonatomic, strong) NineSquareModel *squareM;
 
+@property (nonatomic,strong) UIViewController *vc;
+
 @end
