@@ -207,4 +207,10 @@
     return label;
 }
 
+- (void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    self.tableView.frame = self.view.bounds;
+}
+
+
 @end

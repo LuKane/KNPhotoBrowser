@@ -206,7 +206,7 @@
 
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
-//    self.tableView.frame = self.view.bounds;
+    self.tableView.frame = self.view.bounds;
 }
 
 @end
