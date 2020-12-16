@@ -192,6 +192,16 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
 /**
+  image' control animated mode , default is `UIViewContentModeScaleToFill`
+ */
+@property (nonatomic,assign) UIViewContentMode animatedMode;
+
+/**
+ image' control presented mode , default is `UIViewContentModeScaleToFill`
+ */
+@property (nonatomic,assign) UIViewContentMode presentedMode;
+
+/**
  is or not need pageNumView , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPageNumView;

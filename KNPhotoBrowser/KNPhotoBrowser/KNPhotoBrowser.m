@@ -304,9 +304,11 @@
         if (_isNeedAutoPlay == true) {
             [cell1 setIsNeedAutoPlay:true];
         }
+        [cell1 setPresentedMode:self.presentedMode];
     } else {
         KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
         [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image photoItem:item];
+        [cell1 setPresentedMode:self.presentedMode];
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -516,6 +518,7 @@
     CGRect rect = [sourceView convertRect:[sourceView bounds] toView:[UIApplication sharedApplication].keyWindow];
     
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
+    tempView.contentMode = self.animatedMode;
     
     if(tempView.image == nil){
         [_collectionView setHidden:false];
@@ -582,6 +585,7 @@
     }
     
     UIImageView *tempView = [[UIImageView alloc] init];
+    tempView.contentMode = self.animatedMode;
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
     
@@ -1206,7 +1210,6 @@
             imageView.image = [self createImageWithUIColor:UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
         }
     }
-    
     return imageView;
 }
 
