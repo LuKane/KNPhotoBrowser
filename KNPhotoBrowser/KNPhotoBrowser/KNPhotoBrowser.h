@@ -202,6 +202,12 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) UIViewContentMode presentedMode;
 
 /**
+ when source image && image && video is not ready,  create one image with color to holder
+  default is UIColor.clear
+ */
+@property (nonatomic,strong) UIColor *placeHolderColor;
+
+/**
  is or not need pageNumView , default is false
  */
 @property (nonatomic,assign) BOOL  isNeedPageNumView;

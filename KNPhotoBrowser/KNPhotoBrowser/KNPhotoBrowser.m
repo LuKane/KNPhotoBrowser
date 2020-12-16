@@ -520,6 +520,23 @@
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
     tempView.contentMode = self.animatedMode;
     
+    if (CGRectEqualToRect(rect, CGRectZero)) {
+        [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self->_collectionView setAlpha:1];
+        } completion:^(BOOL finished) {
+            [self->_collectionView setHidden:false];
+            [self hiddenStatusBar];
+            
+            [UIView animateWithDuration:0.15 animations:^{
+                [tempView setAlpha:0.f];
+            } completion:^(BOOL finished) {
+                [tempView removeFromSuperview];
+            }];
+            self->_page = self.currentIndex;
+        }];
+        return;
+    }
+    
     if(tempView.image == nil){
         [_collectionView setHidden:false];
         [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -527,12 +544,11 @@
         } completion:^(BOOL finished) {
             self->_page = self.currentIndex;
         }];
-        
         return;
     }
     
     [tempView setFrame:rect];
-    //    [tempView setContentMode:sourceView.contentMode];
+    
     tempView.layer.cornerRadius = 0.001;
     tempView.clipsToBounds = true;
     [self.view insertSubview:tempView atIndex:0];
@@ -1204,11 +1220,7 @@
     }
     
     if(imageView.image == nil){
-        if (items.isVideo == false) {
-            imageView.image = [self createImageWithUIColor:PhotoPlaceHolderDefaultColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
-        }else {
-            imageView.image = [self createImageWithUIColor:UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
-        }
+        imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
     }
     return imageView;
 }

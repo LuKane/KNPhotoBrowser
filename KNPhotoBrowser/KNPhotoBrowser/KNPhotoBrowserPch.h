@@ -27,25 +27,7 @@
 #define iPhone12 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1170 , 2532), [[UIScreen mainScreen] currentMode].size) : false)
 #define iPhone12_Pro_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1284 , 2778), [[UIScreen mainScreen] currentMode].size) : false)
 
-#define PhotoShowPlaceHolderImageColor [UIColor blackColor]
-
-#define PhotoSaveImageSuccessMessage  @"保存成功!!"
-#define PhotoSaveImageFailureMessage  @"保存失败!!"
-#define PhotoSaveImageMessageTime    2
-#define PhotoSaveImageFailureReason  @"图片需要下载完成"
-
-#define PhotoSaveVideoFailureMessage  @"视频下载失败"
-#define PhotoSaveVideoSuccessMessage  @"视频下载成功"
-#define PhotoSaveVideoFailureReason   @"视频无法下载"
-
 #define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
-
-#define PhotoPlaceHolderDefaultColor [UIColor grayColor]
-
-// pic max zoom num
-#define PhotoBrowserImageMaxScale   2.f
-// pic min zoom out num
-#define PhotoBrowserImageMinScale   1.f
 
 #define PhotoBrowserAnimateTime 0.3
 

@@ -88,7 +88,7 @@
 /****************************** == 添加 控件和url == ********************************/
         KNPhotoItems *items = [[KNPhotoItems alloc] init];
         items.url = [urlModel.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
-        items.sourceView = imageView;
+//        items.sourceView = imageView;
         [self.itemsArr addObject:items];
     }
     
