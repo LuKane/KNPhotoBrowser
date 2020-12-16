@@ -521,6 +521,7 @@
     tempView.contentMode = self.animatedMode;
     
     if (CGRectEqualToRect(rect, CGRectZero)) {
+        // when source == nil
         [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self->_collectionView setAlpha:1];
         } completion:^(BOOL finished) {
