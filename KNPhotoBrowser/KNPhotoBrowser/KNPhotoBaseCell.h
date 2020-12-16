@@ -27,6 +27,8 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 @property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;
 @property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
 
+@property (nonatomic,assign) UIViewContentMode presentedMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

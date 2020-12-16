@@ -57,6 +57,11 @@
                                  photoItem:photoItem];
 }
 
+- (void)setPresentedMode:(UIViewContentMode)presentedMode {
+    _presentedMode = presentedMode;
+    _photoBrowerImageView.imageView.contentMode = self.presentedMode;
+}
+
 - (void)prepareForReuse{
     [super prepareForReuse];
     [_photoBrowerImageView.scrollView setZoomScale:1.f animated:false];
