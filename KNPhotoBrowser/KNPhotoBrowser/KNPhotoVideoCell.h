@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *playerView;
 @property (nonatomic,weak  ) id<KNPhotoVideoCellDelegate> delegate;
 
+@property (nonatomic,assign) UIViewContentMode presentedMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -28,6 +28,11 @@
     [_playerView playerWithURL:url placeHolder:placeHolder];
 }
 
+- (void)setPresentedMode:(UIViewContentMode)presentedMode {
+    _presentedMode = presentedMode;
+    _playerView.placeHolderImgView.contentMode = self.presentedMode;
+}
+
 - (void)playerWillEndDisplay{
     [_playerView videoPlayerWillReset];
 }
