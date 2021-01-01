@@ -190,7 +190,6 @@
 - (void)imageViewDidClick:(UITapGestureRecognizer *)tap{
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     photoBrowser.itemsArr = [self.itemsArr copy];
-//    photoBrowser.isNeedPageControl = true; // if it has video to play , I do not suggest you to use PageControl
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedPictureLongPress = true;
