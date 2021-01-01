@@ -198,6 +198,8 @@
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
     
+    photoBrowser.placeHolderColor = UIColor.lightTextColor;
+    
     photoBrowser.currentIndex = tap.view.tag;
     photoBrowser.delegate = self;
     [photoBrowser present];
