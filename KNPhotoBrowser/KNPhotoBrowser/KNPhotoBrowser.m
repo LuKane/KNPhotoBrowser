@@ -502,6 +502,12 @@
         
     }];
 }
+#pragma mark - photoBrowser will present -- controller
+- (void)presentOn:(UIViewController *)controller {
+    [controller presentViewController:self animated:false completion:^{
+        
+    }];
+}
 
 /**
  photoBrowser first show

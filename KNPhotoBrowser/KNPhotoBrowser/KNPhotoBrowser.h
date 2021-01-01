@@ -330,7 +330,11 @@ delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
 
 /// photoBrowser will present base on current controller
 /// @param controller current controller
-- (void)present:(UIViewController *)controller;
+- (void)present:(UIViewController *)controller DEPRECATED_MSG_ATTRIBUTE("use delegate function presentOn: instead");
+
+/// photoBrowser will present base on current controller
+/// @param controller current controller
+- (void)presentOn:(UIViewController *)controller;
 
 /// photoBrowser dismiss
 - (void)dismiss;
