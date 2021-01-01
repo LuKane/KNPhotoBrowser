@@ -197,7 +197,7 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) UIViewContentMode animatedMode;
 
 /**
- image' control presented mode , default is `UIViewContentModeScaleToFill`
+ image' control presented mode , default is `UIViewContentModeScaleAspectFit`
  */
 @property (nonatomic,assign) UIViewContentMode presentedMode;
 

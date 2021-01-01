@@ -65,6 +65,9 @@
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.modalPresentationStyle = UIModalPresentationCustom;
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
+        
+        self.animatedMode  = UIViewContentModeScaleToFill;
+        self.presentedMode = UIViewContentModeScaleAspectFit;
     }
     return self;
 }
@@ -538,6 +541,7 @@
         return;
     }
     
+    // in case tempView'image create fail
     if(tempView.image == nil){
         [_collectionView setHidden:false];
         [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -1221,7 +1225,15 @@
     }
     
     if(imageView.image == nil){
-        imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+        if (items.isVideo == false) {
+            if (items.url) {
+                imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:[self getImageSizeWithURL:items.url]];
+            }else {
+                imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+            }
+        }else {
+            imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+        }
     }
     return imageView;
 }
