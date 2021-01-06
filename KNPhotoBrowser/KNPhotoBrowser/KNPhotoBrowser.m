@@ -1161,7 +1161,7 @@
 
 /**
  create one image by Color
- 
+  
  @param imageColor color
  @return image is created by color
  */
@@ -1233,15 +1233,35 @@
     if(imageView.image == nil){
         if (items.isVideo == false) {
             if (items.url) {
-                imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:[self getImageSizeWithURL:items.url]];
+                
+                UIColor *imageColor = self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor;
+                
+                CGSize size = [self getImageSizeWithURL:items.url];
+                
+                if (CGSizeEqualToSize(size, CGSizeZero)) {
+                    size = CGSizeMake(ScreenWidth, ScreenWidth);
+                    imageColor = UIColor.clearColor;
+                }
+                
+                imageView.image = [self createImageWithUIColor: imageColor size: size];
             }else {
-                imageView.image = [self createImageWithUIColor: UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+                imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(ScreenWidth, ScreenWidth)];
             }
         }else {
             if (items.sourceVideoUrl) {
-                imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:[self getImageSizeWithURL:items.sourceVideoUrl]];
+                
+                UIColor *imageColor = self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor;
+                
+                CGSize size = [self getImageSizeWithURL:items.url];
+                
+                if (CGSizeEqualToSize(size, CGSizeZero)) {
+                    size = CGSizeMake(ScreenWidth, ScreenWidth);
+                    imageColor = UIColor.clearColor;
+                }
+                
+                imageView.image = [self createImageWithUIColor: imageColor size: size];
             }else {
-                imageView.image = [self createImageWithUIColor: UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+                imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(ScreenWidth, ScreenWidth)];
             }
         }
     }
