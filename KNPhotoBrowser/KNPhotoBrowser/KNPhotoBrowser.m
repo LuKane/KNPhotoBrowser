@@ -1235,10 +1235,14 @@
             if (items.url) {
                 imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:[self getImageSizeWithURL:items.url]];
             }else {
-                imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+                imageView.image = [self createImageWithUIColor: UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
             }
         }else {
-            imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+            if (items.sourceVideoUrl) {
+                imageView.image = [self createImageWithUIColor: self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor size:[self getImageSizeWithURL:items.sourceVideoUrl]];
+            }else {
+                imageView.image = [self createImageWithUIColor: UIColor.clearColor size:CGSizeMake(ScreenWidth, ScreenWidth)];
+            }
         }
     }
     return imageView;

@@ -22,6 +22,10 @@
 @property (nonatomic,weak  ) KNPhotoBrowser *photoBrowser;
 @property (nonatomic,assign) BOOL  statusBarHidden;
 
+// 视频占位图的url
+@property (nonatomic,copy  ) NSString *videoUrl1;
+@property (nonatomic,copy  ) NSString *videoUrl2;
+
 @end
 
 @implementation ViewController
@@ -47,7 +51,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Normal(网络图片)(网络 + 本地 : 视频)";
+    self.videoUrl1 = @"https://edu-201121.oss-cn-beijing.aliyuncs.com/WX20210106-103823.png";
+    self.videoUrl2 = @"https://edu-201121.oss-cn-beijing.aliyuncs.com/WX20210106-103742.png";
+    
+    self.title = @"Normal(网络 + 本地 : 视频)";
     
     [self setupTopImgView];
     [self setupNineSquareView];
@@ -105,25 +112,17 @@
             imageView.tag = i + 1;
             
             if(i == 2 || i == 3){
-                AVURLAsset *avAsset = nil;
-                if ([urlArr[i] hasPrefix:@"http"]) {
-                    avAsset = [AVURLAsset assetWithURL:[NSURL URLWithString:urlArr[i]]];
+                // net video
+                
+                if (i == 2) {
+                    [imageView sd_setImageWithURL:[NSURL URLWithString:self.videoUrl1] placeholderImage:nil];
                 }
-                if (avAsset) {
-                    CGFloat padding = 5, imageViewLength = ([UIScreen mainScreen].bounds.size.width - padding * 2) / 3 - 10, scale = [UIScreen mainScreen].scale;
-                    CGSize imageViewSize = CGSizeMake(imageViewLength * scale, imageViewLength * scale);
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
-                        generator.appliesPreferredTrackTransform = YES;
-                        generator.maximumSize = imageViewSize;
-                        NSError *error = nil;
-                        CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            imageView.image = [UIImage imageWithCGImage:cgImage];
-                        });
-                    });
+                if (i == 3) {
+                    [imageView sd_setImageWithURL:[NSURL URLWithString:self.videoUrl2] placeholderImage:nil];
                 }
+                
             }else if ( i == 1) {
+                // locate video , get the first image of video
                 AVURLAsset *avAsset = nil;
                 avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:path]];
                 if (avAsset) {
@@ -138,7 +137,7 @@
                     });
                 }
             }else {
-                [imageView sd_setImageWithURL:urlArr[i] placeholderImage:nil];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:urlArr[i]] placeholderImage:nil];
             }
             
             imageView.backgroundColor = [UIColor grayColor];
@@ -155,6 +154,12 @@
             if(i == 2 || i == 3 || i == 1){
                 items.isVideo = true;
                 items.url = urlArr[i];
+                if (i == 2) {
+                    items.sourceVideoUrl = self.videoUrl1;
+                }
+                if (i == 3) {
+                    items.sourceVideoUrl = self.videoUrl2;
+                }
             }else{
                 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
             }

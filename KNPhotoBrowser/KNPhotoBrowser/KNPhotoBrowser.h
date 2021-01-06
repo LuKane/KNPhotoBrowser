@@ -66,6 +66,11 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) BOOL  isVideo;
 
 /**
+ when `isVideo` is true, and the video is net type, try to set sourceVideoUrl, it is like the placeHolderImage of the net video
+ */
+@property (nonatomic,copy  ) NSString *sourceVideoUrl;
+
+/**
  video is downloading or other state, default is unknow
  */
 @property (nonatomic,assign) KNPhotoDownloadState  downloadState;
