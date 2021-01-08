@@ -569,7 +569,15 @@
     CGFloat height = tempView.image.size.height;
     
     if(isPortrait == true){
-        tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
+        if (width/height >= ScreenWidth / ScreenHeight) {
+            tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
+        }else {
+            if (items.isVideo == true) {
+                tempRectSize = (CGSize){width * ScreenHeight / height,ScreenHeight};
+            }else {
+                tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
+            }
+        }
     }else{
         if(width > height){
             if(width / height > ScreenWidth / ScreenHeight){
