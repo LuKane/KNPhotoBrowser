@@ -299,13 +299,15 @@
     _isPlaying = false;
     if (_player) {
         __weak typeof(self) weakself = self;
-        [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
-            if (finished) {
-                weakself.actionBar.currentTime = 0;
-                [weakself.actionBar setIsPlaying:false];
-                [weakself.actionView setIsPlaying:false];
-            }
-        }];
+         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
+            [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
+                if (finished) {
+                    weakself.actionBar.currentTime = 0;
+                    [weakself.actionBar setIsPlaying:false];
+                    [weakself.actionView setIsPlaying:false];
+                }
+            }];
+        }
     }
 }
 
