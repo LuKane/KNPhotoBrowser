@@ -620,6 +620,8 @@
     }
     
     UIImageView *tempView = [[UIImageView alloc] init];
+    tempView.clipsToBounds = true;
+    tempView.layer.cornerRadius = 0.01;
     tempView.contentMode = self.animatedMode;
     
     KNPhotoItems *items = _itemsArr[_currentIndex];
