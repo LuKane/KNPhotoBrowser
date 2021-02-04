@@ -291,7 +291,7 @@ photoBrowser image download failure reason, default in KNPhotoBrowserPch
 - (void)downloadPhotoAndVideo;
 
 /**
- player's rate immediately to use
+ player's rate immediately to use, default is 1.0 , range is [0.5 <= rate <= 2.0]
  */
 - (void)setImmediatelyPlayerRate:(CGFloat)rate;
 

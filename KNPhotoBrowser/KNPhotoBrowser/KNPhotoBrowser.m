@@ -402,11 +402,11 @@
         case UIGestureRecognizerStateBegan:{
             _startLocation  = location;
             if(items.isVideo){
-                _startFrame     = playerView.playerBgView.frame;
-                [playerView setIsNeedVideoPlaceHolder:false];
+                _startFrame = playerView.playerBgView.frame;
+                [playerView setIsNeedVideoPlaceHolder:!playerView.isBeginPlayed];
                 [playerView videoWillSwipe];
             }else{
-                _startFrame     = imageView.imageView.frame;
+                _startFrame = imageView.imageView.frame;
             }
             [self customViewSubViewsWillDismiss];
         }
