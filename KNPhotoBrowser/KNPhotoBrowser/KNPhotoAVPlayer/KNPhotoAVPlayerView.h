@@ -91,6 +91,11 @@ auto play when you need
 @property (nonatomic,strong,nullable) AVPlayerLayer  *playerLayer;
 
 /**
+ if video has played ,even though one seconds : TRUE
+ */
+@property (nonatomic,assign) BOOL isBeginPlayed;
+
+/**
  delegate
  */
 @property (nonatomic,weak  ) id<KNPhotoAVPlayerViewDelegate> delegate;

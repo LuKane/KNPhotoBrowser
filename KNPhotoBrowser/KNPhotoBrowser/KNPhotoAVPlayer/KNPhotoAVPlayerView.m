@@ -236,6 +236,7 @@
     [self removeTimeObserver];
     
     self.timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        weakself.isBeginPlayed = true;
         __strong typeof(weakself) strongself = weakself;
         if (CMTimeGetSeconds(time) == strongself.actionBar.allDuration) {
             if (strongself.actionBar.allDuration != 0) {
