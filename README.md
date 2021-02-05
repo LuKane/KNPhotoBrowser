@@ -42,7 +42,7 @@ src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
 ## 2.How to use
 
 ### 1.init KNPhotoBrowser, set params
-```objc
+```
 // 1.make every control as an object, put it into an array
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
