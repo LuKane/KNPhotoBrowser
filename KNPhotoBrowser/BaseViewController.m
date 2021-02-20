@@ -29,11 +29,11 @@
 }
 
 - (BOOL)shouldAutorotate{
-    return true;
+    return false;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (UIImage *)createImageWithUIColor:(UIColor *)imageColor{

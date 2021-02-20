@@ -591,7 +591,7 @@
     }
     [_collectionView setHidden:true];
     
-    [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:PhotoBrowserAnimateTime delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         [tempView setCenter:[self.view center]];
         [tempView setBounds:(CGRect){CGPointZero,tempRectSize}];
         [self->_collectionView setAlpha:1];

@@ -187,7 +187,7 @@
         }else{
             // let width of the image set as width of scrollView, height become radio
             CGFloat ratio = frame.size.height / imageFrame.size.height;
-            imageFrame.size.width = imageFrame.size.width*ratio;
+            imageFrame.size.width = imageFrame.size.width * ratio;
             imageFrame.size.height = frame.size.height;
         }
         
