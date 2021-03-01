@@ -179,16 +179,23 @@
         
         CGSize imageSize = _imageView.image.size;
         CGRect imageFrame = CGRectMake(0, 0, imageSize.width, imageSize.height);
-        if (frame.size.width <= frame.size.height) { // if scrollView.width <= height
+        
+        // if scrollView.width <= height : that means Screen is not landscap
+        if (frame.size.width <= frame.size.height) {
             // let width of the image set as width of scrollView, height become radio
             CGFloat ratio = frame.size.width / imageFrame.size.width;
             imageFrame.size.height = imageFrame.size.height * ratio;
             imageFrame.size.width = frame.size.width;
         }else{
-            // let width of the image set as width of scrollView, height become radio
-            CGFloat ratio = frame.size.height / imageFrame.size.height;
-            imageFrame.size.width = imageFrame.size.width * ratio;
-            imageFrame.size.height = frame.size.height;
+            if (frame.size.width / frame.size.height <= imageSize.width / imageSize.height) {
+                imageFrame.size.width = frame.size.width;
+                imageFrame.size.height = (frame.size.width / imageSize.width) * imageSize.height;
+            }else {
+                // let width of the image set as width of scrollView, height become radio
+                CGFloat ratio = frame.size.height / imageFrame.size.height;
+                imageFrame.size.width = imageFrame.size.width * ratio;
+                imageFrame.size.height = frame.size.height;
+            }
         }
         
         [_imageView setFrame:(CGRect){CGPointZero,imageFrame.size}];
