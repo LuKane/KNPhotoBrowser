@@ -26,6 +26,8 @@
 #import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
 #import "KNPhotoDownloadMgr.h"
+#import <objc/runtime.h>
+
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
@@ -1220,6 +1222,16 @@
     return NO;
 }
 
+
+/// judge string is empty or null or nil
+/// @param string isEmpty string
+- (BOOL)isEmptyString:(NSString *)string{
+    if(string == nil || string == NULL || [string isKindOfClass:[NSNull class]] || [[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length]==0){
+        return YES;
+    }
+    return NO;
+}
+
 /**
  get the image of current sourceView
  
@@ -1229,11 +1241,48 @@
 - (UIImageView *)tempViewFromSourceViewWithCurrentIndex:(NSInteger)currentIndex{
     UIImageView *imageView = [[UIImageView alloc] init];
     KNPhotoItems *items = _itemsArr[currentIndex];
-    if([items.sourceView isKindOfClass:[UIImageView class]]){
-        imageView.image = [(UIImageView *)items.sourceView image];
-    }else if ([items.sourceView isKindOfClass:[UIButton class]]){
-        UIButton *btn = (UIButton *)items.sourceView;
-        [imageView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
+    
+    if ([self isEmptyArray:items.sourceLinkArr]) {
+        if([items.sourceView isKindOfClass:[UIImageView class]]){
+            imageView.image = [(UIImageView *)items.sourceView image];
+        }else if ([items.sourceView isKindOfClass:[UIButton class]]){
+            UIButton *btn = (UIButton *)items.sourceView;
+            [imageView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
+        }
+    }else {
+        
+        UIView *currentView = items.sourceView;
+        
+        for (NSInteger i = 0; i < items.sourceLinkArr.count; i++) {
+            Class cls = NSClassFromString(items.sourceLinkArr[i]);
+            for (NSInteger j = 0; j < currentView.subviews.count; j++) {
+                if ([currentView.subviews[j] isKindOfClass:cls]) {
+                    currentView = currentView.subviews[j];
+                    break;
+                }
+            }
+        }
+        
+        NSString *lastType = items.sourceLinkArr.lastObject;
+        if ([lastType isEqualToString:@"UIImageView"] && [currentView isKindOfClass:[UIImageView class]]) {
+            imageView.image = [(UIImageView *)currentView image];
+        }else if ([lastType isEqualToString:@"UIButton"] && [currentView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)currentView;
+            [imageView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
+        }else {
+            if ([self isEmptyString:items.sourceLinkProperyName] == false) {
+                unsigned int count;
+                objc_property_t *propertyList = class_copyPropertyList([currentView class], &count);
+                for (NSInteger i = 0; i < count; i++) {
+                    struct objc_property *objc_property = propertyList[i];
+                    NSString *property = [NSString stringWithFormat:@"%s",property_getName(objc_property)];
+                    if ([property isEqualToString:items.sourceLinkProperyName]) {
+                        [imageView setImage:[currentView valueForKey:items.sourceLinkProperyName]];
+                    }
+                }
+                free(propertyList);
+            }
+        }
     }
     
     if(items.sourceView == nil && imageView.image == nil && items.sourceImage != nil){
