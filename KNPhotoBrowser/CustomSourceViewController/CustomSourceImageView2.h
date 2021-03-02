@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SDAnimatedImageView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CustomSourceImageView2 : UIView
+
+@property (nonatomic,strong) SDAnimatedImageView *imgV;
 
 @end
 

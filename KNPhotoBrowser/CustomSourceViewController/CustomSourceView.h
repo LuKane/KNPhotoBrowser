@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomSourceImageView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CustomSourceView : UIView
+
+@property (nonatomic,strong) CustomSourceImageView *imgV;
 
 @end
 

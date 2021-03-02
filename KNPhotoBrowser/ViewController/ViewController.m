@@ -20,7 +20,6 @@
 @property (nonatomic,strong) NSMutableArray *itemsArr;
 @property (nonatomic,strong) NSMutableArray *actionSheetArr;
 @property (nonatomic,weak  ) KNPhotoBrowser *photoBrowser;
-@property (nonatomic,assign) BOOL  statusBarHidden;
 
 // 视频占位图的url
 @property (nonatomic,copy  ) NSString *videoUrl1;

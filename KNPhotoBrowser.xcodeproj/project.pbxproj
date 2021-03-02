@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79105C5325ECDDA400020EB6 /* CustomSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79105C5225ECDDA400020EB6 /* CustomSourceViewController.m */; };
 		791260A023FE75F300BC4181 /* KNActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912607E23FE75F300BC4181 /* KNActionSheet.m */; };
 		791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912607F23FE75F300BC4181 /* KNActionSheetItem.m */; };
 		791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912608323FE75F300BC4181 /* KNPhotoDownloadMgr.m */; };
@@ -25,8 +26,12 @@
 		794038D025398746002ADE14 /* LocateGifController.m in Sources */ = {isa = PBXBuildFile; fileRef = 794038CF25398746002ADE14 /* LocateGifController.m */; };
 		794038D22539883A002ADE14 /* gif3.GIF in Resources */ = {isa = PBXBuildFile; fileRef = 794038D12539883A002ADE14 /* gif3.GIF */; };
 		796A0A6C23FFA3A100E06135 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 796A0A6B23FFA3A100E06135 /* CustomViewController.m */; };
+		796F081025ECEEFF00BAE569 /* CustomSourceImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 796F080F25ECEEFF00BAE569 /* CustomSourceImageView.m */; };
+		796F081625ECEF0D00BAE569 /* CustomSourceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 796F081525ECEF0D00BAE569 /* CustomSourceView.m */; };
 		798D104723B9F736006ACF61 /* SendImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104623B9F736006ACF61 /* SendImageController.m */; };
 		798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 798D104923B9F807006ACF61 /* SendImageItem.m */; };
+		799A0EFD25EE4D47000ADBF0 /* CustomSourceView2.m in Sources */ = {isa = PBXBuildFile; fileRef = 799A0EFC25EE4D47000ADBF0 /* CustomSourceView2.m */; };
+		799A0F0325EE4D52000ADBF0 /* CustomSourceImageView2.m in Sources */ = {isa = PBXBuildFile; fileRef = 799A0F0225EE4D52000ADBF0 /* CustomSourceImageView2.m */; };
 		79E114FD22F030B40022106B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E114FC22F030B40022106B /* Assets.xcassets */; };
 		79E1150322F030B40022106B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150222F030B40022106B /* main.m */; };
 		79E1150D22F030B40022106B /* KNPhotoBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150C22F030B40022106B /* KNPhotoBrowserTests.m */; };
@@ -95,6 +100,8 @@
 
 /* Begin PBXFileReference section */
 		10207FA44A8221F667DA1D6F /* Pods-KNPhotoBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.release.xcconfig"; sourceTree = "<group>"; };
+		79105C5125ECDDA400020EB6 /* CustomSourceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceViewController.h; sourceTree = "<group>"; };
+		79105C5225ECDDA400020EB6 /* CustomSourceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceViewController.m; sourceTree = "<group>"; };
 		7912607C23FE75F300BC4181 /* KNActionSheetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNActionSheetItem.h; sourceTree = "<group>"; };
 		7912607D23FE75F300BC4181 /* KNActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNActionSheet.h; sourceTree = "<group>"; };
 		7912607E23FE75F300BC4181 /* KNActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNActionSheet.m; sourceTree = "<group>"; };
@@ -130,10 +137,18 @@
 		794038D12539883A002ADE14 /* gif3.GIF */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.GIF; sourceTree = "<group>"; };
 		796A0A6A23FFA3A100E06135 /* CustomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
 		796A0A6B23FFA3A100E06135 /* CustomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomViewController.m; sourceTree = "<group>"; };
+		796F080E25ECEEFF00BAE569 /* CustomSourceImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceImageView.h; sourceTree = "<group>"; };
+		796F080F25ECEEFF00BAE569 /* CustomSourceImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceImageView.m; sourceTree = "<group>"; };
+		796F081425ECEF0D00BAE569 /* CustomSourceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceView.h; sourceTree = "<group>"; };
+		796F081525ECEF0D00BAE569 /* CustomSourceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceView.m; sourceTree = "<group>"; };
 		798D104523B9F736006ACF61 /* SendImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageController.h; sourceTree = "<group>"; };
 		798D104623B9F736006ACF61 /* SendImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageController.m; sourceTree = "<group>"; };
 		798D104823B9F807006ACF61 /* SendImageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageItem.h; sourceTree = "<group>"; };
 		798D104923B9F807006ACF61 /* SendImageItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageItem.m; sourceTree = "<group>"; };
+		799A0EFB25EE4D47000ADBF0 /* CustomSourceView2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceView2.h; sourceTree = "<group>"; };
+		799A0EFC25EE4D47000ADBF0 /* CustomSourceView2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceView2.m; sourceTree = "<group>"; };
+		799A0F0125EE4D52000ADBF0 /* CustomSourceImageView2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceImageView2.h; sourceTree = "<group>"; };
+		799A0F0225EE4D52000ADBF0 /* CustomSourceImageView2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceImageView2.m; sourceTree = "<group>"; };
 		79E114F022F030B30022106B /* KNPhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNPhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79E114FC22F030B40022106B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79E1150122F030B40022106B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -248,6 +263,23 @@
 				AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		79105C5025ECDD8A00020EB6 /* CustomSourceViewController */ = {
+			isa = PBXGroup;
+			children = (
+				79105C5125ECDDA400020EB6 /* CustomSourceViewController.h */,
+				79105C5225ECDDA400020EB6 /* CustomSourceViewController.m */,
+				796F081425ECEF0D00BAE569 /* CustomSourceView.h */,
+				796F081525ECEF0D00BAE569 /* CustomSourceView.m */,
+				796F080E25ECEEFF00BAE569 /* CustomSourceImageView.h */,
+				796F080F25ECEEFF00BAE569 /* CustomSourceImageView.m */,
+				799A0EFB25EE4D47000ADBF0 /* CustomSourceView2.h */,
+				799A0EFC25EE4D47000ADBF0 /* CustomSourceView2.m */,
+				799A0F0125EE4D52000ADBF0 /* CustomSourceImageView2.h */,
+				799A0F0225EE4D52000ADBF0 /* CustomSourceImageView2.m */,
+			);
+			path = CustomSourceViewController;
 			sourceTree = "<group>";
 		};
 		7912607A23FE75F300BC4181 /* KNPhotoBrowser */ = {
@@ -376,6 +408,7 @@
 				798D104423B9F71B006ACF61 /* SendImage */,
 				796A0A6923FFA38800E06135 /* CustomViewController */,
 				794038CD25398735002ADE14 /* LocateGifController */,
+				79105C5025ECDD8A00020EB6 /* CustomSourceViewController */,
 				79E114FC22F030B40022106B /* Assets.xcassets */,
 				79E115DA22F0347E0022106B /* LaunchScreen.storyboard */,
 				79E115D922F0347E0022106B /* Main.storyboard */,
@@ -688,19 +721,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				796F081025ECEEFF00BAE569 /* CustomSourceImageView.m in Sources */,
 				79E115B422F032310022106B /* UIView+Extension.m in Sources */,
 				796A0A6C23FFA3A100E06135 /* CustomViewController.m in Sources */,
 				79E115B522F032310022106B /* ScrollViewLocController.m in Sources */,
+				79105C5325ECDDA400020EB6 /* CustomSourceViewController.m in Sources */,
 				79E115B122F032310022106B /* IMModel.m in Sources */,
 				791260A323FE75F300BC4181 /* UIView+PBExtesion.m in Sources */,
 				791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */,
 				794038D025398746002ADE14 /* LocateGifController.m in Sources */,
 				791260A723FE75F300BC4181 /* KNProgressHUD.m in Sources */,
 				79E115B322F032310022106B /* IMViewController.m in Sources */,
+				799A0F0325EE4D52000ADBF0 /* CustomSourceImageView2.m in Sources */,
 				79E115B222F032310022106B /* IMTableViewCell.m in Sources */,
 				79E115CF22F032310022106B /* BaseViewController.m in Sources */,
 				79E115AF22F032310022106B /* NineSquareController.m in Sources */,
 				791260A623FE75F300BC4181 /* KNPhotoBaseCell.m in Sources */,
+				799A0EFD25EE4D47000ADBF0 /* CustomSourceView2.m in Sources */,
 				79E115A922F032310022106B /* NineSquareLocController.m in Sources */,
 				79E1159622F032310022106B /* ViewController.m in Sources */,
 				798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */,
@@ -709,6 +746,7 @@
 				791260A923FE75F300BC4181 /* KNPhotoAVPlayerActionView.m in Sources */,
 				79E115AC22F032310022106B /* ScrollViewController.m in Sources */,
 				791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */,
+				796F081625ECEF0D00BAE569 /* CustomSourceView.m in Sources */,
 				791260AB23FE75F300BC4181 /* KNPhotoAVPlayerView.m in Sources */,
 				791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */,
 				791C6B7324DC1F70003E3AF1 /* KNToast.m in Sources */,

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CustomSourceImageView : UIView
 
+@property (nonatomic,strong) UIImageView *imgV;
+
 @end
 
 NS_ASSUME_NONNULL_END

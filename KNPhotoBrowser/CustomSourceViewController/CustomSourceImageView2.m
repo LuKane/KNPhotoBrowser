@@ -10,12 +10,25 @@
 
 @implementation CustomSourceImageView2
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+        [self setupSubView];
+    }
+    return self;
 }
-*/
+
+- (void)setupSubView{
+    
+    UILabel *l = [[UILabel alloc] initWithFrame:self.bounds];
+    [self addSubview:l];
+    
+    _imgV = [[SDAnimatedImageView alloc] initWithFrame:self.bounds];
+    [self addSubview:_imgV];
+    
+    UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
+    b.userInteractionEnabled = false;
+    b.frame = self.bounds;
+    [self addSubview:b];
+}
 
 @end
