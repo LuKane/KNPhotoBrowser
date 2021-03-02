@@ -19,6 +19,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// this enum is for photoBrowser [ it likes  private ]
 typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
     KNPhotoDownloadStateUnknow,
     KNPhotoDownloadStateSuccess,
@@ -26,6 +27,7 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
     KNPhotoDownloadStateDownloading
 };
 
+/// this enum is for download status [ it likes public ]
 typedef NS_ENUM(NSInteger, KNPhotoShowState) {
     KNPhotoShowImageSuccess,        // download image success
     KNPhotoShowImageFailure,        // download image failure
@@ -56,14 +58,23 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) BOOL isLocateGif;
 
 /**
- current control
+  1. if the sourceView is kind of `UIImageView` or `UIButton` , just set the sourceView
+  2. if the sourceView is the custom view , do not set sourceView
+ */
+
+/**
+ sourceView: current control
  */
 @property (nonatomic,strong) UIView *sourceView;
+
+@property (nonatomic,strong) NSArray<NSString *> *sourceLinkArr;
+
+@property (nonatomic,copy  ) NSString *sourceLinkProperyName;
 
 /**
  is video of not, default is false
  */
-@property (nonatomic,assign) BOOL  isVideo;
+@property (nonatomic,assign) BOOL isVideo;
 
 /**
  when `isVideo` is true, and the video is net type, try to set sourceVideoUrl, it is like the placeHolderImage of the net video
@@ -73,12 +84,12 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 /**
  video is downloading or other state, default is unknow
  */
-@property (nonatomic,assign) KNPhotoDownloadState  downloadState;
+@property (nonatomic,assign) KNPhotoDownloadState downloadState;
 
 /**
  video is downloading, current progress
  */
-@property (nonatomic,assign) float  downloadProgress;
+@property (nonatomic,assign) float downloadProgress;
 
 @end
 
@@ -192,7 +203,7 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,strong) NSArray<KNPhotoItems *> *itemsArr;
 
 /**
- Delegate
+ delegate
  */
 @property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
 
@@ -215,32 +226,32 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 /**
  is or not need pageNumView , default is false
  */
-@property (nonatomic,assign) BOOL  isNeedPageNumView;
+@property (nonatomic,assign) BOOL isNeedPageNumView;
 
 /**
  is or not need pageControl , default is false (but if photobrowser contain video,then hidden)
  */
-@property (nonatomic,assign) BOOL  isNeedPageControl;
+@property (nonatomic,assign) BOOL isNeedPageControl;
 
 /**
  is or not need RightTopBtn , default is false
  */
-@property (nonatomic,assign) BOOL  isNeedRightTopBtn;
+@property (nonatomic,assign) BOOL isNeedRightTopBtn;
 
 /**
  is or not need PictureLongPress , default is false
  */
-@property (nonatomic,assign) BOOL  isNeedPictureLongPress;
+@property (nonatomic,assign) BOOL isNeedPictureLongPress;
 
 /**
  is or not need prefetch image, maxCount is 8 (KNPhotoBrowserPch.h)
  */
-@property (nonatomic,assign) BOOL  isNeedPrefetch;
+@property (nonatomic,assign) BOOL isNeedPrefetch;
 
 /**
  is or not need pan Gesture, default is false
  */
-@property (nonatomic,assign) BOOL  isNeedPanGesture;
+@property (nonatomic,assign) BOOL isNeedPanGesture;
 
 /**
  is or not need auto play video, default is false
