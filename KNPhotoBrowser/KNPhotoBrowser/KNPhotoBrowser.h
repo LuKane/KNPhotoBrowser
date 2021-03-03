@@ -58,8 +58,8 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @property (nonatomic,assign) BOOL isLocateGif;
 
 /**
-  1. if the sourceView is kind of `UIImageView` or `UIButton` , just set the sourceView
-  2. if the sourceView is the custom view , do not set sourceView
+  1. if the sourceView is kind of `UIImageView` or `UIButton` , just only only only set the `sourceView`
+  2. if the sourceView is the custom view , set the `sourceView`, but do not forget set `sourceLinkArr` && `sourceLinkProperyName`
  */
 
 /**
@@ -67,8 +67,29 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
  */
 @property (nonatomic,strong) UIView *sourceView;
 
+/**
+ Class of sourceView' s  subview (if set sourceLinkArr , then must set sourceLinkProperyName when it's not `UIImageView` or `UIButton`)
+ eg:
+    CustomSuperView *superV = [[CustomSuperView alloc] init];
+    [sourceV addsubView: superV];
+            
+    UIImageView *imgV = [[UIImageView alloc] init];
+    [superV addsubView: imgV];
+ 
+    NSMutableArray *arr = [NSMutableArray array];
+    [arr addObject:@"CustomSourceImageView2"];
+    [arr addObject:@"SDAnimatedImageView"];
+ 
+    items.sourceLinkArr = [arr copy];
+ */
 @property (nonatomic,strong) NSArray<NSString *> *sourceLinkArr;
 
+/**
+ the property'name of the  sourceLinkArr lastObject
+ eg:
+    if the lastObject is kind of  UIImageView ,  the `sourceLinkProperyName` is `image`
+    if the lastObject is kind of  UIButton ,  the `sourceLinkProperyName` is `currentBackgroundImage` or `currentImage`
+ */
 @property (nonatomic,copy  ) NSString *sourceLinkProperyName;
 
 /**

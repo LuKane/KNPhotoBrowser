@@ -101,8 +101,6 @@
                 [customV.imgV.imgV sd_setImageWithURL:[NSURL URLWithString:urlArr[i]] placeholderImage:nil];
             }
             
-            
-            
             KNPhotoItems *items = [[KNPhotoItems alloc] init];
             items.sourceView = customV;
             
@@ -110,7 +108,6 @@
             [arr addObject:@"CustomSourceImageView"];
             [arr addObject:@"UIImageView"];
             items.sourceLinkArr = [arr copy];
-            
             
             if(i == 2 || i == 3){
                 items.isVideo = true;
@@ -154,7 +151,10 @@
             [arr addObject:@"CustomSourceImageView2"];
             [arr addObject:@"SDAnimatedImageView"];
             items.sourceLinkArr = [arr copy];
-            items.sourceLinkProperyName = @"currentFrame"; // this `currentFrame` is SDAnimatedImageView's property
+            
+            // this `currentFrame` is SDAnimatedImageView's property
+            // and currentFrame is the current image of the SDAnimatedImageView
+            items.sourceLinkProperyName = @"currentFrame";
             
             [self.itemsArr addObject:items];
             [view addSubview:imageView];

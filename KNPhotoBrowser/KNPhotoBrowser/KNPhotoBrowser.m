@@ -1242,6 +1242,7 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     KNPhotoItems *items = _itemsArr[currentIndex];
     
+    // if it is not custom sourceView, just UIImageView or UIButton
     if ([self isEmptyArray:items.sourceLinkArr]) {
         if([items.sourceView isKindOfClass:[UIImageView class]]){
             imageView.image = [(UIImageView *)items.sourceView image];
@@ -1249,7 +1250,7 @@
             UIButton *btn = (UIButton *)items.sourceView;
             [imageView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
         }
-    }else {
+    }else { // custom sourceView , it must set sourceLinkArr and sourceLinkProperyName
         
         UIView *currentView = items.sourceView;
         
@@ -1270,7 +1271,7 @@
             UIButton *btn = (UIButton *)currentView;
             [imageView setImage:[btn currentBackgroundImage]?[btn currentBackgroundImage]:[btn currentImage]];
         }else {
-            if ([self isEmptyString:items.sourceLinkProperyName] == false) {
+            if ([self isEmptyString:items.sourceLinkProperyName] == false) { // get all propertyName of currentView's class
                 unsigned int count;
                 objc_property_t *propertyList = class_copyPropertyList([currentView class], &count);
                 for (NSInteger i = 0; i < count; i++) {
