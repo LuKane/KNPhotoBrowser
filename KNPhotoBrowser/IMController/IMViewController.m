@@ -62,13 +62,13 @@
         model.isLeft   = true;
         [self.dataArr addObject:model];
     }
-
+    
     {   // 2
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"2.jpg"];
         [self.dataArr addObject:model];
     }
-
+    
     {   // 3
         IMModel *model = [[IMModel alloc] init];
         model.locImage = [UIImage imageNamed:@"3.jpg"];
@@ -98,7 +98,7 @@
     {
         // 7
         NSString *videoUrl2 = @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.MP4";
-
+        
         IMModel *model = [[IMModel alloc] init];
         model.isVideo  = true;
         model.url      = videoUrl2;
@@ -108,7 +108,7 @@
     }
     
     {   // 8
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"location_video.MP4" ofType:nil];
+        NSString *path = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
         IMModel *model = [[IMModel alloc] init];
         model.url      = path;
         model.isVideo  = true;
@@ -216,7 +216,6 @@
                         });
                     }
                 }
-                
             }
             [self.itemsArr addObject:items];
             [tempArr addObject:imM];
@@ -232,7 +231,7 @@
         for (NSInteger j = 0; j < visibleCells.count; j++) {
             IMTableViewCell *cell = (IMTableViewCell *)visibleCells[j];
             if(cell.imModel.url == nil && cell.imModel.locImage == nil){
-
+                
             }else{
                 if(imM == cell.imModel){
                     items.sourceView = cell.picImgView;
