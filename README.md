@@ -26,7 +26,7 @@
 | Video player times speed play [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Show custom view on PhotoBrowser [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Show custom view on PhotoBrowser, and set animated following photoBrowser [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| Before the photoBrowser show, all image control can custom [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| Before the photoBrowser show, all image control can be custom [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | All operation though the delegate [**Delegate**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 
 ## 1.Before use, you need to know
