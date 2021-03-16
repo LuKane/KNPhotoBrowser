@@ -38,7 +38,7 @@
 
 ## 2.How to use
 
-### 1.init base params
+### (1).init base params
 ```objc
 // 1.make every control as an object, put it into an array
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
@@ -50,7 +50,7 @@ items.sourceView = imageView;
 // itemM.isLocateGif = true;
 [self.itemsArr addObject:items];
 ```
-### 2.init PhotoBrowser
+### (2).init PhotoBrowser
 
 ```objc
 KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
@@ -59,14 +59,52 @@ photoBrowser.currentIndex = tap.view.tag;
 [photoBrowser present];
 ```
 
-### 3.
+### (3).function's describe of delegate
 
-### 4.
+##### photoBrowser will dismiss
+```objc
+/// photoBrowser will dismiss with currentIndex
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser willDismissWithIndex:(NSInteger)index;
+```
+##### photoBrowser right button did click
+```objc
+/// photoBrowser right top button did click with currentIndex (you can custom you right button, but if you custom your right button, that you need implementate your target action)
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser rightBtnOperationActionWithIndex:(NSInteger)index;
+```
+.....
+### (4).component of browser : KNPhotoItems
+##### base params of items
+```objc
+/// if it is network image,  set `url` , do not set `sourceImage`
+@property (nonatomic,copy  ) NSString *url;
 
-### 5.
+/// if it is locate image, set `sourceImage`, do not set `url`
+@property (nonatomic,strong) UIImage *sourceImage;
 
+/// sourceView is current control to show image or video.
+/// 1. if the sourceView is kind of `UIImageView` or `UIButton` , just only only only set the `sourceView`.
+/// 2. if the sourceView is the custom view , set the `sourceView`, but do not forget set `sourceLinkArr` && `sourceLinkProperyName`.
+@property (nonatomic,strong) UIView *sourceView;
+```
+##### custom source View (it is very nice)
+```objc
+@property (nonatomic,strong) NSArray<NSString *> *sourceLinkArr;
 
-## How to install 
+/**
+ eg:
+    if the lastObject is kind of  UIImageView ,  the `sourceLinkProperyName` is `image`
+    if the lastObject is kind of  UIButton ,  the `sourceLinkProperyName` is `currentBackgroundImage` or `currentImage`
+ */
+
+/// the property'name of the  sourceLinkArr lastObject
+@property (nonatomic,copy  ) NSString *sourceLinkProperyName;
+
+/// is video or not, defalut is false
+@property (nonatomic,assign) BOOL isVideo;
+
+```
+
+## 3.How to install 
 ```objc
 pod 'KNPhotoBrowser'
 
@@ -75,5 +113,5 @@ pod install or pod update
 
 ```
 
-## By the way
+## 5.By the way
 * if you get any idea, just contact me! Thanks
