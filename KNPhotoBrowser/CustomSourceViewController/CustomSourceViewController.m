@@ -113,10 +113,10 @@
                 items.isVideo = true;
                 items.url = urlArr[i];
                 if (i == 2) {
-                    items.sourceVideoUrl = self.videoUrl1;
+                    items.videoPlaceHolderImageUrl = self.videoUrl1;
                 }
                 if (i == 3) {
-                    items.sourceVideoUrl = self.videoUrl2;
+                    items.videoPlaceHolderImageUrl = self.videoUrl2;
                 }
             }else{
                 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
@@ -167,7 +167,7 @@
     photoBrowser.itemsArr = [self.itemsArr copy];
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
-    photoBrowser.isNeedPictureLongPress = true;
+    photoBrowser.isNeedLongPress = true;
     photoBrowser.isNeedPanGesture = true;
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;

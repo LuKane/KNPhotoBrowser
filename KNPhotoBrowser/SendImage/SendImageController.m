@@ -82,25 +82,25 @@
     photoBrower.isNeedPageControl = true;
     photoBrower.isNeedPageNumView = true;
     photoBrower.isNeedRightTopBtn = true;
-    photoBrower.isNeedPictureLongPress = true;
+    photoBrower.isNeedLongPress = true;
     [photoBrower present];
     photoBrower.delegate = self;
     _photoBrowser = photoBrower;
 }
 // photoBrowser's delegate
-- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser removeSourceWithRelativeIndex:(NSInteger)relativeIndex{
     
     // delete locate control
-    [_bgView.subviews[index] removeFromSuperview];
+    [_bgView.subviews[relativeIndex] removeFromSuperview];
     
     // you need reload dataResource
-    [self.itemsArr removeObjectAtIndex:index];
+    [self.itemsArr removeObjectAtIndex:relativeIndex];
     
     // reload locate UI
     [self reloadSubViews];
 }
 
-- (void)photoBrowserRightOperationAction{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser rightBtnOperationActionWithIndex:(NSInteger)index{
     
     __weak typeof(self) weakself = self;
     KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {

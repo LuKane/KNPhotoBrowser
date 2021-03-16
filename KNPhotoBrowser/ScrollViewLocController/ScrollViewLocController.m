@@ -104,66 +104,12 @@
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     photoBrowser.itemsArr = [_itemsArr copy];
     photoBrowser.currentIndex = tap.view.tag;
-    [photoBrowser setDelegate:self];
     photoBrowser.isNeedPageControl = true;
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
-    photoBrowser.isNeedPictureLongPress = true;
+    photoBrowser.isNeedLongPress = true;
     [photoBrowser presentOn:self];
-    
     _photoBrowser = photoBrowser;
-}
-
-
-/*************************** == Delegate == ************************/
-/* photoBrowser 即将消失 */
-- (void)photoBrowserWillDismiss{
-    NSLog(@"Will Dismiss");
-}
-
-/* photoBrowser 右上角按钮的点击 */
-- (void)photoBrowserRightOperationAction{
-    
-    __weak typeof(self) weakself = self;
-    KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
-        if (buttonIndex == 0) {
-            [weakself.photoBrowser deletePhotoAndVideo];
-        }else if (buttonIndex == 1) {
-            [weakself.photoBrowser downloadPhotoAndVideo];
-        }
-    }];
-    
-    [actionSheet show];
-}
-
-/**
- *  删除当前图片
- *
- *  @param index 相对 下标
- */
-- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index{
-    NSLog(@"delete-Relative:%zd",index);
-}
-
-/**
- *  删除当前图片
- *
- *  @param index 绝对 下标
- */
-- (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index{
-    NSLog(@"delete-Absolute:%zd",index);
-}
-
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser state:(KNPhotoShowState)state photoItemRelative:(KNPhotoItems *)photoItemRe photoItemAbsolute:(KNPhotoItems *)photoItemAb {
-    if (state == KNPhotoShowImageSuccess) {
-        NSLog(@"%@",@"下载图片成功");
-    }else if (state == KNPhotoShowImageFailure) {
-        NSLog(@"%@",@"下载图片失败");
-    }else if (state == KNPhotoShowImageFailureUnknow) {
-        NSLog(@"%@",@"下载图片失败:不知原因");
-    }else {
-        NSLog(@"其他状态");
-    }
 }
 
 @end

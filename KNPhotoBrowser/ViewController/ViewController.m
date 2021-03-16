@@ -154,10 +154,10 @@
                 items.isVideo = true;
                 items.url = urlArr[i];
                 if (i == 2) {
-                    items.sourceVideoUrl = self.videoUrl1;
+                    items.videoPlaceHolderImageUrl = self.videoUrl1;
                 }
                 if (i == 3) {
-                    items.sourceVideoUrl = self.videoUrl2;
+                    items.videoPlaceHolderImageUrl = self.videoUrl2;
                 }
             }else{
                 items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
@@ -184,7 +184,6 @@
             KNPhotoItems *items = [[KNPhotoItems alloc] init];
             items.sourceView = imageView;
             items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
-            
             [self.itemsArr addObject:items];
             [view addSubview:imageView];
         }
@@ -196,7 +195,7 @@
     photoBrowser.itemsArr = [self.itemsArr copy];
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
-    photoBrowser.isNeedPictureLongPress = true;
+    photoBrowser.isNeedLongPress = true;
     photoBrowser.isNeedPanGesture = true;
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
@@ -210,7 +209,7 @@
     _photoBrowser = photoBrowser;
 }
 
-- (void)photoBrowserRightOperationAction{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser rightBtnOperationActionWithIndex:(NSInteger)index{
     
     __weak typeof(self) weakself = self;
     KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@"" cancelTitle:@"" titleArray:@[@"删除",@"保存",@"转发微博",@"赞"].mutableCopy destructiveArray:@[@"0"].mutableCopy actionSheetBlock:^(NSInteger buttonIndex) {
@@ -233,31 +232,27 @@
     
     [actionSheet show];
 }
-
-/// long press
-/// @param photoBrowser pb
-/// @param longPress press
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress {
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress index:(NSInteger)index {
     if (longPress.state == UIGestureRecognizerStateBegan) {
         [photoBrowser setImmediatelyPlayerRate:2];
     }else if (longPress.state == UIGestureRecognizerStateEnded || longPress.state == UIGestureRecognizerStateCancelled || longPress.state == UIGestureRecognizerStateFailed || longPress.state == UIGestureRecognizerStateRecognized){
         [photoBrowser setImmediatelyPlayerRate:1];
     }
 }
-
-- (void)photoBrowserToast:(KNPhotoShowState)state photoBrower:(KNPhotoBrowser *)photoBrowser photoItemRelative:(KNPhotoItems *)photoItemRe photoItemAbsolute:(KNPhotoItems *)photoItemAb{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser
+               state:(KNPhotoShowState)state
+   photoItemRelative:(KNPhotoItems *)photoItemRe
+   photoItemAbsolute:(KNPhotoItems *)photoItemAb{
     NSLog(@"%@==%@",photoItemRe.url, photoItemAb.url);
 }
-
-- (void)photoBrowserImageDidLongPress:(KNPhotoBrowser *)photoBrowser{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageDidLongPressWithIndex:(NSInteger)index{
     NSLog(@"image did long press");
 }
-
-- (void)photoBrowserDeleteSourceSuccessWithAbsoluteIndex:(NSInteger)index {
-    NSLog(@"deleteSourceSuccessWithAbsolute");
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser removeSourceWithRelativeIndex:(NSInteger)relativeIndex {
+    NSLog(@"removeSourceWithRelativeIndex");
 }
-- (void)photoBrowserDeleteSourceSuccessWithRelativeIndex:(NSInteger)index {
-    NSLog(@"deleteSourceSuccessWithRelative");
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser removeSourceWithAbsoluteIndex:(NSInteger)absoluteIndex {
+    NSLog(@"removeSourceWithAbsoluteIndex");
 }
 
 - (void)dealloc{

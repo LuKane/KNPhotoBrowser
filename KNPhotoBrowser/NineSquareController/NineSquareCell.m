@@ -120,36 +120,6 @@
     photoBrower.isNeedPageControl = true;
     photoBrower.isNeedPageNumView = true;
     [photoBrower present];
-    [photoBrower setDelegate:self];
-}
-
-/****************************** == 代理方法 == ********************************/
-/* PhotoBrower 右上角按钮的点击 */
-- (void)photoBrowerRightOperationActionWithIndex:(NSInteger)index{
-    NSLog(@"operation:%zd",index);
-}
-
-/**
- *  删除当前图片
- *
- *  @param index 相对 下标
- */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index{
-    NSLog(@"delete-Relative:%zd",index);
-}
-
-/**
- *  删除当前图片
- *
- *  @param index 绝对 下标
- */
-- (void)photoBrowerRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index{
-    NSLog(@"delete-Absolute:%zd",index);
-}
-
-/* PhotoBrower 保存图片是否成功 */
-- (void)photoBrowerWriteToSavedPhotosAlbumStatus:(BOOL)success{
-    NSLog(@"saveImage:%d",success);
 }
 
 @end

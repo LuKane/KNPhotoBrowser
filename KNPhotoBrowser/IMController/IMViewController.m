@@ -247,7 +247,7 @@
     photoBrower.isNeedPageNumView = true;
     photoBrower.isNeedRightTopBtn = true;
     photoBrower.isNeedPanGesture  = true;
-    photoBrower.isNeedPictureLongPress = true;
+    photoBrower.isNeedLongPress = true;
     photoBrower.currentIndex = [tempArr indexOfObject:imModel];
     [photoBrower present];
 }

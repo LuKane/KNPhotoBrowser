@@ -98,7 +98,7 @@
     photoBrower.isNeedPageControl = true;
     photoBrower.isNeedPageNumView = true;
     photoBrower.isNeedRightTopBtn = true;
-    photoBrower.isNeedPictureLongPress = true;
+    photoBrower.isNeedLongPress = true;
     [photoBrower presentOn:self];
 }
 

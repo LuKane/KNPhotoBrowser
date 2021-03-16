@@ -116,17 +116,17 @@
     photoBrowser.isNeedPageControl = true;
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
-    photoBrowser.isNeedPictureLongPress = true;
+    photoBrowser.isNeedLongPress = true;
     photoBrowser.isNeedPanGesture = true;
     [photoBrowser present];
     photoBrowser.delegate = self;
 }
 
-- (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser scrollToLocateWithIndex:(NSInteger)index{
     [self.scrollView setContentOffset:CGPointMake((self.view.frame.size.width + 20) * index, 0) animated:false];
 }
 
-- (void)photoBrowserWillDismiss{
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser willDismissWithIndex:(NSInteger)index{
     [self.scrollView setContentOffset:CGPointZero animated:false];
 }
 

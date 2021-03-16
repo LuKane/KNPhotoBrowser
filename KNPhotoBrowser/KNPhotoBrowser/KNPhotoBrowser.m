@@ -339,8 +339,8 @@
     if(_page != page){
         _page = page;
         
-        if ([_delegate respondsToSelector:@selector(photoBrowserScrollToLocateWithIndex:)]) {
-            [_delegate photoBrowserScrollToLocateWithIndex:page];
+        if ([_delegate respondsToSelector:@selector(photoBrowser:scrollToLocateWithIndex:)]) {
+            [_delegate photoBrowser:self scrollToLocateWithIndex:page];
         }
         
         if(_page + 1 <= _itemsArr.count){
@@ -361,8 +361,9 @@
  video will long press
  */
 - (void)photoVideoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress{
-    if ([_delegate respondsToSelector:@selector(photoBrowser:videoLongPress:)]) {
-        [_delegate photoBrowser:self videoLongPress:longPress];
+    if (!_isNeedLongPress) return;
+    if ([_delegate respondsToSelector:@selector(photoBrowser:videoLongPress:index:)]) {
+        [_delegate photoBrowser:self videoLongPress:longPress index:_currentIndex];
     }
 }
 
@@ -612,8 +613,9 @@
 
 #pragma mark - photoBrowser will dismiss
 - (void)dismiss{
-    if([_delegate respondsToSelector:@selector(photoBrowserWillDismiss)]){
-        [_delegate photoBrowserWillDismiss];
+    // willDismissWithIndex
+    if([_delegate respondsToSelector:@selector(photoBrowser:willDismissWithIndex:)]){
+        [_delegate photoBrowser:self willDismissWithIndex:_currentIndex];
     }
     
     // if customView on photoBrowser, them must be show
@@ -945,8 +947,8 @@
  right top Btn Did click
  */
 - (void)operationBtnIBAction{
-    if ([_delegate respondsToSelector:@selector(photoBrowserRightOperationAction)]) {
-        [_delegate photoBrowserRightOperationAction];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:rightBtnOperationActionWithIndex:)]) {
+        [_delegate photoBrowser:self rightBtnOperationActionWithIndex:_currentIndex];
     }
 }
 
@@ -1041,8 +1043,8 @@
         
         [self setNeedsStatusBarAppearanceUpdate];
         
-        if([_delegate respondsToSelector:@selector(photoBrowserWillDismiss)]){
-            [_delegate photoBrowserWillDismiss];
+        if([_delegate respondsToSelector:@selector(photoBrowser:willDismissWithIndex:)]){
+            [_delegate photoBrowser:self willDismissWithIndex:_currentIndex];
         }
         
         [self dismissViewControllerAnimated:true completion:nil];
@@ -1052,12 +1054,12 @@
         [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
     }
     
-    if ([_delegate respondsToSelector:@selector(photoBrowserDeleteSourceSuccessWithRelativeIndex:)]) {
-        [_delegate photoBrowserDeleteSourceSuccessWithRelativeIndex:_currentIndex];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:removeSourceWithRelativeIndex:)]) {
+        [_delegate photoBrowser:self removeSourceWithRelativeIndex:_currentIndex];
     }
     
-    if ([_delegate respondsToSelector:@selector(photoBrowserDeleteSourceSuccessWithAbsoluteIndex:)]) {
-        [_delegate photoBrowserDeleteSourceSuccessWithAbsoluteIndex:[_tempArr indexOfObject:item]];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:removeSourceWithAbsoluteIndex:)]) {
+        [_delegate photoBrowser:self removeSourceWithAbsoluteIndex:[_tempArr indexOfObject:item]];
     }
 }
 
@@ -1094,8 +1096,8 @@
                     photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
                 }
             }else if (downloadState == KNPhotoDownloadStateDownloading) {
-                if ([weakself.delegate respondsToSelector:@selector(photoBrowserDownloadVideoWithProgress:)]) {
-                    [weakself.delegate photoBrowserDownloadVideoWithProgress:progress];
+                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:downloadVideoWithProgress:index:)]) {
+                    [weakself.delegate photoBrowser:self downloadVideoWithProgress:progress index:weakself.currentIndex];
                 }
             }
         }];
@@ -1165,9 +1167,9 @@
  longPress Did click
  */
 - (void)longPressIBAction{
-    if(!_isNeedPictureLongPress) return;
-    if ([_delegate respondsToSelector:@selector(photoBrowserImageDidLongPress:)]) {
-        [_delegate photoBrowserImageDidLongPress:self];
+    if(!_isNeedLongPress) return;
+    if ([_delegate respondsToSelector:@selector(photoBrowser:imageDidLongPressWithIndex:)]) {
+        [_delegate photoBrowser:self imageDidLongPressWithIndex:_currentIndex];
     }
 }
 
@@ -1300,7 +1302,7 @@
                 imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(ScreenWidth, ScreenWidth)];
             }
         }else {
-            if (items.sourceVideoUrl) {
+            if (items.videoPlaceHolderImageUrl) {
                 UIColor *imageColor = self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor;
                 CGSize size = CGSizeMake(ScreenWidth, ScreenWidth);
                 imageView.image = [self createImageWithUIColor: imageColor size: size];
