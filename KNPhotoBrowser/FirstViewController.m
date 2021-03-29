@@ -10,10 +10,8 @@
 #import "NavigationController.h"
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
-
 @property (nonatomic,weak  ) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
-
 @end
 
 @implementation FirstViewController
