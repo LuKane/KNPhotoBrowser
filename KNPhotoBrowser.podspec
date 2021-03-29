@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/LuKane/KNPhotoBrowser"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "LuKane" => "1169604556@qq.com" }
-  s.platform     = :ios, "10.0"
+  s.platform     = :ios, "9.0"
   s.source       = { :git => "https://github.com/LuKane/KNPhotoBrowser.git", :tag => s.version}
   s.source_files = "KNPhotoBrowser/KNPhotoBrowser/**/*.{h,m}"
   s.resource     = "KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle"
