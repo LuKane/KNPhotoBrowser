@@ -56,7 +56,12 @@ items.sourceView = imageView;
 KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
 photoBrowser.itemsArr = [self.itemsArr copy];
 photoBrowser.currentIndex = tap.view.tag;
+
+/// photoBrowser will present
 [photoBrowser present];
+
+/// photoBrowser will dismiss
+/// [photoBrowser dismiss];
 ```
 
 ### (3).function's describe of delegate
@@ -98,9 +103,6 @@ photoBrowser.currentIndex = tap.view.tag;
 
 /// the property'name of the  sourceLinkArr lastObject
 @property (nonatomic,copy  ) NSString *sourceLinkProperyName;
-
-/// is video or not, defalut is false
-@property (nonatomic,assign) BOOL isVideo;
 
 ```
 

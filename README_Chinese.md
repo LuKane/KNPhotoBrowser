@@ -1,260 +1,114 @@
 ![image](https://upload-images.jianshu.io/upload_images/1693073-222e76b529bc5f9e.png)
 
-<a href="https://img.shields.io/cocoapods/v/KNPhotoBrowser.svg"><img src="https://img.shields.io/cocoapods/v/KNPhotoBrowser.svg"></a>
-<a href="http://cocoadocs.org/docsets/KNPhotoBrowser"><img 
-src="https://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat"></a>
+[![CocoaPods](http://img.shields.io/cocoapods/v/KNPhotoBrowser.svg?style=flat)](http://cocoapods.org/?q=KNPhotoBrowser)&nbsp;![CocoaPods](http://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat)&nbsp;[![Support](https://img.shields.io/badge/support-iOS%2010%2B%20-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
 
-# KNPhotoBrowser 
+# KNPhotoBrowser
 
 [中文](https://github.com/LuKane/KNPhotoBrowser/blob/master/README_Chinese.md) | [English](https://github.com/LuKane/KNPhotoBrowser/blob/master/README.md)
 
 ##### 微信 && 微博 图片||视频 浏览器
 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️ 有任何需要增加的功能,请直接邮箱联系我.欢迎点赞,谢谢 ⭐️⭐️⭐️⭐️⭐️⭐️⭐️
 
-![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)
-![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)
-![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)
-![image](https://upload-images.jianshu.io/upload_images/1693073-c4b3c40b49899a2a.gif)
-![image](https://upload-images.jianshu.io/upload_images/1693073-934ff5b95e03083c.gif)
+![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-c4b3c40b49899a2a.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-934ff5b95e03083c.gif)
 
 ## 内容 
-- [x] 浏览器编码为 `UIViewController`
-- [x] 适配 `iPhoneX`、`iPhoneXS`、`iPhoneXR`、`iPhoneXS_Max`、`iPhone12Mini`、`iPhone12`、`iPhone12_Pro_Max`
-- [x] 完美适配屏幕旋转, 请在真机上测试
-- [x] 拖动消失或取消
-- [x] 预加载图片
-- [x] 加载本地gif图
-- [x] 本地和网络视频播放器
-- [x] 视频轻扫功能
-- [x] 视频快放功能
-- [x] 在浏览器上自定义控件
-- [x] 自定义控件  跟着 浏览器一起动画消失和动画展示
-- [x] 所有的弹出信息和操作 都通过代理方法操作
+| 描述 | 状态|
+| ------------- | ------------ |
+| UIViewController | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 适配屏幕旋转 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 适配 `iPhone5`~`iPhone12Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 本地图片和网络图片  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 本地视频和网络视频  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 拖拽消失和拖拽取消 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 预加载图片 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 视频自动播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 视频倍速播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 自定义控件展示 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 自定义控件展示, 以及跟随浏览器动态显示 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 自定义数据源控件 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 所有操作都通过代理回调执行 [**Delegate**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 
 ## 一.功能描述及要点
-* 1.依赖 `SDWebImage(5.0)`, 若需要本地gif,则依赖`SDWebImage(5.8.3)`
-* 2.类似与微信和微博
-* 3.提供控件操作并通过代理方法处理
+* 1.依赖 `SDWebImage(5.0)`, 若需要本地gif图, 则依赖 `SDWebImage(5.8.3)`
+* 2.图片展示和视频播放已经可以使用
+* 3.下载图片和下载适配至相册
 * 4.自定义控件
-
+* 5.自动管图片和视频还没有实现
 ## 二.方法调用
 
-### 1.创建KNPhotoBrowser,并传入相应的参数
-```
-// 1.每个控件都弄成一个对象, 放入一个数组中
+### (1).初始化相应的参数
+```objc
+// 1.make every control as an object, put it into an array
 KNPhotoItems *items = [[KNPhotoItems alloc] init];
-items.url = [urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+items.url = @"http://xxxxxxxx/xxx.png";
 items.sourceView = imageView;
-// 如果是视频
+// if current url is video type
 // items.isVideo = true;
-// 如果是本地gif
+// if current image is locate gif
 // itemM.isLocateGif = true;
 [self.itemsArr addObject:items];
 ```
 
-### 2. present : 自定义控件
+### (2).创建KNPhotoBrowser
 
-```
-// 直接跳入 图片浏览器 --> 详情请看Demo
+```objc
 KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
 photoBrowser.itemsArr = [self.itemsArr copy];
-photoBrowser.isNeedPageNumView = true;
-photoBrowser.isNeedRightTopBtn = true;
-photoBrowser.isNeedPictureLongPress = true;
-photoBrowser.isNeedPanGesture = true;
-photoBrowser.isNeedPrefetch = true;
-photoBrowser.isNeedAutoPlay = true;
 photoBrowser.currentIndex = tap.view.tag;
-photoBrowser.delegate = self;
+
+/// photoBrowser will present
 [photoBrowser present];
-```
-### 3.提供代理方法 --> KNPhotoBrowserDelegate
-```
-@optional
-/**
- photoBrowser will dismiss
- */
-- (void)photoBrowserWillDismiss;
 
-@optional
-/**
- photoBrowser right top button did click
- */
-- (void)photoBrowserRightOperationAction;
-
-@optional
-/**
- photoBrowser Delete image success with relative index
- 
- @param index relative index
- */
-- (void)photoBrowserRightOperationDeleteImageSuccessWithRelativeIndex:(NSInteger)index;
-
-@optional
-/**
- photoBrowser Delete image success with absolute index
- 
- @param index absolute index
- */
-- (void)photoBrowserRightOperationDeleteImageSuccessWithAbsoluteIndex:(NSInteger)index;
-
-@optional
-/**
- is success or not of save picture
- 
- @param success is success
- */
-- (void)photoBrowserWriteToSavedPhotosAlbumStatus:(BOOL)success DEPRECATED_MSG_ATTRIBUTE("use delegate function photoBrowserToast:photoBrower:photoItemRelative:photoItemAbsolute:  instead");
-
-@optional
-/**
- download video with progress
- @param progress current progress
- */
-- (void)photoBrowserDownloadVideoWithProgress:(CGFloat)progress;
-
-@optional
-/**
- photoBrowser scroll to current index
- @param index current index
- */
-- (void)photoBrowserScrollToLocateWithIndex:(NSInteger)index;
-
-@optional
-/// photoBrowser did long press
-/// @param photoBrowser photobrowser
-/// @param longPress long press gestureRecognizer
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser longPress:(UILongPressGestureRecognizer *)longPress;
-
-@optional
-/// download image or video  success | failure | failure reason call back
-/// @param photoBrowser toast on photoBrower.view
-/// @param state state
-/// @param photoItemRe relative photoItem
-/// @param photoItemAb absolute photoItem
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser
-               state:(KNPhotoShowState)state
-   photoItemRelative:(KNPhotoItems *)photoItemRe
-   photoItemAbsolute:(KNPhotoItems *)photoItemAb;
-
-@optional
-/**
- photoBrowser will layout subviews
- */
-- (void)photoBrowserWillLayoutSubviews;
+/// photoBrowser will dismiss
+/// [photoBrowser dismiss];
 ```
 
-### 4.提供 消失方法
+### (3).提供代理方法 --> KNPhotoBrowserDelegate
+##### 浏览器消失
+```objc
+/// photoBrowser will dismiss with currentIndex
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser willDismissWithIndex:(NSInteger)index;
 ```
-[_photoBrowser dismiss];
-```
-
-
-### 5.API
-```
-/**
- current select index
- */
-@property (nonatomic,assign) NSInteger  currentIndex;
-
-/**
- contain KNPhotoItems : url && UIView
- */
-@property (nonatomic,strong) NSArray<KNPhotoItems *> *itemsArr;
-
-/**
- Delegate
- */
-@property (nonatomic,weak  ) id<KNPhotoBrowserDelegate> delegate;
-
-/**
- is or not need pageNumView , default is false
- */
-@property (nonatomic,assign) BOOL  isNeedPageNumView;
-
-/**
- is or not need pageControl , default is false (but if photobrowser contain video,then hidden)
- */
-@property (nonatomic,assign) BOOL  isNeedPageControl;
-
-/**
- is or not need RightTopBtn , default is false
- */
-@property (nonatomic,assign) BOOL  isNeedRightTopBtn;
-
-/**
- is or not need PictureLongPress , default is false
- */
-@property (nonatomic,assign) BOOL  isNeedPictureLongPress;
-
-/**
- is or not need prefetch image, maxCount is 8 (KNPhotoBrowserPch.h)
- */
-@property (nonatomic,assign) BOOL  isNeedPrefetch;
-
-/**
- is or not need pan Gesture, default is false
- */
-@property (nonatomic,assign) BOOL  isNeedPanGesture;
-
-/**
- is or not need auto play video, default is false
- */
-@property (nonatomic,assign) BOOL isNeedAutoPlay;
-
-/**
- is or not need follow photoBrowser , default is false
- when touch photoBrowser, the customView will be hidden
- when you cancel, the customView will be showed
- when dismiss the photoBrowser immediately, the customView will be hidden immediately
- */
-@property (nonatomic,assign) BOOL isNeedFollowAnimated;
-
-/**
- delete current photo or video
- */
-- (void)deletePhotoAndVideo;
-
-/**
- download photo or video to Album, but it must be authed at first
- */
-- (void)downloadPhotoAndVideo;
-
-/**
- player's rate immediately to use
- */
-- (void)setImmediatelyPlayerRate:(CGFloat)rate;
-
-/**
-create custom view on the topView(photoBrowser controller's view)
-for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you think
-delegate's function: 'photoBrowserScrollToLocateWithIndex:(NSInteger)index'
-'CustomViewController' in Demo, you can see it how to use
-@param customViewArr customViewArr
-@param animated need animated or not, with photoBrowser present
-@param followAnimated need animated or not for follow photoBrowser
-*/
-- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
-                            animated:(BOOL)animated
-                      followAnimated:(BOOL)followAnimated;
-
-/**
- photoBrowser show
- */
-- (void)present;
-
-/**
- photoBrowser dismiss
- */
-- (void)dismiss;
+##### 浏览器右上角按钮点击
+```objc
+/// photoBrowser right top button did click with currentIndex (you can custom you right button, but if you custom your right button, that you need implementate your target action)
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser rightBtnOperationActionWithIndex:(NSInteger)index;
 ```
 
-## 如何安装 
+### 4.组件: KNPhotoItems
+##### items 的基本参数
+```objc
+/// if it is network image,  set `url` , do not set `sourceImage`
+@property (nonatomic,copy  ) NSString *url;
+
+/// if it is locate image, set `sourceImage`, do not set `url`
+@property (nonatomic,strong) UIImage *sourceImage;
+
+/// sourceView is current control to show image or video.
+/// 1. if the sourceView is kind of `UIImageView` or `UIButton` , just only only only set the `sourceView`.
+/// 2. if the sourceView is the custom view , set the `sourceView`, but do not forget set `sourceLinkArr` && `sourceLinkProperyName`.
+@property (nonatomic,strong) UIView *sourceView;
 ```
+##### 自定义数据源view
+```objc
+@property (nonatomic,strong) NSArray<NSString *> *sourceLinkArr;
+
+/**
+ eg:
+    if the lastObject is kind of  UIImageView ,  the `sourceLinkProperyName` is `image`
+    if the lastObject is kind of  UIButton ,  the `sourceLinkProperyName` is `currentBackgroundImage` or `currentImage`
+ */
+
+/// the property'name of the  sourceLinkArr lastObject
+@property (nonatomic,copy  ) NSString *sourceLinkProperyName;
+
+```
+
+## 3.如何安装 
+```objc
 pod 'KNPhotoBrowser'
 
-
-// 终端进入项目目录 
+// terminal : cd ~(current path)
 pod install or pod update
 
 ```
