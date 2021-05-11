@@ -28,7 +28,7 @@
     [_playerView playerWithURL:url placeHolder:placeHolder];
 }
 
-- (void)setPresentedMode:(UIViewContentMode)presentedMode {
+- (void)setPresentedMode:(UIViewContentMode)presentedMode{
     _presentedMode = presentedMode;
     _playerView.placeHolderImgView.contentMode = self.presentedMode;
 }
@@ -37,25 +37,27 @@
     [_playerView videoPlayerWillReset];
 }
 
+/// setter
 - (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay{
     _isNeedAutoPlay = isNeedAutoPlay;
     if (isNeedAutoPlay == true) {
         [_playerView setIsNeedAutoPlay:true];
     }
 }
-
+/// setter
 - (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder{
     _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
     _playerView.isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
 }
 
+/// delegate function
 - (void)photoAVPlayerViewDismiss{
     [_playerView videoPlayerWillReset];
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {
         [_delegate photoVideoAVPlayerDismiss];
     }
 }
-
+/// delegate function
 - (void)photoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress{
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerLongPress:)]) {
         [_delegate photoVideoAVPlayerLongPress:longPress];

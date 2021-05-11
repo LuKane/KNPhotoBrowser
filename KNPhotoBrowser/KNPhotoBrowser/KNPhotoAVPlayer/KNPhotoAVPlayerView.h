@@ -76,19 +76,9 @@ auto play when you need
 @property (nonatomic,strong,nullable) UIImageView *placeHolderImgView;
 
 /**
- current url
- */
-@property (nonatomic,copy  ) NSString *url;
-
-/**
- placeHolder image for temp image of current url
- */
-@property (nonatomic,strong) UIImage *placeHolder;
-
-/**
  layer of player
  */
-@property (nonatomic,strong,nullable) AVPlayerLayer  *playerLayer;
+@property (nonatomic,strong,nullable) AVPlayerLayer *playerLayer;
 
 /**
  if video has played ,even though one seconds : TRUE

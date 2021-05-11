@@ -1,5 +1,5 @@
 //
-//  KNPhotoBaseCell.h
+//  KNPhotoImageCell.h
 //  KNPhotoBrowser
 //
 //  Created by LuKane on 2018/12/14.
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^PhotoBrowerSingleTap)(void);
 typedef void(^PhotoBrowerLongPressTap)(void);
 
-@interface KNPhotoBaseCell : UICollectionViewCell
+@interface KNPhotoImageCell : UICollectionViewCell
 
 - (void)sd_ImageWithUrl:(NSString *)url
             placeHolder:(UIImage *)placeHolder

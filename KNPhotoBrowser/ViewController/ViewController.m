@@ -216,7 +216,7 @@
         NSLog(@"buttonIndex:%zd",buttonIndex);
         
         if (buttonIndex == 0) {
-            [weakself.photoBrowser deletePhotoAndVideo];
+            [weakself.photoBrowser removeImageOrVideoOnPhotoBrowser];
         }
         
         if (buttonIndex == 1) {
@@ -224,7 +224,7 @@
                 if (isAuthor == false) {
                     // do something -> for example : jump to setting
                 }else {
-                    [weakself.photoBrowser downloadPhotoAndVideo];
+                    [weakself.photoBrowser downloadImageOrVideoToAlbum];
                 }
             }];
         }
@@ -240,7 +240,7 @@
     }
 }
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser
-               state:(KNPhotoShowState)state
+               state:(KNPhotoDownloadState)state
    photoItemRelative:(KNPhotoItems *)photoItemRe
    photoItemAbsolute:(KNPhotoItems *)photoItemAb{
     NSLog(@"%@==%@",photoItemRe.url, photoItemAb.url);

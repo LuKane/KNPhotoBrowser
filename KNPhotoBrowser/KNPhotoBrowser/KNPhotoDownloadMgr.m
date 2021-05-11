@@ -7,6 +7,7 @@
 //
 
 #import "KNPhotoDownloadMgr.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @interface KNPhotoDownloadMgr(){
     NSURLSessionDownloadTask *_downloadTask;
@@ -19,45 +20,57 @@
 
 @implementation KNPhotoDownloadMgr
 
-- (void)downloadVideoWithItems:(KNPhotoItems *)item downloadBlock:(PhotoDownLoadBlock)downloadBlock{
-    _item          = item;
+- (instancetype)init{
+    if (self = [super init]) {
+        _filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true) lastObject] stringByAppendingPathComponent:@"KNPhotoBrowserData"];
+    }
+    return self;
+}
+
+- (void)downloadVideoWithPhotoItems:(KNPhotoItems *)photoItems downloadBlock:(PhotoDownLoadBlock)downloadBlock{
+    if (photoItems.url == nil) {
+        return;
+    }
+    _item          = photoItems;
     _downloadBlock = downloadBlock;
     
-    if (item.isVideo == true) {
-        NSURL *url = [NSURL URLWithString:item.url];
+    if (photoItems.isVideo == true) {
+        NSURL *url = [NSURL URLWithString:photoItems.url];
         if ([url.scheme containsString:@"http"]) {
             [self startDownLoadWithURL:url.absoluteString];
-        }else {
-            [self saveLocationVideo:url.path];
         }
     }else {
         _downloadBlock(KNPhotoDownloadStateUnknow,0.0);
     }
 }
 
-- (void)startDownLoadWithURL:(NSString *)videoURL{
-    if (_item.downloadState == KNPhotoDownloadStateDownloading) {
-        _item.downloadState = KNPhotoDownloadStateDownloading;
-        return;
-    }
+/// cancel all download task
+- (void)cancelTask{
+    [_downloadTask cancel];
+}
+
+- (void)startDownLoadWithURL:(NSString *)url{
+    if (_item.downloadState == KNPhotoDownloadStateDownloading) return;
     
     _item.downloadState = KNPhotoDownloadStateDownloading;
     _item.downloadProgress = 0.0;
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-    _downloadTask = [session downloadTaskWithURL:[NSURL URLWithString:_item.url]];
+    _downloadTask = [session downloadTaskWithURL:[NSURL URLWithString:url]];
     [_downloadTask resume];
 }
-
 #pragma mark - NSURLSession Delegate --> NSURLSessionTaskDelegate
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    CGFloat progress = totalBytesWritten / totalBytesExpectedToWrite;
+    CGFloat progress = (CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite;
+    
     if (progress < 0) progress = 0;
     if (progress > 1) progress = 1;
+    
     _item.downloadProgress = progress;
     _item.downloadState = KNPhotoDownloadStateDownloading;
     if (_downloadBlock) {
+        NSLog(@"%lld-%lld == > %f",totalBytesWritten,totalBytesExpectedToWrite,progress);
         _downloadBlock(_item.downloadState,_item.downloadProgress);
     }
 }
@@ -74,41 +87,111 @@
     }
 }
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    NSString *cache = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *file = [cache stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
-    [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:file] error:nil];
-    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(file)) {
-        UISaveVideoAtPathToSavedPhotosAlbum(file, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
-    } else {
-        _item.downloadState = KNPhotoDownloadStateUnknow;
-        if (_downloadBlock) {
-            _downloadBlock(_item.downloadState,0.0);
-        }
-    }
+    
+    NSString *file = [_filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",[self md5:_item.url.lastPathComponent.stringByDeletingPathExtension],_item.url.pathExtension]];
+    
+    [[NSFileManager defaultManager] copyItemAtURL:location toURL:[NSURL fileURLWithPath:file] error:nil];
 }
-- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (error) {
-        _item.downloadState = KNPhotoDownloadStateFailure;
-        if (_downloadBlock) {
-            _downloadBlock(_item.downloadState,0.0);
-        }
-    } else {
-        _item.downloadState = KNPhotoDownloadStateSuccess;
-        if (_downloadBlock) {
-            _downloadBlock(_item.downloadState,1.0);
-        }
+
+- (NSString *)md5:(NSString *)str{
+    const char *cStr = [str UTF8String];
+    unsigned char result[16];
+    CC_MD5(cStr, (CC_LONG)strlen(cStr), result); // This is the md5 call
+    return [NSString stringWithFormat:
+            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ];
+}
+
+@end
+
+@implementation KNPhotoDownloadFileMgr
+
+- (instancetype)init{
+    if (self = [super init]) {
+        _filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true) lastObject] stringByAppendingPathComponent:@"KNPhotoBrowserData"];
+    }
+    return self;
+}
+
+/// check is contain video or not
+- (BOOL)startCheckIsExistVideo:(KNPhotoItems *)photoItems {
+    if (photoItems == nil || photoItems.url == nil) {
+        return false;
+    }
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    BOOL isDir = false;
+    BOOL existed = [fileMgr fileExistsAtPath:_filePath isDirectory:&isDir];
+    
+    if (!(isDir && existed)) {
+        [fileMgr createDirectoryAtPath:_filePath withIntermediateDirectories:true attributes:nil error:nil];
+        return false;
+    }else {
+        NSString *path = [_filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",[self md5:photoItems.url.lastPathComponent.stringByDeletingPathExtension],photoItems.url.pathExtension]];
+        return [fileMgr fileExistsAtPath:path];
     }
 }
 
-#pragma mark - location video is going to save
-- (void)saveLocationVideo:(NSString *)path{
-    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(path)) {
-        UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
-    } else {
-        _item.downloadState = KNPhotoDownloadStateUnknow;
-        if (_downloadBlock) {
-            _downloadBlock(_item.downloadState,0.0);
-        }
+/// get video filepath , but it must download before
+- (NSString *)startGetFilePath:(KNPhotoItems *)photoItems {
+    NSString *path = [_filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",[self md5:photoItems.url.lastPathComponent.stringByDeletingPathExtension],photoItems.url.pathExtension]];
+    return path;
+}
+
+- (NSString *)md5:(NSString *)str{
+    const char *cStr = [str UTF8String];
+    unsigned char result[16];
+    CC_MD5(cStr, (CC_LONG)strlen(cStr), result); // This is the md5 call
+    return [NSString stringWithFormat:
+            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ];
+}
+
+/// remove video by photoItems
+/// @param photoItems photoItems
+- (void)removeVideoByPhotoItems:(KNPhotoItems *)photoItems{
+    if (photoItems == nil) {
+        return;
+    }
+    [self removeVideoByURLString:photoItems.url];
+}
+
+/// remove video by url string
+/// @param urlString url string
+- (void)removeVideoByURLString:(NSString *)urlString{
+    if (urlString == nil) {
+        return;
+    }
+    if ([urlString stringByReplacingOccurrencesOfString:@" " withString:@""].length == 0) {
+        return;
+    }
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    BOOL isDir = false;
+    BOOL existed = [fileMgr fileExistsAtPath:_filePath isDirectory:&isDir];
+    
+    if ((isDir && existed)) {
+        NSError *err;
+        NSString *path = [_filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",[self md5:urlString.lastPathComponent.stringByDeletingPathExtension],urlString.pathExtension]];
+        [fileMgr removeItemAtPath:path error:&err];
+    }
+}
+
+/// remove all video
+- (void)removeAllVideo{
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:_filePath];
+    for (NSString *fileName in enumerator) {
+        [[NSFileManager defaultManager] removeItemAtPath:[_filePath stringByAppendingPathComponent:fileName] error:nil];
     }
 }
 

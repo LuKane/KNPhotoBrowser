@@ -9,7 +9,6 @@
 #import "KNPhotoBrowserImageView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/SDImageCache.h>
-
 #import "KNProgressHUD.h"
 #import "KNPhotoBrowserPch.h"
 #import "KNPhotoBrowser.h"
@@ -169,7 +168,7 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    _scrollView.frame = CGRectMake(10, 0, self.width - 20, self.height);
+    _scrollView.frame = CGRectMake(10, 0, self.bounds.size.width - 20, self.bounds.size.height);
     [self reloadFrames];
 }
 
@@ -225,7 +224,7 @@
     }else{
         frame.origin = CGPointZero;
         _imageView.frame = frame;
-        _scrollView.contentSize = _imageView.size;
+        _scrollView.contentSize = _imageView.bounds.size;
     }
     _scrollView.contentOffset = CGPointZero;
 }

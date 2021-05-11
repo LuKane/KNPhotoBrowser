@@ -34,5 +34,4 @@
 // define SDWebImagePrefetcher max number
 #define PhotoBrowserPrefetchNum     8
 
-#import "UIView+PBExtesion.h"
 

@@ -16,21 +16,44 @@
 @property (nonatomic,strong) AVPlayer       *player;
 @property (nonatomic,strong) AVPlayerItem   *item;
 
-@property (nonatomic,weak, ) KNPhotoAVPlayerActionView  *actionView;
-@property (nonatomic,weak  ) KNPhotoAVPlayerActionBar   *actionBar;
+@property (nonatomic,strong) KNPhotoAVPlayerActionView *actionView;
+@property (nonatomic,strong) KNPhotoAVPlayerActionBar  *actionBar;
 
-@property (nonatomic,assign) BOOL  isPlaying;
-@property (nonatomic,assign) BOOL  isGetAllPlayItem;
-@property (nonatomic,assign) BOOL  isAddObserver;
+@property (nonatomic,copy  ) NSString *url;
+@property (nonatomic,strong) UIImage *placeHolder;
 
 @property (nonatomic,strong) id timeObserver;
 
+@property (nonatomic,assign) BOOL isPlaying;
+@property (nonatomic,assign) BOOL isGetAllPlayItem;
 @property (nonatomic,assign) BOOL isDragging;
 @property (nonatomic,assign) BOOL isEnterBackground;
+@property (nonatomic,assign) BOOL isAddObserver;
 
 @end
 
 @implementation KNPhotoAVPlayerView
+
+- (KNPhotoAVPlayerActionView *)actionView{
+    if (!_actionView) {
+        _actionView = [[KNPhotoAVPlayerActionView alloc] init];
+        [_actionView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(photoAVPlayerActionViewDidLongPress:)]];
+        _actionView.delegate = self;
+        _actionView.isBuffering = false;
+        _actionView.isPlaying = false;
+    }
+    return _actionView;
+}
+- (KNPhotoAVPlayerActionBar *)actionBar{
+    if (!_actionBar) {
+        _actionBar = [[KNPhotoAVPlayerActionBar alloc] init];
+        _actionBar.backgroundColor = [UIColor colorWithRed:45/255.0 green:45/255.0 blue:45/255.0 alpha:1.];
+        _actionBar.delegate = self;
+        _actionBar.isPlaying = false;
+        _actionBar.hidden = true;
+    }
+    return _actionBar;
+}
 
 - (UIView *)playerBgView{
     if (!_playerBgView) {
@@ -38,203 +61,105 @@
     }
     return _playerBgView;
 }
-
-/**
- placeHolderImageView for temp image
- 
- @return imageView
- */
+- (UIView *)playerView{
+    if (!_playerView) {
+        _playerView = [[UIView alloc] init];
+        _playerView.backgroundColor = UIColor.clearColor;
+    }
+    return _playerView;
+}
 - (UIImageView *)placeHolderImgView{
     if (!_placeHolderImgView) {
         _placeHolderImgView = [[UIImageView alloc] init];
-        [_placeHolderImgView setContentMode:UIViewContentModeScaleAspectFit];
+        _placeHolderImgView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _placeHolderImgView;
 }
 
-/**
- player view
-
- @return view
- */
-- (UIView *)playerView{
-    if (!_playerView) {
-        _playerView = [[UIView alloc] init];
-        [_playerView setBackgroundColor:UIColor.clearColor];
-    }
-    return _playerView;
-}
-
-/**
- remove time observer
- */
-- (void)removeTimeObserver{
-    if (self.timeObserver && _player ) {
-        @try{
-            [_player removeTimeObserver:self.timeObserver];
-            self.timeObserver = nil;
-        }@catch(id anException){
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
         
-        }
+        self.player = [AVPlayer playerWithPlayerItem:_item];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+        [self.playerView.layer addSublayer:_playerLayer];
+        
+        [self.playerBgView addSubview:self.placeHolderImgView];
+        [self.playerBgView addSubview:self.playerView];
+        
+        [self addSubview:self.playerBgView];
+        [self addSubview:self.actionView];
+        [self addSubview:self.actionBar];
     }
+    return self;
 }
 
-/**
- remove AVPlayer and actionView
- */
-- (void)removeAVPlayerAndActionView{
-    _player = nil;
-    [_playerLayer removeFromSuperlayer];
-    [_playerView removeFromSuperview];
-    [_actionBar removeFromSuperview];
-    [_actionView removeFromSuperview];
-    _playerLayer = nil;
-    _playerView  = nil;
-    _actionView  = nil;
-    _actionBar   = nil;
-}
-
-/**
- Add observer for active or not
- */
-- (void)addObserverForAppActive{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-}
-
-/****************************** == Line == ********************************/
-
-/**
- set url and placeHolder for player
-
- @param url url
- @param placeHolder placeHolder for temp image
- */
 - (void)playerWithURL:(NSString *)url placeHolder:(UIImage *)placeHolder{
+    
+    [self removePlayerItemObserver];
+    [self removeTimeObserver];
+    [self addObserverAndAudioSession];
+    
     _url = url;
     _placeHolder = placeHolder;
     
-    [self addObserverForAppActive];
-    
-    AVAudioSession * session  = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [session setActive:YES error:nil];
-    
-    [self removeItemObserver];
-    if (_player) {
-        [_player pause];
-        [self removeTimeObserver];
-        [self removeAVPlayerAndActionView];
+    if (placeHolder) {
+        _placeHolderImgView.image = placeHolder;
     }
     
-    _isPlaying = false;
-    
-    if ([_url hasPrefix:@"http"]) {
-        _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:_url]];
-    } else {
-        _item = [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:_url]];
+    if ([url hasPrefix:@"http"]) {
+        _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:url]];
+    }else {
+        _item = [AVPlayerItem playerItemWithAsset:[AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_url] options:nil]];
     }
     
-    [self setupPlayer:true];
-    [self setupActionView];
-    [self videoDidPlayToEndTime];
+    _item.canUseNetworkResourcesForLiveStreamingWhilePaused = true;
+    [self.player replaceCurrentItemWithPlayerItem:_item];
+    
+    [_actionView avplayerActionViewNeedHidden:false];
+    _actionView.isBuffering = true;
+    
+    _isEnterBackground = _isAddObserver = _isDragging = _isPlaying = false;
+    
+    [self addPlayerItemObserver];
+    
+    /// default rate
+    _player.rate = 1.0;
+    
+    [_player pause];
 }
 
-/// set is need auto play
-/// @param isNeedAutoPlay param
-- (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay{
-    _isNeedAutoPlay = isNeedAutoPlay;
-    if (_isNeedAutoPlay == true) {
-        [self photoAVPlayerActionViewPauseOrStop];
+- (void)addObserverAndAudioSession{
+    // AudioSession setting
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:true error:nil];
+    [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    
+    // Notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+}
+
+/// notification function
+- (void)applicationWillResignActive{
+    _isEnterBackground = true;
+}
+
+/// remove item observer
+- (void)removePlayerItemObserver{
+    if (_item && _isAddObserver) {
+        [_item removeObserver:self forKeyPath:@"status" context:nil];
+        [_item removeObserver:self forKeyPath:@"loadedTimeRanges" context:nil];
+        _isAddObserver = false;
     }
 }
-
-- (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder{
-    _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
-    self.placeHolderImgView.hidden = !isNeedVideoPlaceHolder;
-}
-
-/**
- reset avplayer
- */
-- (void)videoPlayerWillReset{
-    [self removeTimeObserver];
-    [self removeAVPlayerAndActionView];
-}
-
-/**
- swipe player by hand
- */
-- (void)videoWillSwipe{
-    [_actionView avplayerActionViewNeedHidden:true];
-    [_actionBar setHidden:true];
-}
-
-/**
- set player rate
- */
-- (void)videoPlayerSetRate:(CGFloat)rate{
-    if (_isPlaying == false) {
-        return;
-    }
-    
-    _player.rate = rate;
-}
-
-/**
- setup player
- 
- @param isNeedRecreate is or not need reset placeHolder
- */
-- (void)setupPlayer:(BOOL)isNeedRecreate{
-    _player = [AVPlayer playerWithPlayerItem:_item];
-    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-    [self.playerView.layer addSublayer:_playerLayer];
-    [self addSubview:self.playerBgView];
-    
-    if (_placeHolder && isNeedRecreate) {
-        [self.placeHolderImgView setImage:_placeHolder];
-        [self.playerBgView addSubview:self.placeHolderImgView];
-    }
-    
-    [self.playerBgView addSubview:self.playerView];
-}
-
-/**
- setup actionView and actionBar
- */
-- (void)setupActionView{
-    
-    KNPhotoAVPlayerActionView *actionView = [[KNPhotoAVPlayerActionView alloc] init];
-    [actionView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(photoAVPlayerActionViewDidLongPress:)]];
-    [actionView setDelegate:self];
-    [actionView setIsBuffering:false];
-    [actionView setIsPlaying:false];
-    [self addSubview:actionView];
-    _actionView = actionView;
-    
-    KNPhotoAVPlayerActionBar *actionBar = [[KNPhotoAVPlayerActionBar alloc] init];
-    [actionBar setBackgroundColor:[UIColor colorWithRed:45/255.0 green:45/255.0 blue:45/255.0 alpha:1]];
-    [actionBar setDelegate:self];
-    [actionBar setHidden:true];
-    
-    [self addSubview:actionBar];
-    _actionBar = actionBar;
-}
-
-/**
- add item of player observer
- */
-- (void)addItemObserver{
+/// add item observer
+- (void)addPlayerItemObserver{
     if (_item) {
-        [_item addObserver:self forKeyPath:@"status"            options:NSKeyValueObservingOptionNew context:nil];
-        [_item addObserver:self forKeyPath:@"loadedTimeRanges"  options:NSKeyValueObservingOptionNew context:nil];
+        [_item addObserver:self forKeyPath:@"status"           options:NSKeyValueObservingOptionNew context:nil];
+        [_item addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
         _isAddObserver = true;
     }
     
     __weak typeof(self) weakself = self;
-    
-    [self removeTimeObserver];
-    
     self.timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         weakself.isBeginPlayed = true;
         __strong typeof(weakself) strongself = weakself;
@@ -256,16 +181,36 @@
                                              selector:@selector(videoDidPlayToEndTime)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:nil];
+    
 }
 
-/**
- remove item of player observer
- */
-- (void)removeItemObserver{
-    if (_item && _isAddObserver) {
-        [_item removeObserver:self forKeyPath:@"status" context:nil];
-        [_item removeObserver:self forKeyPath:@"loadedTimeRanges" context:nil];
-        _isAddObserver = false;
+/// remove time observer
+- (void)removeTimeObserver{
+    if (_timeObserver && _player) {
+        @try {
+            [_player removeTimeObserver: _timeObserver];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            _timeObserver = nil;
+        }
+    }
+}
+
+- (void)videoDidPlayToEndTime{
+    _isGetAllPlayItem = false;
+    _isPlaying = false;
+    if (_player) {
+        __weak typeof(self) weakself = self;
+         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
+            [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
+                if (finished) {
+                    weakself.actionBar.currentTime = 0;
+                    weakself.actionBar.isPlaying = false;
+                    weakself.actionView.isPlaying = false;
+                }
+            }];
+        }
     }
 }
 
@@ -277,10 +222,7 @@
     
     if ([keyPath isEqualToString:@"status"]) { // play
         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
-            [_player play];
-            [_actionBar setIsPlaying:true];
-            [_actionView setIsPlaying:true];
-            [_actionView setIsBuffering:false];
+            _actionView.isBuffering = false;
         }
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
         if (!_isGetAllPlayItem) {
@@ -292,37 +234,95 @@
     }
 }
 
-/**
- current video is end
- */
-- (void)videoDidPlayToEndTime{
-    _isGetAllPlayItem = false;
+/// function
+- (void)videoPlayerWillReset{
+    [_player pause];
     _isPlaying = false;
-    if (_player) {
-        __weak typeof(self) weakself = self;
-         if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
-            [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
-                if (finished) {
-                    weakself.actionBar.currentTime = 0;
-                    [weakself.actionBar setIsPlaying:false];
-                    [weakself.actionView setIsPlaying:false];
-                }
-            }];
-        }
+    [self removeTimeObserver];
+    [self removePlayerItemObserver];
+}
+- (void)videoWillSwipe{
+    [_actionView avplayerActionViewNeedHidden:true];
+    _actionBar.hidden = true;
+}
+- (void)videoPlayerSetRate:(CGFloat)rate{
+    if (_isPlaying == false) {
+        return;
+    }
+    
+    _player.rate = rate;
+}
+
+/// setter
+- (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay {
+    _isNeedAutoPlay = isNeedAutoPlay;
+    if (isNeedAutoPlay) {
+        [self photoAVPlayerActionViewPauseOrStop];
+    }
+}
+- (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder{
+    _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
+    self.placeHolderImgView.hidden = !isNeedVideoPlaceHolder;
+}
+
+- (void)photoAVPlayerActionViewDidLongPress:(UILongPressGestureRecognizer *)longPress{
+    if (_isPlaying == false) {
+        return;
+    }
+    if ([_delegate respondsToSelector:@selector(photoAVPlayerLongPress:)]) {
+        [_delegate photoAVPlayerLongPress:longPress];
     }
 }
 
+/// delegate
 /**
- app will resign active
+ actionView's Pause imageView
  */
-- (void)appWillResignActive{
-    [self.player pause];
-    [_actionBar setIsPlaying:false];
-    [_actionView setIsPlaying:false];
-    _isEnterBackground = true;
+- (void)photoAVPlayerActionViewPauseOrStop{
+    _isEnterBackground = false;
+    if (_isPlaying == false) {
+        [_player play];
+        _actionBar.isPlaying = true;
+        _actionView.isPlaying = true;
+    }else {
+        [_player pause];
+        _actionView.isPlaying = false;
+        _actionBar.isPlaying = false;
+    }
+    
+    _isPlaying = !_isPlaying;
+}
+- (void)photoAVPlayerActionViewDismiss{
+    if ([_delegate respondsToSelector:@selector(photoAVPlayerViewDismiss)]) {
+        [_delegate photoAVPlayerViewDismiss];
+    }
+}
+- (void)photoAVPlayerActionViewDidClickIsHidden:(BOOL)isHidden{
+    [_actionBar setHidden:isHidden];
+}
+- (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{
+    if (isNeedPlay) {
+        [_player play];
+        _actionView.isPlaying = true;
+        _actionBar.isPlaying = true;
+        _isPlaying = true;
+    }else {
+        [_player pause];
+        _actionView.isPlaying = false;
+        _actionBar.isPlaying = false;
+        _isPlaying = false;
+    }
+}
+- (void)photoAVPlayerActionBarChangeValue:(float)value{
+    _isDragging = true;
+    [_player seekToTime:CMTimeMake(value, 1) completionHandler:^(BOOL finished) {
+        
+    }];
 }
 
 - (void)layoutSubviews{
+    [super layoutSubviews];
+    
     self.playerBgView.frame = CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height);
     self.playerView.frame   = self.playerBgView.bounds;
     self.playerLayer.frame  = self.playerView.bounds;
@@ -336,115 +336,17 @@
     }
 }
 
-/****************************** == Delegate == ********************************/
-- (void)photoAVPlayerActionViewPauseOrStop{
-    _isEnterBackground = false;
-    if (_isPlaying == false) {
-        if (_player) {
-            
-            _isPlaying = true;
-            
-            if (_url == nil) return;
-            
-            [self removeItemObserver];
-            if (_player) {
-                [self removeAVPlayerAndActionView];
-            }
-            
-            if ([_url hasPrefix:@"http"]) {
-                _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:_url]];
-            } else {
-                _item = [AVPlayerItem playerItemWithAsset:[AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_url] options:nil]];
-            }
-            [self setupPlayer:false];
-            [self setupActionView];
-            [self addItemObserver];
-            
-            [_actionBar setIsPlaying:false];
-            [_actionView setIsPlaying:true];
-            [_actionView setIsBuffering:true];
-            
-        }
-    } else {
-        [_player play];
-        _isPlaying = true;
-        [_actionBar setIsPlaying:true];
-        [_actionView setIsPlaying:true];
-        [_actionView setIsBuffering:false];
-    }
-}
-
-/**
- avplayer will dismiss
- */
-- (void)photoAVPlayerActionViewDismiss{
-    if ([_delegate respondsToSelector:@selector(photoAVPlayerViewDismiss)]) {
-        [_delegate photoAVPlayerViewDismiss];
-    }
-}
-/**
- avplayer did long press
- */
-- (void)photoAVPlayerActionViewDidLongPress:(UILongPressGestureRecognizer *)longPress{
-    if (_isPlaying == false) {
-        return;
-    }
-    if ([_delegate respondsToSelector:@selector(photoAVPlayerLongPress:)]) {
-        [_delegate photoAVPlayerLongPress:longPress];
-    }
-}
-
-/**
- avplayer hidden actionBar or not
-
- @param isHidden is need to Hidden
- */
-- (void)photoAVPlayerActionViewDidClickIsHidden:(BOOL)isHidden{
-    if (self.isPlaying) {
-        [_actionBar setHidden:isHidden];
-    }
-}
-
-/**
- actionBar click play or pause btn
- 
- @param isNeedPlay current player is or not need to play
- */
-- (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{
-    if (isNeedPlay) {
-        [_player play];
-//        _isPlaying = true;
-        [_actionView setIsPlaying:true];
-        [_actionBar setIsPlaying:true];
-    }else {
-        [_player pause];
-//        _isPlaying = false;
-        [_actionView setIsPlaying:false];
-        [_actionBar setIsPlaying:false];
-    }
-}
-
-/**
- actionBar change value
- 
- @param value value
- */
-- (void)photoAVPlayerActionBarChangeValue:(float)value{
-    _isDragging = true;
-    [_player seekToTime:CMTimeMake(value, 1) completionHandler:^(BOOL finished) {
-        if (finished) {
-            
-        }
-    }];
-}
-
 - (void)dealloc{
+    [self removeObserverAndAudioSesstion];
     if (_player && self.timeObserver) {
         [_player removeTimeObserver:self.timeObserver];
         self.timeObserver = nil;
     }
-    [self removeItemObserver];
+}
+
+- (void)removeObserverAndAudioSesstion{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[AVAudioSession sharedInstance] setActive:false withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 }
 
 @end

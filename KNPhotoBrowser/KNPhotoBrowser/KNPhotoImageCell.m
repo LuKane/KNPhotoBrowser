@@ -1,16 +1,15 @@
 //
-//  KNPhotoBaseCell.m
+//  KNPhotoImageCell.m
 //  KNPhotoBrowser
 //
 //  Created by LuKane on 2018/12/14.
 //  Copyright © 2018 LuKane. All rights reserved.
 //
 
-#import "KNPhotoBaseCell.h"
-#import "UIView+PBExtesion.h"
+#import "KNPhotoImageCell.h"
 #import "KNProgressHUD.h"
 
-@implementation KNPhotoBaseCell{
+@implementation KNPhotoImageCell{
     KNProgressHUD *_progressHUD;
 }
 

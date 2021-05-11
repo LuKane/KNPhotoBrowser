@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay;
 
-@optional
 /**
  actionBar value has changed by slider
  

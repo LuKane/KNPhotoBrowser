@@ -13,7 +13,7 @@
  */
 
 #import "KNPhotoBrowser.h"
-#import "KNPhotoBaseCell.h"
+#import "KNPhotoImageCell.h"
 #import "KNPhotoVideoCell.h"
 #import "KNPhotoBrowserPch.h"
 
@@ -92,7 +92,7 @@
     } else {
         UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
         [UIView animateWithDuration:0.15 animations:^{
-            statusBar.transform = CGAffineTransformMakeTranslation(0, - statusBar.height);
+            statusBar.transform = CGAffineTransformMakeTranslation(0, - statusBar.bounds.size.height);
         }];
     }
 }
@@ -196,7 +196,7 @@
     
     _layout = layout;
     _collectionView = collectionView;
-    [_collectionView registerClass:[KNPhotoBaseCell class] forCellWithReuseIdentifier:@"KNPhotoBaseCellID"];
+    [_collectionView registerClass:[KNPhotoImageCell class] forCellWithReuseIdentifier:@"KNPhotoImageCellID"];
     [_collectionView registerClass:[KNPhotoVideoCell class] forCellWithReuseIdentifier:@"KNPhotoVideoCellID"];
     
     KNPhotoBrowserImageView *imageView = [[KNPhotoBrowserImageView alloc] initWithFrame:self.view.bounds];
@@ -287,7 +287,7 @@
         [cell setDelegate:self];
         return cell;
     }else {
-        KNPhotoBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoBaseCellID" forIndexPath:indexPath];
+        KNPhotoImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoImageCellID" forIndexPath:indexPath];
         __weak typeof(self) weakSelf = self;
         cell.singleTap = ^{
             [weakSelf dismiss];
@@ -311,7 +311,7 @@
         }
         [cell1 setPresentedMode:self.presentedMode];
     } else {
-        KNPhotoBaseCell *cell1 = (KNPhotoBaseCell *)cell;
+        KNPhotoImageCell *cell1 = (KNPhotoImageCell *)cell;
         [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image photoItem:item];
         [cell1 setPresentedMode:self.presentedMode];
     }
@@ -391,7 +391,7 @@
         location    = [pan locationInView:playerView.playerBgView];
         velocity    = [pan velocityInView:self.view];
     }else{
-        KNPhotoBaseCell *cell = (KNPhotoBaseCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+        KNPhotoImageCell *cell = (KNPhotoImageCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         
         imageView = cell.photoBrowerImageView;
         
@@ -872,14 +872,14 @@
 
 - (void)layoutCollectionViewAndLayout{
     
-    [_layout setItemSize:(CGSize){self.view.width + 20,self.view.height}];
+    [_layout setItemSize:(CGSize){self.view.bounds.size.width + 20,self.view.bounds.size.height}];
     _layout.minimumInteritemSpacing = 0;
     _layout.minimumLineSpacing = 0;
     
-    [_collectionView setFrame:(CGRect){{-10,0},{self.view.width + 20,self.view.height}}];
+    [_collectionView setFrame:(CGRect){{-10,0},{self.view.bounds.size.width + 20,self.view.bounds.size.height}}];
     [_collectionView setCollectionViewLayout:_layout];
     
-    _imageView.frame = (CGRect){{-10,0},{self.view.width + 20,self.view.height}};
+    _imageView.frame = (CGRect){{-10,0},{self.view.bounds.size.width + 20,self.view.bounds.size.height}};
     _progressHUD.center = self.view.center;
     
     CGFloat y = 25;
@@ -894,7 +894,7 @@
     }
     
     [_numView setFrame:(CGRect){{0,y},{ScreenWidth,25}}];
-    [_pageControl setFrame:(CGRect){{0,self.view.height - 50},{ScreenWidth,30}}];
+    [_pageControl setFrame:(CGRect){{0,self.view.bounds.size.height - 50},{ScreenWidth,30}}];
     [_operationBtn setFrame:(CGRect){{ScreenWidth - 35 - 15 - x,y},{35,20}}];
     
     if(_offsetPageIndex){
@@ -964,20 +964,22 @@
     
     if (!error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
+            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                 [weakself.delegate photoBrowser:weakself
-                                          state:KNPhotoShowImageSuccess
+                                          state:KNPhotoDownloadStateSuccess
+                                       progress:1.0
                               photoItemRelative:weakself.itemsArr[weakself.currentIndex]
                               photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
             }
         });
     }else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
+            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                 [weakself.delegate photoBrowser:weakself
-                            state:KNPhotoShowImageFailure
-                photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                          state:KNPhotoDownloadStateFailure
+                                       progress:0.0
+                              photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                              photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
             }
         });
     }
@@ -1000,18 +1002,20 @@
         } completionHandler:^(BOOL success, NSError * _Nullable error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(success){
-                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
+                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                         [weakself.delegate photoBrowser:weakself
-                                    state:KNPhotoShowImageSuccess
-                        photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                        photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                                  state:KNPhotoDownloadStateSuccess
+                                               progress:1.0
+                                      photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
                     }
                 }else if(error) {
-                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
+                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                         [weakself.delegate photoBrowser:weakself
-                                    state:KNPhotoShowImageFailure
-                        photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                        photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                                  state:KNPhotoDownloadStateFailure
+                                               progress:0.0
+                                      photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
                     }
                 }
             });
@@ -1020,9 +1024,9 @@
 }
 
 /**
- delete current photo or video
+ remove current image or video on photobrowser
  */
-- (void)deletePhotoAndVideo{
+- (void)removeImageOrVideoOnPhotoBrowser{
     KNPhotoItems *item = _itemsArr[_currentIndex];
     if (item.isVideo) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:_currentIndex inSection:0];
@@ -1066,55 +1070,48 @@
 /**
  download photo or video to Album, but it must be authed at first
  */
-- (void)downloadPhotoAndVideo{
+- (void)downloadImageOrVideoToAlbum{
     KNPhotoItems *items = self.itemsArr[self.currentIndex];
     __weak typeof(self) weakself = self;
     if (items.isVideo) { // video
-        KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
-        [mgr downloadVideoWithItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
-            if (downloadState == KNPhotoDownloadStateFailure) {
-                
-                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
-                    [weakself.delegate photoBrowser:weakself
-                                state:KNPhotoShowVideoFailure
-                    photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                    photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
-                    
-                }
-            }else if (downloadState == KNPhotoDownloadStateSuccess) {
-                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
-                    [weakself.delegate photoBrowser:weakself
-                                state:KNPhotoShowVideoSuccess
-                    photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                    photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
-                }
-            }else if (downloadState == KNPhotoDownloadStateUnknow) {
-                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
-                    [weakself.delegate photoBrowser:weakself
-                                state:KNPhotoShowVideoFailureUnknow
-                    photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                    photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
-                }
-            }else if (downloadState == KNPhotoDownloadStateDownloading) {
-                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:downloadVideoWithProgress:index:)]) {
-                    [weakself.delegate photoBrowser:self downloadVideoWithProgress:progress index:weakself.currentIndex];
-                }
+        
+        if ([items.url hasPrefix:@"http"]) {
+            KNPhotoDownloadFileMgr *fileMgr = [[KNPhotoDownloadFileMgr alloc] init];
+            if ([fileMgr startCheckIsExistVideo:items]) { // video is exist
+                NSString *filePath = [fileMgr startGetFilePath:items];
+                UISaveVideoAtPathToSavedPhotosAlbum(filePath, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+            }else { // downloading
+                KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
+                [mgr downloadVideoWithPhotoItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
+                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+                        [weakself.delegate photoBrowser:weakself
+                                                  state:downloadState
+                                               progress:progress
+                                      photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                    }
+                    if (downloadState == KNPhotoDownloadStateSuccess) {
+                        NSString *filePath = [fileMgr startGetFilePath:items];
+                        UISaveVideoAtPathToSavedPhotosAlbum(filePath, weakself, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+                    }
+                }];
             }
-        }];
+        }else {
+            UISaveVideoAtPathToSavedPhotosAlbum(items.url, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+        }
     }else{ // image
         if(items.url){ // net image
             SDImageCache *cache = [SDImageCache sharedImageCache];
             SDWebImageManager *mgr = [SDWebImageManager sharedManager];
             [cache diskImageExistsWithKey:items.url completion:^(BOOL isInCache) {
                 if(!isInCache){
-                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
+                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                         [weakself.delegate photoBrowser:weakself
-                                    state:KNPhotoShowImageFailureUnknow
-                        photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                        photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                                  state:KNPhotoDownloadStateUnknow
+                                               progress:0.0
+                                      photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
                     }
-                    
-                    return ;
                 }else{
                     [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
                         if([image images] != nil){
@@ -1136,13 +1133,34 @@
                     UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
                 });
             }else{
-                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:photoItemRelative:photoItemAbsolute:)]) {
+                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                     [weakself.delegate photoBrowser:weakself
-                                state:KNPhotoShowImageFailure
-                    photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                    photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                              state:KNPhotoDownloadStateFailure
+                                           progress:0.0
+                                  photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                  photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
                 }
             }
+        }
+    }
+}
+
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error) {
+        if ([self.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+            [self.delegate photoBrowser:self
+                                  state:KNPhotoDownloadStateFailure
+                               progress:0.0
+                      photoItemRelative:self.itemsArr[self.currentIndex]
+                      photoItemAbsolute:self->_tempArr[self.currentIndex]];
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+            [self.delegate photoBrowser:self
+                                  state:KNPhotoDownloadStateSuccess
+                               progress:0.0
+                      photoItemRelative:self.itemsArr[self.currentIndex]
+                      photoItemAbsolute:self->_tempArr[self.currentIndex]];
         }
     }
 }

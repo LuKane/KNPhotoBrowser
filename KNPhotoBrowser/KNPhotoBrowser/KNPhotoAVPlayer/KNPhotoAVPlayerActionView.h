@@ -18,13 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)photoAVPlayerActionViewPauseOrStop;
 
-@optional
 /**
  actionView's dismiss imageView
  */
 - (void)photoAVPlayerActionViewDismiss;
 
-@optional
 /**
  actionView
  */

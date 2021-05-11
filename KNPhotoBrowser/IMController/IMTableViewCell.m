@@ -10,7 +10,6 @@
 #import "IMModel.h"
 #import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "UIView+Extension.h"
 #import <Photos/Photos.h>
 
 @interface IMTableViewCell()
@@ -81,23 +80,23 @@
                 _picImgView.frame = rect;
             }
             if(imModel.isLeft){
-                _picImgView.x = CGRectGetMaxX(_iconView.frame) + 20;
+                _picImgView.frame = CGRectMake(CGRectGetMaxX(_iconView.frame) + 20, _picImgView.frame.origin.y, _picImgView.bounds.size.width, _picImgView.bounds.size.height);
             }else{
-                _picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
+                _picImgView.frame = CGRectMake(ScreenWidth - 40 - rect.size.width - 50, _picImgView.frame.origin.y, _picImgView.bounds.size.width, _picImgView.bounds.size.height);
             }
             imModel.cellHeight = CGRectGetMaxY(self->_picImgView.frame) + 20;
             _picImgView.image = image;
         }else{
             if (imModel.isVideo) {
                 if(imModel.isLeft){
-                    self->_picImgView.x = CGRectGetMaxX(self->_iconView.frame) + 20;
+                    self->_picImgView.frame = CGRectMake(CGRectGetMaxX(self->_iconView.frame) + 20, self->_picImgView.frame.origin.y, self->_picImgView.bounds.size.width, self->_picImgView.bounds.size.height);
                 }else{
-                    self->_picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
+                    self->_picImgView.frame = CGRectMake(ScreenWidth - 40 - rect.size.width - 50, self->_picImgView.frame.origin.y, self->_picImgView.bounds.size.width, self->_picImgView.bounds.size.height);
                 }
                 if (imModel.rate > 1) { // 横图
-                    self.picImgView.size = CGSizeMake(100 * imModel.rate, 100);
+                    self.picImgView.frame = CGRectMake(self.picImgView.frame.origin.x, self.picImgView.frame.origin.y, 100 * imModel.rate, 100);
                 }else{ // 竖图 || 正方形
-                    self.picImgView.size = CGSizeMake(100, 100 / imModel.rate);
+                    self.picImgView.frame = CGRectMake(self.picImgView.frame.origin.x, self.picImgView.frame.origin.y, 100, 100 / imModel.rate);
                 }
                 imModel.cellHeight = CGRectGetMaxY(_picImgView.frame) + 20;
                 
@@ -144,9 +143,9 @@
                         }
                         
                         if(imModel.isLeft){
-                            self->_picImgView.x = CGRectGetMaxX(self->_iconView.frame) + 20;
-                        }else{
-                            self->_picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
+                            self->_picImgView.frame = CGRectMake(CGRectGetMaxX(self->_iconView.frame) + 20, self->_picImgView.frame.origin.y, self->_picImgView.bounds.size.width, self->_picImgView.bounds.size.height);
+                        }else {
+                            self->_picImgView.frame = CGRectMake(ScreenWidth - 40 - rect.size.width - 50, self->_picImgView.frame.origin.y, self->_picImgView.bounds.size.width, self->_picImgView.bounds.size.height);
                         }
                         
                         imModel.cellHeight = CGRectGetMaxY(self->_iconView.frame) + 20;
@@ -169,12 +168,12 @@
         }
         
         if(imModel.isLeft){
-            _picImgView.x = CGRectGetMaxX(self->_iconView.frame) + 20;
+            _picImgView.frame = CGRectMake(CGRectGetMaxX(_iconView.frame) + 20, _picImgView.frame.origin.y, _picImgView.bounds.size.width, _picImgView.bounds.size.height);
         }else{
-            _picImgView.x = ScreenWidth - 40 - rect.size.width - 50;
+            _picImgView.frame = CGRectMake(ScreenWidth - 40 - rect.size.width - 50, _picImgView.frame.origin.y, _picImgView.bounds.size.width, _picImgView.bounds.size.height);
         }
         
-        imModel.cellHeight = CGRectGetMaxY(self->_picImgView.frame) + 20;
+        imModel.cellHeight = CGRectGetMaxY(_picImgView.frame) + 20;
     }
 }
 

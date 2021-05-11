@@ -15,34 +15,23 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "KNActionSheet.h"
+
 @class KNPhotoBrowser;
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// this enum is for photoBrowser [ it likes  private ]
 typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
     KNPhotoDownloadStateUnknow,
+    KNPhotoDownloadStateDownloading,
     KNPhotoDownloadStateSuccess,
     KNPhotoDownloadStateFailure,
-    KNPhotoDownloadStateDownloading
-};
-
-/// this enum is for download status [ it likes public ]
-typedef NS_ENUM(NSInteger, KNPhotoShowState) {
-    KNPhotoShowImageSuccess,        // download image success
-    KNPhotoShowImageFailure,        // download image failure
-    KNPhotoShowImageFailureUnknow,  // the reason of download image failure
-    
-    KNPhotoShowVideoSuccess,        // download video success
-    KNPhotoShowVideoFailure,        // download video failure
-    KNPhotoShowVideoFailureUnknow   // the reason of download video failure
 };
 
 /****************************** == KNPhotoItems == ********************************/
 
 @interface KNPhotoItems : NSObject
 
-/// if it is network image,  set `url` , do not set `sourceImage`
+/// if it is network image or (net or locate video),  set `url` , do not set `sourceImage`
 @property (nonatomic,copy  ) NSString *url;
 
 /// if it is locate image, set `sourceImage`, do not set `url`
@@ -103,7 +92,7 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 @end
 
 @interface UIDevice(PBExtension)
-/// Deivce judge did have auth of Album
+/// Device judge did have auth of Album
 /// @param authorBlock callBack
 + (void)deviceAlbumAuth:(void (^)(BOOL isAuthor))authorBlock;
 @end
@@ -118,62 +107,55 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser willDismissWithIndex:(NSInteger)index;
 
-@optional
 /// photoBrowser right top button did click with currentIndex (you can custom you right button, but if you custom your right button, that you need implementate your target action)
 /// @param photoBrowser browser
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser rightBtnOperationActionWithIndex:(NSInteger)index;
 
-@optional
 /// photoBrowser image long press (image or gif) with currentIndex
 /// @param photoBrowser photoBrowser
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageDidLongPressWithIndex:(NSInteger)index;
 
-@optional
 /// photoBrowser remove image or video source with relative index
 /// @param photoBrowser browser
 /// @param relativeIndex relative index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser removeSourceWithRelativeIndex:(NSInteger)relativeIndex;
 
-@optional
 /// photoBrowser remove image or video source with absolute index
 /// @param photoBrowser browser
 /// @param absoluteIndex absolute index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser removeSourceWithAbsoluteIndex:(NSInteger)absoluteIndex;
 
-@optional
 /// photoBrowser scroll to current Index
 /// @param photoBrowser browser
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser scrollToLocateWithIndex:(NSInteger)index;
 
-@optional
 /// photoBrowser video download video with progress and currentIndex
 /// @param photoBrowser browser
 /// @param progress progress
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser downloadVideoWithProgress:(CGFloat)progress index:(NSInteger)index;
 
-@optional
 /// photoBrowser did long press with gestureRecognizer and index
 /// @param photoBrowser browser
 /// @param longPress gesture Recognize
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress index:(NSInteger)index;
 
-@optional
 /// download image or video  success or failure or failure reason call back
 /// @param photoBrowser toast on photoBrower.view
 /// @param state state
+/// @param progress progress
 /// @param photoItemRe relative photoItem
 /// @param photoItemAb absolute photoItem
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser
-               state:(KNPhotoShowState)state
+               state:(KNPhotoDownloadState)state
+            progress:(float)progress
    photoItemRelative:(KNPhotoItems *)photoItemRe
    photoItemAbsolute:(KNPhotoItems *)photoItemAb;
 
-@optional
 /// photoBrowser will layout subviews
 - (void)photoBrowserWillLayoutSubviews;
 
@@ -224,17 +206,17 @@ typedef NS_ENUM(NSInteger, KNPhotoShowState) {
 /// is or not need auto play video, default is false
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
-/// is or not need follow photoBrowser , default is false.
-/// when touch photoBrowser, the customView will be hidden.
-/// when you cancel, the customView will be showed.
-/// when dismiss the photoBrowser immediately, the customView will be hidden immediately.
+/// the `numView` & `pageControl` & `operationBtn` is or not need follow photoBrowser , default is false.
+/// when touch photoBrowser, they will be hidden.
+/// when you cancel, they will be showed.
+/// when dismiss the photoBrowser immediately, they will be hidden immediately.
 @property (nonatomic,assign) BOOL isNeedFollowAnimated;
 
-/// delete current photo or video
-- (void)deletePhotoAndVideo;
+/// remove current image or video on photobrowser
+- (void)removeImageOrVideoOnPhotoBrowser;
 
 /// download photo or video to Album, but it must be authed at first
-- (void)downloadPhotoAndVideo;
+- (void)downloadImageOrVideoToAlbum;
 
 /// player's rate immediately to use, default is 1.0 , range is [0.5 <= rate <= 2.0]
 - (void)setImmediatelyPlayerRate:(CGFloat)rate;

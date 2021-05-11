@@ -123,6 +123,8 @@
         [_dismissImgView setHidden:true];
         [_indicatorView setHidden:true];
         [_pauseImgView setHidden:true];
+    }else {
+        [_pauseImgView setHidden:false];
     }
 }
 
