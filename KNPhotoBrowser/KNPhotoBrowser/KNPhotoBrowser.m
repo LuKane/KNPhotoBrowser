@@ -23,11 +23,9 @@
 
 #import "KNPhotoBrowserNumView.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import <AssetsLibrary/ALAsset.h>
 #import <Photos/Photos.h>
 #import "KNPhotoDownloadMgr.h"
 #import <objc/runtime.h>
-
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
@@ -1158,7 +1156,7 @@
         if ([self.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
             [self.delegate photoBrowser:self
                                   state:KNPhotoDownloadStateSuccess
-                               progress:0.0
+                               progress:1.0
                       photoItemRelative:self.itemsArr[self.currentIndex]
                       photoItemAbsolute:self->_tempArr[self.currentIndex]];
         }
@@ -1193,7 +1191,7 @@
 
 /**
  create one image by Color
-  
+ 
  @param imageColor color
  @return image is created by color
  */
