@@ -16,15 +16,15 @@
 #import "KNPhotoImageCell.h"
 #import "KNPhotoVideoCell.h"
 #import "KNPhotoBrowserPch.h"
+#import "KNPhotoDownloadMgr.h"
+#import "KNPhotoBrowserNumView.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/SDWebImagePrefetcher.h>
 #import <SDWebImage/SDImageCache.h>
 
-#import "KNPhotoBrowserNumView.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <Photos/Photos.h>
-#import "KNPhotoDownloadMgr.h"
 #import <objc/runtime.h>
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
@@ -207,7 +207,6 @@
     _imageView = imageView;
     _progressHUD = progressHUD;
 }
-
 /* init numView */
 - (void)initNumView{
     KNPhotoBrowserNumView *numView = [[KNPhotoBrowserNumView alloc] init];
@@ -223,7 +222,6 @@
     
     _numView = numView;
 }
-
 /* init PageControl */
 - (void)initPageControl{
     UIPageControl *pageControl = [[UIPageControl alloc] init];
@@ -302,16 +300,22 @@
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     if (item.isVideo) {
-        KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
-        [cell1 playerWithURL:item.url placeHolder:tempView.image];
-        if (_isNeedAutoPlay == true) {
-            [cell1 setIsNeedAutoPlay:true];
+        KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
+        
+        if (_isNeedOnlinePlay) {
+            [videoCell playerOnLinePhotoItems:item placeHolder:tempView.image];
+        }else {
+            [videoCell playerLocatePhotoItems:item placeHolder:tempView.image];
         }
-        [cell1 setPresentedMode:self.presentedMode];
+        
+        if (_isNeedAutoPlay == true) {
+            [videoCell setIsNeedAutoPlay:true];
+        }
+        [videoCell setPresentedMode:self.presentedMode];
     } else {
-        KNPhotoImageCell *cell1 = (KNPhotoImageCell *)cell;
-        [cell1 sd_ImageWithUrl:item.url placeHolder:tempView.image photoItem:item];
-        [cell1 setPresentedMode:self.presentedMode];
+        KNPhotoImageCell *imageCell = (KNPhotoImageCell *)cell;
+        [imageCell imageWithUrl:item.url placeHolder:tempView.image photoItem:item];
+        [imageCell setPresentedMode:self.presentedMode];
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -321,8 +325,8 @@
     }
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     if (item.isVideo && [cell isKindOfClass:[KNPhotoVideoCell class]]) {
-        KNPhotoVideoCell *cell1 = (KNPhotoVideoCell *)cell;
-        [cell1 playerWillEndDisplay];
+        KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
+        [videoCell playerWillEndDisplay];
     }
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -378,15 +382,20 @@
     CGPoint velocity    = CGPointZero;
     
     KNPhotoBrowserImageView *imageView;
-    KNPhotoAVPlayerView *playerView;
+    id playerView;
     
     if (items.isVideo) {
         KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         
-        playerView  = cell.playerView;
+        if (_isNeedOnlinePlay) {
+            playerView = (KNPhotoAVPlayerView *)cell.onlinePlayerView;
+            location    = [pan locationInView:[(KNPhotoAVPlayerView *)playerView playerBgView]];
+        }else {
+            playerView = (KNPhotoLocateAVPlayerView *)cell.locatePlayerView;
+            location    = [pan locationInView:[(KNPhotoLocateAVPlayerView *)playerView playerBgView]];
+        }
         
         point       = [pan translationInView:self.view];
-        location    = [pan locationInView:playerView.playerBgView];
         velocity    = [pan velocityInView:self.view];
     }else{
         KNPhotoImageCell *cell = (KNPhotoImageCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
@@ -403,8 +412,14 @@
         case UIGestureRecognizerStateBegan:{
             _startLocation  = location;
             if(items.isVideo){
-                _startFrame = playerView.playerBgView.frame;
-                [playerView setIsNeedVideoPlaceHolder:!playerView.isBeginPlayed];
+                if (_isNeedOnlinePlay) {
+                    _startFrame = [(KNPhotoAVPlayerView *)playerView playerBgView].frame;
+                    [(KNPhotoAVPlayerView *)playerView setIsNeedVideoPlaceHolder:![(KNPhotoAVPlayerView *)playerView isBeginPlayed]];
+                }else {
+                    _startFrame = [(KNPhotoLocateAVPlayerView *)playerView playerBgView].frame;
+                    [(KNPhotoLocateAVPlayerView *)playerView setIsNeedVideoPlaceHolder:![(KNPhotoLocateAVPlayerView *)playerView isBeginPlayed]];
+                }
+                
                 [playerView videoWillSwipe];
             }else{
                 _startFrame = imageView.imageView.frame;
@@ -426,9 +441,16 @@
             CGFloat y = location.y - height * rateY;
             
             if(items.isVideo){
-                playerView.playerView.frame     = CGRectMake(x, y, width, height);
-                playerView.playerLayer.frame    = CGRectMake(0, 0, width, height);
-                playerView.placeHolderImgView.frame = CGRectMake(x, y, width, height);
+                if (_isNeedOnlinePlay) {
+                    [(KNPhotoAVPlayerView *)playerView playerView].frame         = CGRectMake(x, y, width, height);
+                    [(KNPhotoAVPlayerView *)playerView playerLayer].frame        = CGRectMake(0, 0, width, height);
+                    [(KNPhotoAVPlayerView *)playerView placeHolderImgView].frame = CGRectMake(x, y, width, height);
+                }else {
+                    [(KNPhotoLocateAVPlayerView *)playerView playerView].frame         = CGRectMake(x, y, width, height);
+                    [(KNPhotoLocateAVPlayerView *)playerView playerLayer].frame        = CGRectMake(0, 0, width, height);
+                    [(KNPhotoLocateAVPlayerView *)playerView placeHolderImgView].frame = CGRectMake(x, y, width, height);
+                }
+                
             }else{
                 imageView.imageView.frame = CGRectMake(x, y, width, height);
             }
@@ -442,7 +464,11 @@
             if (items.isVideo) {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
                     // dismiss
-                    _startFrame = playerView.playerView.frame;
+                    if (_isNeedOnlinePlay) {
+                        _startFrame = [(KNPhotoAVPlayerView *)playerView playerView].frame;
+                    }else {
+                        _startFrame = [(KNPhotoLocateAVPlayerView *)playerView playerView].frame;
+                    }
                     [playerView videoPlayerWillReset];
                     [playerView setIsNeedVideoPlaceHolder:true];
                     [self dismiss];
@@ -480,11 +506,20 @@
     }];
 }
 
-- (void)cancelVideoAnimation:(KNPhotoAVPlayerView *)playerView{
+- (void)cancelVideoAnimation:(id)playerView{
+    
+    CGRect frame = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);
+    
     [UIView animateWithDuration:PhotoBrowserAnimateTime animations:^{
-        playerView.playerView.frame = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);;
-        playerView.playerLayer.frame = playerView.playerView.bounds;
-        playerView.placeHolderImgView.frame = CGRectMake(0, 0, self.startFrame.size.width, self.startFrame.size.height);
+        if (self.isNeedOnlinePlay) {
+            [(KNPhotoAVPlayerView *)playerView playerView].frame = frame;
+            [(KNPhotoAVPlayerView *)playerView playerLayer].frame = frame;
+            [(KNPhotoAVPlayerView *)playerView placeHolderImgView].frame = frame;
+        }else {
+            [(KNPhotoLocateAVPlayerView *)playerView playerView].frame = frame;
+            [(KNPhotoLocateAVPlayerView *)playerView playerLayer].frame = frame;
+            [(KNPhotoLocateAVPlayerView *)playerView placeHolderImgView].frame = frame;
+        }
     } completion:^(BOOL finished) {
         self.view.backgroundColor = [UIColor blackColor];
     }];
@@ -923,7 +958,11 @@
         [_imageView setHidden:false];
         [_progressHUD setHidden:false];
         UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
-        [_imageView sd_ImageWithUrl:[NSURL URLWithString:url] progressHUD:_progressHUD placeHolder:tempView.image photoItem:item];
+        
+        [_imageView imageWithUrl:[NSURL URLWithString:url]
+                     progressHUD:_progressHUD
+                     placeHolder:tempView.image
+                       photoItem:item];
     }else{
         [_collectionView setHidden:false];
     }
@@ -1175,7 +1214,7 @@
     KNPhotoItems *items = self.itemsArr[_currentIndex];
     if (items.isVideo) {
         KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-        [cell.playerView videoPlayerSetRate:rate];
+        [cell.onlinePlayerView videoPlayerSetRate:rate];
     }
 }
 
@@ -1189,12 +1228,9 @@
     }
 }
 
-/**
- create one image by Color
- 
- @param imageColor color
- @return image is created by color
- */
+/// create one image by Color
+/// @param imageColor color
+/// @param size image size
 - (UIImage *)createImageWithUIColor:(UIColor *)imageColor size:(CGSize)size{
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
@@ -1239,7 +1275,6 @@
     }
     return NO;
 }
-
 
 /// judge string is empty or null or nil
 /// @param string isEmpty string

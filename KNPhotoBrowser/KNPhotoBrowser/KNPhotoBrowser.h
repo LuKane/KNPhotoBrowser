@@ -206,6 +206,9 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// is or not need auto play video, default is false
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
+/// is or not need online play video, default is false
+@property (nonatomic,assign) BOOL isNeedOnlinePlay;
+
 /// the `numView` & `pageControl` & `operationBtn` is or not need follow photoBrowser , default is false.
 /// when touch photoBrowser, they will be hidden.
 /// when you cancel, they will be showed.
