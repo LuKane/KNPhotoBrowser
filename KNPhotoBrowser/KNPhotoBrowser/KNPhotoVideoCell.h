@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KNPhotoAVPlayerView.h"
+#import "KNPhotoLocateAVPlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,14 +25,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KNPhotoVideoCell : UICollectionViewCell
 
-- (void)playerWithURL:(NSString *)url placeHolder:(UIImage *_Nullable)placeHolder;
+/// play video on line with photoItems and placeHolder's image
+/// @param photoItems photoItems
+/// @param placeHolder placeHolder image
+- (void)playerOnLinePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *_Nullable)placeHolder;
+
+/// play video by download first with photoItems and placeHolder's image
+/// @param photoItems photoItems
+/// @param placeHolder placeHolder image
+- (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *_Nullable)placeHolder;
 
 - (void)playerWillEndDisplay;
 
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 @property (nonatomic,assign) BOOL isNeedVideoPlaceHolder;
 
-@property (nonatomic,weak  ) KNPhotoAVPlayerView *playerView;
+@property (nonatomic,weak  ) KNPhotoAVPlayerView *onlinePlayerView;
+@property (nonatomic,weak  ) KNPhotoLocateAVPlayerView *locatePlayerView;
+
 @property (nonatomic,weak  ) id<KNPhotoVideoCellDelegate> delegate;
 
 @property (nonatomic,assign) UIViewContentMode presentedMode;
