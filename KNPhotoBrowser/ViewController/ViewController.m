@@ -199,6 +199,7 @@
     photoBrowser.isNeedPanGesture = true;
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
+    photoBrowser.isNeedOnlinePlay = false;
     
     photoBrowser.placeHolderColor = UIColor.lightTextColor;
     
