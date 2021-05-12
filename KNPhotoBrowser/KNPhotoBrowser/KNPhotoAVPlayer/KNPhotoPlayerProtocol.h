@@ -10,7 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface KNPhotoPlayerProtocol : NSObject
+@protocol KNPhotoPlayerViewDelegate <NSObject>
+
+/**
+ avplayer dimiss
+ */
+- (void)photoPlayerViewDismiss;
+/**
+ avplayer long press
+ */
+- (void)photoPlayerLongPress:(UILongPressGestureRecognizer *)longPress;
 
 @end
 
