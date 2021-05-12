@@ -8,6 +8,8 @@
 
 #import "FirstViewController.h"
 #import "NavigationController.h"
+#import "SDImageCache.h"
+#import "KNPhotoDownloadMgr.h"
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,weak  ) UITableView *tableView;
@@ -58,6 +60,21 @@
     [super viewDidLoad];
     self.title = @"KNPhotoBrowser 演示";
     [self setupTableView];
+    [self clearDisk];
+}
+
+- (void)clearDisk {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"CLEAR" style:UIBarButtonItemStyleDone target:self action:@selector(clear)];
+}
+
+- (void)clear{
+    // clear memory for test
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+        
+    }];
+    
+    KNPhotoDownloadFileMgr *mgr = [[KNPhotoDownloadFileMgr alloc] init];
+    [mgr removeAllVideo];
 }
 
 - (void)setupTableView{

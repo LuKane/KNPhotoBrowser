@@ -93,21 +93,21 @@
     return self;
 }
 
-- (void)playerWithURL:(NSString *)url placeHolder:(UIImage *)placeHolder{
+- (void)playerOnLinePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *_Nullable)placeHolder{
     
     [self removePlayerItemObserver];
     [self removeTimeObserver];
     [self addObserverAndAudioSession];
     
-    _url = url;
+    _url = photoItems.url;
     _placeHolder = placeHolder;
     
     if (placeHolder) {
         _placeHolderImgView.image = placeHolder;
     }
     
-    if ([url hasPrefix:@"http"]) {
-        _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:url]];
+    if ([photoItems.url hasPrefix:@"http"]) {
+        _item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:photoItems.url]];
     }else {
         _item = [AVPlayerItem playerItemWithAsset:[AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_url] options:nil]];
     }
@@ -116,7 +116,6 @@
     [self.player replaceCurrentItemWithPlayerItem:_item];
     
     [_actionView avplayerActionViewNeedHidden:false];
-    _actionView.isBuffering = true;
     
     _isEnterBackground = _isAddObserver = _isDragging = _isPlaying = false;
     
@@ -141,6 +140,7 @@
 /// notification function
 - (void)applicationWillResignActive{
     _isEnterBackground = true;
+    if (_isPlaying) [self photoAVPlayerActionBarClickWithIsPlay:false];
 }
 
 /// remove item observer
@@ -257,6 +257,7 @@
 - (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay {
     _isNeedAutoPlay = isNeedAutoPlay;
     if (isNeedAutoPlay) {
+        _actionView.isBuffering = true;
         [self photoAVPlayerActionViewPauseOrStop];
     }
 }
@@ -269,8 +270,8 @@
     if (_isPlaying == false) {
         return;
     }
-    if ([_delegate respondsToSelector:@selector(photoAVPlayerLongPress:)]) {
-        [_delegate photoAVPlayerLongPress:longPress];
+    if ([_delegate respondsToSelector:@selector(photoPlayerLongPress:)]) {
+        [_delegate photoPlayerLongPress:longPress];
     }
 }
 
@@ -293,8 +294,8 @@
     _isPlaying = !_isPlaying;
 }
 - (void)photoAVPlayerActionViewDismiss{
-    if ([_delegate respondsToSelector:@selector(photoAVPlayerViewDismiss)]) {
-        [_delegate photoAVPlayerViewDismiss];
+    if ([_delegate respondsToSelector:@selector(photoPlayerViewDismiss)]) {
+        [_delegate photoPlayerViewDismiss];
     }
 }
 - (void)photoAVPlayerActionViewDidClickIsHidden:(BOOL)isHidden{

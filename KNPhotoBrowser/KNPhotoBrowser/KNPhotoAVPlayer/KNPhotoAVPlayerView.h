@@ -8,87 +8,67 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "KNPhotoPlayerProtocol.h"
+#import "KNPhotoBrowser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol KNPhotoAVPlayerViewDelegate <NSObject>
-
-/**
- avplayer dimiss
- */
-- (void)photoAVPlayerViewDismiss;
-/**
- avplayer long press
- */
-- (void)photoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress;
-
-@end
-
 @interface KNPhotoAVPlayerView : UIView
 
-/**
- create observe player with url ,ready to play
- 
- @param url url
- @param placeHolder placeHolder image
- */
-- (void)playerWithURL:(NSString *)url
-          placeHolder:(UIImage *_Nullable)placeHolder;
+/// create locate player with photoItems
+/// @param photoItems photoItem
+/// @param placeHolder placeHolder image
+- (void)playerOnLinePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *_Nullable)placeHolder;
 
-/**
- reset avplayer
- */
+/// reset AVPlayer
 - (void)videoPlayerWillReset;
 
-/**
- swipe player by hand
- */
+/// AVPlayer will be swiped by hand
 - (void)videoWillSwipe;
 
-/**
- set player rate
- */
+/// AVPlayer play as rate
+/// @param rate rate
 - (void)videoPlayerSetRate:(CGFloat)rate;
 
 /**
- is or not need Video placeHolder
+ * is or not need Video placeHolder
  */
 @property (nonatomic,assign) BOOL isNeedVideoPlaceHolder;
 
 /**
-auto play when you need
+ * auto play when you need
  */
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
 /**
- player view
+ * player view
  */
 @property (nonatomic,strong,nullable) UIView *playerView;
 
 /**
- player background view (as locate current location for swipe)
+ * player background view (as locate current location for swipe)
  */
 @property (nonatomic,strong,nullable) UIView *playerBgView;
 
 /**
- placeHolder imageView
-*/
+ * placeHolder imageView
+ */
 @property (nonatomic,strong,nullable) UIImageView *placeHolderImgView;
 
 /**
- layer of player
+ * layer of player
  */
 @property (nonatomic,strong,nullable) AVPlayerLayer *playerLayer;
 
 /**
- if video has played ,even though one seconds : TRUE
+ * if video has played ,even though one seconds : TRUE
  */
 @property (nonatomic,assign) BOOL isBeginPlayed;
 
 /**
- delegate
+ * delegate
  */
-@property (nonatomic,weak  ) id<KNPhotoAVPlayerViewDelegate> delegate;
+@property (nonatomic,weak  ) id<KNPhotoPlayerViewDelegate> delegate;
 
 @end
 

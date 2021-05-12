@@ -12,6 +12,7 @@
 #import "KNProgressHUD.h"
 #import "KNPhotoBrowserPch.h"
 #import "KNPhotoBrowser.h"
+#import "KNReachability.h"
 
 @interface KNPhotoBrowserImageView()<UIScrollViewDelegate>{
     NSURL         *_url;
@@ -119,10 +120,10 @@
     }
 }
 
-- (void)sd_ImageWithUrl:(NSURL *)url
-            progressHUD:(KNProgressHUD *)progressHUD
-            placeHolder:(UIImage *)placeHolder
-              photoItem:(KNPhotoItems *)photoItem{
+- (void)imageWithUrl:(NSURL *)url
+         progressHUD:(KNProgressHUD *)progressHUD
+         placeHolder:(UIImage *)placeHolder
+           photoItem:(KNPhotoItems *)photoItem{
     
     [progressHUD setHidden:true];
     
@@ -138,7 +139,13 @@
         [self layoutSubviews];
         return;
     }
-    [progressHUD setHidden:false];
+    
+    if (![[KNReachability reachabilityForInternetConnection] isReachable]) { // no network
+        [progressHUD setHidden:true];
+    }else {
+        [progressHUD setHidden:false];
+    }
+    
     __weak typeof(self) weakSelf = self;
     UIImage *image = [[SDImageCache sharedImageCache] imageFromCacheForKey:[url absoluteString]];
     if(image){

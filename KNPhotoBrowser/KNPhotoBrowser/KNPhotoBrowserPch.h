@@ -20,14 +20,36 @@
     #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #endif
 
-#define iPhoneX  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : false)
-#define iPhoneXR ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828 , 1792), [[UIScreen mainScreen] currentMode].size) : false)
-#define iPhoneXs_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242 , 2688), [[UIScreen mainScreen] currentMode].size) : false)
+/// iPhoneX
+#ifndef iPhoneX
+    #define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : false)
+#endif
 
-#define iPhone12 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1170 , 2532), [[UIScreen mainScreen] currentMode].size) : false)
-#define iPhone12_Pro_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1284 , 2778), [[UIScreen mainScreen] currentMode].size) : false)
+/// iPhoneXR
+#ifndef iPhoneXR
+    #define iPhoneXR ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828 , 1792), [[UIScreen mainScreen] currentMode].size) : false)
+#endif
 
-#define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
+/// iPhoneXs_max
+#ifndef iPhoneXs_Max
+    #define iPhoneXs_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242 , 2688), [[UIScreen mainScreen] currentMode].size) : false)
+#endif
+
+/// iPhone12
+#ifndef iPhone12
+    #define iPhone12 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1170 , 2532), [[UIScreen mainScreen] currentMode].size) : false)
+#endif
+
+/// iPhone12_pro_max
+#ifndef iPhone12_Pro_Max
+    #define iPhone12_Pro_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1284 , 2778), [[UIScreen mainScreen] currentMode].size) : false)
+#endif
+
+/// Portrait
+#ifndef isPortrait
+    #define isPortrait ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait || [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown)
+#endif
+
 
 #define PhotoBrowserAnimateTime 0.3
 

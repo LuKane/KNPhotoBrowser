@@ -27,9 +27,14 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 // longPress tap
 @property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
 
-- (void)sd_ImageWithUrl:(NSURL *)url
-            progressHUD:(KNProgressHUD *)progressHUD
-            placeHolder:(UIImage *)placeHolder
-              photoItem:(KNPhotoItems *)photoItem;
+/// set image with url
+/// @param url url
+/// @param progressHUD progressHUD
+/// @param placeHolder placeHolder image
+/// @param photoItem current photoItems
+- (void)imageWithUrl:(NSURL *)url
+         progressHUD:(KNProgressHUD *)progressHUD
+         placeHolder:(UIImage *)placeHolder
+           photoItem:(KNPhotoItems *)photoItem;
 
 @end

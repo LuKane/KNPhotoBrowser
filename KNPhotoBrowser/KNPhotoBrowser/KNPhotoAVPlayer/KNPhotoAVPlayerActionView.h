@@ -49,6 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,assign) BOOL  isPlaying;
 
+/**
+ * current player is downloading
+ */
+@property (nonatomic,assign) BOOL isDownloading;
+
 @end
 
 NS_ASSUME_NONNULL_END

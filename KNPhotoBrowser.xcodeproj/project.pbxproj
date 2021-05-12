@@ -76,6 +76,8 @@
 		79E115D522F032310022106B /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1159522F032310022106B /* NavigationController.m */; };
 		79E115DB22F0347E0022106B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115D922F0347E0022106B /* Main.storyboard */; };
 		79E115DC22F0347E0022106B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115DA22F0347E0022106B /* LaunchScreen.storyboard */; };
+		79ECDCD0264B7940009EAAF4 /* KNReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 79ECDCCF264B7940009EAAF4 /* KNReachability.m */; };
+		79ECDCD9264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79ECDCD8264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m */; };
 		D7BBE6CFBA46ABDE79A92A7B /* libPods-KNPhotoBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */; };
 /* End PBXBuildFile section */
 
@@ -212,6 +214,11 @@
 		79E1159522F032310022106B /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		79E115D922F0347E0022106B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		79E115DA22F0347E0022106B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		79ECDCCE264B7940009EAAF4 /* KNReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNReachability.h; sourceTree = "<group>"; };
+		79ECDCCF264B7940009EAAF4 /* KNReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNReachability.m; sourceTree = "<group>"; };
+		79ECDCD7264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoLocateAVPlayerView.h; sourceTree = "<group>"; };
+		79ECDCD8264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNPhotoLocateAVPlayerView.m; sourceTree = "<group>"; };
+		79ECDCDD264B7FC0009EAAF4 /* KNPhotoPlayerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoPlayerProtocol.h; sourceTree = "<group>"; };
 		AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KNPhotoBrowser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF870D3B26B6F5603B345795 /* Pods-KNPhotoBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -282,6 +289,7 @@
 				7912609C23FE75F300BC4181 /* KNPhotoBrowser.bundle */,
 				7912609223FE75F300BC4181 /* KNPhotoAVPlayer */,
 				7912607B23FE75F300BC4181 /* KNActionSheet */,
+				79ECDCCD264B7940009EAAF4 /* KNReachability */,
 				7912608823FE75F300BC4181 /* KNPhotoBrowser.h */,
 				7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */,
 				7912608023FE75F300BC4181 /* KNProgressHUD.h */,
@@ -321,6 +329,9 @@
 				7912609723FE75F300BC4181 /* KNPhotoAVPlayerActionBar.m */,
 				7912609523FE75F300BC4181 /* KNPhotoAVPlayerView.h */,
 				7912609823FE75F300BC4181 /* KNPhotoAVPlayerView.m */,
+				79ECDCD7264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.h */,
+				79ECDCD8264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m */,
+				79ECDCDD264B7FC0009EAAF4 /* KNPhotoPlayerProtocol.h */,
 			);
 			path = KNPhotoAVPlayer;
 			sourceTree = "<group>";
@@ -534,6 +545,15 @@
 			path = ImageSource;
 			sourceTree = "<group>";
 		};
+		79ECDCCD264B7940009EAAF4 /* KNReachability */ = {
+			isa = PBXGroup;
+			children = (
+				79ECDCCE264B7940009EAAF4 /* KNReachability.h */,
+				79ECDCCF264B7940009EAAF4 /* KNReachability.m */,
+			);
+			path = KNReachability;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -716,6 +736,7 @@
 				79E115B522F032310022106B /* ScrollViewLocController.m in Sources */,
 				79105C5325ECDDA400020EB6 /* CustomSourceViewController.m in Sources */,
 				79E115B122F032310022106B /* IMModel.m in Sources */,
+				79ECDCD0264B7940009EAAF4 /* KNReachability.m in Sources */,
 				791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */,
 				794038D025398746002ADE14 /* LocateGifController.m in Sources */,
 				791260A723FE75F300BC4181 /* KNProgressHUD.m in Sources */,
@@ -726,6 +747,7 @@
 				79E115AF22F032310022106B /* NineSquareController.m in Sources */,
 				791260A623FE75F300BC4181 /* KNPhotoImageCell.m in Sources */,
 				799A0EFD25EE4D47000ADBF0 /* CustomSourceView2.m in Sources */,
+				79ECDCD9264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m in Sources */,
 				79E115A922F032310022106B /* NineSquareLocController.m in Sources */,
 				79E1159622F032310022106B /* ViewController.m in Sources */,
 				798D104A23B9F807006ACF61 /* SendImageItem.m in Sources */,

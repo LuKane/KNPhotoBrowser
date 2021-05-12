@@ -142,4 +142,9 @@
     [_pauseImgView setHidden:isPlaying];
 }
 
+- (void)setIsDownloading:(BOOL)isDownloading{
+    _isDownloading = isDownloading;
+    [_pauseImgView setHidden:isDownloading];
+}
+
 @end
