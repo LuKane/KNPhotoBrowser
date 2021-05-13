@@ -235,6 +235,7 @@
 }
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress index:(NSInteger)index {
     if (longPress.state == UIGestureRecognizerStateBegan) {
+        [UIDevice deviceShake];
         [photoBrowser setImmediatelyPlayerRate:2];
     }else if (longPress.state == UIGestureRecognizerStateEnded || longPress.state == UIGestureRecognizerStateCancelled || longPress.state == UIGestureRecognizerStateFailed || longPress.state == UIGestureRecognizerStateRecognized){
         [photoBrowser setImmediatelyPlayerRate:1];
