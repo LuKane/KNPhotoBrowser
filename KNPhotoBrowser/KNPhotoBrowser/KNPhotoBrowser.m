@@ -420,7 +420,7 @@
                     [(KNPhotoLocateAVPlayerView *)playerView setIsNeedVideoPlaceHolder:![(KNPhotoLocateAVPlayerView *)playerView isBeginPlayed]];
                 }
                 
-                [playerView videoWillSwipe];
+                [playerView playerWillSwipe];
             }else{
                 _startFrame = imageView.imageView.frame;
             }
@@ -469,7 +469,7 @@
                     }else {
                         _startFrame = [(KNPhotoLocateAVPlayerView *)playerView playerView].frame;
                     }
-                    [playerView videoPlayerWillReset];
+                    [playerView playerWillReset]; /// stop avplayer
                     [playerView setIsNeedVideoPlaceHolder:true];
                     [self dismiss];
                 }else{
@@ -477,6 +477,7 @@
                     [self cancelVideoAnimation:playerView];
                     [self customViewSubViewsWillShow];
                     [playerView setIsNeedVideoPlaceHolder:true];
+                    [playerView playerWillSwipeCancel];
                 }
             }else {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
@@ -1214,7 +1215,7 @@
     KNPhotoItems *items = self.itemsArr[_currentIndex];
     if (items.isVideo) {
         KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-        [cell.onlinePlayerView videoPlayerSetRate:rate];
+        [cell.onlinePlayerView playerRate:rate];
     }
 }
 
