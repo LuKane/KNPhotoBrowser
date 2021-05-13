@@ -235,17 +235,17 @@
 }
 
 /// function
-- (void)videoPlayerWillReset{
+- (void)playerWillReset{
     [_player pause];
     _isPlaying = false;
     [self removeTimeObserver];
     [self removePlayerItemObserver];
 }
-- (void)videoWillSwipe{
+- (void)playerWillSwipe{
     [_actionView avplayerActionViewNeedHidden:true];
     _actionBar.hidden = true;
 }
-- (void)videoPlayerSetRate:(CGFloat)rate{
+- (void)playerRate:(CGFloat)rate{
     if (_isPlaying == false) {
         return;
     }
