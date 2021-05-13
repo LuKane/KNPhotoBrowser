@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playerOnLinePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *_Nullable)placeHolder;
 
 /// reset AVPlayer
-- (void)videoPlayerWillReset;
+- (void)playerWillReset;
 
 /// AVPlayer will be swiped by hand
-- (void)videoWillSwipe;
+- (void)playerWillSwipe;
 
 /// AVPlayer play as rate
 /// @param rate rate
-- (void)videoPlayerSetRate:(CGFloat)rate;
+- (void)playerRate:(CGFloat)rate;
 
 /**
  * is or not need Video placeHolder
