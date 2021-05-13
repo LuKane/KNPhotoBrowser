@@ -24,14 +24,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *_Nullable)placeHolder;
 
 /// reset AVPlayer
-- (void)videoPlayerWillReset;
+- (void)playerWillReset;
 
 /// AVPlayer will be swiped by hand
-- (void)videoWillSwipe;
+- (void)playerWillSwipe;
+
+/// AVPlayer will cancel swipe
+- (void)playerWillSwipeCancel;
 
 /// AVPlayer play as rate
 /// @param rate rate
-- (void)videoPlayerSetRate:(CGFloat)rate;
+- (void)playerRate:(CGFloat)rate;
 
 /// when dismiss, should cancel download task first
 - (void)cancelDownloadMgrTask;

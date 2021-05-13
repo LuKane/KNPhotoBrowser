@@ -262,18 +262,31 @@
 }
 
 /// function
-- (void)videoPlayerWillReset{
+- (void)playerWillReset{
     [_player pause];
     _isPlaying = false;
     [self removeTimeObserver];
     [self removePlayerItemObserver];
     [self cancelDownloadMgrTask];
 }
-- (void)videoWillSwipe{
+- (void)playerWillSwipe{
     [_actionView avplayerActionViewNeedHidden:true];
     _actionBar.hidden = true;
+    _progressHUD.hidden = true;
 }
-- (void)videoPlayerSetRate:(CGFloat)rate{
+
+/// AVPlayer will cancel swipe
+- (void)playerWillSwipeCancel{
+    if (_progressHUD.progress != 1.0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self->_progressHUD.hidden = false;
+        });
+    }else {
+        _progressHUD.hidden = true;
+    }
+}
+
+- (void)playerRate:(CGFloat)rate{
     if (_isPlaying == false) {
         return;
     }
