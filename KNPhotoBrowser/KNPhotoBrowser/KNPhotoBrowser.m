@@ -1215,7 +1215,11 @@
     KNPhotoItems *items = self.itemsArr[_currentIndex];
     if (items.isVideo) {
         KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
-        [cell.onlinePlayerView playerRate:rate];
+        if (_isNeedOnlinePlay) {
+            [cell.onlinePlayerView playerRate:rate];
+        }else {
+            [cell.locatePlayerView playerRate:rate];
+        }
     }
 }
 
@@ -1410,6 +1414,11 @@
             }
         }];
     }
+}
+
+/// device shake
++ (void)deviceShake{
+    AudioServicesPlaySystemSound(1520);
 }
 
 @end

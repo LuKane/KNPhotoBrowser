@@ -92,9 +92,13 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 @end
 
 @interface UIDevice(PBExtension)
-/// Device judge did have auth of Album
+/// device judge did have auth of Album
 /// @param authorBlock callBack
 + (void)deviceAlbumAuth:(void (^)(BOOL isAuthor))authorBlock;
+
+/// device shake
++ (void)deviceShake;
+
 @end
 
 /****************************** == KNPhotoBrowserDelegate == ********************************/
