@@ -56,8 +56,8 @@
 }
 
 - (void)playerWillEndDisplay{
-    [_onlinePlayerView videoPlayerWillReset];
-    [_locatePlayerView videoPlayerWillReset];
+    [_onlinePlayerView playerWillReset];
+    [_locatePlayerView playerWillReset];
 }
 
 /// setter
@@ -81,8 +81,8 @@
 
 /// delegate function
 - (void)photoPlayerViewDismiss{
-    [_onlinePlayerView videoPlayerWillReset];
-    [_locatePlayerView videoPlayerWillReset];
+    [_onlinePlayerView playerWillReset];
+    [_locatePlayerView playerWillReset];
     if ([_delegate respondsToSelector:@selector(photoVideoAVPlayerDismiss)]) {
         [_delegate photoVideoAVPlayerDismiss];
     }
