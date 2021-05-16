@@ -25,6 +25,9 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
     KNPhotoDownloadStateDownloading,
     KNPhotoDownloadStateSuccess,
     KNPhotoDownloadStateFailure,
+    KNPhotoDownloadStateRepeat,
+    KNPhotoDownloadStateSaveFailure,
+    KNPhotoDownloadStateSaveSuccess
 };
 
 /****************************** == KNPhotoItems == ********************************/
@@ -119,7 +122,7 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// photoBrowser image long press (image or gif) with currentIndex
 /// @param photoBrowser photoBrowser
 /// @param index current index
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageDidLongPressWithIndex:(NSInteger)index;
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageLongPressWithIndex:(NSInteger)index;
 
 /// photoBrowser remove image or video source with relative index
 /// @param photoBrowser browser
@@ -136,20 +139,14 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser scrollToLocateWithIndex:(NSInteger)index;
 
-/// photoBrowser video download video with progress and currentIndex
-/// @param photoBrowser browser
-/// @param progress progress
-/// @param index current index
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser downloadVideoWithProgress:(CGFloat)progress index:(NSInteger)index;
-
 /// photoBrowser did long press with gestureRecognizer and index
 /// @param photoBrowser browser
 /// @param longPress gesture Recognize
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress index:(NSInteger)index;
 
-/// download image or video  success or failure or failure reason call back
-/// @param photoBrowser toast on photoBrower.view
+/// download image or video  success or failure or failure reason call back. [If video player is download by auto, it can use delegate. it is only use function `removeImageOrVideoOnPhotoBrowser` can use this delegate]
+/// @param photoBrowser photoBrowser
 /// @param state state
 /// @param progress progress
 /// @param photoItemRe relative photoItem
@@ -197,7 +194,7 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 @property (nonatomic,assign) BOOL isNeedRightTopBtn;
 
 /// is or not need image or video longPress , default is false.
-/// image long press : delegate function `photoBrowser: imageDidLongPressWithIndex:`.
+/// image long press : delegate function `photoBrowser: imageLongPressWithIndex:`.
 /// video long press : delegate function `photoBrowser: videoLongPress: index:`.
 @property (nonatomic,assign) BOOL isNeedLongPress;
 
@@ -210,7 +207,7 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// is or not need auto play video, default is false
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
-/// is or not need online play video, default is false
+/// is or not need online play video, default is false [That means auto download video first]
 @property (nonatomic,assign) BOOL isNeedOnlinePlay;
 
 /// the `numView` & `pageControl` & `operationBtn` is or not need follow photoBrowser , default is false.

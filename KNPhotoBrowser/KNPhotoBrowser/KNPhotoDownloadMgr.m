@@ -15,10 +15,35 @@
 
 @property (nonatomic,copy  ) PhotoDownLoadBlock downloadBlock;
 @property (nonatomic,strong) KNPhotoItems *item;
+@property (nonatomic,strong) KNPhotoItems *tempItem;
 
 @end
 
 @implementation KNPhotoDownloadMgr
+
+static KNPhotoDownloadMgr *_mgr = nil;
+
++ (instancetype)shareInstance{
+    if (_mgr == nil) {
+        _mgr = [[KNPhotoDownloadMgr alloc] init];
+    }
+    return _mgr;
+}
++ (instancetype)allocWithZone:(struct _NSZone *)zone{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _mgr = [super allocWithZone:zone];
+    });
+    return _mgr;
+}
+
+- (id)copyWithZone:(NSZone *)zone{
+    return self;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone{
+    return self;
+}
 
 - (instancetype)init{
     if (self = [super init]) {
@@ -31,8 +56,19 @@
     if (photoItems.url == nil) {
         return;
     }
-    _item          = photoItems;
+    
+    if (_tempItem == photoItems) {
+        _downloadBlock(KNPhotoDownloadStateRepeat,0.0);
+        return;
+    }
+    
+    _item          = [[KNPhotoItems alloc] init];
+    _item.url      = photoItems.url;
+    
+    _tempItem      = photoItems;
     _downloadBlock = downloadBlock;
+    
+    [self cancelTask];
     
     if (photoItems.isVideo == true) {
         NSURL *url = [NSURL URLWithString:photoItems.url];
@@ -46,6 +82,7 @@
 
 /// cancel all download task
 - (void)cancelTask{
+    _item.downloadState = KNPhotoDownloadStateFailure;
     [_downloadTask cancel];
 }
 
@@ -70,8 +107,8 @@
     _item.downloadProgress = progress;
     _item.downloadState = KNPhotoDownloadStateDownloading;
     if (_downloadBlock) {
-        NSLog(@"%lld-%lld == > %f",totalBytesWritten,totalBytesExpectedToWrite,progress);
-        _downloadBlock(_item.downloadState,_item.downloadProgress);
+//        NSLog(@"%lld-%lld == > %f",totalBytesWritten,totalBytesExpectedToWrite,progress);
+        _downloadBlock(KNPhotoDownloadStateDownloading,progress);
     }
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
@@ -81,10 +118,10 @@
         _item.downloadState = KNPhotoDownloadStateFailure;
         _item.downloadProgress = 0.0;
     }
-    
     if (_downloadBlock) {
         _downloadBlock(_item.downloadState,_item.downloadProgress);
     }
+    _tempItem = nil;
 }
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     

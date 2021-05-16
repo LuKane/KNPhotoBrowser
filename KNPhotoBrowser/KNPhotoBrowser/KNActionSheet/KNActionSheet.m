@@ -220,12 +220,11 @@
     [self dismiss];
 }
 
-- (void)show{
+- (void)showOnView:(UIView *)view{
     [_coverView setAlpha:0];
     [_bgView setTransform:CGAffineTransformIdentity];
     
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:self];
+    [view addSubview:self];
     _isShow = true;
 }
 

@@ -1,8 +1,8 @@
 //
-//  CustomSourceViewController.h
+//  ViewLocateController.h
 //  KNPhotoBrowser
 //
-//  Created by LuKane on 2021/3/1.
+//  Created by LuKane on 2021/5/15.
 //  Copyright © 2021 LuKane. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CustomSourceViewController : BaseViewController
+@interface ViewLocateController : BaseViewController
 
 @end
 

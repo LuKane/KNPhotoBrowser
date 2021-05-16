@@ -2,8 +2,8 @@
 //  ViewController.h
 //  KNPhotoBrowser
 //
-//  Created by LuKane on 2019/1/14.
-//  Copyright © 2019 LuKane. All rights reserved.
+//  Created by LuKane on 2021/5/15.
+//  Copyright © 2021 LuKane. All rights reserved.
 //
 
 #import "BaseViewController.h"

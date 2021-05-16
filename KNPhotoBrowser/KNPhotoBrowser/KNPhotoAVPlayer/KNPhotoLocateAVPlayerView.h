@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "KNPhotoPlayerProtocol.h"
 #import "KNPhotoBrowser.h"
+#import "KNPhotoDownloadMgr.h"
 
 @class KNProgressHUD;
 
@@ -38,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// when dismiss, should cancel download task first
 - (void)cancelDownloadMgrTask;
+
+/// playerdownload
+/// @param downloadBlock download callBack
+- (void)playerDownloadBlock:(PhotoDownLoadBlock)downloadBlock;
 
 /**
  * is or not need Video placeHolder

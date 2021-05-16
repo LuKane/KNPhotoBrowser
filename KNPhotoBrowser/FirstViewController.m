@@ -12,8 +12,10 @@
 #import "KNPhotoDownloadMgr.h"
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
+
 @property (nonatomic,weak  ) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
+
 @end
 
 @implementation FirstViewController
@@ -24,20 +26,25 @@
         {
             NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"ViewController"];
+            [arr addObject:@"ViewLocateController"];
+            [_dataArr addObject:arr];
+        }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"NineSquareController"];
+            [arr addObject:@"NineSquareLocateController"];
+            
+            [_dataArr addObject:arr];
+        }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"ScrollViewController"];
+            [arr addObject:@"ScrollViewLocateController"];
             [_dataArr addObject:arr];
         }
         {
             NSMutableArray *arr = [NSMutableArray array];
-            [arr addObject:@"ViewLocController"];
-            [arr addObject:@"NineSquareLocController"];
-            [arr addObject:@"ScrollViewLocController"];
-            [_dataArr addObject:arr];
-        }
-        {
-            NSMutableArray *arr = [NSMutableArray array];
-            [arr addObject:@"IMViewController"];
+            [arr addObject:@"IMController"];
             [_dataArr addObject:arr];
         }
         {
@@ -47,8 +54,11 @@
         }
         {
             NSMutableArray *arr = [NSMutableArray array];
-            [arr addObject:@"CustomViewController"];
-            [arr addObject:@"LocateGifController"];
+            [arr addObject:@"CustomPhotoBrowserController"];
+            [_dataArr addObject:arr];
+        }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"CustomSourceViewController"];
             [_dataArr addObject:arr];
         }
@@ -114,8 +124,7 @@
     Class class = NSClassFromString(arr[indexPath.row]);
     UIViewController *vc = [[class alloc] init];
     
-    if (indexPath.section == 1) {
-        
+    if (indexPath.row == 1) {
         NavigationController *nav = [[NavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:true completion:^{
             

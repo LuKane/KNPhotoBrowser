@@ -11,8 +11,6 @@
 #import "KNPhotoAVPlayerActionView.h"
 #import "KNPhotoBrowserPch.h"
 #import "KNProgressHUD.h"
-
-#import "KNPhotoDownloadMgr.h"
 #import "KNReachability.h"
 
 @interface KNPhotoLocateAVPlayerView()<KNPhotoAVPlayerActionViewDelegate,KNPhotoAVPlayerActionBarDelegate>
@@ -35,9 +33,9 @@
 @property (nonatomic,assign) BOOL isAddObserver;
 
 @property (nonatomic,strong) KNPhotoDownloadMgr *downloadMgr;
-@property (nonatomic,weak  ) KNProgressHUD *progressHUD;
 @property (nonatomic,strong) KNPhotoItems *photoItems;
-
+@property (nonatomic,weak  ) KNProgressHUD *progressHUD;
+@property (nonatomic,copy  ) PhotoDownLoadBlock downloadBlock;
 @end
 
 @implementation KNPhotoLocateAVPlayerView
@@ -87,7 +85,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        
         self.player = [AVPlayer playerWithPlayerItem:_item];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
         [self.playerView.layer addSublayer:_playerLayer];
@@ -98,15 +95,22 @@
         [self addSubview:self.playerBgView];
         [self addSubview:self.actionView];
         [self addSubview:self.actionBar];
+        
+        _downloadBlock = nil;
+        
     }
     return self;
 }
 
 - (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *_Nullable)placeHolder{
     
+    [self cancelDownloadMgrTask];
+    
     [self removePlayerItemObserver];
     [self removeTimeObserver];
     [self addObserverAndAudioSession];
+    
+    _downloadBlock = nil;
     
     _url = photoItems.url;
     _placeHolder = placeHolder;
@@ -208,7 +212,6 @@
                                                object:nil];
     
 }
-
 /// remove time observer
 - (void)removeTimeObserver{
     if (_timeObserver && _player) {
@@ -267,14 +270,12 @@
     _isPlaying = false;
     [self removeTimeObserver];
     [self removePlayerItemObserver];
-    [self cancelDownloadMgrTask];
 }
 - (void)playerWillSwipe{
     [_actionView avplayerActionViewNeedHidden:true];
     _actionBar.hidden = true;
     _progressHUD.hidden = true;
 }
-
 /// AVPlayer will cancel swipe
 - (void)playerWillSwipeCancel{
     if (_progressHUD.progress != 1.0) {
@@ -285,7 +286,6 @@
         _progressHUD.hidden = true;
     }
 }
-
 - (void)playerRate:(CGFloat)rate{
     if (_isPlaying == false) {
         return;
@@ -293,10 +293,14 @@
     
     _player.rate = rate;
 }
-
 /// when dismiss, should cancel download task first
 - (void)cancelDownloadMgrTask{
     if (_downloadMgr) [_downloadMgr cancelTask];
+}
+/// playerdownload
+/// @param downloadBlock download callBack
+- (void)playerDownloadBlock:(PhotoDownLoadBlock)downloadBlock{
+    _downloadBlock = downloadBlock;
 }
 
 /// setter
@@ -332,6 +336,7 @@
             return;
         }
         _actionView.isDownloading = true;
+        [_progressHUD setHidden:false];
         [_progressHUD setProgress:0.0];
         __weak typeof(self) weakself = self;
         [_downloadMgr downloadVideoWithPhotoItems:_photoItems downloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
@@ -351,12 +356,14 @@
                     weakself.actionBar.isPlaying = true;
                     weakself.actionView.isBuffering = true;
                     weakself.actionView.isPlaying = true;
-                    
                     [weakself addPlayerItemObserver];
                 });
             }
             if (downloadState == KNPhotoDownloadStateUnknow || downloadState == KNPhotoDownloadStateFailure) {
                 [weakself.progressHUD setProgress:0.0];
+            }
+            if (weakself.downloadBlock) {
+                weakself.downloadBlock(downloadState, progress);
             }
         }];
     }else {

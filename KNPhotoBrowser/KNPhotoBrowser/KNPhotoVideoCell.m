@@ -9,9 +9,7 @@
 #import "KNPhotoVideoCell.h"
 #import "KNProgressHUD.h"
 
-@interface KNPhotoVideoCell()<KNPhotoPlayerViewDelegate>{
-    KNProgressHUD *_progressHUD;
-}
+@interface KNPhotoVideoCell()<KNPhotoPlayerViewDelegate>
 
 @end
 
@@ -46,7 +44,7 @@
     [_locatePlayerView playerLocatePhotoItems:photoItems progressHUD:_progressHUD placeHolder:placeHolder];
     _onlinePlayerView.hidden = true;
     _locatePlayerView.hidden = false;
-    _progressHUD.hidden = false;
+    _progressHUD.hidden = true;
 }
 
 - (void)setPresentedMode:(UIViewContentMode)presentedMode{

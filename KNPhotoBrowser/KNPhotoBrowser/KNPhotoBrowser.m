@@ -29,13 +29,12 @@
 
 @interface KNPhotoBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource,KNPhotoVideoCellDelegate>{
     UICollectionViewFlowLayout *_layout;
-    UICollectionView           *_collectionView;
     KNPhotoBrowserNumView      *_numView;
     UIPageControl              *_pageControl;
     UIButton                   *_operationBtn;
     KNPhotoBrowserImageView    *_imageView;
     KNProgressHUD              *_progressHUD;
-    NSArray                    *_tempArr; // absolute data source
+    
     NSArray                    *_customArr; // custom view on photoBrowser
     
     CGFloat                     _offsetPageIndex; // record location index, for screen rotate
@@ -44,10 +43,12 @@
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
 }
 
+@property (nonatomic, strong) NSArray *tempArr;
 @property (nonatomic, strong) NSMutableArray *followArr;
-
+@property (nonatomic, weak  ) UICollectionView *collectionView;
 @property (nonatomic, assign) CGPoint   startLocation;
 @property (nonatomic, assign) CGRect    startFrame;
+@property (nonatomic, strong) KNPhotoDownloadMgr *downloadMgr;
 
 @end
 
@@ -59,7 +60,12 @@
     }
     return _followArr;
 }
-
+- (KNPhotoDownloadMgr *)downloadMgr{
+    if (!_downloadMgr) {
+        _downloadMgr = [[KNPhotoDownloadMgr shareInstance] init];
+    }
+    return _downloadMgr;
+}
 - (instancetype)init{
     if (self = [super init]) {
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -329,7 +335,7 @@
         [videoCell playerWillEndDisplay];
     }
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return collectionView.frame.size;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -469,7 +475,8 @@
                     }else {
                         _startFrame = [(KNPhotoLocateAVPlayerView *)playerView playerView].frame;
                     }
-                    [playerView playerWillReset]; /// stop avplayer
+                    [playerView playerWillReset]; /// stop avplayer and cancel download task
+                    [self cancelVideoDownload];
                     [playerView setIsNeedVideoPlaceHolder:true];
                     [self dismiss];
                 }else{
@@ -999,25 +1006,24 @@
  */
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
     __weak typeof(self) weakself = self;
-    
-    if (!error) {
+    if (error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
                 [weakself.delegate photoBrowser:weakself
-                                          state:KNPhotoDownloadStateSuccess
-                                       progress:1.0
-                              photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                              photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
-            }
-        });
-    }else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
-                [weakself.delegate photoBrowser:weakself
-                                          state:KNPhotoDownloadStateFailure
+                                          state:KNPhotoDownloadStateSaveFailure
                                        progress:0.0
                               photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                              photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                              photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
+            }
+        });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+                [weakself.delegate photoBrowser:weakself
+                                          state:KNPhotoDownloadStateSaveSuccess
+                                       progress:1.0
+                              photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                              photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
             }
         });
     }
@@ -1045,7 +1051,7 @@
                                                   state:KNPhotoDownloadStateSuccess
                                                progress:1.0
                                       photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                      photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
                     }
                 }else if(error) {
                     if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
@@ -1053,7 +1059,7 @@
                                                   state:KNPhotoDownloadStateFailure
                                                progress:0.0
                                       photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                      photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
                     }
                 }
             });
@@ -1112,27 +1118,49 @@
     KNPhotoItems *items = self.itemsArr[self.currentIndex];
     __weak typeof(self) weakself = self;
     if (items.isVideo) { // video
-        
         if ([items.url hasPrefix:@"http"]) {
             KNPhotoDownloadFileMgr *fileMgr = [[KNPhotoDownloadFileMgr alloc] init];
             if ([fileMgr startCheckIsExistVideo:items]) { // video is exist
                 NSString *filePath = [fileMgr startGetFilePath:items];
                 UISaveVideoAtPathToSavedPhotosAlbum(filePath, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
             }else { // downloading
-                KNPhotoDownloadMgr *mgr = [[KNPhotoDownloadMgr alloc] init];
-                [mgr downloadVideoWithPhotoItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
-                    if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
-                        [weakself.delegate photoBrowser:weakself
-                                                  state:downloadState
-                                               progress:progress
-                                      photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
-                    }
-                    if (downloadState == KNPhotoDownloadStateSuccess) {
-                        NSString *filePath = [fileMgr startGetFilePath:items];
-                        UISaveVideoAtPathToSavedPhotosAlbum(filePath, weakself, @selector(video:didFinishSavingWithError:contextInfo:), nil);
-                    }
-                }];
+                
+                self.downloadMgr = [[KNPhotoDownloadMgr shareInstance] init];
+                if (weakself.isNeedOnlinePlay == true) {
+                    [self.downloadMgr downloadVideoWithPhotoItems:items downloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
+                        if (downloadState == KNPhotoDownloadStateSuccess) {
+                            NSString *filePath = [fileMgr startGetFilePath:items];
+                            UISaveVideoAtPathToSavedPhotosAlbum(filePath, weakself, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+                        }else if (downloadState == KNPhotoDownloadStateDownloading){
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+                                    [weakself.delegate photoBrowser:weakself
+                                                              state:downloadState
+                                                           progress:progress
+                                                  photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                                  photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
+                                }
+                            });
+                        }
+                    }];
+                }else {
+                    KNPhotoVideoCell *cell = (KNPhotoVideoCell *)[weakself.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:weakself.currentIndex inSection:0]];
+                    [cell.locatePlayerView playerDownloadBlock:^(KNPhotoDownloadState downloadState, float progress) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+                                [weakself.delegate photoBrowser:weakself
+                                                          state:downloadState
+                                                       progress:progress
+                                              photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                                              photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
+                            }
+                        });
+                        if (downloadState == KNPhotoDownloadStateSuccess) {
+                            NSString *filePath = [fileMgr startGetFilePath:items];
+                            UISaveVideoAtPathToSavedPhotosAlbum(filePath, weakself, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+                        }
+                    }];
+                }
             }
         }else {
             UISaveVideoAtPathToSavedPhotosAlbum(items.url, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
@@ -1148,7 +1176,7 @@
                                                   state:KNPhotoDownloadStateUnknow
                                                progress:0.0
                                       photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                                      photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                      photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
                     }
                 }else{
                     [[mgr imageCache] queryImageForKey:items.url options:SDWebImageQueryMemoryData | SDWebImageRetryFailed context:nil completion:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
@@ -1176,7 +1204,7 @@
                                               state:KNPhotoDownloadStateFailure
                                            progress:0.0
                                   photoItemRelative:weakself.itemsArr[weakself.currentIndex]
-                                  photoItemAbsolute:self->_tempArr[weakself.currentIndex]];
+                                  photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
                 }
             }
         }
@@ -1184,23 +1212,33 @@
 }
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    __weak typeof(self) weakself = self;
     if (error) {
-        if ([self.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
-            [self.delegate photoBrowser:self
-                                  state:KNPhotoDownloadStateFailure
-                               progress:0.0
-                      photoItemRelative:self.itemsArr[self.currentIndex]
-                      photoItemAbsolute:self->_tempArr[self.currentIndex]];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+                [weakself.delegate photoBrowser:weakself
+                                          state:KNPhotoDownloadStateSaveFailure
+                                       progress:0.0
+                              photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                              photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
+            }
+        });
     } else {
-        if ([self.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
-            [self.delegate photoBrowser:self
-                                  state:KNPhotoDownloadStateSuccess
-                               progress:1.0
-                      photoItemRelative:self.itemsArr[self.currentIndex]
-                      photoItemAbsolute:self->_tempArr[self.currentIndex]];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([weakself.delegate respondsToSelector:@selector(photoBrowser:state:progress:photoItemRelative:photoItemAbsolute:)]) {
+                [weakself.delegate photoBrowser:weakself
+                                          state:KNPhotoDownloadStateSaveSuccess
+                                       progress:1.0
+                              photoItemRelative:weakself.itemsArr[weakself.currentIndex]
+                              photoItemAbsolute:weakself.tempArr[weakself.currentIndex]];
+            }
+        });
     }
+}
+
+/// cancen download video when downloading
+- (void)cancelVideoDownload{
+    [self.downloadMgr cancelTask];
 }
 
 /**
@@ -1228,8 +1266,8 @@
  */
 - (void)longPressIBAction{
     if(!_isNeedLongPress) return;
-    if ([_delegate respondsToSelector:@selector(photoBrowser:imageDidLongPressWithIndex:)]) {
-        [_delegate photoBrowser:self imageDidLongPressWithIndex:_currentIndex];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:imageLongPressWithIndex:)]) {
+        [_delegate photoBrowser:self imageLongPressWithIndex:_currentIndex];
     }
 }
 

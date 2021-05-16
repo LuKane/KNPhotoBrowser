@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *onlinePlayerView;
 @property (nonatomic,weak  ) KNPhotoLocateAVPlayerView *locatePlayerView;
+@property (nonatomic,weak  ) KNProgressHUD *progressHUD;
 
 @property (nonatomic,weak  ) id<KNPhotoVideoCellDelegate> delegate;
 

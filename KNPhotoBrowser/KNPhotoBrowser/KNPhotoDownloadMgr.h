@@ -15,6 +15,9 @@ typedef void(^PhotoDownLoadBlock)(KNPhotoDownloadState downloadState, float prog
 
 @interface KNPhotoDownloadMgr: NSObject <NSURLSessionDelegate>
 
+/// single
++ (instancetype)shareInstance;
+
 /// default file path
 /// [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true) lastObject] stringByAppendingPathComponent:@"KNPhotoBrowserData"];
 @property (nonatomic,copy, readonly) NSString *filePath;

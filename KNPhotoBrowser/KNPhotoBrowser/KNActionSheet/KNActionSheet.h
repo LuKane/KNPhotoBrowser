@@ -41,7 +41,7 @@ typedef void(^ActionSheetBlock)(NSInteger buttonIndex);
              destructiveArray:(NSMutableArray <NSString *> *)destructiveArray
              actionSheetBlock:(ActionSheetBlock)sheetBlock;
 
-- (void)show;
+- (void)showOnView:(UIView *)view;
 - (void)dismiss;
 
 @end
