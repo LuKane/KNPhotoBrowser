@@ -10,7 +10,7 @@
 #import "UIView+Extension.h"
 
 #import "KNPhotoBrowser.h"
-#import "UIImageView+WebCache.h"
+#import <UIImageView+WebCache.h>
 #import <SDAnimatedImageView.h>
 
 @interface ViewController ()<KNPhotoBrowserDelegate>

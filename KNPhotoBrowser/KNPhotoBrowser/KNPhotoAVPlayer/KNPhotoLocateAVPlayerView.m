@@ -278,10 +278,15 @@
 }
 /// AVPlayer will cancel swipe
 - (void)playerWillSwipeCancel{
-    if (_progressHUD.progress != 1.0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            self->_progressHUD.hidden = false;
-        });
+    KNPhotoDownloadFileMgr *fileMgr = [[KNPhotoDownloadFileMgr alloc] init];
+    if ([self.photoItems.url hasPrefix:@"http"]) {
+        if ([fileMgr startCheckIsExistVideo:self.photoItems] == false && _progressHUD.progress != 1.0) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self->_progressHUD.hidden = false;
+            });
+        }else {
+            _progressHUD.hidden = true;
+        }
     }else {
         _progressHUD.hidden = true;
     }
@@ -290,7 +295,6 @@
     if (_isPlaying == false) {
         return;
     }
-    
     _player.rate = rate;
 }
 /// when dismiss, should cancel download task first

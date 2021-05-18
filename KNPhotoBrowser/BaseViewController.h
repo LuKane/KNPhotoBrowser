@@ -10,6 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#ifndef ScreenWidth
+    #define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#endif
+
 @interface BaseViewController : UIViewController
 
 - (UIImage *)createImageWithUIColor:(UIColor *)imageColor;
