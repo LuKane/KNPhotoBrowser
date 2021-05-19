@@ -23,6 +23,8 @@
 		793E42DC2653C773006AF893 /* NineSquareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42DB2653C773006AF893 /* NineSquareController.m */; };
 		793E42E22653C792006AF893 /* NineSquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42E12653C792006AF893 /* NineSquareModel.m */; };
 		793E42EB2653CC14006AF893 /* NineSquareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42EA2653CC14006AF893 /* NineSquareCell.m */; };
+		793E42F42653EC93006AF893 /* NineSquareLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42F32653EC93006AF893 /* NineSquareLocateController.m */; };
+		793E42FA2653F49E006AF893 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42F92653F49E006AF893 /* ScrollViewController.m */; };
 		794038D22539883A002ADE14 /* gif3.GIF in Resources */ = {isa = PBXBuildFile; fileRef = 794038D12539883A002ADE14 /* gif3.GIF */; };
 		79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA377A264FAC61001FE0B3 /* ViewController.m */; };
 		79AA3784264FAC70001FE0B3 /* ViewLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA3783264FAC70001FE0B3 /* ViewLocateController.m */; };
@@ -116,6 +118,10 @@
 		793E42E12653C792006AF893 /* NineSquareModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NineSquareModel.m; sourceTree = "<group>"; };
 		793E42E92653CC14006AF893 /* NineSquareCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NineSquareCell.h; sourceTree = "<group>"; };
 		793E42EA2653CC14006AF893 /* NineSquareCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NineSquareCell.m; sourceTree = "<group>"; };
+		793E42F22653EC93006AF893 /* NineSquareLocateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NineSquareLocateController.h; sourceTree = "<group>"; };
+		793E42F32653EC93006AF893 /* NineSquareLocateController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NineSquareLocateController.m; sourceTree = "<group>"; };
+		793E42F82653F49E006AF893 /* ScrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
+		793E42F92653F49E006AF893 /* ScrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
 		794038D12539883A002ADE14 /* gif3.GIF */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.GIF; sourceTree = "<group>"; };
 		79AA3779264FAC61001FE0B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		79AA377A264FAC61001FE0B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -302,6 +308,8 @@
 		7994AEA12652798500267860 /* ScrollViewController */ = {
 			isa = PBXGroup;
 			children = (
+				793E42F82653F49E006AF893 /* ScrollViewController.h */,
+				793E42F92653F49E006AF893 /* ScrollViewController.m */,
 			);
 			path = ScrollViewController;
 			sourceTree = "<group>";
@@ -311,6 +319,8 @@
 			children = (
 				793E42DA2653C773006AF893 /* NineSquareController.h */,
 				793E42DB2653C773006AF893 /* NineSquareController.m */,
+				793E42F22653EC93006AF893 /* NineSquareLocateController.h */,
+				793E42F32653EC93006AF893 /* NineSquareLocateController.m */,
 				793E42E92653CC14006AF893 /* NineSquareCell.h */,
 				793E42EA2653CC14006AF893 /* NineSquareCell.m */,
 				793E42E02653C792006AF893 /* NineSquareModel.h */,
@@ -640,12 +650,14 @@
 				791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */,
 				791260AB23FE75F300BC4181 /* KNPhotoAVPlayerView.m in Sources */,
 				791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */,
+				793E42F42653EC93006AF893 /* NineSquareLocateController.m in Sources */,
 				79E1150322F030B40022106B /* main.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
 				79E115D122F032310022106B /* FirstViewController.m in Sources */,
 				793E42E22653C792006AF893 /* NineSquareModel.m in Sources */,
 				79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */,
 				791260A023FE75F300BC4181 /* KNActionSheet.m in Sources */,
+				793E42FA2653F49E006AF893 /* ScrollViewController.m in Sources */,
 				79E115D522F032310022106B /* NavigationController.m in Sources */,
 				79E1159922F032310022106B /* AppDelegate.m in Sources */,
 				791260A823FE75F300BC4181 /* KNPhotoVideoCell.m in Sources */,

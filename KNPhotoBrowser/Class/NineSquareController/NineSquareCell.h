@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NineSquareCell : UITableViewCell
 
 @property (nonatomic,strong) NineSquareModel *squareM;
+@property (nonatomic,assign) BOOL isLocate;
 
 + (instancetype)nineSquareCell:(UITableView *)tableView;
 

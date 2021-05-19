@@ -21,7 +21,7 @@
 
 @property (nonatomic,strong) NSMutableArray *imgArray;
 
-@property (nonatomic,strong) NSMutableArray *itemsArr;
+@property (nonatomic,strong) NSMutableArray *photoItemsArr;
 
 @end
 
@@ -57,7 +57,7 @@
     if (self.imgArray.count > 0) {
         [self.imgArray removeAllObjects];
     }
-    self.itemsArr = [NSMutableArray array];
+    self.photoItemsArr = [NSMutableArray array];
     CGFloat width = (ScreenWidth - 40) / 3;
     for (NSInteger i = 0; i < 9; i++) {
         
@@ -78,14 +78,77 @@
 
 - (void)setSquareM:(NineSquareModel *)squareM{
     _squareM = squareM;
-    [self.itemsArr removeAllObjects];
-    
-    for (NSInteger i = 0; i < _imgArray.count; i++) {
-        UIImageView *imageView = _imgArray[i];
-        if (i < squareM.urlArr.count) {
-            imageView.hidden = false;
-            NineSquareItemsModel *itemM = squareM.urlArr[i];
-            if (i != 7 && i != 8) {
+    [self.photoItemsArr removeAllObjects];
+    if (_isLocate == false) {
+        for (NSInteger i = 0; i < _imgArray.count; i++) {
+            UIImageView *imageView = _imgArray[i];
+            if (i < squareM.urlArr.count) {
+                imageView.hidden = false;
+                NineSquareItemsModel *itemM = squareM.urlArr[i];
+                if (i != 7 && i != 8) {
+                    if ( i == 1) {
+                        // locate video , get the first image of video
+                        AVURLAsset *avAsset = nil;
+                        avAsset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:itemM.url]];
+                        if (avAsset) {
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:avAsset];
+                                generator.appliesPreferredTrackTransform = YES;
+                                NSError *error = nil;
+                                CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    imageView.image = [UIImage imageWithCGImage:cgImage];
+                                });
+                            });
+                        }
+                    }else if (i == 2 || i == 3){
+                        [imageView sd_setImageWithURL:[NSURL URLWithString:itemM.placeHolderUrl] placeholderImage:nil];
+                    }else {
+                        [imageView sd_setImageWithURL:[NSURL URLWithString:itemM.url] placeholderImage:nil];
+                    }
+                    KNPhotoItems *photoItems = [[KNPhotoItems alloc] init];
+                    photoItems.sourceView = imageView;
+                    if(i == 2 || i == 3){
+                        photoItems.isVideo = true;
+                        photoItems.url = itemM.url;
+                        photoItems.videoPlaceHolderImageUrl = itemM.placeHolderUrl;
+                    }else if (i == 1){
+                        photoItems.isVideo = true;
+                        photoItems.url = itemM.url;
+                    }else {
+                        photoItems.url = [itemM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+                    }
+                    [self.photoItemsArr addObject:photoItems];
+                }else if (i == 7) {
+                    NSData *data = [NSData dataWithContentsOfFile:itemM.url];
+                    SDAnimatedImage *animatedImage = [[SDAnimatedImage alloc] initWithData:data];
+                    imageView.image = animatedImage;
+                    
+                    KNPhotoItems *photoItems = [[KNPhotoItems alloc] init];
+                    photoItems.sourceView = imageView;
+                    photoItems.url = [itemM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+                    [self.photoItemsArr addObject:photoItems];
+                }else if (i == 8) {
+                    [imageView sd_setImageWithURL:[NSURL URLWithString:itemM.url] placeholderImage:nil];
+                    KNPhotoItems *photoItems = [[KNPhotoItems alloc] init];
+                    photoItems.sourceView = imageView;
+                    photoItems.url = [itemM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+                    [self.photoItemsArr addObject:photoItems];
+                }
+            }else {
+                imageView.hidden = true;
+            }
+        }
+    }else {
+        for (NSInteger i = 0; i < _imgArray.count; i++) {
+            UIImageView *imageView = _imgArray[i];
+            if (i < squareM.urlArr.count) {
+                imageView.hidden = false;
+                NineSquareItemsModel *itemM = squareM.urlArr[i];
+                
+                KNPhotoItems *photoItems = [[KNPhotoItems alloc] init];
+                photoItems.sourceView = imageView;
+                
                 if ( i == 1) {
                     // locate video , get the first image of video
                     AVURLAsset *avAsset = nil;
@@ -98,45 +161,20 @@
                             CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:NULL error:&error];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 imageView.image = [UIImage imageWithCGImage:cgImage];
+                                photoItems.sourceImage = [UIImage imageWithCGImage:cgImage];
                             });
                         });
                     }
-                }else if (i == 2 || i == 3){
-                    [imageView sd_setImageWithURL:[NSURL URLWithString:itemM.placeHolderUrl] placeholderImage:nil];
+                    photoItems.isVideo = true;
+                    photoItems.url = itemM.url;
                 }else {
-                    [imageView sd_setImageWithURL:[NSURL URLWithString:itemM.url] placeholderImage:nil];
+                    imageView.image = [UIImage imageNamed:itemM.url];
+                    photoItems.sourceImage = [UIImage imageNamed:itemM.url];
                 }
-                KNPhotoItems *items = [[KNPhotoItems alloc] init];
-                items.sourceView = imageView;
-                if(i == 2 || i == 3){
-                    items.isVideo = true;
-                    items.url = itemM.url;
-                    items.videoPlaceHolderImageUrl = itemM.placeHolderUrl;
-                }else if (i == 1){
-                    items.isVideo = true;
-                    items.url = itemM.url;
-                }else {
-                    items.url = [itemM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
-                }
-                [self.itemsArr addObject:items];
-            }else if (i == 7) {
-                NSData *data = [NSData dataWithContentsOfFile:itemM.url];
-                SDAnimatedImage *animatedImage = [[SDAnimatedImage alloc] initWithData:data];
-                imageView.image = animatedImage;
-                
-                KNPhotoItems *items = [[KNPhotoItems alloc] init];
-                items.sourceView = imageView;
-                items.url = [itemM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
-                [self.itemsArr addObject:items];
-            }else if (i == 8) {
-                [imageView sd_setImageWithURL:[NSURL URLWithString:itemM.url] placeholderImage:nil];
-                KNPhotoItems *items = [[KNPhotoItems alloc] init];
-                items.sourceView = imageView;
-                items.url = [itemM.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
-                [self.itemsArr addObject:items];
+                [self.photoItemsArr addObject:photoItems];
+            }else {
+                imageView.hidden = true;
             }
-        }else {
-            imageView.hidden = true;
         }
     }
 }
@@ -144,7 +182,7 @@
 - (void)imageViewDidClick:(UITapGestureRecognizer *)tap {
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     
-    photoBrowser.itemsArr = [self.itemsArr copy];
+    photoBrowser.itemsArr = [self.photoItemsArr copy];
     photoBrowser.placeHolderColor = UIColor.lightTextColor;
     photoBrowser.currentIndex = tap.view.tag;
     photoBrowser.delegate = self;
@@ -156,7 +194,16 @@
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedOnlinePlay = true;
     
-    [photoBrowser present];
+    [photoBrowser presentOn:[self currentController:self]];
+}
+
+- (UIViewController *)currentController:(UIView *)view{
+    UIResponder *responder = view;
+    while ((responder = [responder nextResponder]))
+        if ([responder isKindOfClass: [UIViewController class]]) {
+            return (UIViewController *)responder;
+        }
+    return nil;
 }
 
 /**************************** == delegate == ******************************/
