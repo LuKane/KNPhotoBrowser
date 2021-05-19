@@ -162,6 +162,7 @@
             
             KNPhotoItems *items = [[KNPhotoItems alloc] init];
             items.sourceView = imageView;
+            items.isLocateGif = true;
             items.url = [_urlArr[i] stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
             [self.itemsArr addObject:items];
         }else if (i == 8) {
