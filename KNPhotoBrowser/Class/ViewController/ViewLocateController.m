@@ -139,6 +139,7 @@
             
             KNPhotoItems *items = [[KNPhotoItems alloc] init];
             items.sourceView = imageView;
+            items.sourceImage = _urlArr[i];
             [self.itemsArr addObject:items];
         }
     }
