@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		790E78C42656823E0025929B /* ScrollViewLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 790E78C32656823E0025929B /* ScrollViewLocateController.m */; };
 		791260A023FE75F300BC4181 /* KNActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912607E23FE75F300BC4181 /* KNActionSheet.m */; };
 		791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912607F23FE75F300BC4181 /* KNActionSheetItem.m */; };
 		791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912608323FE75F300BC4181 /* KNPhotoDownloadMgr.m */; };
@@ -86,6 +87,8 @@
 
 /* Begin PBXFileReference section */
 		10207FA44A8221F667DA1D6F /* Pods-KNPhotoBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.release.xcconfig"; sourceTree = "<group>"; };
+		790E78C22656823E0025929B /* ScrollViewLocateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewLocateController.h; sourceTree = "<group>"; };
+		790E78C32656823E0025929B /* ScrollViewLocateController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollViewLocateController.m; sourceTree = "<group>"; };
 		7912607C23FE75F300BC4181 /* KNActionSheetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNActionSheetItem.h; sourceTree = "<group>"; };
 		7912607D23FE75F300BC4181 /* KNActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNActionSheet.h; sourceTree = "<group>"; };
 		7912607E23FE75F300BC4181 /* KNActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNActionSheet.m; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 			children = (
 				793E42F82653F49E006AF893 /* ScrollViewController.h */,
 				793E42F92653F49E006AF893 /* ScrollViewController.m */,
+				790E78C22656823E0025929B /* ScrollViewLocateController.h */,
+				790E78C32656823E0025929B /* ScrollViewLocateController.m */,
 			);
 			path = ScrollViewController;
 			sourceTree = "<group>";
@@ -653,6 +658,7 @@
 				793E42F42653EC93006AF893 /* NineSquareLocateController.m in Sources */,
 				79E1150322F030B40022106B /* main.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
+				790E78C42656823E0025929B /* ScrollViewLocateController.m in Sources */,
 				79E115D122F032310022106B /* FirstViewController.m in Sources */,
 				793E42E22653C792006AF893 /* NineSquareModel.m in Sources */,
 				79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */,
