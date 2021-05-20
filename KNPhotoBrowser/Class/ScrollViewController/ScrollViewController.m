@@ -38,14 +38,12 @@
     }
     return self;
 }
-
 - (NSMutableArray *)itemsArr{
     if (!_itemsArr) {
         _itemsArr = [NSMutableArray array];
     }
     return _itemsArr;
 }
-
 - (NSMutableArray *)dataArr{
     if (!_dataArr) {
         _dataArr = [NSMutableArray array];
