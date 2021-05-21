@@ -27,6 +27,8 @@
 		793E42F42653EC93006AF893 /* NineSquareLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42F32653EC93006AF893 /* NineSquareLocateController.m */; };
 		793E42FA2653F49E006AF893 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42F92653F49E006AF893 /* ScrollViewController.m */; };
 		794038D22539883A002ADE14 /* gif3.GIF in Resources */ = {isa = PBXBuildFile; fileRef = 794038D12539883A002ADE14 /* gif3.GIF */; };
+		79739F3D26574E9300BAEA22 /* IMModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79739F3C26574E9200BAEA22 /* IMModel.m */; };
+		79739F4326575F2900BAEA22 /* IMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79739F4226575F2900BAEA22 /* IMTableViewCell.m */; };
 		79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA377A264FAC61001FE0B3 /* ViewController.m */; };
 		79AA3784264FAC70001FE0B3 /* ViewLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA3783264FAC70001FE0B3 /* ViewLocateController.m */; };
 		79AA378F264FAE94001FE0B3 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA378D264FAE94001FE0B3 /* UIView+Extension.m */; };
@@ -65,6 +67,7 @@
 		79E115DC22F0347E0022106B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79E115DA22F0347E0022106B /* LaunchScreen.storyboard */; };
 		79ECDCD0264B7940009EAAF4 /* KNReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 79ECDCCF264B7940009EAAF4 /* KNReachability.m */; };
 		79ECDCD9264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79ECDCD8264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m */; };
+		79ED3C8126568E990062AAE8 /* IMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79ED3C8026568E990062AAE8 /* IMController.m */; };
 		D7BBE6CFBA46ABDE79A92A7B /* libPods-KNPhotoBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +129,10 @@
 		793E42F82653F49E006AF893 /* ScrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
 		793E42F92653F49E006AF893 /* ScrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
 		794038D12539883A002ADE14 /* gif3.GIF */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.GIF; sourceTree = "<group>"; };
+		79739F3B26574E9200BAEA22 /* IMModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMModel.h; sourceTree = "<group>"; };
+		79739F3C26574E9200BAEA22 /* IMModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMModel.m; sourceTree = "<group>"; };
+		79739F4126575F2900BAEA22 /* IMTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMTableViewCell.h; sourceTree = "<group>"; };
+		79739F4226575F2900BAEA22 /* IMTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMTableViewCell.m; sourceTree = "<group>"; };
 		79AA3779264FAC61001FE0B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		79AA377A264FAC61001FE0B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		79AA3782264FAC70001FE0B3 /* ViewLocateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewLocateController.h; sourceTree = "<group>"; };
@@ -180,6 +187,8 @@
 		79ECDCD7264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoLocateAVPlayerView.h; sourceTree = "<group>"; };
 		79ECDCD8264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNPhotoLocateAVPlayerView.m; sourceTree = "<group>"; };
 		79ECDCDD264B7FC0009EAAF4 /* KNPhotoPlayerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoPlayerProtocol.h; sourceTree = "<group>"; };
+		79ED3C7F26568E990062AAE8 /* IMController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMController.h; sourceTree = "<group>"; };
+		79ED3C8026568E990062AAE8 /* IMController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMController.m; sourceTree = "<group>"; };
 		AF2115006C35F59EFF40C15D /* libPods-KNPhotoBrowser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KNPhotoBrowser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF870D3B26B6F5603B345795 /* Pods-KNPhotoBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KNPhotoBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KNPhotoBrowser/Pods-KNPhotoBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,6 +299,12 @@
 		7994AE9E2652798500267860 /* IMController */ = {
 			isa = PBXGroup;
 			children = (
+				79ED3C7F26568E990062AAE8 /* IMController.h */,
+				79ED3C8026568E990062AAE8 /* IMController.m */,
+				79739F4126575F2900BAEA22 /* IMTableViewCell.h */,
+				79739F4226575F2900BAEA22 /* IMTableViewCell.m */,
+				79739F3B26574E9200BAEA22 /* IMModel.h */,
+				79739F3C26574E9200BAEA22 /* IMModel.m */,
 			);
 			path = IMController;
 			sourceTree = "<group>";
@@ -657,6 +672,7 @@
 				791260A223FE75F300BC4181 /* KNPhotoDownloadMgr.m in Sources */,
 				793E42F42653EC93006AF893 /* NineSquareLocateController.m in Sources */,
 				79E1150322F030B40022106B /* main.m in Sources */,
+				79ED3C8126568E990062AAE8 /* IMController.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
 				790E78C42656823E0025929B /* ScrollViewLocateController.m in Sources */,
 				79E115D122F032310022106B /* FirstViewController.m in Sources */,
@@ -665,8 +681,10 @@
 				791260A023FE75F300BC4181 /* KNActionSheet.m in Sources */,
 				793E42FA2653F49E006AF893 /* ScrollViewController.m in Sources */,
 				79E115D522F032310022106B /* NavigationController.m in Sources */,
+				79739F3D26574E9300BAEA22 /* IMModel.m in Sources */,
 				79E1159922F032310022106B /* AppDelegate.m in Sources */,
 				791260A823FE75F300BC4181 /* KNPhotoVideoCell.m in Sources */,
+				79739F4326575F2900BAEA22 /* IMTableViewCell.m in Sources */,
 				791260AA23FE75F300BC4181 /* KNPhotoAVPlayerActionBar.m in Sources */,
 				79AA3784264FAC70001FE0B3 /* ViewLocateController.m in Sources */,
 			);

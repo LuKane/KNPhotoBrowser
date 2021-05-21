@@ -11,7 +11,7 @@
 
 @interface ScrollViewLocateController ()<UIScrollViewDelegate,KNPhotoBrowserDelegate>
 
-@property (nonatomic,weak  ) UIScrollView *scrollView;
+@property (nonatomic, weak  ) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *itemsArr;
 
@@ -60,7 +60,6 @@
         _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
 }
-
 - (void)setupScrollView{
     
     CGFloat y = 10;
