@@ -7,13 +7,16 @@
 //
 
 #import "IMTableViewCell.h"
-#import <SDAnimatedImageView.h>
 #import "UIView+Extension.h"
+#import <UIImageView+WebCache.h>
+
+#ifndef ScreenWidth
+    #define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#endif
 
 @interface IMTableViewCell()
 
 @property (nonatomic,weak  ) UIView *iconView;
-@property (nonatomic,weak  ) SDAnimatedImageView *imgView;
 
 @end
 
@@ -37,7 +40,6 @@
     return self;
 }
 - (void)setupSubViews{
-    
     UIView *iconView = [[UIView alloc] init];
     iconView.layer.cornerRadius = 25;
     iconView.layer.borderWidth = 0.4;
@@ -46,19 +48,40 @@
     [self.contentView addSubview:iconView];
     self.iconView = iconView;
     
-    SDAnimatedImageView *imgView = [[SDAnimatedImageView alloc] initWithFrame:CGRectMake(90, 2, 100, 100)];
+    SDAnimatedImageView *imgView = [[SDAnimatedImageView alloc] initWithFrame:CGRectMake(90, 20, 100, 100)];
     imgView.userInteractionEnabled = true;
     [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewDidClick)]];
     [self.contentView addSubview:imgView];
     self.imgView = imgView;
-    
-    
-    
 }
 
 - (void)imgViewDidClick{
-    if ([_delegate respondsToSelector:@selector(imageViewDidClick)]) {
-        [_delegate imageViewDidClick];
+    if ([_delegate respondsToSelector:@selector(imageViewDidClick:)]) {
+        [_delegate imageViewDidClick:_imModel];
+    }
+}
+
+- (void)setImModel:(IMModel *)imModel{
+    _imModel = imModel;
+    
+    if (imModel.isLeft == true) {
+        _iconView.origin = CGPointMake(20, 20);
+        _iconView.backgroundColor = [UIColor orangeColor];
+        _imgView.frame = CGRectMake(90, 20, 100 * imModel.rate, 100);
+    }else {
+        _iconView.origin = CGPointMake(ScreenWidth - 20 - 50, 20);
+        _iconView.backgroundColor = [UIColor lightGrayColor];
+        _imgView.frame = CGRectMake(ScreenWidth - 100 * imModel.rate - 90, 20, 100 * imModel.rate, 100);
+    }
+    
+    if ([imModel.url hasPrefix:@"http"]) {
+        if (imModel.isVideo == true) {
+            [_imgView sd_setImageWithURL:[NSURL URLWithString:imModel.videoPlaceHolderUrl]];
+        }else {
+            [_imgView sd_setImageWithURL:[NSURL URLWithString:imModel.url]];
+        }
+    }else {
+        _imgView.image = [UIImage imageNamed:imModel.url];
     }
 }
 

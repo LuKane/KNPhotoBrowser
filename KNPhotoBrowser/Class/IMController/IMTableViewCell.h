@@ -7,18 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IMModel.h"
+#import <SDAnimatedImageView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol IMTableViewCellDelegate <NSObject>
 
-- (void)imageViewDidClick;
+- (void)imageViewDidClick:(IMModel *)imModel;
 
 @end
 
 @interface IMTableViewCell : UITableViewCell
 
 + (instancetype)imTableViewCell:(UITableView *)tableView;
+
+@property (nonatomic,strong) IMModel *imModel;
+@property (nonatomic,weak  ) SDAnimatedImageView *imgView;
 
 @property (nonatomic,weak  ) id<IMTableViewCellDelegate> delegate;
 
