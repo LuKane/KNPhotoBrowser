@@ -62,6 +62,11 @@
             [arr addObject:@"CustomSourceViewController"];
             [_dataArr addObject:arr];
         }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:@"CustomViewController"];
+            [_dataArr addObject:arr];
+        }
     }
     return _dataArr;
 }
