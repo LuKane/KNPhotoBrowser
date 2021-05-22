@@ -8,8 +8,10 @@
 
 #import "IMController.h"
 #import "IMModel.h"
+#import "IMTableViewCell.h"
+#import "KNPhotoBrowser.h"
 
-@interface IMController ()<UITableViewDelegate,UITableViewDataSource>
+@interface IMController ()<UITableViewDelegate,UITableViewDataSource, IMTableViewCellDelegate>
 
 @property (nonatomic,weak  ) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
@@ -132,10 +134,13 @@
     return self.dataArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return nil;
+    IMTableViewCell *cell = [IMTableViewCell imTableViewCell:tableView];
+    cell.imModel = _dataArr[indexPath.row];
+    cell.delegate = self;
+    return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 10;
+    return 140;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [UIView new];
@@ -152,6 +157,67 @@
 - (void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     self.tableView.frame = self.view.bounds;
+}
+
+- (void)imageViewDidClick:(IMModel *)imModel{
+    [self.itemsArr removeAllObjects];
+    
+    NSMutableArray *tempArr = [NSMutableArray array];
+    
+    for (NSInteger i = 0; i < self.dataArr.count; i++) {
+        IMModel *m = self.dataArr[i];
+        
+        KNPhotoItems *photoItems = [[KNPhotoItems alloc] init];
+        if (m.url == nil || [m.url isEqualToString:@""] == true) { // it's not a pic, maybe it is a text
+            
+        }else {
+            if (m.isVideo == true) { // video
+                photoItems.isVideo = true;
+                photoItems.url = m.url;
+                photoItems.videoPlaceHolderImageUrl = m.videoPlaceHolderUrl;
+            }else { // pic
+                if ([m.url hasPrefix:@"http"] == true) { // net pic
+                    photoItems.url = [m.url stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+                }else { // loc pic
+                    photoItems.sourceImage = [UIImage imageNamed:m.url];
+                }
+            }
+            [self.itemsArr addObject:photoItems];
+            [tempArr addObject:m];
+        }
+    }
+    
+    
+    NSArray *visibleCells = self.tableView.visibleCells;
+    for (NSInteger i = 0; i < self.itemsArr.count; i++) {
+        
+        KNPhotoItems *photoItems = self.itemsArr[i];
+        IMModel *m = tempArr[i];
+        
+        for (NSInteger j = 0; j < visibleCells.count; j++) {
+            IMTableViewCell *cell = (IMTableViewCell *)visibleCells[j];
+            if (cell.imModel.url == nil) {
+                
+            }else {
+                if(m == cell.imModel){
+                    photoItems.sourceView = cell.imgView;
+                    photoItems.isVideo    = m.isVideo;
+                }
+            }
+        }
+    }
+    
+    KNPhotoBrowser *photoBrower = [[KNPhotoBrowser alloc] init];
+    photoBrower.itemsArr = [self.itemsArr copy];
+    photoBrower.isNeedPageControl = true;
+    photoBrower.isNeedPageNumView = true;
+    photoBrower.isNeedRightTopBtn = true;
+    photoBrower.isNeedPanGesture  = true;
+    photoBrower.isNeedLongPress   = true;
+    photoBrower.isNeedAutoPlay    = true;
+    photoBrower.isNeedOnlinePlay  = true;
+    photoBrower.currentIndex = [tempArr indexOfObject:imModel];
+    [photoBrower present];
 }
 
 @end
