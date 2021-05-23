@@ -54,11 +54,6 @@
         }
         {
             NSMutableArray *arr = [NSMutableArray array];
-            [arr addObject:@"CustomPhotoBrowserController"];
-            [_dataArr addObject:arr];
-        }
-        {
-            NSMutableArray *arr = [NSMutableArray array];
             [arr addObject:@"CustomSourceViewController"];
             [_dataArr addObject:arr];
         }

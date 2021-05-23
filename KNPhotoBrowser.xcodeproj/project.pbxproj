@@ -27,10 +27,13 @@
 		793E42F42653EC93006AF893 /* NineSquareLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42F32653EC93006AF893 /* NineSquareLocateController.m */; };
 		793E42FA2653F49E006AF893 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42F92653F49E006AF893 /* ScrollViewController.m */; };
 		794038D22539883A002ADE14 /* gif3.GIF in Resources */ = {isa = PBXBuildFile; fileRef = 794038D12539883A002ADE14 /* gif3.GIF */; };
+		7953DACC265A1E1C00B73551 /* CustomSourceView1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953DACB265A1E1C00B73551 /* CustomSourceView1.m */; };
+		7953DAD2265A1E2B00B73551 /* CustomSourceImageView1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953DAD1265A1E2B00B73551 /* CustomSourceImageView1.m */; };
+		7953DAD8265A20D300B73551 /* CustomSourceView2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953DAD7265A20D300B73551 /* CustomSourceView2.m */; };
+		7953DADE265A20E400B73551 /* CustomSourceImageView2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953DADD265A20E400B73551 /* CustomSourceImageView2.m */; };
 		79739F3D26574E9300BAEA22 /* IMModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79739F3C26574E9200BAEA22 /* IMModel.m */; };
 		79739F4326575F2900BAEA22 /* IMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79739F4226575F2900BAEA22 /* IMTableViewCell.m */; };
 		798CB6BE26590B1B00F56291 /* SendImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CB6BD26590B1B00F56291 /* SendImageController.m */; };
-		798CB6C726590B3C00F56291 /* CustomPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CB6C626590B3C00F56291 /* CustomPhotoBrowserController.m */; };
 		798CB6CD26590B5900F56291 /* CustomSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CB6CC26590B5900F56291 /* CustomSourceViewController.m */; };
 		798CB6D326590B6300F56291 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CB6D226590B6300F56291 /* CustomViewController.m */; };
 		79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA377A264FAC61001FE0B3 /* ViewController.m */; };
@@ -134,14 +137,20 @@
 		793E42F82653F49E006AF893 /* ScrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewController.h; sourceTree = "<group>"; };
 		793E42F92653F49E006AF893 /* ScrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
 		794038D12539883A002ADE14 /* gif3.GIF */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.GIF; sourceTree = "<group>"; };
+		7953DACA265A1E1C00B73551 /* CustomSourceView1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceView1.h; sourceTree = "<group>"; };
+		7953DACB265A1E1C00B73551 /* CustomSourceView1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceView1.m; sourceTree = "<group>"; };
+		7953DAD0265A1E2B00B73551 /* CustomSourceImageView1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceImageView1.h; sourceTree = "<group>"; };
+		7953DAD1265A1E2B00B73551 /* CustomSourceImageView1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceImageView1.m; sourceTree = "<group>"; };
+		7953DAD6265A20D300B73551 /* CustomSourceView2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceView2.h; sourceTree = "<group>"; };
+		7953DAD7265A20D300B73551 /* CustomSourceView2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceView2.m; sourceTree = "<group>"; };
+		7953DADC265A20E400B73551 /* CustomSourceImageView2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceImageView2.h; sourceTree = "<group>"; };
+		7953DADD265A20E400B73551 /* CustomSourceImageView2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceImageView2.m; sourceTree = "<group>"; };
 		79739F3B26574E9200BAEA22 /* IMModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMModel.h; sourceTree = "<group>"; };
 		79739F3C26574E9200BAEA22 /* IMModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMModel.m; sourceTree = "<group>"; };
 		79739F4126575F2900BAEA22 /* IMTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMTableViewCell.h; sourceTree = "<group>"; };
 		79739F4226575F2900BAEA22 /* IMTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMTableViewCell.m; sourceTree = "<group>"; };
 		798CB6BC26590B1B00F56291 /* SendImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageController.h; sourceTree = "<group>"; };
 		798CB6BD26590B1B00F56291 /* SendImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageController.m; sourceTree = "<group>"; };
-		798CB6C526590B3C00F56291 /* CustomPhotoBrowserController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomPhotoBrowserController.h; sourceTree = "<group>"; };
-		798CB6C626590B3C00F56291 /* CustomPhotoBrowserController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomPhotoBrowserController.m; sourceTree = "<group>"; };
 		798CB6CB26590B5900F56291 /* CustomSourceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSourceViewController.h; sourceTree = "<group>"; };
 		798CB6CC26590B5900F56291 /* CustomSourceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomSourceViewController.m; sourceTree = "<group>"; };
 		798CB6D126590B6300F56291 /* CustomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomViewController.h; sourceTree = "<group>"; };
@@ -304,6 +313,28 @@
 			path = KNPhotoAVPlayer;
 			sourceTree = "<group>";
 		};
+		7953DAC8265A1DC100B73551 /* CustomView1 */ = {
+			isa = PBXGroup;
+			children = (
+				7953DACA265A1E1C00B73551 /* CustomSourceView1.h */,
+				7953DACB265A1E1C00B73551 /* CustomSourceView1.m */,
+				7953DAD0265A1E2B00B73551 /* CustomSourceImageView1.h */,
+				7953DAD1265A1E2B00B73551 /* CustomSourceImageView1.m */,
+			);
+			path = CustomView1;
+			sourceTree = "<group>";
+		};
+		7953DAC9265A1DC100B73551 /* CustomView2 */ = {
+			isa = PBXGroup;
+			children = (
+				7953DAD6265A20D300B73551 /* CustomSourceView2.h */,
+				7953DAD7265A20D300B73551 /* CustomSourceView2.m */,
+				7953DADC265A20E400B73551 /* CustomSourceImageView2.h */,
+				7953DADD265A20E400B73551 /* CustomSourceImageView2.m */,
+			);
+			path = CustomView2;
+			sourceTree = "<group>";
+		};
 		798CB6BB26590AE700F56291 /* SendImageController */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,20 +368,13 @@
 			path = IMController;
 			sourceTree = "<group>";
 		};
-		7994AE9F2652798500267860 /* CustomPhotoBrowserController */ = {
-			isa = PBXGroup;
-			children = (
-				798CB6C526590B3C00F56291 /* CustomPhotoBrowserController.h */,
-				798CB6C626590B3C00F56291 /* CustomPhotoBrowserController.m */,
-			);
-			path = CustomPhotoBrowserController;
-			sourceTree = "<group>";
-		};
 		7994AEA02652798500267860 /* CustomSourceViewController */ = {
 			isa = PBXGroup;
 			children = (
 				798CB6CB26590B5900F56291 /* CustomSourceViewController.h */,
 				798CB6CC26590B5900F56291 /* CustomSourceViewController.m */,
+				7953DAC8265A1DC100B73551 /* CustomView1 */,
+				7953DAC9265A1DC100B73551 /* CustomView2 */,
 			);
 			path = CustomSourceViewController;
 			sourceTree = "<group>";
@@ -389,7 +413,6 @@
 				7994AEA12652798500267860 /* ScrollViewController */,
 				7994AE9E2652798500267860 /* IMController */,
 				798CB6BB26590AE700F56291 /* SendImageController */,
-				7994AE9F2652798500267860 /* CustomPhotoBrowserController */,
 				7994AEA02652798500267860 /* CustomSourceViewController */,
 				7994AE9D2652798500267860 /* CustomViewController */,
 			);
@@ -691,7 +714,6 @@
 			files = (
 				79ECDCD0264B7940009EAAF4 /* KNReachability.m in Sources */,
 				798CB6BE26590B1B00F56291 /* SendImageController.m in Sources */,
-				798CB6C726590B3C00F56291 /* CustomPhotoBrowserController.m in Sources */,
 				791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */,
 				79AA378F264FAE94001FE0B3 /* UIView+Extension.m in Sources */,
 				791260A723FE75F300BC4181 /* KNProgressHUD.m in Sources */,
@@ -712,14 +734,18 @@
 				79ED3C8126568E990062AAE8 /* IMController.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
 				798CB6CD26590B5900F56291 /* CustomSourceViewController.m in Sources */,
+				7953DADE265A20E400B73551 /* CustomSourceImageView2.m in Sources */,
 				790E78C42656823E0025929B /* ScrollViewLocateController.m in Sources */,
 				79E115D122F032310022106B /* FirstViewController.m in Sources */,
 				793E42E22653C792006AF893 /* NineSquareModel.m in Sources */,
+				7953DAD8265A20D300B73551 /* CustomSourceView2.m in Sources */,
 				79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */,
 				791260A023FE75F300BC4181 /* KNActionSheet.m in Sources */,
 				793E42FA2653F49E006AF893 /* ScrollViewController.m in Sources */,
 				79E115D522F032310022106B /* NavigationController.m in Sources */,
 				79739F3D26574E9300BAEA22 /* IMModel.m in Sources */,
+				7953DACC265A1E1C00B73551 /* CustomSourceView1.m in Sources */,
+				7953DAD2265A1E2B00B73551 /* CustomSourceImageView1.m in Sources */,
 				79E1159922F032310022106B /* AppDelegate.m in Sources */,
 				791260A823FE75F300BC4181 /* KNPhotoVideoCell.m in Sources */,
 				79739F4326575F2900BAEA22 /* IMTableViewCell.m in Sources */,
