@@ -245,6 +245,11 @@
     [_actionView avplayerActionViewNeedHidden:true];
     _actionBar.hidden = true;
 }
+
+- (void)playerWillSwipeCancel {
+    
+}
+
 - (void)playerRate:(CGFloat)rate{
     if (_isPlaying == false) {
         return;

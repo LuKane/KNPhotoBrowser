@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// AVPlayer will be swiped by hand
 - (void)playerWillSwipe;
 
+/// AVPlayer will cancel swipe
+- (void)playerWillSwipeCancel;
+
 /// AVPlayer play as rate
 /// @param rate rate
 - (void)playerRate:(CGFloat)rate;
