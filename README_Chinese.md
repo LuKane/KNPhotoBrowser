@@ -23,6 +23,8 @@
 | 预加载图片 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 视频自动播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 视频倍速播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 视频支持 在线播放(不缓存,不下载) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 视频支持 先下载再播放(下次自动查找) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 自定义控件展示 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 自定义控件展示, 以及跟随浏览器动态显示 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 自定义数据源控件 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
@@ -33,7 +35,7 @@
 * 2.图片展示和视频播放已经可以使用
 * 3.下载图片和下载适配至相册
 * 4.自定义控件
-* 5.自动管图片和视频还没有实现
+* 5.自动管图片和视频已经实现
 ## 二.方法调用
 
 ### (1).初始化相应的参数
