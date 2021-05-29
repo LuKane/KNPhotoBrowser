@@ -24,6 +24,8 @@
 | Prefetch image, max is 8 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Video player auto play [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Video player times speed play [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| Video player support play online(no cache,no download) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| Video player support play after download(it will search next time) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Show custom view on PhotoBrowser [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Show custom view on PhotoBrowser, and set animated following photoBrowser [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Before the photoBrowser show, all image control can be custom [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
@@ -34,7 +36,7 @@
 * 2.image and video play is ready for use
 * 3.download image or video is ready for use
 * 4.custom control as you wish
-* 5.auto manager image or video of download is not contain
+* 5.auto manager image or video of download is finisned
 
 ## 2.How to use
 
