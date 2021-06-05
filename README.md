@@ -36,7 +36,7 @@
 * 2.image and video play is ready for use
 * 3.download image or video is ready for use
 * 4.custom control as you wish
-* 5.auto manager image or video of download is finisned
+* 5.auto manager image or video of download is finished
 
 ## 2.How to use
 
