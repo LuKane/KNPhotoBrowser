@@ -335,7 +335,7 @@
     self.actionView.frame   = self.playerBgView.frame;
     self.placeHolderImgView.frame  = self.playerBgView.bounds;
     
-    if (iPhoneX || iPhoneXR || iPhoneXs_Max || iPhone12 || iPhone12_Pro_Max) {
+    if (PBDeviceHasBang) {
         self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 70, self.frame.size.width - 30, 40);
     }else {
         self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 40);

@@ -76,7 +76,7 @@
     
     CGFloat y = 25;
     CGFloat x = 10;
-    if(iPhoneX || iPhoneXR || iPhoneXs_Max || iPhone12 || iPhone12_Pro_Max){
+    if(PBDeviceHasBang){
         y = 45;
         x = 20;
     }
