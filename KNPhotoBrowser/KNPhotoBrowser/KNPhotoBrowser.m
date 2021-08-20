@@ -41,6 +41,7 @@
     NSInteger                   _page; // current page
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
+    BOOL                        _isDismissed; // when photoBrowser will dismiss , it will be true, default is false
 }
 
 @property (nonatomic, strong) NSArray *tempArr;
@@ -306,6 +307,11 @@
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     if (item.isVideo) {
+        
+        if (_isDismissed == true) {
+            return;
+        }
+        
         KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
         
         if (_isNeedOnlinePlay) {
@@ -776,6 +782,7 @@
     
     if(tempView.image == nil){
         
+        _isDismissed = true;
         [self loadScreenPortrait];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -808,6 +815,7 @@
                 [self dismissViewControllerAnimated:true completion:nil];
             }];
         }else{
+            _isDismissed = true;
             [self loadScreenPortrait];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -848,7 +856,7 @@
                 }];
             }];
         }else{
-            
+            _isDismissed = true;
             [self loadScreenPortrait];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -895,6 +903,7 @@
     return false;
 }
 
+/// let screen to portrait
 - (void)loadScreenPortrait{
     if(isPortrait) return;
     NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
@@ -1314,18 +1323,18 @@
  */
 - (BOOL)isEmptyArray:(NSArray *)array{
     if(array == nil || [array isKindOfClass:[NSNull class]] || array.count == 0){
-        return YES;
+        return true;
     }
-    return NO;
+    return false;
 }
 
 /// judge string is empty or null or nil
 /// @param string isEmpty string
 - (BOOL)isEmptyString:(NSString *)string{
     if(string == nil || string == NULL || [string isKindOfClass:[NSNull class]] || [[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length]==0){
-        return YES;
+        return true;
     }
-    return NO;
+    return false;
 }
 
 /**

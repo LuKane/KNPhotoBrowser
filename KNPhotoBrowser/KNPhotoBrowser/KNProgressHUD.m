@@ -8,13 +8,7 @@
 
 #import "KNProgressHUD.h"
 
-@interface KNProgressHUD(){
-    CGFloat       _width;
-    CGFloat       _height;
-    CGFloat       _X;
-    CGFloat       _Y;
-    CGFloat       _bordLineWidth;
-}
+@interface KNProgressHUD()
 
 @property (nonatomic, strong) CAShapeLayer *sectorLayer;
 @property (nonatomic, strong) CAShapeLayer *loadingLayer;
@@ -103,7 +97,7 @@
     
     if (progress > 0) {
         [self.loadingLayer removeAllAnimations];
-        self.sectorLayer.hidden = NO;
+        self.sectorLayer.hidden = false;
         [self.loadingLayer removeFromSuperlayer];
     }
     
