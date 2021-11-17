@@ -17,7 +17,7 @@
 | ------------- | ------------ |
 | Base on UIViewController | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Adapt for rotate of the screen | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| Adapt for `iPhone5`~`iPhone12Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| Adapt for `iPhone5`~`iPhone13Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Locate and net image and gif image  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Locate and net video  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | PanGesture to dismiss or cancel [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
