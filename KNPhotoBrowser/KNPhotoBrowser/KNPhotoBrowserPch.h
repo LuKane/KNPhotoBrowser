@@ -24,7 +24,7 @@
 ({\
     BOOL hasBang = false;\
     if (@available(iOS 11.0, *)) {\
-        hasBang = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom;\
+        hasBang = [UIApplication sharedApplication].keyWindow.safeAreaInsets.bottom;\
     }\
     (hasBang);\
 })
