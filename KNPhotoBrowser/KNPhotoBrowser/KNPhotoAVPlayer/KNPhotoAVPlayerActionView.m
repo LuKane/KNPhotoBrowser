@@ -8,6 +8,7 @@
 
 #import "KNPhotoAVPlayerActionView.h"
 #import "KNPhotoBrowserPch.h"
+#import <objc/runtime.h>
 
 @interface KNPhotoAVPlayerActionView()
 
@@ -48,19 +49,30 @@
 }
 
 - (void)setupSubViews{
+    
+    NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"KNPhotoBrowser")];
+    
     // 1.stop || play imageView
     UIImageView *pauseImgView = [[UIImageView alloc] init];
     [pauseImgView setUserInteractionEnabled:true];
     [pauseImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pauseImageViewDidClick)]];
-    [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter"]];
+    if(UIScreen.mainScreen.scale < 3) {
+        [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter@2x" inBundle:bundle compatibleWithTraitCollection:nil]];
+    }else {
+        [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter@3x" inBundle:bundle compatibleWithTraitCollection:nil]];
+    }
     [self addSubview:pauseImgView];
     _pauseImgView = pauseImgView;
     
     // 2.dismiss imageView
     UIImageView *dismissImageView = [[UIImageView alloc] init];
     [dismissImageView setUserInteractionEnabled:true];
-    [dismissImageView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss"]];
     [dismissImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissImageViewDidClick)]];
+    if(UIScreen.mainScreen.scale < 3) {
+        [dismissImageView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@2x" inBundle:bundle compatibleWithTraitCollection:nil]];
+    }else {
+        [dismissImageView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@3x" inBundle:bundle compatibleWithTraitCollection:nil]];
+    }
     [dismissImageView setHidden:true];
     [self addSubview:dismissImageView];
     _dismissImgView = dismissImageView;

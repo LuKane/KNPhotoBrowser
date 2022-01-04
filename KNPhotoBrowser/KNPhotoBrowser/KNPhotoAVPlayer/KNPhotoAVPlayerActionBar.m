@@ -7,8 +7,11 @@
 //
 
 #import "KNPhotoAVPlayerActionBar.h"
+#import <objc/runtime.h>
 
 @interface KNPhotoAVPlayerSlider : UISlider
+
+
 
 @end
 
@@ -16,7 +19,12 @@
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        [self setThumbImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/circlePoint@3x.png"] forState:UIControlStateNormal];
+        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"KNPhotoBrowser")];
+        if(UIScreen.mainScreen.scale < 3) {
+            [self setThumbImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/circlePoint@2x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }else {
+            [self setThumbImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/circlePoint@3x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }
         [self setMinimumTrackTintColor:[UIColor whiteColor]];
         [self setMaximumTrackTintColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5]];
     }
@@ -51,6 +59,7 @@
 @property (nonatomic,strong) UILabel *preTimeLabel;
 @property (nonatomic,strong) UILabel *endTimeLabel;
 @property (nonatomic,strong) KNPhotoAVPlayerSlider *slider;
+@property (nonatomic, strong) NSBundle *bundle;
 
 @end
 
@@ -60,10 +69,21 @@
 
 /****************************** == lazy == ********************************/
 
+- (NSBundle *)bundle {
+    if (!_bundle) {
+        _bundle = [NSBundle bundleForClass:NSClassFromString(@"KNPhotoBrowser")];
+    }
+    return _bundle;
+}
+
 - (UIButton *)pauseStopBtn{
     if (!_pauseStopBtn) {
         _pauseStopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/pause@2x.png"] forState:UIControlStateNormal];
+        if(UIScreen.mainScreen.scale < 3) {
+            [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/pause@2x.png" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }else {
+            [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/pause@3x.png" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }
         [_pauseStopBtn addTarget:self action:@selector(pauseStopBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _pauseStopBtn;
@@ -145,9 +165,17 @@
     if (isPlaying) {
         _isDragging = false;
         [_slider setUserInteractionEnabled:true];
-        [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/pause@2x.png"] forState:UIControlStateNormal];
+        if(UIScreen.mainScreen.scale < 3) {
+            [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/pause@2x.png" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }else {
+            [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/pause@3x.png" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }
     }else{
-        [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/play@2x.png"] forState:UIControlStateNormal];
+        if(UIScreen.mainScreen.scale < 3) {
+            [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/play@2x.png" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }else {
+            [_pauseStopBtn setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/play@3x.png" inBundle:self.bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        }
     }
 }
 
