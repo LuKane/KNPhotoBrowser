@@ -75,6 +75,7 @@
         
         self.animatedMode  = UIViewContentModeScaleToFill;
         self.presentedMode = UIViewContentModeScaleAspectFit;
+        self.isSoloAmbient = true;
     }
     return self;
 }
@@ -268,12 +269,19 @@
 
 /* init right top Btn */
 - (void)initOperationView{
+    
+    NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"KNPhotoBrowser")];
+    
     UIButton *operationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [operationBtn.layer setCornerRadius:3];
-    [operationBtn.layer setMasksToBounds:true];
+    [operationBtn setClipsToBounds:true];
     [operationBtn setBackgroundColor:[UIColor blackColor]];
     [operationBtn setAlpha:0.4];
-    [operationBtn setBackgroundImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/more_tap@2x.png"] forState:UIControlStateNormal];
+    if(UIScreen.mainScreen.scale < 3) {
+        [operationBtn setBackgroundImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/more_tap@2x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    }else {
+        [operationBtn setBackgroundImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/more_tap@3x.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    }
     [operationBtn addTarget:self action:@selector(operationBtnIBAction) forControlEvents:UIControlEventTouchUpInside];
     [operationBtn setHidden:!_isNeedRightTopBtn];
     _operationBtn = operationBtn;
@@ -313,6 +321,7 @@
         }
         
         KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
+        videoCell.isSoloAmbient = _isSoloAmbient;
         
         if (_isNeedOnlinePlay) {
             [videoCell playerOnLinePhotoItems:item placeHolder:tempView.image];
@@ -708,37 +717,28 @@
 }
 
 - (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
-                            animated:(BOOL)animated{
-    
-    if ([self isEmptyArray:customViewArr]) {
-        return;
-    }
-    
-    if (animated == false) {
-        _customArr = [NSArray arrayWithArray:customViewArr];
-    }else{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            for (UIView *view in customViewArr) {
-                [self.view addSubview:view];
-            }
-        });
-    }
-}
-- (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
                             animated:(BOOL)animated
-                      followAnimated:(BOOL)followAnimated{
-    if ([self isEmptyArray:customViewArr]) {
+                      followAnimated:(BOOL)followAnimated {
+    [self createOverlayViewArrOnTopView:customViewArr
+                               animated:animated
+                         followAnimated:followAnimated];
+}
+
+- (void)createOverlayViewArrOnTopView:(NSArray<UIView *> *)overlayViewArr
+                             animated:(BOOL)animated
+                       followAnimated:(BOOL)followAnimated{
+    if ([self isEmptyArray:overlayViewArr]) {
         return;
     }
     if (followAnimated == true) {
-        [self.followArr addObjectsFromArray:customViewArr];
+        [self.followArr addObjectsFromArray:overlayViewArr];
     }
     
     if (animated == false) {
-        _customArr = [NSArray arrayWithArray:customViewArr];
+        _customArr = [NSArray arrayWithArray:overlayViewArr];
     }else{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            for (UIView *view in customViewArr) {
+            for (UIView *view in overlayViewArr) {
                 [self.view addSubview:view];
             }
         });

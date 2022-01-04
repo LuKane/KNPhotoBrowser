@@ -210,6 +210,9 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// is or not need online play video, default is false [That means auto download video first]
 @property (nonatomic,assign) BOOL isNeedOnlinePlay;
 
+/// is or not solo ambient, default is true `AVAudioSessionCategorySoloAmbient`. If set false ,that will be `AVAudioSessionCategoryAmbient`
+@property (nonatomic,assign) BOOL isSoloAmbient;
+
 /// the `numView` & `pageControl` & `operationBtn` is or not need follow photoBrowser , default is false.
 /// when touch photoBrowser, they will be hidden.
 /// when you cancel, they will be showed.
@@ -226,17 +229,24 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 - (void)setImmediatelyPlayerRate:(CGFloat)rate;
 
 /**
-create custom view on the topView(photoBrowser controller's view)
-for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you want
-delegate's function: 'photoBrowser:scrollToLocateWithIndex:(NSInteger)index'
-'CustomViewController' in Demo, you can see it how to use
-@param customViewArr customViewArr
-@param animated need animated or not, with photoBrowser present
-@param followAnimated need animated or not for follow photoBrowser
+you can use the next function, use the `- (void)createOverlayViewArrOnTopView: animated: followAnimated:`
 */
 - (void)createCustomViewArrOnTopView:(NSArray<UIView *> *)customViewArr
                             animated:(BOOL)animated
                       followAnimated:(BOOL)followAnimated;
+
+/**
+create overlay view on the topView(photoBrowser controller's view)
+for example: create a scrollView on the photoBrowser controller's view, when photoBrowser has scrolled , you can use delegate's function to do something you want
+delegate's function: 'photoBrowser:scrollToLocateWithIndex:(NSInteger)index'
+'CustomViewController' in Demo, you can see it how to use
+@param overlayViewArr overlayViewArr
+@param animated need animated or not, with photoBrowser present
+@param followAnimated need animated or not for follow photoBrowser
+*/
+- (void)createOverlayViewArrOnTopView:(NSArray<UIView *> *)overlayViewArr
+                             animated:(BOOL)animated
+                       followAnimated:(BOOL)followAnimated;
 
 /// photoBrowser will present.
 /// if `which is already presenting`, use the `- (void)present:(UIViewController *)controller` to instead

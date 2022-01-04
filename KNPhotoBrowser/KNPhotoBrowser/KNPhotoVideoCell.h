@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 @property (nonatomic,assign) BOOL isNeedVideoPlaceHolder;
+@property (nonatomic,assign) BOOL isSoloAmbient;
 
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *onlinePlayerView;
 @property (nonatomic,weak  ) KNPhotoLocateAVPlayerView *locatePlayerView;

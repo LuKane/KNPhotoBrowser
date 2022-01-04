@@ -97,7 +97,6 @@
         [self addSubview:self.actionBar];
         
         _downloadBlock = nil;
-        
     }
     return self;
 }
@@ -160,7 +159,11 @@
     // AudioSession setting
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:true error:nil];
-    [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    if(_isSoloAmbient == true) {
+        [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    }else {
+        [session setCategory:AVAudioSessionCategoryAmbient error:nil];
+    }
     
     // Notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
@@ -353,6 +356,7 @@
                     weakself.item.canUseNetworkResourcesForLiveStreamingWhilePaused = true;
                     [weakself.player replaceCurrentItemWithPlayerItem:weakself.item];
                     [weakself.player play];
+                    weakself.player.muted = true;
                     
                     weakself.progressHUD.progress = 1.0;
                     
@@ -374,6 +378,7 @@
         _progressHUD.hidden = true;
         if (_isPlaying == false) {
             [_player play];
+            _player.muted = true;
             _actionBar.isPlaying = true;
             _actionView.isPlaying = true;
         }else {
@@ -398,6 +403,7 @@
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{
     if (isNeedPlay) {
         [_player play];
+        _player.muted = true;
         _actionView.isPlaying = true;
         _actionBar.isPlaying = true;
         _isPlaying = true;
