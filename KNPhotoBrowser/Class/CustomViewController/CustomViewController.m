@@ -59,7 +59,7 @@
 
 - (void)setupBgView{
     NSMutableArray *arr = [NSMutableArray array];
-    [arr addObject:@"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg"];
+    [arr addObject:@"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg"];
     [arr addObject:@"http://ww2.sinaimg.cn/thumbnail/642beb18gw1ep3629gfm0g206o050b2a.gif"];
     [arr addObject:@"http://ww2.sinaimg.cn/thumbnail/677febf5gw1erma104rhyj20k03dz16y.jpg"];
     
@@ -100,11 +100,11 @@
 - (void)imgItemDidClick:(UITapGestureRecognizer *)tap{
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     
-    [photoBrowser createCustomViewArrOnTopView:@[self.scrollView] animated:true followAnimated:true];
+    [photoBrowser createOverlayViewArrOnTopView:@[self.scrollView] animated:true followAnimated:true];
     
     UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 90) * 0.5, 100, 90, 30)];
     tempView.backgroundColor = UIColor.lightGrayColor;
-    [photoBrowser createCustomViewArrOnTopView:@[tempView] animated:false followAnimated:true];
+    [photoBrowser createOverlayViewArrOnTopView:@[tempView] animated:false followAnimated:true];
     _tempView = tempView;
     
     photoBrowser.itemsArr = [self.itemsArr mutableCopy];

@@ -38,8 +38,8 @@
 - (NSMutableArray *)urlArr {
     if (!_urlArr) {
         _urlArr = [NSMutableArray array];
-        /// net image
-        [_urlArr addObject:@"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg"];
+        /// net image 
+        [_urlArr addObject:@"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg"];
         /// loc video
         [_urlArr addObject:[[NSBundle mainBundle] pathForResource:@"location_video.MP4" ofType:nil]];
         /// net video
@@ -199,7 +199,7 @@
     photoBrowser.placeHolderColor = UIColor.lightTextColor;
     photoBrowser.currentIndex = tap.view.tag;
     photoBrowser.delegate = self;
-    
+    photoBrowser.isSoloAmbient = false;
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedLongPress = true;

@@ -34,9 +34,9 @@
 // layer of sector
 - (void)setupSectorLayer{
     self.sectorLayer= [CAShapeLayer layer];
-    [self.sectorLayer setFillColor:[UIColor clearColor].CGColor];
+    [self.sectorLayer setFillColor:UIColor.clearColor.CGColor];
     [self.sectorLayer setLineWidth:1.f];
-    [self.sectorLayer setStrokeColor:[UIColor groupTableViewBackgroundColor].CGColor];
+    [self.sectorLayer setStrokeColor:[UIColor whiteColor].CGColor];
     [self.sectorLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:[self bounds]] CGPath]];
     [self.sectorLayer setHidden:YES];
     [self.layer addSublayer:self.sectorLayer];
@@ -47,9 +47,9 @@
     self.loadingLayer = [CAShapeLayer layer];
     [self.loadingLayer setFrame:[self bounds]];
     [self.loadingLayer setAnchorPoint:CGPointMake(0.5f, 0.5f)];
-    [self.loadingLayer setFillColor:[[UIColor clearColor] CGColor]];
+    [self.loadingLayer setFillColor:UIColor.clearColor.CGColor];
     [self.loadingLayer setLineWidth:1.f];
-    [self.loadingLayer setStrokeColor:[[UIColor groupTableViewBackgroundColor] CGColor]];
+    [self.loadingLayer setStrokeColor:[[UIColor whiteColor] CGColor]];
     
     CGPoint center = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
     CGFloat loadRadius = self.bounds.size.width * 0.5;
@@ -79,12 +79,12 @@
     [self.sharpLayer setFrame:[self bounds]];
     [self.sharpLayer setAnchorPoint:CGPointMake(0.5f, 0.5f)];
     [self.sharpLayer setFillColor:[[UIColor clearColor] CGColor]];
-    [self.sharpLayer setStrokeColor:[[UIColor groupTableViewBackgroundColor] CGColor]];
+    [self.sharpLayer setStrokeColor:[[UIColor whiteColor] CGColor]];
     [self.sharpLayer setLineWidth:radius];
-
+    
     [self.sharpLayer setStrokeStart:0];
     [self.sharpLayer setStrokeEnd:0];
-
+    
     CGRect pathRect = CGRectMake(CGRectGetWidth(self.bounds)/2 - radius/2, CGRectGetHeight(self.bounds)/2 - radius/2, radius, radius);
     [self.sharpLayer setPath:[[UIBezierPath bezierPathWithRoundedRect:pathRect cornerRadius:radius] CGPath]];
     [self.layer addSublayer:self.sharpLayer];

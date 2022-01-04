@@ -78,7 +78,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        
         self.player = [AVPlayer playerWithPlayerItem:_item];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
         [self.playerView.layer addSublayer:_playerLayer];
@@ -131,7 +130,11 @@
     // AudioSession setting
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:true error:nil];
-    [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    if(_isSoloAmbient == true) {
+        [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    }else {
+        [session setCategory:AVAudioSessionCategoryAmbient error:nil];
+    }
     
     // Notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];

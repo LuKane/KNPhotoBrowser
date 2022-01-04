@@ -59,7 +59,7 @@
         }
         {
             IMModel *m = [[IMModel alloc] init];
-            m.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
+            m.url = @"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             m.rate = 1.6;
             [_dataArr addObject:m];
         }
