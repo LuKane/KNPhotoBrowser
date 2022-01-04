@@ -69,6 +69,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isBeginPlayed;
 
 /**
+ * default is solo ambient : TRUE `AVAudioSessionCategorySoloAmbient`
+ * if set false, that will be `AVAudioSessionCategoryAmbient`
+ */
+@property (nonatomic, assign) BOOL isSoloAmbient;
+
+/**
  * delegate
  */
 @property (nonatomic,weak  ) id<KNPhotoPlayerViewDelegate> delegate;

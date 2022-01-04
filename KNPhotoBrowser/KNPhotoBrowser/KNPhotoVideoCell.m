@@ -35,12 +35,14 @@
 }
 
 - (void)playerOnLinePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage * _Nullable)placeHolder {
+    _onlinePlayerView.isSoloAmbient = _isSoloAmbient;
     [_onlinePlayerView playerOnLinePhotoItems:photoItems placeHolder:placeHolder];
     _onlinePlayerView.hidden = false;
     _locatePlayerView.hidden = true;
     _progressHUD.hidden = true;
 }
 - (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *)placeHolder {
+    _locatePlayerView.isSoloAmbient = _isSoloAmbient;
     [_locatePlayerView playerLocatePhotoItems:photoItems progressHUD:_progressHUD placeHolder:placeHolder];
     _onlinePlayerView.hidden = true;
     _locatePlayerView.hidden = false;
