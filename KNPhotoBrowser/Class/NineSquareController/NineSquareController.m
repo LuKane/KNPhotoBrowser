@@ -30,7 +30,7 @@
             NSMutableArray *arr = [NSMutableArray array];
             
             NineSquareItemsModel *itemM = [[NineSquareItemsModel alloc] init];
-            itemM.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
+            itemM.url = @"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             [arr addObject:itemM];
             
             NineSquareModel *squareM = [[NineSquareModel alloc] init];
@@ -43,7 +43,7 @@
             NSMutableArray *arr = [NSMutableArray array];
             
             NineSquareItemsModel *itemM = [[NineSquareItemsModel alloc] init];
-            itemM.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
+            itemM.url = @"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             [arr addObject:itemM];
             
             NineSquareItemsModel *itemM1 = [[NineSquareItemsModel alloc] init];
@@ -67,7 +67,7 @@
             NSMutableArray *arr = [NSMutableArray array];
             
             NineSquareItemsModel *itemM = [[NineSquareItemsModel alloc] init];
-            itemM.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
+            itemM.url = @"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             [arr addObject:itemM];
             
             NineSquareItemsModel *itemM1 = [[NineSquareItemsModel alloc] init];
@@ -101,7 +101,7 @@
             NSMutableArray *arr = [NSMutableArray array];
             
             NineSquareItemsModel *itemM = [[NineSquareItemsModel alloc] init];
-            itemM.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
+            itemM.url = @"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             [arr addObject:itemM];
             
             NineSquareItemsModel *itemM1 = [[NineSquareItemsModel alloc] init];
@@ -143,7 +143,7 @@
             NSMutableArray *arr = [NSMutableArray array];
             
             NineSquareItemsModel *itemM = [[NineSquareItemsModel alloc] init];
-            itemM.url = @"https://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
+            itemM.url = @"http://wx3.sinaimg.cn/thumbnail/9bbc284bgy1frtdh1idwkj218g0rs7li.jpg";
             [arr addObject:itemM];
             
             NineSquareItemsModel *itemM1 = [[NineSquareItemsModel alloc] init];
