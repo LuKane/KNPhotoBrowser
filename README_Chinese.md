@@ -1,6 +1,6 @@
 ![image](https://upload-images.jianshu.io/upload_images/1693073-222e76b529bc5f9e.png)
 
-[![CocoaPods](http://img.shields.io/cocoapods/v/KNPhotoBrowser.svg?style=flat)](http://cocoapods.org/?q=KNPhotoBrowser)&nbsp;![CocoaPods](http://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat)&nbsp;[![Support](https://img.shields.io/badge/support-iOS%2010%2B%20-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
+[![CocoaPods](http://img.shields.io/cocoapods/v/KNPhotoBrowser.svg?style=flat)](http://cocoapods.org/?q=KNPhotoBrowser)&nbsp;![CocoaPods](http://img.shields.io/cocoapods/p/KNPhotoBrowser.svg?style=flat)&nbsp;[![Support](https://img.shields.io/badge/support-iOS%209.0%2B%20-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
 
 # KNPhotoBrowser
 
