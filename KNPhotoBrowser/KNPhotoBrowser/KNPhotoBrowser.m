@@ -628,24 +628,24 @@
     CGFloat height = tempView.image.size.height;
     
     if(isPortrait == true){
-        if (width/height >= ScreenWidth / ScreenHeight) {
-            tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
+        if (width/height >= PBViewWidth / PBViewHeight) {
+            tempRectSize = (CGSize){PBViewWidth,(height * PBViewWidth / width) > PBViewHeight?PBViewHeight:(height * PBViewWidth / width)};
         }else {
             if (items.isVideo == true) {
-                tempRectSize = (CGSize){width * ScreenHeight / height,ScreenHeight};
+                tempRectSize = (CGSize){width * PBViewHeight / height,PBViewHeight};
             }else {
-                tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight?ScreenHeight:(height * ScreenWidth / width)};
+                tempRectSize = (CGSize){PBViewWidth,(height * PBViewWidth / width) > PBViewHeight?PBViewHeight:(height * PBViewWidth / width)};
             }
         }
     }else{
         if(width > height){
-            if(width / height > ScreenWidth / ScreenHeight){
-                tempRectSize = (CGSize){ScreenWidth,height * ScreenWidth / width};
+            if(width / height > PBViewWidth / PBViewHeight){
+                tempRectSize = (CGSize){PBViewWidth,height * PBViewWidth / width};
             }else{
-                tempRectSize = (CGSize){ScreenHeight * width / height,ScreenHeight};
+                tempRectSize = (CGSize){PBViewHeight * width / height,PBViewHeight};
             }
         }else{
-            tempRectSize = (CGSize){(width * ScreenHeight) / height,ScreenHeight};
+            tempRectSize = (CGSize){(width * PBViewHeight) / height,PBViewHeight};
         }
     }
     [_collectionView setHidden:true];
@@ -699,13 +699,13 @@
                     if([[[[items.url lastPathComponent] pathExtension] lowercaseString] isEqualToString:@"gif"]){ // gif image
                         NSData *data = UIImageJPEGRepresentation([cache imageFromCacheForKey:items.url], 1.f);
                         if(data){
-                            tempView.image = [self imageFromGifFirstImage:data];
+                            tempView.image = [weakself imageFromGifFirstImage:data];
                         }
                     }else{ // normal image
                         tempView.image = [cache imageFromCacheForKey:items.url];
                     }
                 }else{
-                    tempView.image = [[self tempViewFromSourceViewWithCurrentIndex:weakself.currentIndex] image];
+                    tempView.image = [[weakself tempViewFromSourceViewWithCurrentIndex:weakself.currentIndex] image];
                 }
                 [self photoBrowserWillDismissWithAnimated:tempView items:items];
             }];
@@ -833,15 +833,25 @@
         
         CGFloat width  = tempView.image.size.width;
         CGFloat height = tempView.image.size.height;
-        CGSize tempRectSize = (CGSize){ScreenWidth,(height * ScreenWidth / width) > ScreenHeight ? ScreenHeight:(height * ScreenWidth / width)};
+        CGSize tempRectSize = (CGSize){PBViewWidth,(height * PBViewWidth / width) > PBViewHeight ? PBViewHeight:(height * PBViewWidth / width)};
         
         if(isPortrait == true){
             [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
             [tempView setCenter:[self.view center]];
+            
+            NSLog(@"%@",NSStringFromCGRect(tempView.frame));
+            
             if(!CGRectEqualToRect(self.startFrame, CGRectZero)){
-                tempView.frame = self.startFrame;
+                if(items.isVideo == true) {
+                    tempView.frame = CGRectMake(self.startFrame.origin.x, self.startFrame.origin.y, tempRectSize.width, tempRectSize.height);
+                }else {
+                    tempView.frame = self.startFrame;
+                }
             }
             [window addSubview:tempView];
+            
+            NSLog(@"tempViewFrame===> %@ ---- %@",NSStringFromCGRect(tempView.frame),NSStringFromCGRect(self.startFrame));
+            
             self->_startFrame = CGRectZero;
             [self dismissViewControllerAnimated:false completion:nil];
             
@@ -922,14 +932,14 @@
 
 - (void)layoutCollectionViewAndLayout{
     
-    [_layout setItemSize:(CGSize){self.view.bounds.size.width + 20,self.view.bounds.size.height}];
+    [_layout setItemSize:(CGSize){PBViewWidth + 20,PBViewHeight}];
     _layout.minimumInteritemSpacing = 0;
     _layout.minimumLineSpacing = 0;
     
-    [_collectionView setFrame:(CGRect){{-10,0},{self.view.bounds.size.width + 20,self.view.bounds.size.height}}];
+    [_collectionView setFrame:(CGRect){{-10,0},{PBViewWidth + 20,PBViewHeight}}];
     [_collectionView setCollectionViewLayout:_layout];
     
-    _imageView.frame = (CGRect){{-10,0},{self.view.bounds.size.width + 20,self.view.bounds.size.height}};
+    _imageView.frame = (CGRect){{-10,0},{PBViewWidth + 20,PBViewHeight}};
     _progressHUD.center = self.view.center;
     
     CGFloat y = 25;
@@ -943,9 +953,9 @@
         x = 35;
     }
     
-    [_numView setFrame:(CGRect){{0,y},{ScreenWidth,25}}];
-    [_pageControl setFrame:(CGRect){{0,self.view.bounds.size.height - 50},{ScreenWidth,30}}];
-    [_operationBtn setFrame:(CGRect){{ScreenWidth - 35 - 15 - x,y},{35,20}}];
+    [_numView setFrame:(CGRect){{0,y},{PBViewWidth,25}}];
+    [_pageControl setFrame:(CGRect){{0,PBViewHeight - 50},{PBViewWidth,30}}];
+    [_operationBtn setFrame:(CGRect){{PBViewWidth - 35 - 15 - x,y},{35,20}}];
     
     if(_offsetPageIndex){
         [_collectionView setContentOffset:(CGPoint){_layout.itemSize.width * _offsetPageIndex,0} animated:false];
@@ -1399,18 +1409,18 @@
         if (items.isVideo == false) {
             if (items.url) {
                 UIColor *imageColor = self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor;
-                CGSize size = CGSizeMake(ScreenWidth, ScreenWidth);
+                CGSize size = CGSizeMake(PBViewWidth, PBViewWidth);
                 imageView.image = [self createImageWithUIColor: imageColor size: size];
             }else {
-                imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(ScreenWidth, ScreenWidth)];
+                imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(PBViewWidth, PBViewWidth)];
             }
         }else {
             if (items.videoPlaceHolderImageUrl) {
                 UIColor *imageColor = self.placeHolderColor ? self.placeHolderColor : UIColor.clearColor;
-                CGSize size = CGSizeMake(ScreenWidth, ScreenWidth);
+                CGSize size = CGSizeMake(PBViewWidth, PBViewWidth);
                 imageView.image = [self createImageWithUIColor: imageColor size: size];
             }else {
-                imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(ScreenWidth, ScreenWidth)];
+                imageView.image = [self createImageWithUIColor: UIColor.clearColor size: CGSizeMake(PBViewWidth, PBViewWidth)];
             }
         }
     }

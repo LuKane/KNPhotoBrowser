@@ -27,7 +27,7 @@
     if (!_imageView) {
         _imageView = [[SDAnimatedImageView alloc] init];
         [_imageView setUserInteractionEnabled:true];
-        [_imageView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        [_imageView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         _imageView.layer.cornerRadius = 0.1;
         _imageView.clipsToBounds = true;
     }
@@ -37,7 +37,7 @@
 - (UIScrollView *)scrollView{
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] init];
-        [_scrollView setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        [_scrollView setFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         [_scrollView addSubview:self.imageView];
         [_scrollView setDelegate:self];
         [_scrollView setClipsToBounds:true];

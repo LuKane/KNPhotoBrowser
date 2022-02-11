@@ -11,8 +11,6 @@
 
 @interface KNPhotoAVPlayerSlider : UISlider
 
-
-
 @end
 
 @implementation KNPhotoAVPlayerSlider
@@ -214,9 +212,9 @@
     [super layoutSubviews];
     
     self.pauseStopBtn.frame = CGRectMake(10, 10, 20, 20);
-    self.preTimeLabel.frame = CGRectMake(CGRectGetMaxX(self.pauseStopBtn.frame), 5, 55, 30);
-    self.endTimeLabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 30 - 55, 5, 55, 30);
-    self.slider.frame       = CGRectMake(CGRectGetMaxX(self.preTimeLabel.frame), 0, CGRectGetMinX(self.endTimeLabel.frame) - CGRectGetMaxX(self.preTimeLabel.frame), 40);
+    self.preTimeLabel.frame = CGRectMake(30, 5, 55, 30);
+    self.endTimeLabel.frame = CGRectMake(self.bounds.size.width - 55, 5, 55, 30);
+    self.slider.frame       = CGRectMake(85, 0, CGRectGetMinX(self.endTimeLabel.frame) - CGRectGetMaxX(self.preTimeLabel.frame), 40);
 }
 
 @end
