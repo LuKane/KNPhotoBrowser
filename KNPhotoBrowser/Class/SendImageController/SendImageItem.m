@@ -22,9 +22,9 @@
     [self addSubview:imgView];
     self.imgView = imgView;
     
-    UIImageView *deleteView = [[UIImageView alloc] initWithFrame:CGRectMake(imgView.frame.size.width - 12.5, -12.5, 25, 25)];
+    UIImageView *deleteView = [[UIImageView alloc] initWithFrame:CGRectMake(imgView.frame.size.width - 25, 0, 25, 25)];
     deleteView.image = [UIImage imageNamed:@"sendImageDelete"];
-    deleteView.layer.cornerRadius = 15;
+    deleteView.layer.cornerRadius = 12.5;
     deleteView.clipsToBounds = true;
     [self addSubview:deleteView];
     
