@@ -29,6 +29,7 @@
 @property (nonatomic,assign) BOOL isDragging;
 @property (nonatomic,assign) BOOL isEnterBackground;
 @property (nonatomic,assign) BOOL isAddObserver;
+@property (nonatomic,assign) BOOL videoIsSwiping; // current video player is swiping?
 
 @end
 
@@ -64,7 +65,7 @@
 - (UIView *)playerView{
     if (!_playerView) {
         _playerView = [[UIView alloc] init];
-        _playerView.backgroundColor = UIColor.clearColor;
+        _playerView.backgroundColor = UIColor.blackColor;
     }
     return _playerView;
 }
@@ -211,6 +212,7 @@
                     weakself.actionBar.currentTime = 0;
                     weakself.actionBar.isPlaying = false;
                     weakself.actionView.isPlaying = false;
+                    [weakself.actionView avplayerActionViewNeedHidden:weakself.videoIsSwiping];
                 }
             }];
         }
@@ -247,10 +249,11 @@
 - (void)playerWillSwipe{
     [_actionView avplayerActionViewNeedHidden:true];
     _actionBar.hidden = true;
+    _videoIsSwiping = true;
 }
 
 - (void)playerWillSwipeCancel {
-    
+    _videoIsSwiping = false;
 }
 
 - (void)playerRate:(CGFloat)rate{
