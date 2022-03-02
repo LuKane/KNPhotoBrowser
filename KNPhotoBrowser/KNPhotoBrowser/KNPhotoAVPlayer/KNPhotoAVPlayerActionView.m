@@ -139,6 +139,12 @@
         [_pauseImgView setHidden:false];
     }
 }
+/**
+ is need to hidden PauseImgView
+ */
+- (void)photoAVPlayerActionViewNeedHiddenPauseImgView:(BOOL)isHidden{
+    [_pauseImgView setHidden:isHidden];
+}
 
 - (void)setIsBuffering:(BOOL)isBuffering{
     _isBuffering = isBuffering;
