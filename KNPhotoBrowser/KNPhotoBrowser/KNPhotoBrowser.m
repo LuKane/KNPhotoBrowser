@@ -436,11 +436,12 @@
                 if (_isNeedOnlinePlay) {
                     _startFrame = [(KNPhotoAVPlayerView *)playerView playerBgView].frame;
                     [(KNPhotoAVPlayerView *)playerView setIsNeedVideoPlaceHolder:![(KNPhotoAVPlayerView *)playerView isBeginPlayed]];
+                    [[(KNPhotoAVPlayerView *)playerView playerView] setBackgroundColor:UIColor.clearColor];
                 }else {
                     _startFrame = [(KNPhotoLocateAVPlayerView *)playerView playerBgView].frame;
                     [(KNPhotoLocateAVPlayerView *)playerView setIsNeedVideoPlaceHolder:![(KNPhotoLocateAVPlayerView *)playerView isBeginPlayed]];
+                    [[(KNPhotoLocateAVPlayerView *)playerView playerView] setBackgroundColor:UIColor.clearColor];
                 }
-                
                 [playerView playerWillSwipe];
             }else{
                 _startFrame = imageView.imageView.frame;
@@ -494,12 +495,17 @@
                     [self cancelVideoDownload];
                     [playerView setIsNeedVideoPlaceHolder:true];
                     [self dismiss];
+                    [[(KNPhotoLocateAVPlayerView *)playerView playerView] setBackgroundColor:UIColor.clearColor];
                 }else{
                     // cancel
                     [self cancelVideoAnimation:playerView];
                     [self customViewSubViewsWillShow];
-                    [playerView setIsNeedVideoPlaceHolder:true];
                     [playerView playerWillSwipeCancel];
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [[(KNPhotoLocateAVPlayerView *)playerView playerView] setBackgroundColor:UIColor.blackColor];
+                        [playerView setIsNeedVideoPlaceHolder:true];
+                    });
                 }
             }else {
                 if(fabs(point.y) > 200 || fabs(velocity.y) > 500){
