@@ -447,6 +447,7 @@
                 _startFrame = imageView.imageView.frame;
             }
             [self customViewSubViewsWillDismiss];
+            [playerView setIsNeedVideoPlaceHolder:false];
         }
             break;
         case UIGestureRecognizerStateChanged:{
