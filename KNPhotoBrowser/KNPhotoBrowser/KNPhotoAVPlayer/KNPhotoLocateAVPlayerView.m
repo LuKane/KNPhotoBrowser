@@ -31,6 +31,7 @@
 @property (nonatomic,assign) BOOL isDragging;
 @property (nonatomic,assign) BOOL isEnterBackground;
 @property (nonatomic,assign) BOOL isAddObserver;
+@property (nonatomic,assign) BOOL videoIsSwiping; // current video player is swiping?
 
 @property (nonatomic,strong) KNPhotoDownloadMgr *downloadMgr;
 @property (nonatomic,strong) KNPhotoItems *photoItems;
@@ -239,6 +240,7 @@
                     weakself.actionBar.currentTime = 0;
                     weakself.actionBar.isPlaying = false;
                     weakself.actionView.isPlaying = false;
+                    [weakself.actionView avplayerActionViewNeedHidden:weakself.videoIsSwiping];
                 }
             }];
         }
@@ -278,6 +280,7 @@
     [_actionView avplayerActionViewNeedHidden:true];
     _actionBar.hidden = true;
     _progressHUD.hidden = true;
+    _videoIsSwiping = true;
 }
 /// AVPlayer will cancel swipe
 - (void)playerWillSwipeCancel{
@@ -292,6 +295,10 @@
         }
     }else {
         _progressHUD.hidden = true;
+    }
+    _videoIsSwiping = false;
+    if (_actionBar.currentTime == 0) {
+        [_actionView avplayerActionViewNeedHidden:false];
     }
 }
 - (void)playerRate:(CGFloat)rate{

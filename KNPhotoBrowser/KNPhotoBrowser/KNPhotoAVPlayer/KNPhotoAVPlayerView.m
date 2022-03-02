@@ -254,6 +254,9 @@
 
 - (void)playerWillSwipeCancel {
     _videoIsSwiping = false;
+    if (_actionBar.currentTime == 0) {
+        [_actionView avplayerActionViewNeedHidden:false];
+    }
 }
 
 - (void)playerRate:(CGFloat)rate{
