@@ -28,22 +28,18 @@
     }
     return self;
 }
-
 - (CGRect)minimumValueImageRectForBounds:(CGRect)bounds{
     CGRect frame = [super minimumValueImageRectForBounds:bounds];
     return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 15);
 }
-
 - (CGRect)maximumValueImageRectForBounds:(CGRect)bounds{
     CGRect frame = [super maximumValueImageRectForBounds:bounds];
     return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 15);
 }
-
 - (CGRect)trackRectForBounds:(CGRect)bounds{
     CGRect frame = [super trackRectForBounds:bounds];
     return CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 3);
 }
-
 - (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value {
     CGRect frame = [super thumbRectForBounds:bounds trackRect:rect value:value];
     return CGRectMake(frame.origin.x - 10, frame.origin.y - 10, frame.size.width + 20, frame.size.height + 20);
@@ -57,7 +53,7 @@
 @property (nonatomic,strong) UILabel *preTimeLabel;
 @property (nonatomic,strong) UILabel *endTimeLabel;
 @property (nonatomic,strong) KNPhotoAVPlayerSlider *slider;
-@property (nonatomic, strong) NSBundle *bundle;
+@property (nonatomic,strong) NSBundle *bundle;
 
 @end
 
@@ -154,6 +150,9 @@
 }
 - (void)actionBarSliderDown:(KNPhotoAVPlayerSlider *)slider{
     _isDragging = true;
+    if ([_delegate respondsToSelector:@selector(photoAVPlayerActionBarBeginChange)]) {
+        [_delegate photoAVPlayerActionBarBeginChange];
+    }
     [slider setUserInteractionEnabled:false];
 }
 
