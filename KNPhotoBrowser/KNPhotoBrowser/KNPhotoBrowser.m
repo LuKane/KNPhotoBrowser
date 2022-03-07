@@ -846,8 +846,6 @@
             [tempView setBounds:(CGRect){CGPointZero,{tempRectSize.width,tempRectSize.height}}];
             [tempView setCenter:[self.view center]];
             
-            NSLog(@"%@",NSStringFromCGRect(tempView.frame));
-            
             if(!CGRectEqualToRect(self.startFrame, CGRectZero)){
                 if(items.isVideo == true) {
                     tempView.frame = CGRectMake(self.startFrame.origin.x, self.startFrame.origin.y, tempRectSize.width, tempRectSize.height);
@@ -856,8 +854,6 @@
                 }
             }
             [window addSubview:tempView];
-            
-            NSLog(@"tempViewFrame===> %@ ---- %@",NSStringFromCGRect(tempView.frame),NSStringFromCGRect(self.startFrame));
             
             self->_startFrame = CGRectZero;
             [self dismissViewControllerAnimated:false completion:nil];
