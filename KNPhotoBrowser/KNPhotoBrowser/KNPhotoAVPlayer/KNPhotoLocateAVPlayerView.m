@@ -202,11 +202,9 @@
             }
             strongself.actionBar.currentTime = 0;
         }else{
-            if (strongself.isDragging == true) {
-                strongself.isDragging = false;
-                return;
+            if (strongself.isDragging == false) {
+                strongself.actionBar.currentTime = CMTimeGetSeconds(time);
             }
-            strongself.actionBar.currentTime = CMTimeGetSeconds(time);
         }
     }];
     
@@ -421,10 +419,17 @@
         _isPlaying = false;
     }
 }
-- (void)photoAVPlayerActionBarChangeValue:(float)value{
+- (void)photoAVPlayerActionBarBeginChange{
     _isDragging = true;
+}
+- (void)photoAVPlayerActionBarChangeValue:(float)value{
+    __weak typeof(self) weakself = self;
     [_player seekToTime:CMTimeMake(value, 1) completionHandler:^(BOOL finished) {
-        
+        if (finished == true) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                weakself.isDragging = false;
+            });
+        }
     }];
 }
 

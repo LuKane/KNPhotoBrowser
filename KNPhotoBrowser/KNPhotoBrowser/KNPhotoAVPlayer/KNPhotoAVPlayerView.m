@@ -150,16 +150,20 @@
 /// remove item observer
 - (void)removePlayerItemObserver{
     if (_item && _isAddObserver) {
-        [_item removeObserver:self forKeyPath:@"status" context:nil];
-        [_item removeObserver:self forKeyPath:@"loadedTimeRanges" context:nil];
+        [_item removeObserver:self forKeyPath:@"status"                 context:nil];
+        [_item removeObserver:self forKeyPath:@"loadedTimeRanges"       context:nil];
+        [_item removeObserver:self forKeyPath:@"playbackBufferEmpty"    context:nil];
+        [_item removeObserver:self forKeyPath:@"playbackLikelyToKeepUp" context:nil];
         _isAddObserver = false;
     }
 }
 /// add item observer
 - (void)addPlayerItemObserver{
     if (_item) {
-        [_item addObserver:self forKeyPath:@"status"           options:NSKeyValueObservingOptionNew context:nil];
-        [_item addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        [_item addObserver:self forKeyPath:@"status"                 options:NSKeyValueObservingOptionNew context:nil];
+        [_item addObserver:self forKeyPath:@"loadedTimeRanges"       options:NSKeyValueObservingOptionNew context:nil];
+        [_item addObserver:self forKeyPath:@"playbackBufferEmpty"    options:NSKeyValueObservingOptionNew context:nil];
+        [_item addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
         _isAddObserver = true;
     }
     
@@ -173,11 +177,9 @@
             }
             strongself.actionBar.currentTime = 0;
         }else{
-            if (strongself.isDragging == true) {
-                strongself.isDragging = false;
-                return;
+            if (strongself.isDragging == false) {
+                strongself.actionBar.currentTime = CMTimeGetSeconds(time);
             }
-            strongself.actionBar.currentTime = CMTimeGetSeconds(time);
         }
     }];
     
@@ -185,7 +187,6 @@
                                              selector:@selector(videoDidPlayToEndTime)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:nil];
-    
 }
 
 /// remove time observer
@@ -233,6 +234,13 @@
         if (!_isGetAllPlayItem) {
             _isGetAllPlayItem = true;
             _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
+        }
+    }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { // empty
+        _actionView.isBuffering = true;
+    }else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) { // full
+        _actionView.isBuffering = false;
+        if (_isPlaying == true) {
+            [_player play];
         }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -304,7 +312,6 @@
         _actionView.isPlaying = false;
         _actionBar.isPlaying = false;
     }
-    
     _isPlaying = !_isPlaying;
 }
 - (void)photoAVPlayerActionViewDismiss{
@@ -328,10 +335,17 @@
         _isPlaying = false;
     }
 }
-- (void)photoAVPlayerActionBarChangeValue:(float)value{
+- (void)photoAVPlayerActionBarBeginChange{
     _isDragging = true;
+}
+- (void)photoAVPlayerActionBarChangeValue:(float)value{
+    __weak typeof(self) weakself = self;
     [_player seekToTime:CMTimeMake(value, 1) completionHandler:^(BOOL finished) {
-        
+        if (finished == true) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                weakself.isDragging = false;
+            });
+        }
     }];
 }
 
