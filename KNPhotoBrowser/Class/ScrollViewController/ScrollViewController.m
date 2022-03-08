@@ -12,7 +12,7 @@
 
 @interface ScrollViewController ()<UIScrollViewDelegate,KNPhotoBrowserDelegate>
 
-@property (nonatomic,weak  ) UIScrollView *scrollView;
+@property (nonatomic, weak  ) UIScrollView *scrollView;
 
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) NSMutableArray *itemsArr;
