@@ -16,7 +16,7 @@
 | DESCRIPTION | STATUS|
 | ------------- | ------------ |
 | Base on UIViewController | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| Adapt for rotate of the screen | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| Adapt for rotate of the screen, split screen of iPad | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Adapt for `iPhone5`~`iPhone13Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Locate and net image and gif image  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | Locate and net video  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |

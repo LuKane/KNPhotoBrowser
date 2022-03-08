@@ -15,7 +15,7 @@
 | 描述 | 状态|
 | ------------- | ------------ |
 | UIViewController | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 适配屏幕旋转 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 适配屏幕旋转, iPad分屏 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 适配 `iPhone5`~`iPhone12Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 本地图片和网络图片  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 本地视频和网络视频  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
