@@ -340,7 +340,7 @@
 }
 - (void)photoAVPlayerActionBarChangeValue:(float)value{
     __weak typeof(self) weakself = self;
-    [_player seekToTime:CMTimeMake(value, 1) completionHandler:^(BOOL finished) {
+    [_player seekToTime:CMTimeMake(value, 1) toleranceBefore:CMTimeMake(1, 1000) toleranceAfter:CMTimeMake(1, 1000) completionHandler:^(BOOL finished) {
         if (finished == true) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 weakself.isDragging = false;

@@ -107,7 +107,10 @@ static KNPhotoDownloadMgr *_mgr = nil;
     _item.downloadProgress = progress;
     _item.downloadState = KNPhotoDownloadStateDownloading;
     if (_downloadBlock) {
-//        NSLog(@"%lld-%lld == > %f",totalBytesWritten,totalBytesExpectedToWrite,progress);
+        
+#ifdef DEBUG
+        NSLog(@"%lld-%lld == > %f",totalBytesWritten,totalBytesExpectedToWrite,progress);
+#endif
         _downloadBlock(KNPhotoDownloadStateDownloading,progress);
     }
 }
