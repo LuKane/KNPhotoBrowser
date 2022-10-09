@@ -16,10 +16,10 @@
 | ------------- | ------------ |
 | UIViewController | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 适配屏幕旋转, iPad分屏 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 适配 `iPhone5`~`iPhone12Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 适配 `iPhone5`~`iPhone14Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 本地图片和网络图片  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 本地视频和网络视频  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 拖拽消失和拖拽取消 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 拖拽消失和拖拽取消(普通图片,长图,视频) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 预加载图片 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 视频自动播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 | 视频倍速播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
