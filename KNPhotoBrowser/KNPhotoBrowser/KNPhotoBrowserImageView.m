@@ -14,7 +14,7 @@
 #import "KNPhotoBrowser.h"
 #import "KNReachability.h"
 
-@interface KNPhotoBrowserImageView()<UIScrollViewDelegate>{
+@interface KNPhotoBrowserImageView()<UIScrollViewDelegate, UIGestureRecognizerDelegate>{
     NSURL         *_url;
     UIImage       *_placeHolder;
 }
@@ -22,6 +22,25 @@
 @end
 
 @implementation KNPhotoBrowserImageView
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return true;
+}
+// delegate of gesture to let scrollView can scroll or not
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        UIPanGestureRecognizer *pan = (UIPanGestureRecognizer *)gestureRecognizer;
+        CGPoint po = [pan velocityInView:pan.view];
+        if (po.y > 0 && _scrollView.contentOffset.y <= 0) {
+            _scrollView.scrollEnabled = false;
+            return true;
+        }else {
+            _scrollView.scrollEnabled = true;
+            return false;
+        }
+    }
+    return false;
+}
 
 - (SDAnimatedImageView *)imageView{
     if (!_imageView) {
@@ -58,17 +77,14 @@
 
 - (void)initDefaultData{
     // 1.tap && doubleTap && longpress
-    UITapGestureRecognizer *tap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(scrollViewDidTap)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidTap)];
     
-    UITapGestureRecognizer *doubleTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(scrollViewDidDoubleTap:)];
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidDoubleTap:)];
     
-    UILongPressGestureRecognizer *longPress =
-    [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                  action:@selector(longPressDidPress:)];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDidPress:)];
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidPan:)];
+    pan.delegate = self;
     
     // 2.set gesture require
     [tap setNumberOfTapsRequired:1];
@@ -83,16 +99,23 @@
     [self addGestureRecognizer:tap];
     [self addGestureRecognizer:doubleTap];
     [self addGestureRecognizer:longPress];
+    [self addGestureRecognizer:pan];
+}
+#pragma mark - pan 
+- (void)scrollViewDidPan:(UIPanGestureRecognizer *)pan {
+    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed ) {
+        _scrollView.scrollEnabled = true;
+    }
 }
 
-#pragma mark - 单击
+#pragma mark - single click
 - (void)scrollViewDidTap{
     if(_singleTap){
         _singleTap();
     }
 }
 
-#pragma mark - 长按
+#pragma mark - long press
 - (void)longPressDidPress:(UILongPressGestureRecognizer *)longPress{
     if(longPress.state == UIGestureRecognizerStateBegan){
         if(_longPressTap){
@@ -101,7 +124,7 @@
     }
 }
 
-#pragma mark - 双击
+#pragma mark - double click
 - (void)scrollViewDidDoubleTap:(UITapGestureRecognizer *)doubleTap{
     // if image is download, if not ,just return;
     if(!_imageView.image) return;
