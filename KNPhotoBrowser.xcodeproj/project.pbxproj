@@ -912,11 +912,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< HEAD
-				MARKETING_VERSION = 2.5.9;
-=======
 				MARKETING_VERSION = 2.6.0;
->>>>>>> dev
+
 				PRODUCT_BUNDLE_IDENTIFIER = com.LuKane.test.KNPhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -937,11 +934,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< HEAD
-				MARKETING_VERSION = 2.5.9;
-=======
 				MARKETING_VERSION = 2.6.0;
->>>>>>> dev
+
 				PRODUCT_BUNDLE_IDENTIFIER = com.LuKane.test.KNPhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
