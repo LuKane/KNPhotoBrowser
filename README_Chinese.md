@@ -31,7 +31,7 @@
 | 所有操作都通过代理回调执行 [**Delegate**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
 
 ## 一.功能描述及要点
-* 1.依赖 `SDWebImage(5.0)`, 若需要本地gif图, 则依赖 `SDWebImage(5.8.3)`
+* 1.依赖 `>=SDWebImage(5.0)`, 若需要本地gif图, 则依赖 `>=SDWebImage(5.8.3)`
 * 2.图片展示和视频播放已经可以使用
 * 3.下载图片和下载适配至相册
 * 4.自定义控件

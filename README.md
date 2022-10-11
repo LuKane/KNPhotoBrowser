@@ -34,7 +34,7 @@
 
 
 ## 1.Before use, you need to know
-* 1.depend `SDWebImage(5.0)`, if need locate gif image, depend `SDWebImage(5.8.3)`
+* 1.depend `>=SDWebImage(5.0)`, if need locate gif image, depend `>=SDWebImage(5.8.3)`
 * 2.image and video play is ready for use
 * 3.download image or video is ready for use
 * 4.custom control as you wish
