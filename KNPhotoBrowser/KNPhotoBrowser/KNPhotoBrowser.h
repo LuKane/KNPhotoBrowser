@@ -190,6 +190,9 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// is or not need pageControl , default is false (but if photobrowser contain video,then hidden)
 @property (nonatomic,assign) BOOL isNeedPageControl;
 
+/// is or not need pageControl has target to change value , default is false (it is based on `isNeedPageControl`)
+@property (nonatomic,assign) BOOL isNeedPageControlTarget;
+
 /// is or not need RightTopBtn , default is false
 @property (nonatomic,assign) BOOL isNeedRightTopBtn;
 

@@ -99,9 +99,36 @@
     photoBrowser.itemsArr = [_itemsArr copy];
     photoBrowser.currentIndex = tap.view.tag;
     photoBrowser.isNeedPageControl = true;
+    photoBrowser.isNeedPageControlTarget = true;
+    photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedPageNumView = true;
     [photoBrowser setDelegate:self];
     [photoBrowser present];
+}
+
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser rightBtnOperationActionWithIndex:(NSInteger)index{
+    KNActionSheet *actionSheet = [[KNActionSheet share] initWithTitle:@""
+                                                          cancelTitle:@"CANCEL"
+                                                           titleArray:@[@"DELETE",@"SAVE",@"LIKE"].mutableCopy
+                                                     destructiveArray:@[@"0"].mutableCopy
+                                                     actionSheetBlock:^(NSInteger buttonIndex) {
+        NSLog(@"buttonIndex:%zd",buttonIndex);
+        
+        if (buttonIndex == 0) {
+            [photoBrowser removeImageOrVideoOnPhotoBrowser];
+        }
+        
+        if (buttonIndex == 1) {
+            [UIDevice deviceAlbumAuth:^(BOOL isAuthor) {
+                if (isAuthor == false) {
+                    // do something -> for example : jump to setting
+                }else {
+                    [photoBrowser downloadImageOrVideoToAlbum];
+                }
+            }];
+        }
+    }];
+    [actionSheet showOnView:photoBrowser.view];
 }
 
 @end

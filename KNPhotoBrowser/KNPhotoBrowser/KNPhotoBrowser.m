@@ -233,6 +233,11 @@
 /* init PageControl */
 - (void)initPageControl{
     UIPageControl *pageControl = [[UIPageControl alloc] init];
+    pageControl.userInteractionEnabled = false;
+    if (_isNeedPageControlTarget == true) {
+        pageControl.userInteractionEnabled = true;
+        [pageControl addTarget:self action:@selector(pageControlValueChange:) forControlEvents:UIControlEventValueChanged];        
+    } 
     [pageControl setCurrentPage:_currentIndex];
     [pageControl setNumberOfPages:_itemsArr.count];
     [pageControl setHidden:!_isNeedPageControl];
@@ -1428,6 +1433,14 @@
         }
     }
     return imageView;
+}
+
+
+/// pageCotrol did be selected by click 
+/// @param pageControl pageControl
+- (void)pageControlValueChange:(UIPageControl *)pageControl {
+    NSLog(@"currentPage ===> %zd", pageControl.currentPage);
+     [_collectionView setContentOffset:(CGPoint){pageControl.currentPage * _layout.itemSize.width,0} animated: true];
 }
 
 @end

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "KNPhotoBrowser"
-  s.version      = "2.6.0"
+  s.version      = "2.6.1"
   s.summary      = "A lightweight and beautiful photo or video browser and adapt rotate screen"
   
   s.description  = <<-DESC
