@@ -12,23 +12,24 @@
 ![image](https://upload-images.jianshu.io/upload_images/1693073-aa996299e74d04b8.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-3c8632a1c5413564.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-5db630d194aaba91.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-c4b3c40b49899a2a.gif)![image](https://upload-images.jianshu.io/upload_images/1693073-934ff5b95e03083c.gif)
 
 ## 内容 
-| 描述 | 状态|
-| ------------- | ------------ |
-| UIViewController | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 适配屏幕旋转, iPad分屏 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 适配 `iPhone5`~`iPhone14Pro_Max` | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 本地图片和网络图片  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 本地视频和网络视频  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 拖拽消失和拖拽取消(普通图片,长图,视频) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 预加载图片 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 视频自动播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 视频倍速播放 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 视频支持 在线播放(不缓存,不下载) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 视频支持 先下载再播放(下次自动查找) [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 自定义控件展示 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 自定义控件展示, 以及跟随浏览器动态显示 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 自定义数据源控件 [**API**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
-| 所有操作都通过代理回调执行 [**Delegate**]  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;√ |
+| 描述 | 
+| ------------- |
+| UIViewController |
+| 适配屏幕旋转, iPad分屏 |
+| 适配 `iPhone5`~`iPhone14Pro_Max` |
+| 本地图片和网络图片 |
+| 本地视频和网络视频 |
+| 底部页签是否可以修改值, 切换顶部视图 [**API**]|
+| 拖拽消失和拖拽取消(普通图片,长图,视频) [**API**]|
+| 预加载图片 [**API**]|
+| 视频自动播放 [**API**]|
+| 视频倍速播放 [**API**]|
+| 视频支持 在线播放(不缓存,不下载) [**API**]|
+| 视频支持 先下载再播放(下次自动查找) [**API**]|
+| 自定义控件展示 [**API**]|
+| 自定义控件展示, 以及跟随浏览器动态显示 [**API**]|
+| 自定义数据源控件 [**API**]|
+| 所有操作都通过代理回调执行 [**Delegate**]|
 
 ## 一.功能描述及要点
 * 1.依赖 `>=SDWebImage(5.0)`, 若需要本地gif图, 则依赖 `>=SDWebImage(5.8.3)`
