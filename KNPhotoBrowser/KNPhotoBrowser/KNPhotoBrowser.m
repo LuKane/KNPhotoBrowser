@@ -1439,7 +1439,9 @@
 /// pageCotrol did be selected by click 
 /// @param pageControl pageControl
 - (void)pageControlValueChange:(UIPageControl *)pageControl {
-    NSLog(@"currentPage ===> %zd", pageControl.currentPage);
+#ifdef DEBUG
+     NSLog(@"currentPage ===> %zd", pageControl.currentPage);
+#endif
      [_collectionView setContentOffset:(CGPoint){pageControl.currentPage * _layout.itemSize.width,0} animated: true];
 }
 

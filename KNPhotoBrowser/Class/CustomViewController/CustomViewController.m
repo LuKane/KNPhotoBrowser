@@ -10,7 +10,7 @@
 #import "KNPhotoBrowser.h"
 #import <UIImageView+WebCache.h>
 
-@interface CustomViewController ()<KNPhotoBrowserDelegate,UIScrollViewDelegate>
+@interface CustomViewController ()<KNPhotoBrowserDelegate,UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSMutableArray *itemsArr;
@@ -38,6 +38,10 @@
         _scrollView.backgroundColor = UIColor.clearColor;
         _scrollView.contentSize = CGSizeMake((self.view.frame.size.width + 20) * 9, 0);
         
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidPan:)];
+        pan.delegate = self;
+        [_scrollView addGestureRecognizer:pan];
+        
         for (NSInteger i = 0; i < 9; i++) {
             UILabel *titleL = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width + 20) * i, 0,self.view.frame.size.width + 20, _scrollView.frame.size.height)];
             titleL.textColor = UIColor.whiteColor;
@@ -48,6 +52,10 @@
         }
     }
     return _scrollView;
+}
+
+- (void)scrollViewDidPan:(UIPanGestureRecognizer *)pan {
+    
 }
 
 - (void)viewDidLoad {
@@ -115,6 +123,7 @@
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedLongPress = true;
     photoBrowser.isNeedPanGesture = true;
+    photoBrowser.isNeedPageControlTarget = true;
     [photoBrowser present];
 }
 
