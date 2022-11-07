@@ -199,7 +199,7 @@
     photoBrowser.placeHolderColor = UIColor.lightTextColor;
     photoBrowser.currentIndex = tap.view.tag;
     photoBrowser.delegate = self;
-    photoBrowser.isSoloAmbient = false;
+    photoBrowser.isSoloAmbient = true;
     photoBrowser.isNeedPageNumView = true;
     photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedLongPress = true;

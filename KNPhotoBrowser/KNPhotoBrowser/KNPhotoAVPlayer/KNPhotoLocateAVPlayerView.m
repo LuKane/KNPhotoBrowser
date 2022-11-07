@@ -361,7 +361,6 @@
                     weakself.item.canUseNetworkResourcesForLiveStreamingWhilePaused = true;
                     [weakself.player replaceCurrentItemWithPlayerItem:weakself.item];
                     [weakself.player play];
-                    weakself.player.muted = true;
                     
                     weakself.progressHUD.progress = 1.0;
                     
@@ -383,7 +382,6 @@
         _progressHUD.hidden = true;
         if (_isPlaying == false) {
             [_player play];
-            _player.muted = true;
             _actionBar.isPlaying = true;
             _actionView.isPlaying = true;
         }else {
@@ -408,7 +406,6 @@
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{
     if (isNeedPlay) {
         [_player play];
-        _player.muted = true;
         _actionView.isPlaying = true;
         _actionBar.isPlaying = true;
         _isPlaying = true;
