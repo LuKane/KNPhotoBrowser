@@ -124,6 +124,11 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageLongPressWithIndex:(NSInteger)index;
 
+/// photoBrowser image single tp with currentIndex
+/// @param photoBrowser photoBrowser
+/// @param index current index
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageSingleTapWithIndex:(NSInteger)index;
+
 /// photoBrowser remove image or video source with relative index
 /// @param photoBrowser browser
 /// @param relativeIndex relative index
@@ -183,6 +188,11 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 
 /// when source image && image && video is not ready,  create one image with color to holder, default is UIColor.clear
 @property (nonatomic,strong) UIColor *placeHolderColor;
+
+/// will going to push photoBrower, default is `false`, when it's true, all animation will disappear
+@property (nonatomic,assign) BOOL isGoingToPush;
+/// will going to push photoBrower, you should tell me the source viewcontroller's navigationBar is hidden or not, default is `false`
+@property (nonatomic,assign) BOOL sourceVcNavigationBarHidden;
 
 /// is or not need pageNumView , default is false
 @property (nonatomic,assign) BOOL isNeedPageNumView;
@@ -250,6 +260,11 @@ delegate's function: 'photoBrowser:scrollToLocateWithIndex:(NSInteger)index'
 - (void)createOverlayViewArrOnTopView:(NSArray<UIView *> *)overlayViewArr
                              animated:(BOOL)animated
                        followAnimated:(BOOL)followAnimated;
+
+
+/// reload Data source when change self.itemsArr
+/// @param currentIndex you should reset `currentIndex`
+- (void)reloadDataWithCurrentIndex:(NSInteger)currentIndex;
 
 /// photoBrowser will present.
 /// if `which is already presenting`, use the `- (void)present:(UIViewController *)controller` to instead

@@ -121,6 +121,7 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
+    [self initItemsArrJudge];
     [self prefetchImage];
     [self initCollectionView];
     [self initNumView];
@@ -132,7 +133,7 @@
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
-    if(self.isNeedPanGesture){
+    if(self.isNeedPanGesture && self.isGoingToPush == false){
         [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDidGesture:)]];
     }
     
@@ -144,6 +145,14 @@
                                              selector:@selector(deviceDidOrientation)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:true animated:false];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:_sourceVcNavigationBarHidden animated:false];
 }
 
 /* prefetch 8 images with SDWebImagePrefetcher */
@@ -178,7 +187,15 @@
         [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:urlArr];
     }
 }
-
+/* dataSource compare with currentIndex */
+- (void)initItemsArrJudge{
+    if (_itemsArr.count == 0) {
+        NSAssert(false, @"com.LuKane.test.KNPhotoBrowser `itemsArr` can not be empty");
+    }
+    if (_itemsArr.count < _currentIndex + 1) {
+        NSAssert(false, @"com.LuKane.test.KNPhotoBrowser `currentIndex` is out of `itemsArr` bounds");
+    }
+}
 /* init collectionView */
 - (void)initCollectionView{
     
@@ -306,7 +323,12 @@
         KNPhotoImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"KNPhotoImageCellID" forIndexPath:indexPath];
         __weak typeof(self) weakSelf = self;
         cell.singleTap = ^{
-            [weakSelf dismiss];
+            if ([weakSelf.delegate respondsToSelector:@selector(photoBrowser:imageSingleTapWithIndex:)]) {
+                [weakSelf.delegate photoBrowser:weakSelf imageSingleTapWithIndex:weakSelf.currentIndex];
+            }
+            if (weakSelf.isGoingToPush == false){
+                [weakSelf dismiss];                
+            }
         };
         cell.longPressTap = ^{
             [weakSelf longPressIBAction];
@@ -580,12 +602,57 @@
     }];
 }
 
+/// reload Data source when change self.itemsArr
+/// @param currentIndex you should reset `currentIndex`
+- (void)reloadDataWithCurrentIndex:(NSInteger)currentIndex {
+    if (_itemsArr.count == 0) {
+        [_collectionView setHidden:true];
+        [_operationBtn setHidden:true];
+        [_pageControl setHidden:true];
+        [_numView setHidden:true];
+        [self setNeedsStatusBarAppearanceUpdate];
+        if (_isGoingToPush) {
+            [self.navigationController popViewControllerAnimated:true];
+        }else {
+            [self dismissViewControllerAnimated:true completion:nil];            
+        }
+        return;
+    }
+    if (currentIndex + 1 > _itemsArr.count) {
+        _currentIndex = 0;
+    }else {
+        _currentIndex = currentIndex;
+    }
+    
+    [_numView setCurrentNum:(_currentIndex + 1) totalNum:_itemsArr.count];
+    _page = [_numView currentNum];
+    
+    if(_itemsArr.count == 1){
+        [_numView setHidden:true];
+    }
+    
+    [_pageControl setCurrentPage:_currentIndex];
+    [_pageControl setNumberOfPages:_itemsArr.count];
+    
+    [_collectionView reloadData];
+    [_collectionView setContentOffset:(CGPoint){_currentIndex * _layout.itemSize.width,0} animated:false];
+}
+
 /**
  photoBrowser first show
  */
 - (void)photoBrowserWillShowWithAnimated{
+    
     // 0. catch absolute data source
     _tempArr = [NSMutableArray arrayWithArray:_itemsArr];
+    
+    if (_isGoingToPush) {
+        [_collectionView setHidden:false];
+        [_collectionView setAlpha:1];
+        [_collectionView setContentOffset:(CGPoint){_currentIndex * _layout.itemSize.width,0} animated:false];
+        _page = _currentIndex;
+        return;
+    }
     
     // 1.set collectionView offset by currentIndex
     [_collectionView setContentOffset:(CGPoint){_currentIndex * _layout.itemSize.width,0} animated:false];
@@ -681,6 +748,9 @@
 
 #pragma mark - photoBrowser will dismiss
 - (void)dismiss{
+    /// it is from sourceViewC use push...
+    if (_isGoingToPush) { return; }
+    
     // willDismissWithIndex
     if([_delegate respondsToSelector:@selector(photoBrowser:willDismissWithIndex:)]){
         [_delegate photoBrowser:self willDismissWithIndex:_currentIndex];
@@ -937,7 +1007,6 @@
         [_delegate photoBrowserWillLayoutSubviews];
     }
 }
-
 - (void)layoutCollectionViewAndLayout{
     
     [_layout setItemSize:(CGSize){PBViewWidth + 20,PBViewHeight}];
@@ -974,7 +1043,6 @@
         _isShowed = true;
     }
 }
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [_collectionView.collectionViewLayout invalidateLayout];
@@ -1121,8 +1189,11 @@
         if([_delegate respondsToSelector:@selector(photoBrowser:willDismissWithIndex:)]){
             [_delegate photoBrowser:self willDismissWithIndex:_currentIndex];
         }
-        
-        [self dismissViewControllerAnimated:true completion:nil];
+        if (_isGoingToPush) {
+            [self.navigationController popViewControllerAnimated:true];
+        }else {
+            [self dismissViewControllerAnimated:true completion:nil];            
+        }
     }else{
         [_pageControl setCurrentPage:_currentIndex];
         [_pageControl setNumberOfPages:_itemsArr.count];
