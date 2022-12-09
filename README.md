@@ -31,6 +31,8 @@
 | Show custom view on PhotoBrowser, and set animated following photoBrowser [**API**]  |
 | Before the photoBrowser show, all image control can be custom [**API**]  | 
 | All operation though the delegate [**Delegate**]  |
+| push ViewController (2022-12) [**API**]  | 
+| reload collection dataSource (2022-12) [**API**]  | 
 
 
 
