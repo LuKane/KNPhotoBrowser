@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.resource     = "KNPhotoBrowser/KNPhotoBrowser/KNPhotoBrowser.bundle"
   s.frameworks   = "Foundation","UIKit"
   s.requires_arc = true
-  s.dependency "SDWebImage"
+  s.dependency "SDWebImage", ">= 5.0.0"
 
 end
