@@ -86,6 +86,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isSoloAmbient;
 
 /**
+ * the video player has leftTop's dismiss button
+ * touch this button, photoBrowser will dismiss or popback, default is true
+ */
+@property (nonatomic,assign) BOOL isNeedVideoDismissButton;
+
+/**
  * delegate
  */
 @property (nonatomic,weak  ) id<KNPhotoPlayerViewDelegate> delegate;

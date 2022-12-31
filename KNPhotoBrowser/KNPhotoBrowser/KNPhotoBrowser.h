@@ -191,6 +191,10 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 
 /// will going to push photoBrower, default is `false`, when it's true, all animation will disappear
 @property (nonatomic,assign) BOOL isGoingToPush;
+
+/// when need to push photoBrowser, at it pop back, tell me is need animated, default is true
+@property (nonatomic,assign) BOOL isGoingToPopBackWithAnimated;
+
 /// will going to push photoBrower, you should tell me the source viewcontroller's navigationBar is hidden or not, default is `false`
 @property (nonatomic,assign) BOOL sourceVcNavigationBarHidden;
 
@@ -231,6 +235,9 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// when you cancel, they will be showed.
 /// when dismiss the photoBrowser immediately, they will be hidden immediately.
 @property (nonatomic,assign) BOOL isNeedFollowAnimated;
+
+/// the video player has leftTop's dismiss button, touch this button, photoBrowser will dismiss or popback, default is true
+@property (nonatomic, assign) BOOL isNeedVideoDismissButton;
 
 /// remove current image or video on photobrowser
 - (void)removeImageOrVideoOnPhotoBrowser;

@@ -73,9 +73,11 @@
         self.modalPresentationStyle = UIModalPresentationCustom;
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
         
+        self.isNeedVideoDismissButton       = true;
+        self.isGoingToPopBackWithAnimated   = true;
+        self.isSoloAmbient                  = true;
         self.animatedMode  = UIViewContentModeScaleToFill;
         self.presentedMode = UIViewContentModeScaleAspectFit;
-        self.isSoloAmbient = true;
     }
     return self;
 }
@@ -349,6 +351,7 @@
         
         KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
         videoCell.isSoloAmbient = _isSoloAmbient;
+        videoCell.isNeedVideoDismissButton = _isNeedVideoDismissButton;
         
         if (_isNeedOnlinePlay) {
             [videoCell playerOnLinePhotoItems:item placeHolder:tempView.image];
@@ -404,6 +407,9 @@
  * video will dismiss with animate
  */
 - (void)photoVideoAVPlayerDismiss{
+    if(_isGoingToPush == true) {
+        [self.navigationController popViewControllerAnimated:_isGoingToPopBackWithAnimated];
+    }
     [self dismiss];
 }
 

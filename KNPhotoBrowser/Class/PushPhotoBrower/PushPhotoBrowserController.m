@@ -10,8 +10,20 @@
 #import "UIView+Extension.h"
 
 #import "KNPhotoBrowser.h"
+#import "KNPhotoAVPlayerActionBar.h"
 #import <UIImageView+WebCache.h>
 #import <SDAnimatedImageView.h>
+
+
+@interface KNPhotoAVPlayerActionSubBar : KNPhotoAVPlayerActionBar
+
+@end
+
+@implementation KNPhotoAVPlayerActionSubBar
+
+
+@end
+
 
 @interface PushPhotoBrowserController () <KNPhotoBrowserDelegate>
 
@@ -190,6 +202,8 @@
     
     photoBrowser.isGoingToPush = true;
     photoBrowser.sourceVcNavigationBarHidden = false;
+    photoBrowser.isGoingToPopBackWithAnimated = true;
+    photoBrowser.isNeedVideoDismissButton = false;
     
     photoBrowser.delegate = self;
     photoBrowser.itemsArr = [self.itemsArr copy];
@@ -203,6 +217,12 @@
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
     photoBrowser.isNeedOnlinePlay = true;
+    
+    /// custom video player progress bar
+    /// create a subClass of `KNPhotoAVPlayerActionBar`
+//    KNPhotoAVPlayerActionSubBar *actionBar = [[KNPhotoAVPlayerActionSubBar alloc] init];
+//    actionBar.backgroundColor = UIColor.cyanColor;
+//    photoBrowser.customActionBar = actionBar;
     
     [self.navigationController pushViewController:photoBrowser animated:true];
 }

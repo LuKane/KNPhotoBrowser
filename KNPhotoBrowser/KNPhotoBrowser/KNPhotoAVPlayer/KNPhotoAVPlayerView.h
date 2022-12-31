@@ -72,7 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
  * default is solo ambient : TRUE `AVAudioSessionCategorySoloAmbient`
  * if set false, that will be `AVAudioSessionCategoryAmbient`
  */
-@property (nonatomic, assign) BOOL isSoloAmbient;
+@property (nonatomic,assign) BOOL isSoloAmbient;
+
+/**
+ * the video player has leftTop's dismiss button
+ * touch this button, photoBrowser will dismiss or popback, default is true
+ */
+@property (nonatomic,assign) BOOL isNeedVideoDismissButton;
 
 /**
  * delegate

@@ -29,7 +29,9 @@
 
 @end
 
-@implementation KNPhotoAVPlayerActionView
+@implementation KNPhotoAVPlayerActionView {
+    BOOL _isTempDismissImgViewHidden;
+}
 
 - (UIActivityIndicatorView *)indicatorView{
     if (!_indicatorView) {
@@ -65,17 +67,19 @@
     _pauseImgView = pauseImgView;
     
     // 2.dismiss imageView
-    UIImageView *dismissImageView = [[UIImageView alloc] init];
-    [dismissImageView setUserInteractionEnabled:true];
-    [dismissImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissImageViewDidClick)]];
+    UIImageView *dismissImgView = [[UIImageView alloc] init];
+    [dismissImgView setUserInteractionEnabled:true];
+    [dismissImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissImageViewDidClick)]];
     if(UIScreen.mainScreen.scale < 3) {
-        [dismissImageView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@2x" inBundle:bundle compatibleWithTraitCollection:nil]];
+        [dismissImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@2x" inBundle:bundle compatibleWithTraitCollection:nil]];
     }else {
-        [dismissImageView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@3x" inBundle:bundle compatibleWithTraitCollection:nil]];
+        [dismissImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/dismiss@3x" inBundle:bundle compatibleWithTraitCollection:nil]];
     }
-    [dismissImageView setHidden:true];
-    [self addSubview:dismissImageView];
-    _dismissImgView = dismissImageView;
+    [dismissImgView setHidden:true];
+    [self addSubview:dismissImgView];
+    _dismissImgView = dismissImgView;
+    
+    _isTempDismissImgViewHidden = true;
     
     // 3.loading imageView
     [self addSubview:self.indicatorView];
@@ -120,10 +124,12 @@
 
 - (void)actionViewDidClick{
     
-    [_dismissImgView setHidden:!_dismissImgView.hidden];
+    _isTempDismissImgViewHidden = !_isTempDismissImgViewHidden;
+    
+    if(_isNeedVideoDismissButton) { [_dismissImgView setHidden:!_dismissImgView.hidden]; }
     
     if ([_delegate respondsToSelector:@selector(photoAVPlayerActionViewDidClickIsHidden:)]) {
-        [_delegate photoAVPlayerActionViewDidClickIsHidden:_dismissImgView.isHidden];
+        [_delegate photoAVPlayerActionViewDidClickIsHidden:_isTempDismissImgViewHidden];
     }
 }
 
@@ -132,7 +138,8 @@
  */
 - (void)avplayerActionViewNeedHidden:(BOOL)isHidden{
     if (isHidden == true) {
-        [_dismissImgView setHidden:true];
+        _isTempDismissImgViewHidden = true;
+        if (_isNeedVideoDismissButton) { [_dismissImgView setHidden:true]; }
         [_indicatorView setHidden:true];
         [_pauseImgView setHidden:true];
     }else {
@@ -163,6 +170,11 @@
 - (void)setIsDownloading:(BOOL)isDownloading{
     _isDownloading = isDownloading;
     [_pauseImgView setHidden:isDownloading];
+}
+
+- (void)setIsNeedVideoDismissButton:(BOOL)isNeedVideoDismissButton {
+    _isNeedVideoDismissButton = isNeedVideoDismissButton;
+    if (isNeedVideoDismissButton == false) { [_dismissImgView setHidden:true];}
 }
 
 @end

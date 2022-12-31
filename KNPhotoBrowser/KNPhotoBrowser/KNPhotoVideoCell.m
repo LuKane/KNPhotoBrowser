@@ -44,12 +44,12 @@
 - (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *)placeHolder {
     _locatePlayerView.isSoloAmbient = _isSoloAmbient;
     [_locatePlayerView playerLocatePhotoItems:photoItems progressHUD:_progressHUD placeHolder:placeHolder];
-    _onlinePlayerView.hidden = true;
     _locatePlayerView.hidden = false;
+    _onlinePlayerView.hidden = true;
     _progressHUD.hidden = true;
 }
 
-- (void)setPresentedMode:(UIViewContentMode)presentedMode{
+- (void)setPresentedMode:(UIViewContentMode)presentedMode {
     _presentedMode = presentedMode;
     _onlinePlayerView.placeHolderImgView.contentMode = self.presentedMode;
     _locatePlayerView.placeHolderImgView.contentMode = self.presentedMode;
@@ -61,7 +61,7 @@
 }
 
 /// setter
-- (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay{
+- (void)setIsNeedAutoPlay:(BOOL)isNeedAutoPlay {
     _isNeedAutoPlay = isNeedAutoPlay;
     if (isNeedAutoPlay == true) {
         if (_onlinePlayerView.isHidden == false) {
@@ -73,10 +73,16 @@
     }
 }
 /// setter
-- (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder{
+- (void)setIsNeedVideoPlaceHolder:(BOOL)isNeedVideoPlaceHolder {
     _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
     _onlinePlayerView.isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
     _locatePlayerView.isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
+}
+/// setter
+- (void)setIsNeedVideoDismissButton:(BOOL)isNeedVideoDismissButton {
+    _isNeedVideoDismissButton = isNeedVideoDismissButton;
+    _onlinePlayerView.isNeedVideoDismissButton = isNeedVideoDismissButton;
+    _locatePlayerView.isNeedVideoDismissButton = isNeedVideoDismissButton;
 }
 
 /// delegate function

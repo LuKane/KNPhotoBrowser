@@ -15,15 +15,15 @@
 @implementation NavigationController
 
 - (BOOL)shouldAutorotate{
-    return false;
+    return true;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationPortrait && UIInterfaceOrientationLandscapeLeft && UIInterfaceOrientationLandscapeRight;
 }
 
 @end

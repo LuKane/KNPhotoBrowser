@@ -326,7 +326,10 @@
     _isNeedVideoPlaceHolder = isNeedVideoPlaceHolder;
     self.placeHolderImgView.hidden = !isNeedVideoPlaceHolder;
 }
-
+- (void)setIsNeedVideoDismissButton:(BOOL)isNeedVideoDismissButton {
+    _isNeedVideoDismissButton = isNeedVideoDismissButton;
+    _actionView.isNeedVideoDismissButton = isNeedVideoDismissButton;
+}
 - (void)photoAVPlayerActionViewDidLongPress:(UILongPressGestureRecognizer *)longPress{
     if (_isPlaying == false) {
         return;

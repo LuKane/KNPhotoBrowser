@@ -59,6 +59,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,assign) BOOL isDownloading;
 
+/**
+ * is need leftTop dismiss button
+ */
+@property (nonatomic,assign) BOOL isNeedVideoDismissButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

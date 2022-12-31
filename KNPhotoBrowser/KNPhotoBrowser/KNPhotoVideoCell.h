@@ -10,6 +10,8 @@
 #import "KNPhotoAVPlayerView.h"
 #import "KNPhotoLocateAVPlayerView.h"
 
+@class KNPhotoAVPlayerActionBar;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol KNPhotoVideoCellDelegate <NSObject>
@@ -40,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 @property (nonatomic,assign) BOOL isNeedVideoPlaceHolder;
 @property (nonatomic,assign) BOOL isSoloAmbient;
+@property (nonatomic,assign) BOOL isNeedVideoDismissButton;
 
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *onlinePlayerView;
 @property (nonatomic,weak  ) KNPhotoLocateAVPlayerView *locatePlayerView;
