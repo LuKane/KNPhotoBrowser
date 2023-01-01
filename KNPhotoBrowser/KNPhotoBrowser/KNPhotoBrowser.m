@@ -41,6 +41,7 @@
     NSInteger                   _page; // current page
     BOOL                        _isShowed; // is showed?
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
+    BOOL                        _currentBarHidden;
     BOOL                        _isDismissed; // when photoBrowser will dismiss , it will be true, default is false
 }
 
@@ -72,6 +73,7 @@
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.modalPresentationStyle = UIModalPresentationCustom;
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
+        _currentBarHidden = false;
         
         self.isNeedVideoDismissButton       = true;
         self.isGoingToPopBackWithAnimated   = true;
@@ -90,13 +92,14 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (BOOL)prefersStatusBarHidden{
-    return _statusBarHidden;
-}
-
-- (void)hiddenStatusBar{
+- (void)hiddenStatusBar {
     if (@available(iOS 13.0, *)) {
-        
+        if (!_statusBarHidden) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [[UIApplication sharedApplication] setStatusBarHidden:true animated:true];
+#pragma clang diagnostic pop
+        }
     } else {
         UIView *statusBar = [[UIApplication sharedApplication] valueForKey:@"statusBar"];
         [UIView animateWithDuration:0.15 animations:^{
@@ -104,8 +107,7 @@
         }];
     }
 }
-
-- (void)showStatusBar{
+- (void)showStatusBar {
     if (@available(iOS 13.0, *)) {
         
     } else {
@@ -113,6 +115,16 @@
         [UIView animateWithDuration:0.15 animations:^{
             statusBar.transform = CGAffineTransformIdentity;
         }];
+    }
+}
+- (void)showStatusBarOniOS13 {
+    if (@available(iOS 13.0, *)) {
+        if (!_statusBarHidden) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [[UIApplication sharedApplication] setStatusBarHidden:false animated:false];
+#pragma clang diagnostic pop          
+        }
     }
 }
 
@@ -464,6 +476,11 @@
     
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:{
+            
+            /// show status bar
+            [self showStatusBarOniOS13];
+            [self showStatusBar];
+            
             _startLocation  = location;
             if(items.isVideo){
                 if (_isNeedOnlinePlay) {
@@ -531,6 +548,12 @@
                     [self dismiss];
                     [[(KNPhotoLocateAVPlayerView *)playerView playerView] setBackgroundColor:UIColor.clearColor];
                 }else{
+                    
+                    /// hidden status bar
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self hiddenStatusBar];
+                    });
+                    
                     // cancel
                     [self cancelVideoAnimation:playerView];
                     [self customViewSubViewsWillShow];
@@ -547,6 +570,11 @@
                     _startFrame = imageView.imageView.frame;
                     [self dismiss];
                 }else{
+                    /// hidden status bar
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self hiddenStatusBar];
+                    });
+                    
                     // cancel
                     [self cancelAnimation:imageView.imageView];
                     [self customViewSubViewsWillShow];
@@ -867,6 +895,9 @@
 - (void)photoBrowserWillDismissWithAnimated:(UIImageView *)tempView items:(KNPhotoItems *)items{
     [_pageControl setHidden:true];
     [_numView setHidden:true];
+    
+    /// show status bar on iOS13.0
+    [self showStatusBarOniOS13];
     
     if(tempView.image == nil){
         
