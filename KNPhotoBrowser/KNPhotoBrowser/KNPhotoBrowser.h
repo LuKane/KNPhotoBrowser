@@ -291,6 +291,11 @@ delegate's function: 'photoBrowser:scrollToLocateWithIndex:(NSInteger)index'
 /// photoBrowser dismiss
 - (void)dismiss;
 
+/// extension function to show status Bar
+- (void)showStatusBar;
+/// extension function to show status Bar
+- (void)showStatusBarOniOS13;
+
 @end
 
 NS_ASSUME_NONNULL_END
