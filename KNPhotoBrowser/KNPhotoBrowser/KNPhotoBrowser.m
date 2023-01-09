@@ -685,6 +685,7 @@
         [_collectionView setAlpha:1];
         [_collectionView setContentOffset:(CGPoint){_currentIndex * _layout.itemSize.width,0} animated:false];
         _page = _currentIndex;
+        [self hiddenStatusBar];
         return;
     }
     
