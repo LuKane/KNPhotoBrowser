@@ -229,8 +229,7 @@
 
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageSingleTapWithIndex:(NSInteger)index {
     
-    [photoBrowser showStatusBar];
-    [photoBrowser showStatusBarOniOS13];
+    [photoBrowser showStatusBarWhenPop];
     
     // if you really want set a button to popback, you need create custom view , see "CustomViewController"
     [photoBrowser.navigationController popViewControllerAnimated:true];
