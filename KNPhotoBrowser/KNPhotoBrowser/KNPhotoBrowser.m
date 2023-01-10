@@ -128,6 +128,12 @@
     }
 }
 
+/// when photoBrowser will pop back, show statusBar by handler
+- (void)showStatusBarWhenPop {
+    [self showStatusBar];
+    [self showStatusBarOniOS13];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
