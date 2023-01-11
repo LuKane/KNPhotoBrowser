@@ -11,6 +11,8 @@
 #import "KNPhotoPlayerProtocol.h"
 #import "KNPhotoBrowser.h"
 
+@class KNPhotoAVPlayerActionBar;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KNPhotoAVPlayerView : UIView
@@ -32,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// AVPlayer play as rate
 /// @param rate rate
 - (void)playerRate:(CGFloat)rate;
+
+/// custom actionbar
+/// @param customBar actionbar
+- (void)playerCustomActionBar:(KNPhotoAVPlayerActionBar *)customBar;
 
 /**
  * is or not need Video placeHolder

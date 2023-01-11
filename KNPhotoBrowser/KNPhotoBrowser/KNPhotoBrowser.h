@@ -15,8 +15,10 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "KNActionSheet.h"
+#import "KNPhotoBrowserConfig.h"
 
 @class KNPhotoBrowser;
+@class KNPhotoAVPlayerActionBar;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -149,6 +151,10 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// @param longPress gesture Recognize
 /// @param index current index
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser videoLongPress:(UILongPressGestureRecognizer *)longPress index:(NSInteger)index;
+
+/// custom Action Bar
+/// @param photoBrowser photoBrowser
+- (KNPhotoAVPlayerActionBar *)photoBrowserCustomActionBar:(KNPhotoBrowser *)photoBrowser;
 
 /// download image or video  success or failure or failure reason call back. [If video player is download by auto, it can use delegate. it is only use function `removeImageOrVideoOnPhotoBrowser` can use this delegate]
 /// @param photoBrowser photoBrowser

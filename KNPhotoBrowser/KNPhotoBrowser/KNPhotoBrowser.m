@@ -75,6 +75,8 @@
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
         _currentBarHidden = false;
         
+        [KNPhotoBrowserConfig share].isNeedCustomActionBar = false;
+        
         self.isNeedVideoDismissButton       = true;
         self.isGoingToPopBackWithAnimated   = true;
         self.isSoloAmbient                  = true;
@@ -376,7 +378,6 @@
         }else {
             [videoCell playerLocatePhotoItems:item placeHolder:tempView.image];
         }
-        
         if (_isNeedAutoPlay == true) {
             [videoCell setIsNeedAutoPlay:true];
         }
@@ -439,6 +440,13 @@
     if ([_delegate respondsToSelector:@selector(photoBrowser:videoLongPress:index:)]) {
         [_delegate photoBrowser:self videoLongPress:longPress index:_currentIndex];
     }
+}
+
+- (KNPhotoAVPlayerActionBar *)photoVideoAVPlayerCustomActionBar {
+    if ([self.delegate respondsToSelector:@selector(photoBrowserCustomActionBar:)]) {
+        return [self.delegate photoBrowserCustomActionBar:self];
+    }
+    return nil;
 }
 
 /**

@@ -27,7 +27,6 @@
 @property (nonatomic,strong) id timeObserver;
 
 @property (nonatomic,assign) BOOL isPlaying;
-@property (nonatomic,assign) BOOL isGetAllPlayItem;
 @property (nonatomic,assign) BOOL isDragging;
 @property (nonatomic,assign) BOOL isEnterBackground;
 @property (nonatomic,assign) BOOL isAddObserver;
@@ -39,8 +38,9 @@
 @property (nonatomic,copy  ) PhotoDownLoadBlock downloadBlock;
 @end
 
-@implementation KNPhotoLocateAVPlayerView
-
+@implementation KNPhotoLocateAVPlayerView {
+    float _allDuration;
+}
 
 - (KNPhotoAVPlayerActionView *)actionView{
     if (!_actionView) {
@@ -96,13 +96,18 @@
         [self addSubview:self.playerBgView];
         [self addSubview:self.actionView];
         [self addSubview:self.actionBar];
-        
+        BOOL isNeedCustomActionBar = [KNPhotoBrowserConfig share].isNeedCustomActionBar;
+        if (isNeedCustomActionBar == false) {
+            [self addSubview:self.actionBar];
+        }
         _downloadBlock = nil;
     }
     return self;
 }
 
 - (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems progressHUD:(KNProgressHUD *)progressHUD placeHolder:(UIImage *_Nullable)placeHolder{
+    
+    _allDuration = 0.0;
     
     [self cancelDownloadMgrTask];
     
@@ -154,6 +159,24 @@
     _player.rate = 1.0;
     
     [_player pause];
+}
+
+- (void)playerCustomActionBar:(KNPhotoAVPlayerActionBar *)customBar {
+    BOOL isNeedCustomActionBar = [KNPhotoBrowserConfig share].isNeedCustomActionBar;
+    if (isNeedCustomActionBar == false) { return; }
+    
+    if (customBar == nil) { return; }
+    
+    [_actionBar removeFromSuperview];
+    _actionBar = customBar;
+    _actionBar.delegate = self;
+    _actionBar.isPlaying = false;
+    _actionBar.hidden = true;
+    _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
+    _actionBar.currentTime = _allDuration;
+    [self addSubview:_actionBar];
+    
+    [self layoutSubviews];
 }
 
 - (void)addObserverAndAudioSession{
@@ -228,7 +251,6 @@
 }
 
 - (void)videoDidPlayToEndTime{
-    _isGetAllPlayItem = false;
     _isPlaying = false;
     if (_player) {
         __weak typeof(self) weakself = self;
@@ -257,10 +279,9 @@
         }
         _actionView.isBuffering = false;
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
-        if (!_isGetAllPlayItem) {
-            _isGetAllPlayItem = true;
-            _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
-        }
+        float duration = CMTimeGetSeconds(_player.currentItem.duration);
+        _actionBar.allDuration = duration;
+        _allDuration = duration;
         _actionView.isBuffering = false;
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

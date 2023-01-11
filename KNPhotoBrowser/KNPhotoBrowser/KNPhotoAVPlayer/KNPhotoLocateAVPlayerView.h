@@ -37,6 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param rate rate
 - (void)playerRate:(CGFloat)rate;
 
+/// custom actionbar
+/// @param customBar actionbar
+- (void)playerCustomActionBar:(KNPhotoAVPlayerActionBar *)customBar;
+
 /// when dismiss, should cancel download task first
 - (void)cancelDownloadMgrTask;
 

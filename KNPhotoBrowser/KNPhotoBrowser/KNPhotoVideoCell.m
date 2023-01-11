@@ -40,6 +40,10 @@
     _onlinePlayerView.hidden = false;
     _locatePlayerView.hidden = true;
     _progressHUD.hidden = true;
+    
+    if ([self.delegate respondsToSelector:@selector(photoVideoAVPlayerCustomActionBar)]) {
+        [_onlinePlayerView playerCustomActionBar:[self.delegate photoVideoAVPlayerCustomActionBar]];
+    }
 }
 - (void)playerLocatePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *)placeHolder {
     _locatePlayerView.isSoloAmbient = _isSoloAmbient;
@@ -47,6 +51,10 @@
     _locatePlayerView.hidden = false;
     _onlinePlayerView.hidden = true;
     _progressHUD.hidden = true;
+    
+    if ([self.delegate respondsToSelector:@selector(photoVideoAVPlayerCustomActionBar)]) {
+        [_locatePlayerView playerCustomActionBar:[self.delegate photoVideoAVPlayerCustomActionBar]];
+    }
 }
 
 - (void)setPresentedMode:(UIViewContentMode)presentedMode {

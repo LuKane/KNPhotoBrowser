@@ -21,6 +21,8 @@
 		791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */; };
 		791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */; };
 		791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */; };
+		7930C289296E982900BE99C8 /* KNPhotoBrowserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7930C288296E982900BE99C8 /* KNPhotoBrowserConfig.m */; };
+		7930C28D296F02C300BE99C8 /* CustomAVPlayerActionBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7930C28C296F02C300BE99C8 /* CustomAVPlayerActionBarController.m */; };
 		7935CAD12935DF9F00D89B2C /* PushPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7935CAD02935DF9F00D89B2C /* PushPhotoBrowserController.m */; };
 		793E42DC2653C773006AF893 /* NineSquareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42DB2653C773006AF893 /* NineSquareController.m */; };
 		793E42E22653C792006AF893 /* NineSquareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 793E42E12653C792006AF893 /* NineSquareModel.m */; };
@@ -127,6 +129,10 @@
 		7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserImageView.m; sourceTree = "<group>"; };
 		7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowser.m; sourceTree = "<group>"; };
 		7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserNumView.m; sourceTree = "<group>"; };
+		7930C287296E982900BE99C8 /* KNPhotoBrowserConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowserConfig.h; sourceTree = "<group>"; };
+		7930C288296E982900BE99C8 /* KNPhotoBrowserConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserConfig.m; sourceTree = "<group>"; };
+		7930C28B296F02C300BE99C8 /* CustomAVPlayerActionBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAVPlayerActionBarController.h; sourceTree = "<group>"; };
+		7930C28C296F02C300BE99C8 /* CustomAVPlayerActionBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomAVPlayerActionBarController.m; sourceTree = "<group>"; };
 		7935CACF2935DF9F00D89B2C /* PushPhotoBrowserController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PushPhotoBrowserController.h; sourceTree = "<group>"; };
 		7935CAD02935DF9F00D89B2C /* PushPhotoBrowserController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PushPhotoBrowserController.m; sourceTree = "<group>"; };
 		793E42DA2653C773006AF893 /* NineSquareController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NineSquareController.h; sourceTree = "<group>"; };
@@ -311,9 +317,20 @@
 				7912609823FE75F300BC4181 /* KNPhotoAVPlayerView.m */,
 				79ECDCD7264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.h */,
 				79ECDCD8264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m */,
+				7930C287296E982900BE99C8 /* KNPhotoBrowserConfig.h */,
+				7930C288296E982900BE99C8 /* KNPhotoBrowserConfig.m */,
 				79ECDCDD264B7FC0009EAAF4 /* KNPhotoPlayerProtocol.h */,
 			);
 			path = KNPhotoAVPlayer;
+			sourceTree = "<group>";
+		};
+		7930C28A296F02AC00BE99C8 /* CustomAVPlayerActionBarController */ = {
+			isa = PBXGroup;
+			children = (
+				7930C28B296F02C300BE99C8 /* CustomAVPlayerActionBarController.h */,
+				7930C28C296F02C300BE99C8 /* CustomAVPlayerActionBarController.m */,
+			);
+			path = CustomAVPlayerActionBarController;
 			sourceTree = "<group>";
 		};
 		7935CACE2935DF8400D89B2C /* PushPhotoBrower */ = {
@@ -428,6 +445,7 @@
 				7994AEA02652798500267860 /* CustomSourceViewController */,
 				7994AE9D2652798500267860 /* CustomViewController */,
 				7935CACE2935DF8400D89B2C /* PushPhotoBrower */,
+				7930C28A296F02AC00BE99C8 /* CustomAVPlayerActionBarController */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -747,9 +765,11 @@
 				79ED3C8126568E990062AAE8 /* IMController.m in Sources */,
 				791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */,
 				798CB6CD26590B5900F56291 /* CustomSourceViewController.m in Sources */,
+				7930C289296E982900BE99C8 /* KNPhotoBrowserConfig.m in Sources */,
 				7953DADE265A20E400B73551 /* CustomSourceImageView2.m in Sources */,
 				790E78C42656823E0025929B /* ScrollViewLocateController.m in Sources */,
 				79E115D122F032310022106B /* FirstViewController.m in Sources */,
+				7930C28D296F02C300BE99C8 /* CustomAVPlayerActionBarController.m in Sources */,
 				793E42E22653C792006AF893 /* NineSquareModel.m in Sources */,
 				7953DAD8265A20D300B73551 /* CustomSourceView2.m in Sources */,
 				79AA377B264FAC61001FE0B3 /* ViewController.m in Sources */,
@@ -926,7 +946,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "2.6.3-dev";
+				MARKETING_VERSION = "2.6.4-dev";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LuKane.test.KNPhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -947,7 +967,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "2.6.3-dev";
+				MARKETING_VERSION = "2.6.4-dev";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LuKane.test.KNPhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

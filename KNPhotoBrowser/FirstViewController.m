@@ -67,6 +67,11 @@
             [arr addObject:@"PushPhotoBrowserController"];
             [_dataArr addObject:arr];
         }
+        {
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:@"CustomAVPlayerActionBarController"];
+            [_dataArr addObject:arr];
+        }
     }
     return _dataArr;
 }

@@ -1,19 +1,30 @@
 //
-//  PushPhotoBrowserController.m
+//  CustomAVPlayerActionBarController.m
 //  KNPhotoBrowser
 //
-//  Created by LuKane on 2022/11/29.
-//  Copyright © 2022 LuKane. All rights reserved.
+//  Created by LuKane on 2023/1/11.
+//  Copyright © 2023 LuKane. All rights reserved.
 //
 
-#import "PushPhotoBrowserController.h"
+#import "CustomAVPlayerActionBarController.h"
 #import "UIView+Extension.h"
 
 #import "KNPhotoBrowser.h"
+#import "KNPhotoAVPlayerActionBar.h"
 #import <UIImageView+WebCache.h>
 #import <SDAnimatedImageView.h>
 
-@interface PushPhotoBrowserController () <KNPhotoBrowserDelegate>
+
+@interface KNPhotoAVPlayerActionSubBar : KNPhotoAVPlayerActionBar
+
+@end
+
+@implementation KNPhotoAVPlayerActionSubBar
+
+
+@end
+
+@interface CustomAVPlayerActionBarController () <KNPhotoBrowserDelegate>
 
 /// contain all urls
 @property (nonatomic,strong) NSMutableArray *urlArr;
@@ -27,7 +38,8 @@
 
 @end
 
-@implementation PushPhotoBrowserController
+
+@implementation CustomAVPlayerActionBarController
 
 - (NSMutableArray<KNPhotoItems *> *)itemsArr {
     if (!_itemsArr) {
@@ -62,7 +74,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Push PhotoBrowser";
+    self.title = @"Custom AVPlayer ActionBar";
     
     self.videoPlaceHolderUrl0 = @"https://edu-201121.oss-cn-beijing.aliyuncs.com/WX20210106-103823.png";
     self.videoPlaceHolderUrl1 = @"https://edu-201121.oss-cn-beijing.aliyuncs.com/WX20210106-103742.png";
@@ -189,10 +201,8 @@
     
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     
-    photoBrowser.isGoingToPush = true;
-    photoBrowser.sourceVcNavigationBarHidden = false;
-    photoBrowser.isGoingToPopBackWithAnimated = true;
-    photoBrowser.isNeedVideoDismissButton = false; // is Need dismiss Button in Video player, default is true
+    /// custom ActionBar must set value after `KNPhotoBrowser init`
+    [KNPhotoBrowserConfig share].isNeedCustomActionBar = true;
     
     photoBrowser.delegate = self;
     photoBrowser.itemsArr = [self.itemsArr copy];
@@ -206,19 +216,16 @@
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
     photoBrowser.isNeedOnlinePlay = true;
-    [self.navigationController pushViewController:photoBrowser animated:true];
+    
+    [photoBrowser present];
 }
 
-/// example function
-/// - Parameters:
-///   - photoBrowser: pb
-///   - index: index
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser imageSingleTapWithIndex:(NSInteger)index {
-    
-    [photoBrowser showStatusBarWhenPop];
-    
-    // if you really want set a button to popback, you need create custom view , see "CustomViewController"
-    [photoBrowser.navigationController popViewControllerAnimated:true];
+- (KNPhotoAVPlayerActionBar *)photoBrowserCustomActionBar:(KNPhotoBrowser *)photoBrowser {
+    /// custom video player progress bar
+    /// create a subClass of `KNPhotoAVPlayerActionBar`
+    KNPhotoAVPlayerActionSubBar *actionBar = [[KNPhotoAVPlayerActionSubBar alloc] init];
+    actionBar.backgroundColor = UIColor.cyanColor;
+    return actionBar;
 }
 
 @end

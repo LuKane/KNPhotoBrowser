@@ -25,7 +25,6 @@
 @property (nonatomic,strong) id timeObserver;
 
 @property (nonatomic,assign) BOOL isPlaying;
-@property (nonatomic,assign) BOOL isGetAllPlayItem;
 @property (nonatomic,assign) BOOL isDragging;
 @property (nonatomic,assign) BOOL isEnterBackground;
 @property (nonatomic,assign) BOOL isAddObserver;
@@ -33,7 +32,9 @@
 
 @end
 
-@implementation KNPhotoAVPlayerView
+@implementation KNPhotoAVPlayerView {
+    float _allDuration;
+}
 
 - (KNPhotoAVPlayerActionView *)actionView{
     if (!_actionView) {
@@ -88,12 +89,17 @@
         
         [self addSubview:self.playerBgView];
         [self addSubview:self.actionView];
-        [self addSubview:self.actionBar];
+        BOOL isNeedCustomActionBar = [KNPhotoBrowserConfig share].isNeedCustomActionBar;
+        if (isNeedCustomActionBar == false) {
+            [self addSubview:self.actionBar];
+        }
     }
     return self;
 }
 
 - (void)playerOnLinePhotoItems:(KNPhotoItems *)photoItems placeHolder:(UIImage *_Nullable)placeHolder{
+    
+    _allDuration = 0.0;
     
     [self removePlayerItemObserver];
     [self removeTimeObserver];
@@ -125,6 +131,24 @@
     _player.rate = 1.0;
     
     [_player pause];
+}
+
+- (void)playerCustomActionBar:(KNPhotoAVPlayerActionBar *)customBar {
+    BOOL isNeedCustomActionBar = [KNPhotoBrowserConfig share].isNeedCustomActionBar;
+    if (isNeedCustomActionBar == false) { return; }
+    
+    if (customBar == nil) { return; }
+    
+    [_actionBar removeFromSuperview];
+    _actionBar = customBar;
+    _actionBar.delegate = self;
+    _actionBar.isPlaying = false;
+    _actionBar.hidden = true;
+    _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
+    _actionBar.currentTime = _allDuration;
+    [self addSubview:_actionBar];
+    
+    [self layoutSubviews];
 }
 
 - (void)addObserverAndAudioSession{
@@ -203,7 +227,6 @@
 }
 
 - (void)videoDidPlayToEndTime{
-    _isGetAllPlayItem = false;
     _isPlaying = false;
     if (_player) {
         __weak typeof(self) weakself = self;
@@ -231,10 +254,9 @@
             _actionView.isBuffering = false;
         }
     }else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { // buffering
-        if (!_isGetAllPlayItem) {
-            _isGetAllPlayItem = true;
-            _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
-        }
+        float duration = CMTimeGetSeconds(_player.currentItem.duration);
+        _actionBar.allDuration = duration;
+        _allDuration = duration;
     }else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { // empty
         _actionView.isBuffering = true;
     }else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) { // full
@@ -362,9 +384,9 @@
     self.placeHolderImgView.frame  = self.playerBgView.bounds;
     
     if (PBDeviceHasBang) {
-        self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 70, self.frame.size.width - 30, 40);
+        self.actionBar.frame = CGRectMake(15, self.frame.size.height - 70, self.frame.size.width - 30, 40);
     }else {
-        self.actionBar.frame    = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 40);
+        self.actionBar.frame = CGRectMake(15, self.frame.size.height - 50, self.frame.size.width - 30, 40);
     }
 }
 

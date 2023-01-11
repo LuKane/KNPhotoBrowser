@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param longPress press
 - (void)photoVideoAVPlayerLongPress:(UILongPressGestureRecognizer *)longPress;
 
+/// custom Action bar
+- (KNPhotoAVPlayerActionBar *)photoVideoAVPlayerCustomActionBar;
+
 @end
 
 @interface KNPhotoVideoCell : UICollectionViewCell
