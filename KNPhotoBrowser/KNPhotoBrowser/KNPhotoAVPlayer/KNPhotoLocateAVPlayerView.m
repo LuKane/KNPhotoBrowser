@@ -471,6 +471,7 @@
 }
 
 - (void)dealloc{
+    [self playerWillReset];
     [self removeObserverAndAudioSesstion];
     if (_player && self.timeObserver) {
         [_player removeTimeObserver:self.timeObserver];
