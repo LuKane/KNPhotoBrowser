@@ -201,8 +201,11 @@
     
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     
-    /// custom ActionBar must set value after `KNPhotoBrowser init`
+    /// custom ActionBar must set value after `KNPhotoBrowser init` : custom actionBar
     [KNPhotoBrowserConfig share].isNeedCustomActionBar = true;
+    
+    /// custom ActionBar must set value after `KNPhotoBrowser init` : custom AVPlayer's pause image 
+    [KNPhotoBrowserConfig share].pauseImage = [UIImage imageNamed:@"KNPhotoBrowserCustomPlayer"];
     
     photoBrowser.delegate = self;
     photoBrowser.itemsArr = [self.itemsArr copy];

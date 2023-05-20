@@ -9,6 +9,7 @@
 #import "KNPhotoAVPlayerActionView.h"
 #import "KNPhotoBrowserPch.h"
 #import <objc/runtime.h>
+#import "KNPhotoBrowserConfig.h"
 
 @interface KNPhotoAVPlayerActionView()
 
@@ -56,13 +57,19 @@
     
     // 1.stop || play imageView
     UIImageView *pauseImgView = [[UIImageView alloc] init];
+    
+    if ([KNPhotoBrowserConfig share].pauseImage != NULL) {
+        pauseImgView.image = [KNPhotoBrowserConfig share].pauseImage;
+    }else {
+        if(UIScreen.mainScreen.scale < 3) {
+            [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter@2x" inBundle:bundle compatibleWithTraitCollection:nil]];
+        }else {
+            [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter@3x" inBundle:bundle compatibleWithTraitCollection:nil]];
+        }
+    }
+    
     [pauseImgView setUserInteractionEnabled:true];
     [pauseImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pauseImageViewDidClick)]];
-    if(UIScreen.mainScreen.scale < 3) {
-        [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter@2x" inBundle:bundle compatibleWithTraitCollection:nil]];
-    }else {
-        [pauseImgView setImage:[UIImage imageNamed:@"KNPhotoBrowser.bundle/playCenter@3x" inBundle:bundle compatibleWithTraitCollection:nil]];
-    }
     [self addSubview:pauseImgView];
     _pauseImgView = pauseImgView;
     
