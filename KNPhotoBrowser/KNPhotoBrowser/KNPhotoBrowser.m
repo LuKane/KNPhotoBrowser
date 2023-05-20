@@ -805,10 +805,12 @@
         [_delegate photoBrowser:self willDismissWithIndex:_currentIndex];
     }
     
-    // if customView on photoBrowser, them must be show
-    for (UIView *subView in self.followArr) {
-        [subView setAlpha:1];
-    }
+    /* It will be a bug: 2023-05-20
+     // if customView on photoBrowser, them must be show
+     for (UIView *subView in self.followArr) {
+         [subView setAlpha:1];
+     }
+     */
     
     UIImageView *tempView = [[UIImageView alloc] init];
     tempView.clipsToBounds = true;
