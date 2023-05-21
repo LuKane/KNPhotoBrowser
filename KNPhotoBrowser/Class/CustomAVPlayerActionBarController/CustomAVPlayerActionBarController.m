@@ -199,14 +199,12 @@
 
 - (void)imageViewDidClick:(UITapGestureRecognizer *)tap {
     
-    KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
-    
-    /// custom ActionBar must set value after `KNPhotoBrowser init` : custom actionBar
+    /// custom actionBar
     [KNPhotoBrowserConfig share].isNeedCustomActionBar = true;
-    
-    /// custom ActionBar must set value after `KNPhotoBrowser init` : custom AVPlayer's pause image 
+    /// custom AVPlayer's pause image 
     [KNPhotoBrowserConfig share].pauseImage = [UIImage imageNamed:@"KNPhotoBrowserCustomPlayer"];
     
+    KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     photoBrowser.delegate = self;
     photoBrowser.itemsArr = [self.itemsArr copy];
     photoBrowser.placeHolderColor = UIColor.lightTextColor;
@@ -229,6 +227,12 @@
     KNPhotoAVPlayerActionSubBar *actionBar = [[KNPhotoAVPlayerActionSubBar alloc] init];
     actionBar.backgroundColor = UIColor.cyanColor;
     return actionBar;
+}
+
+/// If the other place don't need custom actionBar or customPauseImage, set it false or nil
+- (void)dealloc {
+    [KNPhotoBrowserConfig share].isNeedCustomActionBar = false;
+    [KNPhotoBrowserConfig share].pauseImage = nil;
 }
 
 @end
