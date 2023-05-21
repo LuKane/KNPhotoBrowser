@@ -15,16 +15,13 @@ static dispatch_once_t onceToken;
 
 + (instancetype)share {
     dispatch_once(&onceToken, ^{
-        _instance = [super allocWithZone:NULL];
+        _instance = [[super allocWithZone:NULL] init];
     });
     return _instance;
 }
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
-    dispatch_once(&onceToken, ^{
-        _instance = [super allocWithZone:zone];
-    });
-    return _instance;
+    return [self share];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
