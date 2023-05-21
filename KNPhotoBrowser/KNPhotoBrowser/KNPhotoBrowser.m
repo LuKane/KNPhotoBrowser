@@ -75,7 +75,7 @@
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
         _currentBarHidden = false;
         
-        [KNPhotoBrowserConfig share].isNeedCustomActionBar = false;
+//        [KNPhotoBrowserConfig share].isNeedCustomActionBar = false;
         
         self.isNeedVideoDismissButton       = true;
         self.isGoingToPopBackWithAnimated   = true;
