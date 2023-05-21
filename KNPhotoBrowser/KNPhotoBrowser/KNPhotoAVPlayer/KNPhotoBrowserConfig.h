@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * custom pauseImageView'image, size will be set (80,80)
  */
-@property (nonatomic,strong) UIImage *pauseImage;
+@property (nonatomic,strong, nullable) UIImage *pauseImage;
 
 + (instancetype)share;
 - (instancetype)init NS_UNAVAILABLE;
