@@ -55,8 +55,7 @@
     
     /// background view
     UIView *orangeView = [[UIView alloc] init];
-    orangeView.size = CGSizeMake(self.view.width - 40, self.view.width - 40);
-    orangeView.center = self.view.center;
+    orangeView.frame = CGRectMake(20, 80, self.view.width - 40, self.view.width - 40);
     orangeView.backgroundColor = UIColor.orangeColor;
     [self.view addSubview:orangeView];
     self.orangeView = orangeView;
@@ -144,11 +143,7 @@
         }
     }
 }
-- (void)viewWillLayoutSubviews{
-    [super viewWillLayoutSubviews];
-    _orangeView.size = CGSizeMake(self.view.width - 40, self.view.width - 40);
-    _orangeView.center = self.view.center;
-}
+
 - (void)imageViewDidClick:(UITapGestureRecognizer *)tap {
     KNPhotoBrowser *photoBrowser = [[KNPhotoBrowser alloc] init];
     

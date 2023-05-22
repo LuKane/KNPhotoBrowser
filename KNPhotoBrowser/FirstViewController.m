@@ -79,6 +79,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"KNPhotoBrowser 演示";
+    self.view.backgroundColor = UIColor.whiteColor;
     [self setupTableView];
     [self clearDisk];
 }
