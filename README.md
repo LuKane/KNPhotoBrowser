@@ -35,6 +35,8 @@
 | reload collection dataSource (2022-12) [**API**]  | 
 
 
+## TODO: 1. tap video player to dismiss
+## TODO: 2. play video player and download video background
 
 ## 1.Before use, you need to know
 * 1.depend `>=SDWebImage(5.0)`, if need locate gif image, depend `>=SDWebImage(5.8.3)`
