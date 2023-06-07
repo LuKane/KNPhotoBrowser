@@ -36,8 +36,9 @@
 
 
 ## TODO: 
-* 1. tap video player to dismiss
-* 2. play video player and download video background
+* tap video player to dismiss
+* play video player and download video background
+* video player has memory play at next time(current seconds)
 
 ## 1.Before use, you need to know
 * 1.depend `>=SDWebImage(5.0)`, if need locate gif image, depend `>=SDWebImage(5.8.3)`
