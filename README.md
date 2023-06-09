@@ -39,6 +39,7 @@
 * tap video player to dismiss
 * play video player and download video background
 * video player has memory play at next time(current seconds)
+* when photoBrower will show or dismiss, let sourceImageView hidden or show (by delegate function to notificate demo)
 
 ## 1.Before use, you need to know
 * 1.depend `>=SDWebImage(5.0)`, if need locate gif image, depend `>=SDWebImage(5.8.3)`
