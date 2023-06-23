@@ -50,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isNeedAutoPlay;
 
 /**
+ * is need play again
+ */
+@property (nonatomic,assign) BOOL isNeedLoopPlay;
+
+/**
  * player view
  */
 @property (nonatomic,strong,nullable) UIView *playerView;

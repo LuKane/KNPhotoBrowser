@@ -251,9 +251,22 @@
 }
 
 - (void)videoDidPlayToEndTime{
+    __weak typeof(self) weakself = self;
+    if (_isNeedLoopPlay == true) {
+        [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
+            if (finished) {
+                weakself.actionBar.currentTime = 0;
+                weakself.actionBar.isPlaying = true;
+                weakself.actionView.isPlaying = true;
+                weakself.isPlaying = false;
+                [weakself.actionView avplayerActionViewNeedHidden:weakself.videoIsSwiping];
+                [weakself photoAVPlayerActionViewPauseOrStop];
+            }
+        }];
+        return;
+    }
     _isPlaying = false;
     if (_player) {
-        __weak typeof(self) weakself = self;
          if (_player.currentItem.status == AVPlayerStatusReadyToPlay) {
             [_player seekToTime:CMTimeMake(1, 1) completionHandler:^(BOOL finished) {
                 if (finished) {

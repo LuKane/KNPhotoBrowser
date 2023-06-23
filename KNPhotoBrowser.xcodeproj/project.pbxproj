@@ -44,6 +44,7 @@
 		79AA3784264FAC70001FE0B3 /* ViewLocateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA3783264FAC70001FE0B3 /* ViewLocateController.m */; };
 		79AA378F264FAE94001FE0B3 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AA378D264FAE94001FE0B3 /* UIView+Extension.m */; };
 		79AE3C0C2659699600628D80 /* SendImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AE3C0B2659699600628D80 /* SendImageItem.m */; };
+		79D182FE2A4588430091A259 /* SingleTapVideoDismissController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D182FD2A4588430091A259 /* SingleTapVideoDismissController.m */; };
 		79E114FD22F030B40022106B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E114FC22F030B40022106B /* Assets.xcassets */; };
 		79E1150322F030B40022106B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150222F030B40022106B /* main.m */; };
 		79E1150D22F030B40022106B /* KNPhotoBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E1150C22F030B40022106B /* KNPhotoBrowserTests.m */; };
@@ -175,6 +176,8 @@
 		79AA378E264FAE94001FE0B3 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		79AE3C0A2659699600628D80 /* SendImageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendImageItem.h; sourceTree = "<group>"; };
 		79AE3C0B2659699600628D80 /* SendImageItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendImageItem.m; sourceTree = "<group>"; };
+		79D182FC2A4588430091A259 /* SingleTapVideoDismissController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleTapVideoDismissController.h; sourceTree = "<group>"; };
+		79D182FD2A4588430091A259 /* SingleTapVideoDismissController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleTapVideoDismissController.m; sourceTree = "<group>"; };
 		79E114F022F030B30022106B /* KNPhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNPhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79E114FC22F030B40022106B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79E1150122F030B40022106B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -459,6 +462,7 @@
 				7935CACE2935DF8400D89B2C /* PushPhotoBrower */,
 				7930C28A296F02AC00BE99C8 /* CustomAVPlayerActionBarController */,
 				792A7E412A457D8900BC7169 /* HiddenSourceController */,
+				79D182FB2A45882B0091A259 /* SingleTapVideoDismissController */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -472,6 +476,15 @@
 				79AA3783264FAC70001FE0B3 /* ViewLocateController.m */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		79D182FB2A45882B0091A259 /* SingleTapVideoDismissController */ = {
+			isa = PBXGroup;
+			children = (
+				79D182FC2A4588430091A259 /* SingleTapVideoDismissController.h */,
+				79D182FD2A4588430091A259 /* SingleTapVideoDismissController.m */,
+			);
+			path = SingleTapVideoDismissController;
 			sourceTree = "<group>";
 		};
 		79E114E722F030B30022106B = {
@@ -758,6 +771,7 @@
 			files = (
 				79ECDCD0264B7940009EAAF4 /* KNReachability.m in Sources */,
 				798CB6BE26590B1B00F56291 /* SendImageController.m in Sources */,
+				79D182FE2A4588430091A259 /* SingleTapVideoDismissController.m in Sources */,
 				791260A123FE75F300BC4181 /* KNActionSheetItem.m in Sources */,
 				79AA378F264FAE94001FE0B3 /* UIView+Extension.m in Sources */,
 				791260A723FE75F300BC4181 /* KNProgressHUD.m in Sources */,

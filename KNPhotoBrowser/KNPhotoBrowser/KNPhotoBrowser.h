@@ -245,6 +245,12 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// the video player has leftTop's dismiss button, touch this button, photoBrowser will dismiss or popback, default is true
 @property (nonatomic,assign) BOOL isNeedVideoDismissButton;
 
+/// the video player is need loop play, default is false
+@property (nonatomic,assign) BOOL isNeedLoopPlay;
+
+/// the video player will dismiss by single tap, that means actionBar always show and actionView pause && player button will be hidden(like wechat moment ), default is false
+@property (nonatomic,assign) BOOL isNeedVideoTapToDismiss;
+
 /// remove current image or video on photobrowser
 - (void)removeImageOrVideoOnPhotoBrowser;
 

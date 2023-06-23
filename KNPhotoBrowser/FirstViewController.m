@@ -77,6 +77,12 @@
             [arr addObject:@"HiddenSourceController"];
             [_dataArr addObject:arr];
         }
+        
+        {
+            NSMutableArray *arr = [NSMutableArray array];
+            [arr addObject:@"SingleTapVideoDismissController"];
+            [_dataArr addObject:arr];
+        }
     }
     return _dataArr;
 }

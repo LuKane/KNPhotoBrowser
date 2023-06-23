@@ -92,6 +92,12 @@
     _onlinePlayerView.isNeedVideoDismissButton = isNeedVideoDismissButton;
     _locatePlayerView.isNeedVideoDismissButton = isNeedVideoDismissButton;
 }
+/// setter
+- (void)setIsNeedLoopPlay:(BOOL)isNeedLoopPlay {
+    _isNeedLoopPlay = isNeedLoopPlay;
+    _onlinePlayerView.isNeedLoopPlay = isNeedLoopPlay;
+    _locatePlayerView.isNeedLoopPlay = isNeedLoopPlay;
+}
 
 /// delegate function
 - (void)photoPlayerViewDismiss{

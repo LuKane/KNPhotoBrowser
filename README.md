@@ -39,7 +39,7 @@
 * tap video player to dismiss
 * play video player and download video background
 * video player has memory play at next time(current seconds)
-* when photoBrower will show or dismiss, let sourceImageView hidden or show (by delegate function to notificate demo)
+* when photoBrower will show or dismiss, let sourceImageView hidden or show (by delegate function to notificate demo) [Finished in demo]
 * video player change scale
 
 ## 1.Before use, you need to know

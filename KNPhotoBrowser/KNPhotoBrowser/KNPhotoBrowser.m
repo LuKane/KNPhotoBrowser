@@ -75,8 +75,6 @@
         _statusBarHidden = [UIApplication sharedApplication].statusBarHidden;
         _currentBarHidden = false;
         
-//        [KNPhotoBrowserConfig share].isNeedCustomActionBar = false;
-        
         self.isNeedVideoDismissButton       = true;
         self.isGoingToPopBackWithAnimated   = true;
         self.isSoloAmbient                  = true;
@@ -372,6 +370,7 @@
         KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
         videoCell.isSoloAmbient = _isSoloAmbient;
         videoCell.isNeedVideoDismissButton = _isNeedVideoDismissButton;
+        videoCell.isNeedLoopPlay = _isNeedLoopPlay;
         
         if (_isNeedOnlinePlay) {
             [videoCell playerOnLinePhotoItems:item placeHolder:tempView.image];
