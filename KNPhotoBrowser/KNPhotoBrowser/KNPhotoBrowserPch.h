@@ -46,6 +46,6 @@
 #define PhotoBrowserAnimateTime 0.3
 
 // define SDWebImagePrefetcher max number
-#define PhotoBrowserPrefetchNum     8
+#define PhotoBrowserPrefetchNum 8
 
 
