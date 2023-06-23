@@ -21,6 +21,7 @@
 		791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */; };
 		791260AF23FE75F300BC4181 /* KNPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */; };
 		791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */; };
+		792A7E442A457DA300BC7169 /* HiddenSourceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 792A7E432A457DA300BC7169 /* HiddenSourceController.m */; };
 		7930C289296E982900BE99C8 /* KNPhotoBrowserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7930C288296E982900BE99C8 /* KNPhotoBrowserConfig.m */; };
 		7930C28D296F02C300BE99C8 /* CustomAVPlayerActionBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7930C28C296F02C300BE99C8 /* CustomAVPlayerActionBarController.m */; };
 		7935CAD12935DF9F00D89B2C /* PushPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7935CAD02935DF9F00D89B2C /* PushPhotoBrowserController.m */; };
@@ -129,6 +130,8 @@
 		7912609D23FE75F300BC4181 /* KNPhotoBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserImageView.m; sourceTree = "<group>"; };
 		7912609E23FE75F300BC4181 /* KNPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowser.m; sourceTree = "<group>"; };
 		7912609F23FE75F300BC4181 /* KNPhotoBrowserNumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserNumView.m; sourceTree = "<group>"; };
+		792A7E422A457DA300BC7169 /* HiddenSourceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HiddenSourceController.h; sourceTree = "<group>"; };
+		792A7E432A457DA300BC7169 /* HiddenSourceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HiddenSourceController.m; sourceTree = "<group>"; };
 		7930C287296E982900BE99C8 /* KNPhotoBrowserConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNPhotoBrowserConfig.h; sourceTree = "<group>"; };
 		7930C288296E982900BE99C8 /* KNPhotoBrowserConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNPhotoBrowserConfig.m; sourceTree = "<group>"; };
 		7930C28B296F02C300BE99C8 /* CustomAVPlayerActionBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAVPlayerActionBarController.h; sourceTree = "<group>"; };
@@ -324,6 +327,15 @@
 			path = KNPhotoAVPlayer;
 			sourceTree = "<group>";
 		};
+		792A7E412A457D8900BC7169 /* HiddenSourceController */ = {
+			isa = PBXGroup;
+			children = (
+				792A7E422A457DA300BC7169 /* HiddenSourceController.h */,
+				792A7E432A457DA300BC7169 /* HiddenSourceController.m */,
+			);
+			path = HiddenSourceController;
+			sourceTree = "<group>";
+		};
 		7930C28A296F02AC00BE99C8 /* CustomAVPlayerActionBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +458,7 @@
 				7994AE9D2652798500267860 /* CustomViewController */,
 				7935CACE2935DF8400D89B2C /* PushPhotoBrower */,
 				7930C28A296F02AC00BE99C8 /* CustomAVPlayerActionBarController */,
+				792A7E412A457D8900BC7169 /* HiddenSourceController */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -753,6 +766,7 @@
 				79ECDCD9264B7F21009EAAF4 /* KNPhotoLocateAVPlayerView.m in Sources */,
 				793E42EB2653CC14006AF893 /* NineSquareCell.m in Sources */,
 				791260AE23FE75F300BC4181 /* KNPhotoBrowserImageView.m in Sources */,
+				792A7E442A457DA300BC7169 /* HiddenSourceController.m in Sources */,
 				793E42DC2653C773006AF893 /* NineSquareController.m in Sources */,
 				791260A923FE75F300BC4181 /* KNPhotoAVPlayerActionView.m in Sources */,
 				791260B023FE75F300BC4181 /* KNPhotoBrowserNumView.m in Sources */,

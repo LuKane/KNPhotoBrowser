@@ -243,7 +243,7 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 @property (nonatomic,assign) BOOL isNeedFollowAnimated;
 
 /// the video player has leftTop's dismiss button, touch this button, photoBrowser will dismiss or popback, default is true
-@property (nonatomic, assign) BOOL isNeedVideoDismissButton;
+@property (nonatomic,assign) BOOL isNeedVideoDismissButton;
 
 /// remove current image or video on photobrowser
 - (void)removeImageOrVideoOnPhotoBrowser;

@@ -23,9 +23,9 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 @property (nonatomic, strong) SDAnimatedImageView *imageView;
 
 // single tap
-@property (nonatomic,copy  ) PhotoBrowerSingleTap singleTap;
+@property (nonatomic, copy  ) PhotoBrowerSingleTap singleTap;
 // longPress tap
-@property (nonatomic,copy  ) PhotoBrowerLongPressTap longPressTap;
+@property (nonatomic, copy  ) PhotoBrowerLongPressTap longPressTap;
 
 /// set image with url
 /// @param url url
