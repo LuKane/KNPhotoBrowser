@@ -248,7 +248,7 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 /// the video player is need loop play, default is false
 @property (nonatomic,assign) BOOL isNeedLoopPlay;
 
-/// the video player will dismiss by single tap, that means actionBar always show and actionView pause && player button will be hidden, video will be auto play (like wechat moment), default is false
+/// the video player will dismiss by single tap, that means actionBar always show and actionView pause && player button will be hidden, video will be auto and loop play (like wechat moment), default is false
 @property (nonatomic,assign) BOOL isNeedVideoTapToDismiss;
 
 /// remove current image or video on photobrowser

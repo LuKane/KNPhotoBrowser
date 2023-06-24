@@ -52,7 +52,7 @@
         _actionBar.backgroundColor = [UIColor colorWithRed:45/255.0 green:45/255.0 blue:45/255.0 alpha:1.];
         _actionBar.delegate = self;
         _actionBar.isPlaying = false;
-        _actionBar.hidden = true;
+        _actionBar.hidden = _isNeedVideoTapToDismiss == true? false : true;
     }
     return _actionBar;
 }
@@ -143,7 +143,7 @@
     _actionBar = customBar;
     _actionBar.delegate = self;
     _actionBar.isPlaying = false;
-    _actionBar.hidden = true;
+    _actionBar.hidden = _isNeedVideoTapToDismiss == true? false : true;
     _actionBar.allDuration = CMTimeGetSeconds(_player.currentItem.duration);
     _actionBar.currentTime = _allDuration;
     [self addSubview:_actionBar];
@@ -299,6 +299,9 @@
 }
 
 - (void)playerWillSwipeCancel {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self->_actionBar.hidden = false;
+    });
     _videoIsSwiping = false;
     if (_actionBar.currentTime == 0) {
         [_actionView avplayerActionViewNeedHidden:false];
@@ -337,6 +340,12 @@
         [_delegate photoPlayerLongPress:longPress];
     }
 }
+- (void)setIsNeedVideoTapToDismiss:(BOOL)isNeedVideoTapToDismiss {
+    _isNeedVideoTapToDismiss = isNeedVideoTapToDismiss;
+    if (isNeedVideoTapToDismiss == true) {
+        _actionBar.hidden = false;
+    }
+}
 
 /// delegate
 /**
@@ -361,6 +370,10 @@
     }
 }
 - (void)photoAVPlayerActionViewDidClickIsHidden:(BOOL)isHidden{
+    if (_isNeedVideoTapToDismiss == true) {
+        [self photoAVPlayerActionViewDismiss];
+        return;
+    }
     [_actionBar setHidden:isHidden];
 }
 - (void)photoAVPlayerActionBarClickWithIsPlay:(BOOL)isNeedPlay{

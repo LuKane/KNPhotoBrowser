@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isSoloAmbient;
 @property (nonatomic,assign) BOOL isNeedVideoDismissButton;
 @property (nonatomic,assign) BOOL isNeedLoopPlay;
+@property (nonatomic,assign) BOOL isNeedVideoTapToDismiss;
 
 @property (nonatomic,weak  ) KNPhotoAVPlayerView *onlinePlayerView;
 @property (nonatomic,weak  ) KNPhotoLocateAVPlayerView *locatePlayerView;

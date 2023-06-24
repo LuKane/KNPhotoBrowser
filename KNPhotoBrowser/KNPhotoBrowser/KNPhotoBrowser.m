@@ -381,6 +381,11 @@
         if (_isNeedAutoPlay == true) {
             [videoCell setIsNeedAutoPlay:true];
         }
+        
+        if (_isNeedVideoTapToDismiss == true) {
+            videoCell.isNeedLoopPlay = videoCell.isNeedAutoPlay = videoCell.isNeedVideoTapToDismiss = true;
+        }
+        
         [videoCell setPresentedMode:self.presentedMode];
     } else {
         KNPhotoImageCell *imageCell = (KNPhotoImageCell *)cell;

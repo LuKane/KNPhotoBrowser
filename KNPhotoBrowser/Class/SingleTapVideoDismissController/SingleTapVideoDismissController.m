@@ -191,24 +191,13 @@
     photoBrowser.itemsArr = [self.itemsArr copy];
     photoBrowser.placeHolderColor = UIColor.lightTextColor;
     photoBrowser.currentIndex = tap.view.tag;
-    photoBrowser.delegate = self;
-    photoBrowser.isSoloAmbient = true;
-    photoBrowser.isNeedPageNumView = true;
-    photoBrowser.isNeedRightTopBtn = true;
     photoBrowser.isNeedLongPress = true;
     photoBrowser.isNeedPanGesture = true;
-    photoBrowser.isNeedPrefetch = true;
-    photoBrowser.isNeedAutoPlay = true;
-    photoBrowser.isNeedOnlinePlay = true;
-    photoBrowser.isNeedLoopPlay = true;
     photoBrowser.isNeedVideoTapToDismiss = true;
     [photoBrowser present];
+    
+    // you can custom actionBar extend KNPhotoAVPlayerActionBar, and override all function
+    // that you can design this like wechat moment
 }
-
-/**************************** == delegate == ******************************/
-- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser willDismissWithIndex:(NSInteger)index {
-    NSLog(@"willDismissWithIndex:%zd",index);
-}
-
 
 @end

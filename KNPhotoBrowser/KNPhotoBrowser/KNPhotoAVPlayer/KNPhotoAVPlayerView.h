@@ -55,6 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isNeedLoopPlay;
 
 /**
+ * is need video tap to dismiss
+ */
+@property (nonatomic,assign) BOOL isNeedVideoTapToDismiss;
+
+/**
  * player view
  */
 @property (nonatomic,strong,nullable) UIView *playerView;
