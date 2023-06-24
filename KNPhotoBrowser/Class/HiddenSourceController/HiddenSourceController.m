@@ -228,30 +228,49 @@
     [photoBrowser present];
     
     // hidden source imageView 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([self.sourceImgViewArr[tap.view.tag] isKindOfClass:[UIImageView class]]) {
-            UIImageView *imgView = (UIImageView *)self.sourceImgViewArr[tap.view.tag];
-            imgView.hidden = true;
-        }else if ([self.sourceImgViewArr[tap.view.tag] isKindOfClass:[SDAnimatedImageView class]]) {
-            SDAnimatedImageView *imgView = (SDAnimatedImageView *)self.sourceImgViewArr[tap.view.tag];
-            imgView.hidden = true;
-        }
-    });
+    [self hiddenOrShowSourceView:tap.view.tag];
 }
 
 /**************************** == delegate == ******************************/
 - (void)photoBrowser:(KNPhotoBrowser *)photoBrowser willDismissWithIndex:(NSInteger)index {
     
-    // hidden source imageView 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PhotoBrowserAnimateTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([self.sourceImgViewArr[index] isKindOfClass:[UIImageView class]]) {
-            UIImageView *imgView = (UIImageView *)self.sourceImgViewArr[index];
-            imgView.hidden = false;
-        }else if ([self.sourceImgViewArr[index] isKindOfClass:[SDAnimatedImageView class]]) {
-            SDAnimatedImageView *imgView = (SDAnimatedImageView *)self.sourceImgViewArr[index];
-            imgView.hidden = false;
-        }
+        [self.sourceImgViewArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([self.sourceImgViewArr[index] isKindOfClass:[UIImageView class]]) {
+                UIImageView *imgView = (UIImageView *)self.sourceImgViewArr[index];
+                imgView.hidden = false;
+            }else if ([self.sourceImgViewArr[index] isKindOfClass:[SDAnimatedImageView class]]) {
+                SDAnimatedImageView *imgView = (SDAnimatedImageView *)self.sourceImgViewArr[index];
+                imgView.hidden = false;
+            }
+        }];
     });
+}
+
+- (void)photoBrowser:(KNPhotoBrowser *)photoBrowser scrollToLocateWithIndex:(NSInteger)index {
+    [self hiddenOrShowSourceView:index];
+}
+
+- (void)hiddenOrShowSourceView:(NSInteger)index {
+    [self.sourceImgViewArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx == index) {
+            if ([self.sourceImgViewArr[index] isKindOfClass:[UIImageView class]]) {
+                UIImageView *imgView = (UIImageView *)self.sourceImgViewArr[index];
+                imgView.hidden = true;
+            }else if ([self.sourceImgViewArr[index] isKindOfClass:[SDAnimatedImageView class]]) {
+                SDAnimatedImageView *imgView = (SDAnimatedImageView *)self.sourceImgViewArr[index];
+                imgView.hidden = true;
+            }
+        }else {
+            if ([self.sourceImgViewArr[idx] isKindOfClass:[UIImageView class]]) {
+                UIImageView *imgView = (UIImageView *)self.sourceImgViewArr[idx];
+                imgView.hidden = false;
+            }else if ([self.sourceImgViewArr[idx] isKindOfClass:[SDAnimatedImageView class]]) {
+                SDAnimatedImageView *imgView = (SDAnimatedImageView *)self.sourceImgViewArr[idx];
+                imgView.hidden = false;
+            }
+        }
+    }];
 }
 
 @end

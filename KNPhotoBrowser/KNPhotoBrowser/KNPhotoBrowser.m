@@ -78,6 +78,7 @@
         self.isNeedVideoDismissButton       = true;
         self.isGoingToPopBackWithAnimated   = true;
         self.isSoloAmbient                  = true;
+        self.isNeedVideoTapToDismiss        = false;
         self.animatedMode  = UIViewContentModeScaleToFill;
         self.presentedMode = UIViewContentModeScaleAspectFit;
     }

@@ -199,9 +199,9 @@
     photoBrowser.isNeedPanGesture = true;
     photoBrowser.isNeedPrefetch = true;
     photoBrowser.isNeedAutoPlay = true;
-    photoBrowser.isNeedLoopPlay = true;
-//    photoBrowser.isNeedVideoTapToDismiss = true;
     photoBrowser.isNeedOnlinePlay = true;
+    photoBrowser.isNeedLoopPlay = true;
+    photoBrowser.isNeedVideoTapToDismiss = true;
     [photoBrowser present];
 }
 
