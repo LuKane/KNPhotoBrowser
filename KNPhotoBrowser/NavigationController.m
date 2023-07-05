@@ -20,15 +20,11 @@
 }
 
 - (BOOL)shouldAutorotate{
-    return true;
+    return false;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait && UIInterfaceOrientationLandscapeLeft && UIInterfaceOrientationLandscapeRight;
 }
 
 @end

@@ -43,6 +43,7 @@
     BOOL                        _statusBarHidden;// record original status bar is hidden or not
     BOOL                        _currentBarHidden;
     BOOL                        _isDismissed; // when photoBrowser will dismiss , it will be true, default is false
+    BOOL                        _isDeviceOrientation; // bug fix (bug: when auto play video , device orientat will let collectionView rotate, and the video player will play for 0.3s)
 }
 
 @property (nonatomic, strong) NSArray *tempArr;
@@ -360,6 +361,8 @@
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     [cell prepareForReuse];
     
+    NSLog(@"%s",__func__);
+    
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     if (item.isVideo) {
@@ -378,14 +381,15 @@
         }else {
             [videoCell playerLocatePhotoItems:item placeHolder:tempView.image];
         }
-        if (_isNeedAutoPlay == true) {
+        if (_isNeedAutoPlay == true && _isDeviceOrientation == false) {
             [videoCell setIsNeedAutoPlay:true];
+        }else {
+            [videoCell playerWillEndDisplay];
         }
         
         if (_isNeedVideoTapToDismiss == true) {
             videoCell.isNeedLoopPlay = videoCell.isNeedAutoPlay = videoCell.isNeedVideoTapToDismiss = true;
         }
-        
         [videoCell setPresentedMode:self.presentedMode];
     } else {
         KNPhotoImageCell *imageCell = (KNPhotoImageCell *)cell;
@@ -394,7 +398,7 @@
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+    NSLog(@"%s",__func__);
     if (self.itemsArr.count <= indexPath.row) {
         return;
     }
@@ -1111,6 +1115,7 @@
  ApplicationWillChangeStatusBarOrientation -> Notification
  */
 - (void)deviceWillOrientation{
+    _isDeviceOrientation = true;
     
     KNPhotoItems *item = self.itemsArr[_currentIndex];
     NSString *url  = item.url;
@@ -1136,6 +1141,7 @@
  */
 - (void)deviceDidOrientation{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self->_isDeviceOrientation = false;
         [self->_imageView setHidden:true];
         [self->_progressHUD setHidden:true];
         [self->_collectionView setHidden:false];

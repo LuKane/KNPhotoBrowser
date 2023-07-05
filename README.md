@@ -36,7 +36,7 @@
 
 
 ## TODO: 
-* tap video player to dismiss
+* tap video player to dismiss [Finished in demo]
 * play video player and download video background
 * video player has memory play at next time(current seconds)
 * when photoBrower will show or dismiss, let sourceImageView hidden or show (by delegate function to notificate demo) [Finished in demo]
