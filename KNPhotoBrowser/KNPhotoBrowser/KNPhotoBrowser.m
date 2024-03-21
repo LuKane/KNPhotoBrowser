@@ -360,9 +360,6 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     [cell prepareForReuse];
-    
-    NSLog(@"%s",__func__);
-    
     KNPhotoItems *item = self.itemsArr[indexPath.row];
     UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:indexPath.row];
     if (item.isVideo) {
@@ -395,10 +392,19 @@
         KNPhotoImageCell *imageCell = (KNPhotoImageCell *)cell;
         [imageCell imageWithUrl:item.url placeHolder:tempView.image photoItem:item];
         [imageCell setPresentedMode:self.presentedMode];
+        
+        NSArray *cellArray = collectionView.visibleCells;
+
+        for (int i = 0; i < cellArray.count; i++) {
+            UICollectionViewCell *cell = cellArray[i];
+            if ([cell isKindOfClass:[KNPhotoVideoCell class]]) {
+                KNPhotoVideoCell *videoCell = (KNPhotoVideoCell *)cell;
+                [videoCell playerWillEndDisplay];
+            }
+        }
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%s",__func__);
     if (self.itemsArr.count <= indexPath.row) {
         return;
     }
@@ -1116,7 +1122,6 @@
  */
 - (void)deviceWillOrientation{
     _isDeviceOrientation = true;
-    
     KNPhotoItems *item = self.itemsArr[_currentIndex];
     NSString *url  = item.url;
     
@@ -1140,6 +1145,7 @@
  ApplicationDidChangeStatusBarOrientation -> Notification
  */
 - (void)deviceDidOrientation{
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self->_isDeviceOrientation = false;
         [self->_imageView setHidden:true];
