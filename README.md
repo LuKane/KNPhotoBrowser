@@ -33,6 +33,7 @@
 | All operation though the delegate [**Delegate**]  |
 | push ViewController (2022-12) [**API**]  | 
 | reload collection dataSource (2022-12) [**API**]  | 
+| load locate image with source path (2024-03) [**API**]  | 
 
 
 ## TODO: 
@@ -61,6 +62,11 @@ items.sourceView = imageView;
 // items.isVideo = true;
 // if current image is locate gif
 // itemM.isLocateGif = true;
+
+// if current image is locate image with path url
+// itemM.url = @"/xx/ssd/xxx/ss.png"
+// itemM.
+
 [self.itemsArr addObject:items];
 ```
 ### (2).init PhotoBrowser
