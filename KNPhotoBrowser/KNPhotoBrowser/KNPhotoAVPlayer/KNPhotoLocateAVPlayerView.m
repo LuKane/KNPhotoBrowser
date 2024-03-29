@@ -153,7 +153,8 @@
     
     _isEnterBackground = _isAddObserver = _isDragging = _isPlaying = false;
     
-    if (_item != nil) [self addPlayerItemObserver];
+//    if (_item != nil) ;
+    [self addPlayerItemObserver];
     
     /// default rate
     _player.rate = 1.0;

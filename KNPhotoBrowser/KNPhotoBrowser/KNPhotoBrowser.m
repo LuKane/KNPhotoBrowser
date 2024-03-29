@@ -150,6 +150,7 @@
     [self initPageControl];
     [self initOperationView];
     [self initCustomView];
+    [self initData];
     
     if (@available(iOS 11.0, *)){
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -301,6 +302,13 @@
         [self.view addSubview:view];
     }
 }
+/* init data */
+- (void)initData {
+    if (_isNeedVideoTapToDismiss) {
+        _isNeedLoopPlay = true;
+        _isNeedAutoPlay = true;
+    }
+}
 
 - (BOOL)isContainVideo:(NSArray <KNPhotoItems *> *)itemsArr {
     for (KNPhotoItems *items in itemsArr) {
@@ -383,10 +391,7 @@
         }else {
             [videoCell playerWillEndDisplay];
         }
-        
-        if (_isNeedVideoTapToDismiss == true) {
-            videoCell.isNeedLoopPlay = videoCell.isNeedAutoPlay = videoCell.isNeedVideoTapToDismiss = true;
-        }
+        videoCell.isNeedVideoTapToDismiss = _isNeedVideoTapToDismiss;
         [videoCell setPresentedMode:self.presentedMode];
     } else {
         KNPhotoImageCell *imageCell = (KNPhotoImageCell *)cell;
@@ -1131,7 +1136,7 @@
         [_progressHUD setHidden:false];
         UIImageView *tempView = [self tempViewFromSourceViewWithCurrentIndex:_currentIndex];
         
-        [_imageView imageWithUrl:[NSURL URLWithString:url]
+        [_imageView imageWithUrl:url
                      progressHUD:_progressHUD
                      placeHolder:tempView.image
                        photoItem:item];
