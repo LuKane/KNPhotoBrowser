@@ -36,11 +36,14 @@ typedef NS_ENUM(NSInteger, KNPhotoDownloadState) {
 
 @interface KNPhotoItems : NSObject
 
-/// if it is network image or (net or locate video),  set `url` , do not set `sourceImage`
+/// if it is network image or (net or locate video),  set `url` , do not set `sourceImage`, if locate image by url, and set `isLocatePath` = true;
 @property (nonatomic,copy  ) NSString *url;
 
 /// if it is locate image, set `sourceImage`, do not set `url`
 @property (nonatomic,strong) UIImage *sourceImage;
+
+/// if it is locate image by url, set it true
+@property (nonatomic,assign) BOOL isLocatePath;
 
 /// is locate gif image or not, default is false.
 /// if is locate gif image, set it true.
