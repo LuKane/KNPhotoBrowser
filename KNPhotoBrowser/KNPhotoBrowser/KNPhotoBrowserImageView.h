@@ -32,7 +32,7 @@ typedef void(^PhotoBrowerLongPressTap)(void);
 /// @param progressHUD progressHUD
 /// @param placeHolder placeHolder image
 /// @param photoItem current photoItems
-- (void)imageWithUrl:(NSURL *)url
+- (void)imageWithUrl:(NSString *)url
          progressHUD:(KNProgressHUD *)progressHUD
          placeHolder:(UIImage *)placeHolder
            photoItem:(KNPhotoItems *)photoItem;

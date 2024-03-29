@@ -14,10 +14,7 @@
 #import "KNPhotoBrowser.h"
 #import "KNReachability.h"
 
-@interface KNPhotoBrowserImageView()<UIScrollViewDelegate, UIGestureRecognizerDelegate>{
-    NSURL         *_url;
-    UIImage       *_placeHolder;
-}
+@interface KNPhotoBrowserImageView()<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @end
 
@@ -143,15 +140,12 @@
     }
 }
 
-- (void)imageWithUrl:(NSURL *)url
+- (void)imageWithUrl:(NSString *)url
          progressHUD:(KNProgressHUD *)progressHUD
          placeHolder:(UIImage *)placeHolder
            photoItem:(KNPhotoItems *)photoItem{
     
     [progressHUD setHidden:true];
-    
-    _url         = url;
-    _placeHolder = placeHolder;
     
     if(!url){
         if (photoItem.isLocateGif == true) {
@@ -159,6 +153,10 @@
         }else {
             [_imageView setImage:placeHolder];
         }
+        [self layoutSubviews];
+        return;
+    }else if (photoItem.isLocatePath == true) {
+        [_imageView setImage:[UIImage imageWithContentsOfFile: url]];
         [self layoutSubviews];
         return;
     }
@@ -170,13 +168,13 @@
     }
     
     __weak typeof(self) weakSelf = self;
-    UIImage *image = [[SDImageCache sharedImageCache] imageFromCacheForKey:[url absoluteString]];
+    UIImage *image = [[SDImageCache sharedImageCache] imageFromCacheForKey:url];
     if(image){
         [progressHUD setHidden:true];
     }
     
     // SDWebImage download image
-    [_imageView sd_setImageWithURL:url placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:placeHolder options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         CGFloat progress = ((CGFloat)receivedSize / expectedSize);
         dispatch_async(dispatch_get_main_queue(), ^{
             if(progressHUD){

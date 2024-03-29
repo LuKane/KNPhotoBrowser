@@ -50,7 +50,7 @@
 - (void)imageWithUrl:(NSString *)url
          placeHolder:(UIImage *)placeHolder
            photoItem:(nonnull KNPhotoItems *)photoItem{
-    [_photoBrowerImageView imageWithUrl:[NSURL URLWithString:url]
+    [_photoBrowerImageView imageWithUrl:url
                             progressHUD:_progressHUD
                             placeHolder:placeHolder
                               photoItem:photoItem];

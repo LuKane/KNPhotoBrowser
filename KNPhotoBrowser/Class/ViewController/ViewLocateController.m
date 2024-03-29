@@ -33,7 +33,7 @@
 - (NSMutableArray *)urlArr {
     if (!_urlArr) {
         _urlArr = [NSMutableArray array];
-        [_urlArr addObject:[UIImage imageNamed:@"8.jpg"]];
+        [_urlArr addObject:[[NSBundle mainBundle] pathForResource:@"8" ofType:@"jpg"]];
         [_urlArr addObject:[UIImage imageNamed:@"9.jpg"]];
         [_urlArr addObject:[UIImage imageNamed:@"3.jpg"]];
         [_urlArr addObject:[[NSBundle mainBundle] pathForResource:@"location_video.MP4" ofType:nil]];
@@ -134,11 +134,20 @@
             CGFloat x = 10 + col * (10 + width);
             CGFloat y = 10 + row * (10 + width);
             imageView.frame = CGRectMake(x, y, width, width);
-            imageView.image = _urlArr[i];
+            
             
             KNPhotoItems *items = [[KNPhotoItems alloc] init];
             items.sourceView = imageView;
-            items.sourceImage = _urlArr[i];
+            
+            if (i == 0) {
+                items.url = _urlArr[i];
+                items.isLocatePath = true;
+                imageView.image = [UIImage imageWithContentsOfFile:_urlArr[i]];
+            }else {
+                items.sourceImage = _urlArr[i];
+                imageView.image = _urlArr[i];
+            }
+            
             [self.itemsArr addObject:items];
         }
     }
