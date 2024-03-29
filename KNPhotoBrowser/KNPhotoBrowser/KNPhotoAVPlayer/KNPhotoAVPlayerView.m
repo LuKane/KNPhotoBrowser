@@ -363,6 +363,7 @@
         _actionBar.isPlaying = false;
     }
     _isPlaying = !_isPlaying;
+    [self addPlayerItemObserver];
 }
 - (void)photoAVPlayerActionViewDismiss{
     if ([_delegate respondsToSelector:@selector(photoPlayerViewDismiss)]) {
